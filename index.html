@@ -15,6 +15,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://docbrainapi.com/banner.png">
 
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -53,6 +54,160 @@
       color: #e2e8f0;
       font-family: 'Inter', system-ui, sans-serif;
       overflow-x: hidden;
+    }
+
+    /* Noise texture overlay */
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Scroll progress bar */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      z-index: 9998;
+      transform-origin: left;
+      transition: transform 0.1s linear;
+    }
+
+    /* Marquee gradient fades */
+    .marquee-fade {
+      mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+    }
+
+    /* Animated gradient text */
+    .gradient-animate {
+      background: linear-gradient(90deg, #818cf8, #a78bfa, #c084fc, #f472b6, #818cf8);
+      background-size: 300% 100%;
+      animation: gradient-shift 4s ease infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      background: rgba(6,6,14,0.97);
+      backdrop-filter: blur(20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .mobile-menu.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Floating hero badges */
+    .float-badge {
+      position: absolute;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(99,102,241,0.08);
+      border: 1px solid rgba(99,102,241,0.15);
+      color: #a5b4fc;
+      animation: float-badge 6s ease-in-out infinite;
+    }
+    @keyframes float-badge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Copy button */
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      background: rgba(99,102,241,0.15);
+      border: 1px solid rgba(99,102,241,0.25);
+      color: #a5b4fc;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s, background 0.2s;
+    }
+    .terminal:hover .copy-btn,
+    .copy-btn:hover,
+    .copy-btn.copied { opacity: 1; }
+    .copy-btn:hover { background: rgba(99,102,241,0.25); }
+    .copy-btn.copied { background: rgba(34,197,94,0.2); color: #34d399; }
+
+    /* Card spotlight effect */
+    .glass-card.spotlight-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .glass-card.spotlight-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(99,102,241,0.08), transparent);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .glass-card.spotlight-card:hover::before { opacity: 1; }
+
+    /* FAQ accordion */
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-toggle {
+      width: 100%;
+      padding: 20px 0;
+      text-align: left;
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .faq-content.open { max-height: 300px; }
+    .faq-content-inner { padding: 0 0 20px 0; color: #94a3b8; font-size: 15px; line-height: 1.7; }
+
+    /* Video card */
+    .video-card {
+      position: relative;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(0,0,0,0.4);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -15px rgba(99,102,241,0.25);
     }
 
     /* Neural canvas background */
@@ -531,6 +686,8 @@
   </style>
 </head>
 <body class="antialiased">
+  <div id="scroll-progress"></div>
+  <div class="noise-overlay" aria-hidden="true"></div>
 
   <!-- ========== NAVIGATION ========== -->
   <nav id="nav" class="fixed top-0 w-full z-50 border-b border-transparent">
@@ -543,6 +700,8 @@
         <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
         <a href="#memory" class="hover:text-white transition-colors">Memory System</a>
         <a href="#features" class="hover:text-white transition-colors">Features</a>
+        <a href="#videos" class="hover:text-white transition-colors">Videos</a>
+        <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
         <a href="https://github.com/docbrain-ai/docbrain" class="hover:text-white transition-colors flex items-center gap-1.5" target="_blank" rel="noopener">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
           GitHub
@@ -552,13 +711,33 @@
         Get Started
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
       </a>
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors" aria-label="Open menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
   </nav>
+
+  <div id="mobile-menu" class="mobile-menu md:hidden" aria-hidden="true">
+    <div class="flex flex-col items-center justify-center min-h-screen gap-8 px-6">
+      <button id="mobile-menu-close" class="absolute top-6 right-6 p-2 rounded-lg text-slate-400 hover:text-white" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <a href="#how-it-works" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">How It Works</a>
+      <a href="#memory" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Memory System</a>
+      <a href="#features" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Features</a>
+      <a href="#get-started" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Get Started</a>
+      <a href="https://github.com/docbrain-ai/docbrain" class="text-xl font-medium text-slate-300 hover:text-white flex items-center gap-2" target="_blank" rel="noopener">GitHub</a>
+      <a href="#get-started" class="mt-4 px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold">Get Started</a>
+    </div>
+  </div>
 
   <!-- ========== HERO ========== -->
   <section class="relative min-h-screen flex items-center pt-16 grid-bg">
     <canvas id="neural-canvas"></canvas>
     <div class="hero-bg"></div>
+    <div class="float-badge hidden lg:block" style="top:18%;right:8%;animation-delay:0s">13+ Sources</div>
+    <div class="float-badge hidden lg:block" style="top:32%;right:4%;animation-delay:1.5s">&lt;500ms startup</div>
+    <div class="float-badge hidden lg:block" style="top:68%;right:6%;animation-delay:3s">25MB binary</div>
     <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 lg:py-32">
       <div class="grid lg:grid-cols-2 gap-16 items-center">
 
@@ -567,14 +746,14 @@
           <div class="reveal mb-6">
             <span class="badge">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="#34d399"/><circle cx="8" cy="8" r="6" stroke="#34d399" stroke-width="1.5" opacity="0.3"/></svg>
-              Open Source &middot; MIT License &middot; Built with Rust
+              Open Source &middot; BSL 1.1 &middot; Built with Rust
             </span>
           </div>
           <h1 class="reveal reveal-delay-1 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08] mb-6">
             Your org's knowledge,
-            <span class="bg-gradient-to-r from-brand-400 to-violet-400 bg-clip-text text-transparent"> collected.</span><br>
-            <span class="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">Connected.</span>
-            <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> Alive.</span>
+            <span class="gradient-animate"> collected.</span><br>
+            <span class="gradient-animate">Connected.</span>
+            <span class="gradient-animate"> Alive.</span>
           </h1>
           <p class="reveal reveal-delay-2 text-lg text-slate-400 leading-relaxed mb-8">
             DocBrain ingests your scattered documentation — Confluence, GitHub, Slack, Jira — and turns it into an AI-powered knowledge system that <strong class="text-slate-200">answers questions with citations</strong>, <strong class="text-slate-200">learns from feedback</strong>, and <strong class="text-slate-200">tells you what's missing</strong>.
@@ -753,7 +932,7 @@
     <div class="max-w-7xl mx-auto px-6 mb-8">
       <p class="text-center text-sm font-medium text-slate-500 uppercase tracking-widest reveal">Collects knowledge from everywhere your team works</p>
     </div>
-    <div class="overflow-hidden">
+    <div class="overflow-hidden marquee-fade">
       <div class="marquee-track">
         <!-- Double for seamless loop -->
         <div class="source-pill"><svg viewBox="0 0 24 24" fill="#2684FF"><path d="M11.571 5.143c0-2.857-2.286-5.143-5.143-5.143C3.571 0 1.286 2.286 1.286 5.143c0 2.857 2.285 5.143 5.142 5.143h5.143V5.143zM12.429 5.143c0 2.857 2.285 5.143 5.142 5.143 2.858 0 5.143-2.286 5.143-5.143C22.714 2.286 20.429 0 17.571 0c-2.857 0-5.142 2.286-5.142 5.143z"/><path d="M17.571 12c-2.857 0-5.142 2.286-5.142 5.143v6.857h5.142c2.858 0 5.143-2.286 5.143-5.143V12h-5.143zM6.429 12H1.286v6.857c0 2.857 2.285 5.143 5.143 5.143 2.857 0 5.142-2.286 5.142-5.143V12H6.429z"/></svg>Confluence</div>
@@ -1148,7 +1327,7 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
           <h4 class="font-bold text-white mb-2">Self-Hosted</h4>
-          <p class="text-sm text-slate-400">Your data never leaves your infrastructure. Docker Compose for dev, Helm chart for production Kubernetes. MIT licensed.</p>
+          <p class="text-sm text-slate-400">Your data never leaves your infrastructure. Docker Compose for dev, Helm chart for production Kubernetes. BSL 1.1 licensed.</p>
         </div>
 
       </div>
@@ -1199,6 +1378,89 @@
 
   <div class="section-divider"></div>
 
+  <!-- ========== SEE IT IN ACTION ========== -->
+  <section id="videos" class="py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="reveal text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">See It In Action</p>
+        <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">Watch DocBrain in 30 seconds</h2>
+        <p class="reveal reveal-delay-2 text-lg text-slate-400 max-w-2xl mx-auto">From product overview to MCP demos — see how teams use DocBrain every day.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <a href="https://youtu.be/S4aSTmevvOQ" target="_blank" rel="noopener" class="reveal glass-card p-0 overflow-hidden group block">
+          <div class="aspect-video bg-slate-800/50 relative">
+            <img src="https://img.youtube.com/vi/S4aSTmevvOQ/maxresdefault.jpg" alt="What is DocBrain? 5-min overview" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+            <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/30 transition-colors">
+              <div class="w-16 h-16 rounded-full bg-brand-600 flex items-center justify-center">
+                <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="font-bold text-white mb-1">What is DocBrain?</h4>
+            <p class="text-sm text-slate-500">5-minute overview</p>
+          </div>
+        </a>
+        <a href="https://youtu.be/9mZLoQnGLl8" target="_blank" rel="noopener" class="reveal reveal-delay-1 glass-card p-0 overflow-hidden group block">
+          <div class="aspect-video bg-slate-800/50 relative">
+            <img src="https://img.youtube.com/vi/9mZLoQnGLl8/maxresdefault.jpg" alt="MCP Preview — 30-sec IDE demo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+            <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/30 transition-colors">
+              <div class="w-16 h-16 rounded-full bg-brand-600 flex items-center justify-center">
+                <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="font-bold text-white mb-1">MCP in Cursor / IDE</h4>
+            <p class="text-sm text-slate-500">30-second demo</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ========== FAQ ========== -->
+  <section id="faq" class="py-24 lg:py-32">
+    <div class="max-w-3xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="reveal text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">FAQ</p>
+        <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">Common questions</h2>
+      </div>
+      <div class="space-y-4">
+        <details class="reveal glass-card group">
+          <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white list-none">
+            Is DocBrain really free?
+            <span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+          </summary>
+          <div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">DocBrain is open source and free for production use under BSL 1.1. The only restriction: you cannot offer DocBrain as a hosted/managed service to third parties. At 5,000 GitHub stars or by Jan 1, 2028, it converts to Apache 2.0.</div>
+        </details>
+        <details class="reveal glass-card group">
+          <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white list-none">
+            Does my data leave my infrastructure?
+            <span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+          </summary>
+          <div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">When self-hosted, your docs and queries never leave your infrastructure. LLM calls (Anthropic, OpenAI, Bedrock) go to their APIs — use Ollama for 100% local, air-gapped deployment with zero data egress.</div>
+        </details>
+        <details class="reveal glass-card group">
+          <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white list-none">
+            Which LLMs does DocBrain support?
+            <span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+          </summary>
+          <div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Anthropic (Claude), OpenAI (GPT-4), AWS Bedrock, and Ollama for fully local inference. Swap providers via config — no code changes.</div>
+        </details>
+        <details class="reveal glass-card group">
+          <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white list-none">
+            How long does setup take?
+            <span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+          </summary>
+          <div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Docker Compose: about 5 minutes. Run <code class="bg-white/5 px-1.5 rounded text-brand-300">bash scripts/setup.sh</code> and you get PostgreSQL, OpenSearch, Redis, migrations, and sample ingest. Add your LLM API key and point at your Confluence/GitHub.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- ========== GET STARTED ========== -->
   <section id="get-started" class="py-24 lg:py-32 relative">
     <div class="absolute inset-0 overflow-hidden">
@@ -1210,7 +1472,8 @@
         <p class="reveal reveal-delay-1 text-lg text-slate-400">Docker, an API key, and three commands. That's it.</p>
       </div>
 
-      <div class="reveal reveal-delay-2 terminal max-w-2xl mx-auto">
+      <div class="reveal reveal-delay-2 terminal max-w-2xl mx-auto relative">
+        <button type="button" class="copy-btn" data-copy="git clone https://github.com/docbrain-ai/docbrain && cd docbrain && bash scripts/setup.sh" aria-label="Copy to clipboard">Copy</button>
         <div class="terminal-bar">
           <div class="terminal-dot" style="background:#ff5f57"></div>
           <div class="terminal-dot" style="background:#febc2e"></div>
@@ -1239,7 +1502,7 @@
           <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
           Star on GitHub
         </a>
-        <a href="#" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-semibold transition-all">
+        <a href="https://github.com/docbrain-ai/docbrain/tree/main/docs" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-semibold transition-all">
           Read the Docs
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
         </a>
@@ -1256,10 +1519,10 @@
           <span class="font-bold text-white tracking-tight">DocBrain</span>
         </div>
         <div class="flex items-center gap-6 text-sm text-slate-500">
-          <a href="#" class="hover:text-slate-300 transition-colors">Documentation</a>
-          <a href="#" class="hover:text-slate-300 transition-colors">API Reference</a>
+          <a href="https://github.com/docbrain-ai/docbrain/tree/main/docs" class="hover:text-slate-300 transition-colors" target="_blank" rel="noopener">Documentation</a>
+          <a href="https://github.com/docbrain-ai/docbrain/tree/main/docs" class="hover:text-slate-300 transition-colors" target="_blank" rel="noopener">API Reference</a>
           <a href="https://github.com/docbrain-ai/docbrain" class="hover:text-slate-300 transition-colors" target="_blank" rel="noopener">GitHub</a>
-          <a href="#" class="hover:text-slate-300 transition-colors">License (MIT)</a>
+          <a href="https://github.com/docbrain-ai/docbrain/blob/main/LICENSE" class="hover:text-slate-300 transition-colors" target="_blank" rel="noopener">License (BSL 1.1)</a>
         </div>
         <p class="text-xs text-slate-600">Built with Rust. Powered by curiosity.</p>
       </div>
@@ -1284,6 +1547,52 @@
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 40);
     }, { passive: true });
+
+    // ===== Scroll progress bar =====
+    const scrollProgress = document.getElementById('scroll-progress');
+    if (scrollProgress) {
+      window.addEventListener('scroll', () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = h > 0 ? window.scrollY / h : 0;
+        scrollProgress.style.transform = `scaleX(${pct})`;
+      }, { passive: true });
+    }
+
+    // ===== Mobile menu =====
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const navLinksMobile = document.querySelectorAll('.nav-link-mobile');
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('open');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+      });
+      if (mobileMenuClose) mobileMenuClose.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      });
+      navLinksMobile.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          mobileMenu.setAttribute('aria-hidden', 'true');
+        });
+      });
+    }
+
+    // ===== Copy to clipboard =====
+    document.querySelectorAll('.copy-btn[data-copy]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.getAttribute('data-copy');
+        if (navigator.clipboard?.writeText) {
+          navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+          });
+        }
+      });
+    });
 
     // ===== Demo tab switching =====
     const tabs = document.querySelectorAll('.demo-tab');
