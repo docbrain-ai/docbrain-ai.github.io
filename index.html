@@ -55,38 +55,18 @@
       overflow-x: hidden;
     }
 
-    /* Gradient mesh background */
+    /* Neural canvas background */
+    #neural-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
     .hero-bg {
       position: absolute;
       inset: 0;
       overflow: hidden;
       z-index: 0;
-    }
-    .hero-bg::before {
-      content: '';
-      position: absolute;
-      top: -40%;
-      left: -20%;
-      width: 80%;
-      height: 80%;
-      background: radial-gradient(ellipse, rgba(99,102,241,0.15) 0%, transparent 70%);
-      animation: drift 20s ease-in-out infinite;
-    }
-    .hero-bg::after {
-      content: '';
-      position: absolute;
-      bottom: -30%;
-      right: -20%;
-      width: 70%;
-      height: 70%;
-      background: radial-gradient(ellipse, rgba(139,92,246,0.12) 0%, transparent 70%);
-      animation: drift 25s ease-in-out infinite reverse;
-    }
-    @keyframes drift {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(5%, 3%) scale(1.05); }
-      50% { transform: translate(-3%, 6%) scale(0.97); }
-      75% { transform: translate(4%, -2%) scale(1.03); }
     }
 
     /* Grid background */
@@ -577,6 +557,7 @@
 
   <!-- ========== HERO ========== -->
   <section class="relative min-h-screen flex items-center pt-16 grid-bg">
+    <canvas id="neural-canvas"></canvas>
     <div class="hero-bg"></div>
     <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 lg:py-32">
       <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -1395,6 +1376,337 @@
     }, { threshold: 0.3 });
 
     terminalObserver.observe(document.getElementById('terminal'));
+
+    // ===== Knowledge Flow Animation =====
+    (function() {
+      const canvas = document.getElementById('neural-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, cx, cy, dpr;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) return;
+
+      // Load brain logo
+      const brainImg = new Image();
+      brainImg.src = 'logo.png';
+      let brainLoaded = false;
+      brainImg.onload = () => { brainLoaded = true; };
+
+      const SOURCES = [
+        { label: 'Confluence', emoji: '📘', color: [38,132,255] },
+        { label: 'Slack',      emoji: '💬', color: [224,30,90] },
+        { label: 'GitHub',     emoji: '🐙', color: [160,170,190] },
+        { label: 'Jira',       emoji: '🎫', color: [0,82,204] },
+        { label: 'GitLab',     emoji: '🦊', color: [252,109,38] },
+        { label: 'Teams',      emoji: '👥', color: [123,131,235] },
+        { label: 'PagerDuty',  emoji: '🚨', color: [6,180,64] },
+        { label: 'Zendesk',    emoji: '🎧', color: [31,140,235] },
+      ];
+
+      const DOC_LABELS = [
+        'Runbook', 'API docs', 'PR #347', 'Postmortem', 'Onboarding',
+        'Deploy guide', 'Config ref', 'Arch diagram', 'RFC-012',
+        'Slack thread', 'Incident log', 'MR !89', 'How-to',
+        'Troubleshoot', 'Migration', 'Playbook', 'Wiki page',
+      ];
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const rect = canvas.parentElement.getBoundingClientRect();
+        W = rect.width; H = rect.height;
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        cx = W * 0.5; cy = H * 0.5;
+        SOURCES.forEach((s, i) => {
+          const a = (i / SOURCES.length) * Math.PI * 2 - Math.PI / 2;
+          s.angle = a;
+          s.orbitRx = 0.38 + (i % 2) * 0.06;
+          s.orbitRy = 0.36 + (i % 2) * 0.06;
+        });
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Documents flowing to brain
+      const docs = [];
+      const MAX_DOCS = 60;
+
+      function emitDoc(src) {
+        if (docs.length >= MAX_DOCS) return;
+        const sx = cx + Math.cos(src.angle) * src.orbitRx * W;
+        const sy = cy + Math.sin(src.angle) * src.orbitRy * H;
+        const isBig = Math.random() < 0.15;
+        docs.push({
+          x: sx, y: sy, sx: sx, sy: sy,
+          progress: 0,
+          speed: (isBig ? 0.0012 : 0.002) + Math.random() * 0.0015,
+          color: src.color,
+          label: isBig ? DOC_LABELS[Math.floor(Math.random() * DOC_LABELS.length)] : null,
+          size: isBig ? 14 : 7 + Math.random() * 4,
+          wobbleA: Math.random() * Math.PI * 2,
+          wobbleF: 1.5 + Math.random() * 2,
+          wobbleR: 20 + Math.random() * 30,
+          sourceEmoji: src.emoji,
+        });
+      }
+
+      // Absorbed knowledge ring particles
+      const absorbed = [];
+
+      let brainGlow = 0;
+      let frame = 0;
+
+      function drawDocIcon(x, y, w, h, color, alpha) {
+        const [r, g, b] = color;
+        const fold = w * 0.3;
+        ctx.beginPath();
+        ctx.moveTo(x - w/2, y - h/2);
+        ctx.lineTo(x + w/2 - fold, y - h/2);
+        ctx.lineTo(x + w/2, y - h/2 + fold);
+        ctx.lineTo(x + w/2, y + h/2);
+        ctx.lineTo(x - w/2, y + h/2);
+        ctx.closePath();
+        ctx.fillStyle = `rgba(${r},${g},${b},${alpha * 0.2})`;
+        ctx.fill();
+        ctx.strokeStyle = `rgba(${r},${g},${b},${alpha * 0.6})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+        // Fold triangle
+        ctx.beginPath();
+        ctx.moveTo(x + w/2 - fold, y - h/2);
+        ctx.lineTo(x + w/2 - fold, y - h/2 + fold);
+        ctx.lineTo(x + w/2, y - h/2 + fold);
+        ctx.strokeStyle = `rgba(${r},${g},${b},${alpha * 0.4})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+        // Text lines inside doc
+        const lineY = y - h * 0.1;
+        for (let i = 0; i < 2; i++) {
+          const lw = w * (0.5 + Math.random() * 0.3);
+          ctx.beginPath();
+          ctx.moveTo(x - w * 0.3, lineY + i * (h * 0.22));
+          ctx.lineTo(x - w * 0.3 + lw, lineY + i * (h * 0.22));
+          ctx.strokeStyle = `rgba(${r},${g},${b},${alpha * 0.25})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      function tick() {
+        frame++;
+        ctx.clearRect(0, 0, W, H);
+        cx = W * 0.5; cy = H * 0.5;
+
+        // Emit docs from sources
+        SOURCES.forEach(src => {
+          if (Math.random() < 0.025) emitDoc(src);
+        });
+
+        // Draw curved streams from each source to center (faint rivers)
+        SOURCES.forEach(src => {
+          const sx = cx + Math.cos(src.angle) * src.orbitRx * W;
+          const sy = cy + Math.sin(src.angle) * src.orbitRy * H;
+          const [r, g, b] = src.color;
+          const wobble = Math.sin(frame * 0.006 + src.angle) * 30;
+          const mx = (sx + cx) / 2 + Math.cos(src.angle + 1.5) * wobble;
+          const my = (sy + cy) / 2 + Math.sin(src.angle + 1.5) * wobble;
+
+          // Stream glow
+          ctx.beginPath();
+          ctx.moveTo(sx, sy);
+          ctx.quadraticCurveTo(mx, my, cx, cy);
+          ctx.strokeStyle = `rgba(${r},${g},${b},0.04)`;
+          ctx.lineWidth = 8;
+          ctx.stroke();
+          // Stream line
+          ctx.beginPath();
+          ctx.moveTo(sx, sy);
+          ctx.quadraticCurveTo(mx, my, cx, cy);
+          ctx.strokeStyle = `rgba(${r},${g},${b},0.07)`;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+
+          // Flowing dashes along stream
+          ctx.save();
+          ctx.setLineDash([3, 12]);
+          ctx.lineDashOffset = -frame * 0.8;
+          ctx.beginPath();
+          ctx.moveTo(sx, sy);
+          ctx.quadraticCurveTo(mx, my, cx, cy);
+          ctx.strokeStyle = `rgba(${r},${g},${b},0.12)`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          ctx.restore();
+        });
+
+        // Draw source nodes (visible labeled circles)
+        SOURCES.forEach(src => {
+          const sx = cx + Math.cos(src.angle) * src.orbitRx * W;
+          const sy = cy + Math.sin(src.angle) * src.orbitRy * H;
+          const [r, g, b] = src.color;
+          const pulse = 0.5 + 0.5 * Math.sin(frame * 0.03 + src.angle);
+
+          // Outer glow
+          const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, 30);
+          grad.addColorStop(0, `rgba(${r},${g},${b},${0.08 + pulse * 0.06})`);
+          grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
+          ctx.beginPath();
+          ctx.arc(sx, sy, 30, 0, Math.PI * 2);
+          ctx.fillStyle = grad;
+          ctx.fill();
+
+          // Circle bg
+          ctx.beginPath();
+          ctx.arc(sx, sy, 16, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${r},${g},${b},0.1)`;
+          ctx.fill();
+          ctx.strokeStyle = `rgba(${r},${g},${b},${0.25 + pulse * 0.15})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          // Emoji
+          ctx.font = '13px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(src.emoji, sx, sy);
+
+          // Label
+          ctx.font = '500 9px Inter, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillStyle = `rgba(${r},${g},${b},${0.35 + pulse * 0.2})`;
+          ctx.fillText(src.label, sx, sy + 25);
+        });
+
+        // Update and draw flowing documents
+        let arrivals = 0;
+        for (let i = docs.length - 1; i >= 0; i--) {
+          const d = docs[i];
+          d.progress += d.speed;
+          if (d.progress >= 1) {
+            arrivals++;
+            // Spawn absorbed ring particle
+            absorbed.push({
+              angle: Math.atan2(d.y - cy, d.x - cx),
+              radius: 60 + Math.random() * 15,
+              life: 60,
+              maxLife: 60,
+              color: d.color,
+            });
+            docs.splice(i, 1);
+            continue;
+          }
+
+          const t = d.progress;
+          // Quadratic bezier: source → control → center
+          const wobble = Math.sin(d.wobbleA + t * d.wobbleF * Math.PI) * d.wobbleR * (1 - t);
+          const perpX = -(cy - d.sy);
+          const perpY = (cx - d.sx);
+          const perpLen = Math.sqrt(perpX * perpX + perpY * perpY) || 1;
+          const cpX = (d.sx + cx) / 2 + (perpX / perpLen) * wobble;
+          const cpY = (d.sy + cy) / 2 + (perpY / perpLen) * wobble;
+
+          const u = 1 - t;
+          d.x = u * u * d.sx + 2 * u * t * cpX + t * t * cx;
+          d.y = u * u * d.sy + 2 * u * t * cpY + t * t * cy;
+
+          // Fade in at start, fade + shrink as approaching brain
+          const fadeIn = Math.min(t * 8, 1);
+          const fadeOut = t > 0.85 ? 1 - (t - 0.85) / 0.15 : 1;
+          const alpha = fadeIn * fadeOut;
+          const scale = fadeOut * (0.6 + (1 - t) * 0.4);
+
+          const sw = d.size * scale;
+          const sh = d.size * 1.3 * scale;
+
+          drawDocIcon(d.x, d.y, sw, sh, d.color, alpha);
+
+          // Label for big docs
+          if (d.label && alpha > 0.3) {
+            ctx.font = `500 ${Math.max(8, 10 * scale)}px Inter, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            const [r, g, b] = d.color;
+            ctx.fillStyle = `rgba(${r},${g},${b},${alpha * 0.7})`;
+            ctx.fillText(d.label, d.x, d.y + sh / 2 + 3);
+          }
+        }
+
+        // Draw absorbed ring particles (knowledge being integrated)
+        for (let i = absorbed.length - 1; i >= 0; i--) {
+          const a = absorbed[i];
+          a.life--;
+          if (a.life <= 0) { absorbed.splice(i, 1); continue; }
+          const lt = a.life / a.maxLife;
+          a.angle += 0.04;
+          a.radius += 0.15;
+          const ax = cx + Math.cos(a.angle) * a.radius;
+          const ay = cy + Math.sin(a.angle) * a.radius;
+          const [r, g, b] = a.color;
+          ctx.beginPath();
+          ctx.arc(ax, ay, 2 * lt, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${r},${g},${b},${lt * 0.5})`;
+          ctx.fill();
+        }
+
+        // Central brain
+        brainGlow = brainGlow * 0.9 + arrivals * 0.5;
+        const pulse = 0.5 + 0.5 * Math.sin(frame * 0.025);
+        const glowR = 90 + pulse * 20 + brainGlow * 15;
+
+        // Outer glow layers
+        const g1 = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowR * 2.5);
+        g1.addColorStop(0, `rgba(99,102,241,${0.08 + brainGlow * 0.05})`);
+        g1.addColorStop(0.4, `rgba(139,92,246,${0.04 + brainGlow * 0.03})`);
+        g1.addColorStop(1, 'rgba(99,102,241,0)');
+        ctx.beginPath();
+        ctx.arc(cx, cy, glowR * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = g1;
+        ctx.fill();
+
+        const g2 = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowR);
+        g2.addColorStop(0, `rgba(139,92,246,${0.15 + pulse * 0.06 + brainGlow * 0.08})`);
+        g2.addColorStop(1, 'rgba(99,102,241,0)');
+        ctx.beginPath();
+        ctx.arc(cx, cy, glowR, 0, Math.PI * 2);
+        ctx.fillStyle = g2;
+        ctx.fill();
+
+        // Brain logo at center — large and visible
+        if (brainLoaded) {
+          const logoSize = 110 + pulse * 8 + brainGlow * 6;
+          ctx.globalAlpha = 0.75 + pulse * 0.1 + Math.min(brainGlow * 0.08, 0.15);
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(cx, cy, logoSize / 2 + 2, 0, Math.PI * 2);
+          ctx.clip();
+          ctx.drawImage(brainImg, cx - logoSize / 2, cy - logoSize * (558/1024) / 2, logoSize, logoSize * (558/1024));
+          ctx.restore();
+          ctx.globalAlpha = 1;
+        }
+
+        // "Knowledge collected" rings
+        ctx.beginPath();
+        ctx.arc(cx, cy, 65 + pulse * 4, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(99,102,241,${0.1 + brainGlow * 0.05})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, 85 + pulse * 6, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(139,92,246,${0.06 + brainGlow * 0.03})`;
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, 105 + pulse * 8, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(99,102,241,${0.03 + brainGlow * 0.02})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    })();
   </script>
 </body>
 </html>
