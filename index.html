@@ -157,6 +157,145 @@
       }
     }
 
+    /* Stage 1: scattered docs — chaotic floating */
+    .scatter-card {
+      position: absolute;
+      min-width: 100px;
+      z-index: 2;
+      animation: scatter-float 5s ease-in-out infinite;
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+    }
+    .scatter-card.ghost {
+      opacity: .35;
+      z-index: 1;
+      border-style: dashed !important;
+    }
+    @keyframes scatter-float {
+      0%,100% { transform: translateY(0px) translateX(0px); }
+      30% { transform: translateY(-10px) translateX(4px); }
+      70% { transform: translateY(8px) translateX(-6px); }
+    }
+    .scatter-search {
+      position: absolute;
+      z-index: 3;
+      animation: search-blink 4s ease-in-out infinite;
+    }
+    @keyframes search-blink {
+      0%,100% { opacity: 0; }
+      30%,70% { opacity: 1; }
+    }
+
+    /* Stage 2: Documents flying into DocBrain */
+    .absorb-arena {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      aspect-ratio: 1;
+      max-height: 520px;
+    }
+    .absorb-logo {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+    .absorb-logo img {
+      width: 200px; height: 200px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 30px rgba(99,102,241,.6));
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+    @keyframes logoPulse {
+      0%,100% { filter: drop-shadow(0 0 30px rgba(99,102,241,.6)) drop-shadow(0 0 60px rgba(139,92,246,.3)); transform: scale(1); }
+      50%     { filter: drop-shadow(0 0 50px rgba(99,102,241,.9)) drop-shadow(0 0 90px rgba(139,92,246,.5)); transform: scale(1.03); }
+    }
+
+    /* Each flying doc is centered at 50%/50%, offset by --ox/--oy */
+    .flying-doc {
+      position: absolute;
+      top: 50%; left: 50%;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      pointer-events: none;
+      animation: flyIn var(--dur, 4s) cubic-bezier(.4,0,.2,1) var(--del, 0s) infinite;
+    }
+    .flying-doc .doc-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      background: rgba(15,23,42,.9);
+      border: 1px solid rgba(100,116,139,.4);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 24px rgba(0,0,0,.3);
+    }
+    .flying-doc .doc-label {
+      font-size: 10px;
+      color: rgba(148,163,184,.8);
+      white-space: nowrap;
+    }
+
+    /* Paused until parent .reveal gets .visible */
+    .reveal .flying-doc,
+    .reveal .absorb-logo img {
+      animation-play-state: paused;
+    }
+    .reveal.visible .flying-doc,
+    .reveal.visible .absorb-logo img {
+      animation-play-state: running;
+    }
+
+    @keyframes flyIn {
+      0% {
+        transform: translate(
+          calc(-50% + var(--ox)),
+          calc(-50% + var(--oy))
+        ) scale(1);
+        opacity: 0;
+      }
+      8% { opacity: 1; }
+      75% {
+        transform: translate(-50%, -50%) scale(0.35);
+        opacity: .8;
+      }
+      90% {
+        transform: translate(-50%, -50%) scale(0.08);
+        opacity: 0;
+      }
+      91%, 100% {
+        transform: translate(
+          calc(-50% + var(--ox)),
+          calc(-50% + var(--oy))
+        ) scale(0);
+        opacity: 0;
+      }
+    }
+
+    /* Glow burst when doc arrives */
+    .absorb-ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      border: 1px solid rgba(99,102,241,.15);
+      z-index: 9;
+      animation: ringPulse 4s ease-out infinite;
+    }
+    .absorb-ring:nth-child(2) { animation-delay: 0.8s; width: 260px; height: 260px; }
+    .absorb-ring:nth-child(3) { animation-delay: 1.6s; width: 300px; height: 300px; }
+    @keyframes ringPulse {
+      0% { transform: translate(-50%,-50%) scale(.8); opacity: .5; border-color: rgba(99,102,241,.3); }
+      50% { transform: translate(-50%,-50%) scale(1); opacity: .15; }
+      100% { transform: translate(-50%,-50%) scale(1.2); opacity: 0; }
+    }
+
     /* Copy button */
     .copy-btn {
       position: absolute;
@@ -511,6 +650,8 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .demo-tab:hover { color: #94a3b8; }
     .demo-tab.active {
@@ -520,6 +661,19 @@
     }
     .demo-panel { display: none; }
     .demo-panel.active { display: block; }
+
+    /* Mobile tab scrolling */
+    @media (max-width: 768px) {
+      .demo-tabs-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .demo-tabs-container::-webkit-scrollbar {
+        display: none;
+      }
+    }
 
     /* Slack mockup */
     .slack-mock {
@@ -1184,6 +1338,213 @@
         <div class="source-pill"><svg viewBox="0 0 24 24" fill="#5E6AD2"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z" stroke="#5E6AD2" stroke-width="1.5" fill="none"/><path d="M3 7l9 4 9-4M12 11v10" stroke="#5E6AD2" stroke-width="1.5"/></svg>Linear</div>
         <div class="source-pill"><svg viewBox="0 0 24 24" fill="#1f8ceb"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm-1.2 5.8a.8.8 0 00-.8.8v6.8a.8.8 0 00.8.8h2.4a.8.8 0 00.8-.8V8.6a.8.8 0 00-.8-.8h-2.4z"/></svg>Zendesk</div>
         <div class="source-pill"><svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 00-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 00-5.487 0 12.36 12.36 0 00-.617-1.23A.077.077 0 008.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 00-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 00.031.055 20.03 20.03 0 005.993 2.98.078.078 0 00.084-.026 13.83 13.83 0 001.226-1.963.074.074 0 00-.041-.104 13.175 13.175 0 01-1.872-.878.075.075 0 01-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 01.078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 01.079.009c.12.098.245.195.372.288a.075.075 0 01-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 00-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 00.084.028 19.963 19.963 0 006.002-2.981.076.076 0 00.032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 00-.031-.028z"/></svg>Intercom</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TRANSFORMATION STAGES ========== -->
+  <section class="py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-20">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">How DocBrain Transforms Your Documentation</h2>
+        <p class="text-lg text-slate-400 max-w-2xl mx-auto">From scattered chaos to instant answers in three steps</p>
+      </div>
+
+      <!-- ── STAGE 1 ── Scattered Documentation -->
+      <div class="mb-32">
+        <div class="text-center mb-12">
+          <div class="reveal inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/30 mb-4">
+            <span class="text-2xl font-bold text-red-400">1</span>
+          </div>
+          <h3 class="reveal reveal-delay-1 text-2xl font-bold text-white mb-2">Before: Scattered Across Systems</h3>
+          <p class="reveal reveal-delay-2 text-slate-400 max-w-lg mx-auto">Documentation trapped in silos — Confluence, SharePoint, wikis, PDFs, Notion. Nobody knows where to look.</p>
+        </div>
+        <!-- Chaotic scattered layout -->
+        <div class="reveal reveal-delay-3 relative w-full max-w-5xl mx-auto" style="height: 380px;">
+          <!-- Main doc cards — scattered with rotations -->
+          <div class="scatter-card glass-card p-5 text-center" style="top:8%; left:5%; rotate:-6deg; animation-delay:-1s;">
+            <div class="text-3xl mb-2">📄</div>
+            <span class="text-xs text-slate-300 font-medium">API Docs</span>
+            <span class="block text-[10px] text-red-400/70 mt-1">Confluence</span>
+          </div>
+          <div class="scatter-card glass-card p-5 text-center" style="top:5%; right:18%; rotate:4deg; animation-delay:-3s;">
+            <div class="text-3xl mb-2">📋</div>
+            <span class="text-xs text-slate-300 font-medium">Procedures</span>
+            <span class="block text-[10px] text-red-400/70 mt-1">SharePoint</span>
+          </div>
+          <div class="scatter-card glass-card p-5 text-center" style="top:42%; left:28%; rotate:-3deg; animation-delay:-0.5s;">
+            <div class="text-3xl mb-2">📊</div>
+            <span class="text-xs text-slate-300 font-medium">Reports</span>
+            <span class="block text-[10px] text-red-400/70 mt-1">Google Drive</span>
+          </div>
+          <div class="scatter-card glass-card p-5 text-center" style="top:35%; right:8%; rotate:7deg; animation-delay:-2s;">
+            <div class="text-3xl mb-2">📝</div>
+            <span class="text-xs text-slate-300 font-medium">Wikis</span>
+            <span class="block text-[10px] text-red-400/70 mt-1">Notion</span>
+          </div>
+          <div class="scatter-card glass-card p-5 text-center" style="bottom:8%; left:42%; rotate:-2deg; animation-delay:-4s;">
+            <div class="text-3xl mb-2">📁</div>
+            <span class="text-xs text-slate-300 font-medium">PDFs</span>
+            <span class="block text-[10px] text-red-400/70 mt-1">Desktops</span>
+          </div>
+          <!-- Ghost duplicates (faded copies showing the same doc in multiple places) -->
+          <div class="scatter-card ghost glass-card p-4 text-center" style="top:22%; left:52%; rotate:5deg; animation-delay:-2.5s;">
+            <div class="text-2xl">📄</div>
+            <span class="text-[9px] text-slate-500">copy (3)</span>
+          </div>
+          <div class="scatter-card ghost glass-card p-4 text-center" style="bottom:18%; left:12%; rotate:-8deg; animation-delay:-1.5s;">
+            <div class="text-2xl">📋</div>
+            <span class="text-[9px] text-slate-500">outdated</span>
+          </div>
+          <div class="scatter-card ghost glass-card p-4 text-center" style="top:15%; left:38%; rotate:3deg; animation-delay:-3.5s;">
+            <div class="text-2xl">📝</div>
+            <span class="text-[9px] text-slate-500">draft v2</span>
+          </div>
+          <div class="scatter-card ghost glass-card p-4 text-center" style="bottom:5%; right:22%; rotate:-5deg; animation-delay:-0.8s;">
+            <div class="text-2xl">📊</div>
+            <span class="text-[9px] text-slate-500">wrong version</span>
+          </div>
+          <!-- Floating search indicators -->
+          <div class="scatter-search" style="top:30%; left:18%; animation-delay:-1s;">
+            <span class="text-red-400/60 text-sm font-mono">? "where is the runbook"</span>
+          </div>
+          <div class="scatter-search" style="top:60%; right:15%; animation-delay:-3s;">
+            <span class="text-red-400/60 text-sm font-mono">? "which version is latest"</span>
+          </div>
+          <div class="scatter-search" style="bottom:28%; left:55%; animation-delay:-2s;">
+            <span class="text-red-400/60 text-sm font-mono">? "who owns this doc"</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STAGE 2 ── DocBrain Absorbing Documents -->
+      <div class="mb-32">
+        <div class="text-center mb-12">
+          <div class="reveal inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 mb-4">
+            <span class="text-2xl font-bold text-blue-400">2</span>
+          </div>
+          <h3 class="reveal reveal-delay-1 text-2xl font-bold text-white mb-2">DocBrain: Indexing &amp; Connecting</h3>
+          <p class="reveal reveal-delay-2 text-slate-400 max-w-lg mx-auto">AI reads, chunks, and links every document into one searchable brain.</p>
+        </div>
+
+        <!-- Absorption animation arena -->
+        <div class="reveal reveal-delay-3 absorb-arena">
+          <!-- Pulsing rings behind logo -->
+          <div class="absorb-ring"></div>
+          <div class="absorb-ring"></div>
+          <div class="absorb-ring"></div>
+
+          <!-- Central DocBrain logo -->
+          <div class="absorb-logo">
+            <img src="logo.png" alt="DocBrain" />
+          </div>
+
+          <!-- Flying documents — each starts from a different direction, flies to center -->
+          <!-- --ox/--oy = starting offset from center; --dur = cycle time; --del = stagger -->
+          <div class="flying-doc" style="--ox:-220px; --oy:-180px; --dur:3.8s; --del:0s;">
+            <div class="doc-icon">📄</div>
+            <span class="doc-label">API Docs</span>
+          </div>
+          <div class="flying-doc" style="--ox:230px; --oy:-150px; --dur:4.2s; --del:0.7s;">
+            <div class="doc-icon">📋</div>
+            <span class="doc-label">Procedures</span>
+          </div>
+          <div class="flying-doc" style="--ox:250px; --oy:120px; --dur:3.5s; --del:1.4s;">
+            <div class="doc-icon">📊</div>
+            <span class="doc-label">Reports</span>
+          </div>
+          <div class="flying-doc" style="--ox:-240px; --oy:140px; --dur:4.0s; --del:2.1s;">
+            <div class="doc-icon">📝</div>
+            <span class="doc-label">Wikis</span>
+          </div>
+          <div class="flying-doc" style="--ox:10px; --oy:220px; --dur:3.6s; --del:2.8s;">
+            <div class="doc-icon">📁</div>
+            <span class="doc-label">PDFs</span>
+          </div>
+
+          <!-- Second wave (same docs, different timing for continuous flow) -->
+          <div class="flying-doc" style="--ox:-180px; --oy:-200px; --dur:4.5s; --del:1.9s;">
+            <div class="doc-icon" style="border-color:rgba(99,102,241,.4);">📄</div>
+          </div>
+          <div class="flying-doc" style="--ox:200px; --oy:-170px; --dur:3.9s; --del:3.5s;">
+            <div class="doc-icon" style="border-color:rgba(139,92,246,.4);">📋</div>
+          </div>
+          <div class="flying-doc" style="--ox:260px; --oy:90px; --dur:4.3s; --del:2.5s;">
+            <div class="doc-icon" style="border-color:rgba(168,85,247,.4);">📊</div>
+          </div>
+          <div class="flying-doc" style="--ox:-260px; --oy:100px; --dur:3.7s; --del:3.2s;">
+            <div class="doc-icon" style="border-color:rgba(6,182,212,.4);">📝</div>
+          </div>
+          <div class="flying-doc" style="--ox:-30px; --oy:240px; --dur:4.1s; --del:0.4s;">
+            <div class="doc-icon" style="border-color:rgba(56,189,248,.4);">📁</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STAGE 3 ── Instant Answers -->
+      <div>
+        <div class="text-center mb-12">
+          <div class="reveal inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 mb-4">
+            <span class="text-2xl font-bold text-green-400">3</span>
+          </div>
+          <h3 class="reveal reveal-delay-1 text-2xl font-bold text-white mb-2">After: Instant Answers</h3>
+          <p class="reveal reveal-delay-2 text-slate-400 max-w-lg mx-auto">Ask in plain English, get precise answers with sources — across every industry.</p>
+        </div>
+        <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <!-- Questions Column -->
+          <div class="space-y-4">
+            <div class="reveal reveal-delay-1 glass-card p-4 hover:border-blue-500/50 transition-colors cursor-pointer">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">🏥</span>
+                <span class="text-slate-300">What's the protocol for patient data access?</span>
+              </div>
+            </div>
+            <div class="reveal reveal-delay-2 glass-card p-4 hover:border-blue-500/50 transition-colors cursor-pointer">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">🏭</span>
+                <span class="text-slate-300">How do I calibrate the CNC machine?</span>
+              </div>
+            </div>
+            <div class="reveal reveal-delay-3 glass-card p-4 border-blue-500/50 bg-blue-500/5">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">🛍️</span>
+                <span class="text-white font-medium">What's our return policy for online orders?</span>
+              </div>
+            </div>
+            <div class="reveal reveal-delay-4 glass-card p-4 hover:border-blue-500/50 transition-colors cursor-pointer">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">🏦</span>
+                <span class="text-slate-300">What are the KYC requirements for corporate accounts?</span>
+              </div>
+            </div>
+            <div class="reveal reveal-delay-5 glass-card p-4 hover:border-blue-500/50 transition-colors cursor-pointer">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">📚</span>
+                <span class="text-slate-300">How do I submit a grade appeal?</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Answer Column -->
+          <div class="reveal reveal-delay-3">
+            <div class="glass-card p-6">
+              <div class="flex items-center gap-2 mb-4 pb-4 border-b border-slate-700">
+                <span class="text-green-500 text-xl">✅</span>
+                <span class="text-sm text-slate-400">Answer from 3 sources</span>
+              </div>
+              <div class="space-y-4">
+                <p class="text-white leading-relaxed"><strong>Online orders can be returned within 30 days</strong> of delivery for a full refund. Items must be unused with original tags.</p>
+                <p class="text-slate-300 text-sm leading-relaxed"><strong>Process:</strong> Log into your account → Orders → Select item → Request Return. You'll receive a prepaid shipping label via email.</p>
+                <p class="text-slate-300 text-sm leading-relaxed"><strong>Exceptions:</strong> Final sale items, personalized products, and opened hygiene items cannot be returned.</p>
+              </div>
+              <div class="flex flex-wrap gap-2 mt-6 pt-4 border-t border-slate-700">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs bg-blue-500/10 text-blue-400 border border-blue-500/30">Return Policy v2.3</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs bg-blue-500/10 text-blue-400 border border-blue-500/30">Customer Service Guide</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs bg-blue-500/10 text-blue-400 border border-blue-500/30">Online FAQ</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -2667,6 +3028,8 @@
 
     const statsSection = document.querySelector('[data-counter]')?.closest('section');
     if (statsSection) statsObserver.observe(statsSection);
+
+    // (transformation stages use the existing .reveal observer above)
   </script>
 </body>
 </html>
