@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DocBrain — The Knowledge Layer for Engineering Teams</title>
-  <meta name="description" content="Turn scattered documentation into instant, cited answers. DocBrain ingests Confluence, GitHub, Slack, Jira and more — then learns from every question your team asks.">
+  <meta name="description" content="Turn scattered documentation into instant, cited answers. DocBrain ingests Confluence, GitHub, Slack, Jira and more — learns from feedback, supports 15+ LLM providers, and tells you what's missing.">
   <meta name="theme-color" content="#0a0a1a">
 
   <meta property="og:title" content="DocBrain — The Knowledge Layer for Engineering Teams">
-  <meta property="og:description" content="Turn scattered documentation into instant, cited answers. An open-source AI knowledge platform that gets smarter with every question.">
+  <meta property="og:description" content="Turn scattered documentation into instant, cited answers. Learns from team feedback, supports 15+ LLM providers, and surfaces knowledge gaps automatically.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://docbrainapi.com">
   <meta property="og:image" content="https://docbrainapi.com/banner.png">
@@ -735,9 +735,11 @@
   <section class="relative min-h-screen flex items-center pt-16 grid-bg">
     <canvas id="neural-canvas"></canvas>
     <div class="hero-bg"></div>
-    <div class="float-badge hidden lg:block" style="top:18%;right:8%;animation-delay:0s">13+ Sources</div>
-    <div class="float-badge hidden lg:block" style="top:32%;right:4%;animation-delay:1.5s">&lt;500ms startup</div>
-    <div class="float-badge hidden lg:block" style="top:68%;right:6%;animation-delay:3s">25MB binary</div>
+    <div class="float-badge hidden lg:block" style="top:18%;right:8%;animation-delay:0s">15+ LLM Providers</div>
+    <div class="float-badge hidden lg:block" style="top:28%;right:4%;animation-delay:1s">Learns from Feedback</div>
+    <div class="float-badge hidden lg:block" style="top:38%;right:6%;animation-delay:2s">13+ Sources</div>
+    <div class="float-badge hidden lg:block" style="top:58%;right:5%;animation-delay:3s">&lt;500ms startup</div>
+    <div class="float-badge hidden lg:block" style="top:68%;right:7%;animation-delay:4s">25MB binary</div>
     <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 lg:py-32">
       <div class="grid lg:grid-cols-2 gap-16 items-center">
 
@@ -756,7 +758,7 @@
             <span class="gradient-animate"> Alive.</span>
           </h1>
           <p class="reveal reveal-delay-2 text-lg text-slate-400 leading-relaxed mb-8">
-            DocBrain ingests your scattered documentation — Confluence, GitHub, Slack, Jira — and turns it into an AI-powered knowledge system that <strong class="text-slate-200">answers questions with citations</strong>, <strong class="text-slate-200">learns from feedback</strong>, and <strong class="text-slate-200">tells you what's missing</strong>.
+            DocBrain ingests your scattered documentation — Confluence, GitHub, Slack, Jira — and turns it into an AI-powered knowledge system that <strong class="text-slate-200">answers with citations</strong>, <strong class="text-slate-200">learns from team feedback</strong> (optional embedding fine-tuning), and <strong class="text-slate-200">surfaces gaps automatically</strong>. Works with 15+ LLM providers — no vendor lock-in.
           </p>
           <div class="reveal reveal-delay-3 flex flex-wrap gap-4">
             <a href="#get-started" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-all hover:shadow-lg hover:shadow-brand-600/25">
@@ -1299,6 +1301,14 @@
         </div>
 
         <div class="glass-card p-7 reveal reveal-delay-2">
+          <div class="feature-icon bg-indigo-500/10 mb-4">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          </div>
+          <h4 class="font-bold text-white mb-2">Learns from Feedback</h4>
+          <p class="text-sm text-slate-400">Teams train DocBrain with every thumbs up/down. Procedural rules improve, Autopilot surfaces gaps from negative feedback. Optional: fine-tune embeddings so retrieval gets better for your team's vocabulary over time — no prompt engineering required.</p>
+        </div>
+
+        <div class="glass-card p-7 reveal reveal-delay-2">
           <div class="feature-icon bg-pink-500/10 mb-4">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
           </div>
@@ -1310,8 +1320,8 @@
           <div class="feature-icon bg-orange-500/10 mb-4">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M3 12h18"/><path d="M8 8l4-4 4 4M8 16l4 4 4-4M16 8l4 4-4 4M8 8L4 12l4 4"/></svg>
           </div>
-          <h4 class="font-bold text-white mb-2">Provider Agnostic</h4>
-          <p class="text-sm text-slate-400">Anthropic, AWS Bedrock, OpenAI, or Ollama (fully local). Swap LLM providers via config — zero code changes. No vendor lock-in.</p>
+          <h4 class="font-bold text-white mb-2">15+ LLM Providers</h4>
+          <p class="text-sm text-slate-400">Anthropic, OpenAI, AWS Bedrock, Vertex AI, Azure, Ollama, Groq, OpenRouter, Together, DeepSeek, Mistral, xAI, Gemini, Cohere, and more. Swap via config — zero code changes. No vendor lock-in.</p>
         </div>
 
         <div class="glass-card p-7 reveal reveal-delay-1">
@@ -1366,7 +1376,7 @@
       <div class="text-center mb-16">
         <p class="reveal text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">The Complete Loop</p>
         <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">Documentation that improves itself</h2>
-        <p class="reveal reveal-delay-2 text-lg text-slate-400 max-w-3xl mx-auto">Every question is a signal. Every answer gets feedback. Every gap becomes a draft. Every draft becomes a doc. The loop closes automatically.</p>
+        <p class="reveal reveal-delay-2 text-lg text-slate-400 max-w-3xl mx-auto">Every question is a signal. Every answer gets feedback — thumbs up/down trains procedural rules and optionally fine-tunes embeddings. Every gap becomes a draft. Every draft becomes a doc. The loop closes automatically.</p>
       </div>
 
       <!-- Flow diagram -->
@@ -1396,7 +1406,7 @@
           Published & re-ingested
         </div>
       </div>
-      <p class="text-center text-xs text-slate-600 mt-6 reveal reveal-delay-3">Next user gets the answer. Loop closed.</p>
+      <p class="text-center text-xs text-slate-600 mt-6 reveal reveal-delay-3">Next user gets the answer. Retrieval improves with usage. Loop closed.</p>
     </div>
   </section>
 
@@ -1472,7 +1482,14 @@
             Which LLMs does DocBrain support?
             <span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
           </summary>
-          <div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Anthropic (Claude), OpenAI (GPT-4), AWS Bedrock, and Ollama for fully local inference. Swap providers via config — no code changes.</div>
+          <div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">15+ providers: Anthropic (Claude), OpenAI (GPT-4), AWS Bedrock, Vertex AI, Azure OpenAI, Groq, OpenRouter, Together, DeepSeek, Mistral, xAI, Gemini, Cohere, and Ollama for 100% local inference. Swap via config — no code changes.</div>
+        </details>
+        <details class="reveal glass-card group">
+          <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white list-none">
+            Does DocBrain learn from feedback?
+            <span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+          </summary>
+          <div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Yes. Every thumbs up/down updates procedural retrieval rules and feeds Autopilot gap detection. Optionally, enable the learning pipeline to fine-tune embeddings from feedback — the system learns what "similar" means for your team's docs and vocabulary. Starts with zero extra infra; scale to full fine-tuning when ready.</div>
         </details>
         <details class="reveal glass-card group">
           <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white list-none">
