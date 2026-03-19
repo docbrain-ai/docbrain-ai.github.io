@@ -1370,6 +1370,192 @@
 
   <div class="section-divider"></div>
 
+  <!-- ========== LLM PROVIDERS ========== -->
+  <section id="providers" class="py-24 lg:py-32 relative overflow-hidden">
+    <div class="absolute inset-0">
+      <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-600/[0.04] rounded-full blur-[120px]"></div>
+      <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-600/[0.04] rounded-full blur-[120px]"></div>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="reveal text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Provider Agnostic</p>
+        <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">One codebase. Every AI.</h2>
+        <p class="reveal reveal-delay-2 text-lg text-slate-400 max-w-3xl mx-auto">Swap your entire LLM backend with a single environment variable. No code changes. No lock-in. From Anthropic to local Ollama — DocBrain speaks them all.</p>
+      </div>
+
+      <!-- Provider grid -->
+      <div class="reveal reveal-delay-1 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-12">
+        <!-- Anthropic -->
+        <div class="glass-card p-4 text-center group hover:border-[#d97757]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#d97757]/10 group-hover:bg-[#d97757]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14.04 3H9.96L3 21h4.2l1.4-4.2h7.6L17.8 21H22L14.04 3zm-5.17 10.5L12 5.6l3.13 7.9H8.87z" fill="#d97757"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">Anthropic</div>
+          <div class="text-xs text-slate-500 font-mono">Claude 4</div>
+        </div>
+        <!-- OpenAI -->
+        <div class="glass-card p-4 text-center group hover:border-[#10a37f]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#10a37f]/10 group-hover:bg-[#10a37f]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#10a37f"><path d="M22.28 9.28a5.96 5.96 0 00-.51-4.9 6.02 6.02 0 00-6.47-2.89 5.96 5.96 0 00-4.49-2A6.01 6.01 0 005.32 3.3a5.96 5.96 0 00-3.98 2.9 6.02 6.02 0 00.74 7.04 5.96 5.96 0 00.51 4.9 6.02 6.02 0 006.47 2.89 5.96 5.96 0 004.49 2A6.02 6.02 0 0018.68 20.7a5.96 5.96 0 003.98-2.9 6.02 6.02 0 00-.74-7.04 5.96 5.96 0 00-.64-1.48zm-9.2 12.87a4.47 4.47 0 01-2.87-1.04l.14-.08 4.76-2.75a.79.79 0 00.4-.69V11.1l2.01 1.16a.07.07 0 01.04.06v5.57a4.5 4.5 0 01-4.48 4.26zM3.64 18.01a4.47 4.47 0 01-.54-3.01l.14.09 4.77 2.75a.79.79 0 00.79 0l5.83-3.37v2.33a.08.08 0 01-.03.06l-4.83 2.79a4.5 4.5 0 01-6.13-1.64zm-.9-9.96a4.48 4.48 0 012.34-1.97v5.65a.79.79 0 00.4.68l5.83 3.37-2.01 1.16a.07.07 0 01-.08 0L4.3 14.17a4.5 4.5 0 01-.56-6.12zm16.6 3.87l-5.83-3.36 2.01-1.16a.07.07 0 01.08 0l4.92 2.84a4.5 4.5 0 01-.7 8.12V12.6a.79.79 0 00-.4-.68h-.08zm2-3.03l-.14-.08-4.76-2.75a.79.79 0 00-.79 0L9.72 9.43V7.1a.08.08 0 01.03-.06l4.83-2.79a4.5 4.5 0 016.63 4.66h-.07zM8.73 13.43l-2.01-1.16a.08.08 0 01-.04-.06V6.65a4.5 4.5 0 017.37-3.46l-.14.08-4.77 2.75a.79.79 0 00-.4.69v.01l.01 6.71h-.02zm1.09-2.35l2.6-1.5 2.6 1.5v2.99l-2.6 1.5-2.6-1.5v-2.99z"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">OpenAI</div>
+          <div class="text-xs text-slate-500 font-mono">GPT-4o</div>
+        </div>
+        <!-- AWS Bedrock -->
+        <div class="glass-card p-4 text-center group hover:border-[#FF9900]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#FF9900]/10 group-hover:bg-[#FF9900]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#FF9900"><path d="M18.75 11.35a4.32 4.32 0 00.09-.9c0-2.48-2.01-4.5-4.5-4.5a4.47 4.47 0 00-2.98 1.14A3 3 0 008.25 6a3 3 0 00-2.9 2.24A3.75 3.75 0 003 12a3.75 3.75 0 003.75 3.75h11.5A2.75 2.75 0 0021 13.01a2.75 2.75 0 00-2.25-1.66z"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">AWS Bedrock</div>
+          <div class="text-xs text-slate-500 font-mono">Claude · Llama</div>
+        </div>
+        <!-- Google Gemini -->
+        <div class="glass-card p-4 text-center group hover:border-[#4285F4]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#4285F4]/10 group-hover:bg-[#4285F4]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" fill="none"/><path d="M12 3.5l1.5 5H19l-4.25 3.09 1.62 5-4.37-3.18-4.37 3.18 1.62-5L5 8.5h5.5L12 3.5z" fill="#4285F4"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">Gemini</div>
+          <div class="text-xs text-slate-500 font-mono">2.0 Flash</div>
+        </div>
+        <!-- Vertex AI -->
+        <div class="glass-card p-4 text-center group hover:border-[#34A853]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#34A853]/10 group-hover:bg-[#34A853]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#34A853" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">Vertex AI</div>
+          <div class="text-xs text-slate-500 font-mono">GKE · IAM</div>
+        </div>
+        <!-- Azure OpenAI -->
+        <div class="glass-card p-4 text-center group hover:border-[#0078D4]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#0078D4]/10 group-hover:bg-[#0078D4]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#0078D4"><path d="M13.05 2.23L8.02 14.19H3L10.97 2.23h2.08zm-.9 3.04L5.48 21.77H17l-4.85-16.5z"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">Azure OpenAI</div>
+          <div class="text-xs text-slate-500 font-mono">GPT-4o</div>
+        </div>
+        <!-- Groq -->
+        <div class="glass-card p-4 text-center group hover:border-[#f55036]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#f55036]/10 group-hover:bg-[#f55036]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f55036" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M15 12h3"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">Groq</div>
+          <div class="text-xs text-slate-500 font-mono">Llama 3.3</div>
+        </div>
+        <!-- DeepSeek -->
+        <div class="glass-card p-4 text-center group hover:border-[#00b4d8]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#00b4d8]/10 group-hover:bg-[#00b4d8]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00b4d8" stroke-width="2" stroke-linecap="round"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9"/><path d="M16 3c2.76 1.12 4.92 3.35 5.79 6.15M12 8v4l3 3"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">DeepSeek</div>
+          <div class="text-xs text-slate-500 font-mono">deepseek-chat</div>
+        </div>
+        <!-- Mistral -->
+        <div class="glass-card p-4 text-center group hover:border-[#FF7000]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#FF7000]/10 group-hover:bg-[#FF7000]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#FF7000"><rect x="3" y="6" width="4" height="4" rx="1"/><rect x="10" y="6" width="4" height="4" rx="1"/><rect x="17" y="6" width="4" height="4" rx="1"/><rect x="3" y="14" width="4" height="4" rx="1"/><rect x="10" y="14" width="4" height="4" rx="1"/><rect x="17" y="14" width="4" height="4" rx="1"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">Mistral</div>
+          <div class="text-xs text-slate-500 font-mono">mistral-small</div>
+        </div>
+        <!-- xAI -->
+        <div class="glass-card p-4 text-center group hover:border-slate-400/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-slate-400/10 group-hover:bg-slate-400/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#e2e8f0"><path d="M2 3l7.5 9L2 21h2.5l6-7.27L16.5 21H22l-7.8-9.34L21.5 3H19l-5.7 6.88L8 3H2z"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">xAI (Grok)</div>
+          <div class="text-xs text-slate-500 font-mono">grok-3</div>
+        </div>
+        <!-- OpenRouter -->
+        <div class="glass-card p-4 text-center group hover:border-[#6d28d9]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#6d28d9]/10 group-hover:bg-[#6d28d9]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">OpenRouter</div>
+          <div class="text-xs text-slate-500 font-mono">300+ models</div>
+        </div>
+        <!-- Together AI -->
+        <div class="glass-card p-4 text-center group hover:border-[#0ea5e9]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#0ea5e9]/10 group-hover:bg-[#0ea5e9]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">Together AI</div>
+          <div class="text-xs text-slate-500 font-mono">Llama 3.3 70B</div>
+        </div>
+        <!-- Cohere -->
+        <div class="glass-card p-4 text-center group hover:border-[#39d3c3]/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-[#39d3c3]/10 group-hover:bg-[#39d3c3]/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#39d3c3" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="8" rx="9" ry="4"/><path d="M3 8c0 2.21 4.03 4 9 4s9-1.79 9-4"/><path d="M3 13c0 2.21 4.03 4 9 4s9-1.79 9-4"/><path d="M3 18c0 2.21 4.03 4 9 4s9-1.79 9-4"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">Cohere</div>
+          <div class="text-xs text-slate-500 font-mono">command-r-plus</div>
+        </div>
+        <!-- Ollama -->
+        <div class="glass-card p-4 text-center group hover:border-emerald-500/30 transition-all">
+          <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center bg-emerald-500/10 group-hover:bg-emerald-500/20 transition-all">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 9a3 3 0 016 0v6a3 3 0 01-6 0V9z"/></svg>
+          </div>
+          <div class="text-sm font-semibold text-white mb-0.5">Ollama</div>
+          <div class="text-xs text-slate-500 font-mono">Local · Air-gapped</div>
+        </div>
+      </div>
+
+      <!-- Config swap demo -->
+      <div class="reveal reveal-delay-2 grid lg:grid-cols-2 gap-8 items-center">
+        <div>
+          <h3 class="text-xl font-bold text-white mb-3">One env var to rule them all</h3>
+          <p class="text-slate-400 mb-4 leading-relaxed">Every provider uses the same config interface. Switch from GPT-4o to Claude 4 to Llama running locally — no code changes, no redeploys of application logic, just a config change.</p>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              Streaming responses across all providers
+            </li>
+            <li class="flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              Vision / image analysis (provider-dependent)
+            </li>
+            <li class="flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              Extended thinking (Anthropic / Bedrock)
+            </li>
+            <li class="flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              GCP Workload Identity for Vertex AI (no keys)
+            </li>
+            <li class="flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              Fast model + slow model — separate configs
+            </li>
+          </ul>
+        </div>
+        <div class="terminal">
+          <div class="terminal-bar">
+            <div class="terminal-dot" style="background:#ff5f57"></div>
+            <div class="terminal-dot" style="background:#febc2e"></div>
+            <div class="terminal-dot" style="background:#28c840"></div>
+            <span class="ml-3 text-xs text-slate-500 font-mono">.env — swap providers</span>
+          </div>
+          <div class="terminal-body text-xs leading-relaxed" style="min-height:auto;padding:20px 24px;">
+            <div class="code-gray mb-2"># Switch to DeepSeek — zero code changes</div>
+            <div><span class="code-green">LLM_PROVIDER</span>=<span class="code-yellow">deepseek</span></div>
+            <div><span class="code-green">DEEPSEEK_API_KEY</span>=<span class="code-purple">sk-...</span></div>
+            <div class="mt-3 code-gray"># Or run fully local — no data egress</div>
+            <div><span class="code-green">LLM_PROVIDER</span>=<span class="code-yellow">ollama</span></div>
+            <div><span class="code-green">OLLAMA_BASE_URL</span>=<span class="code-blue">http://localhost:11434</span></div>
+            <div class="mt-3 code-gray"># Enterprise: Vertex AI with Workload Identity</div>
+            <div><span class="code-green">LLM_PROVIDER</span>=<span class="code-yellow">vertex_ai</span></div>
+            <div><span class="code-green">VERTEX_PROJECT</span>=<span class="code-blue">my-project-123</span></div>
+            <div class="code-gray"># No API key — GCP credential chain</div>
+            <div class="mt-3 code-gray"># Split: powerful model for Q&amp;A, fast for tasks</div>
+            <div><span class="code-green">LLM_MODEL_ID</span>=<span class="code-yellow">claude-opus-4</span></div>
+            <div><span class="code-green">FAST_MODEL_ID</span>=<span class="code-yellow">claude-haiku-4-5-20251001</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
   <!-- ========== THE FEEDBACK LOOP ========== -->
   <section class="py-24 lg:py-32">
     <div class="max-w-7xl mx-auto px-6">
