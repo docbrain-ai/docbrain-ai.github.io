@@ -158,27 +158,53 @@
     }
 
     /* Stage 1: scattered docs — chaotic floating */
+    /* Mobile: clean grid. Desktop: absolute chaos. */
+    .scatter-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      max-width: 360px;
+      margin: 0 auto;
+    }
     .scatter-card {
-      position: absolute;
-      min-width: 100px;
+      position: relative;
       z-index: 2;
       animation: scatter-float 5s ease-in-out infinite;
       box-shadow: 0 4px 20px rgba(0,0,0,.3);
     }
-    .scatter-card.ghost {
-      opacity: .35;
-      z-index: 1;
-      border-style: dashed !important;
-    }
+    .scatter-card.ghost { display: none; }
+    .scatter-search { display: none; }
+
     @keyframes scatter-float {
       0%,100% { transform: translateY(0px) translateX(0px); }
       30% { transform: translateY(-10px) translateX(4px); }
       70% { transform: translateY(8px) translateX(-6px); }
     }
-    .scatter-search {
-      position: absolute;
-      z-index: 3;
-      animation: search-blink 4s ease-in-out infinite;
+
+    /* Desktop: switch to absolute scattered positioning */
+    @media (min-width: 768px) {
+      .scatter-container {
+        display: block;
+        position: relative;
+        height: 380px;
+        max-width: 100%;
+      }
+      .scatter-card {
+        position: absolute;
+        min-width: 100px;
+      }
+      .scatter-card.ghost {
+        display: block;
+        opacity: .35;
+        z-index: 1;
+        border-style: dashed !important;
+      }
+      .scatter-search {
+        display: block;
+        position: absolute;
+        z-index: 3;
+        animation: search-blink 4s ease-in-out infinite;
+      }
     }
     @keyframes search-blink {
       0%,100% { opacity: 0; }
@@ -193,6 +219,7 @@
       margin: 0 auto;
       aspect-ratio: 1;
       max-height: 520px;
+      overflow: hidden;
     }
     .absorb-logo {
       position: absolute;
@@ -201,17 +228,23 @@
       z-index: 10;
     }
     .absorb-logo img {
-      width: 200px; height: 200px;
+      width: 140px; height: 140px;
       object-fit: contain;
       filter: drop-shadow(0 0 30px rgba(99,102,241,.6));
       animation: logoPulse 3s ease-in-out infinite;
+    }
+    @media (min-width: 640px) {
+      .absorb-logo img { width: 200px; height: 200px; }
     }
     @keyframes logoPulse {
       0%,100% { filter: drop-shadow(0 0 30px rgba(99,102,241,.6)) drop-shadow(0 0 60px rgba(139,92,246,.3)); transform: scale(1); }
       50%     { filter: drop-shadow(0 0 50px rgba(99,102,241,.9)) drop-shadow(0 0 90px rgba(139,92,246,.5)); transform: scale(1.03); }
     }
 
-    /* Each flying doc is centered at 50%/50%, offset by --ox/--oy */
+    /* Each flying doc is centered at 50%/50%, offset by --ox/--oy scaled by --s */
+    .absorb-arena { --s: 0.55; }
+    @media (min-width: 640px) { .absorb-arena { --s: 1; } }
+
     .flying-doc {
       position: absolute;
       top: 50%; left: 50%;
@@ -224,16 +257,19 @@
       animation: flyIn var(--dur, 4s) cubic-bezier(.4,0,.2,1) var(--del, 0s) infinite;
     }
     .flying-doc .doc-icon {
-      width: 56px; height: 56px;
-      border-radius: 14px;
+      width: 44px; height: 44px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.75rem;
+      font-size: 1.4rem;
       background: rgba(15,23,42,.9);
       border: 1px solid rgba(100,116,139,.4);
       backdrop-filter: blur(8px);
       box-shadow: 0 4px 24px rgba(0,0,0,.3);
+    }
+    @media (min-width: 640px) {
+      .flying-doc .doc-icon { width: 56px; height: 56px; font-size: 1.75rem; border-radius: 14px; }
     }
     .flying-doc .doc-label {
       font-size: 10px;
@@ -254,8 +290,8 @@
     @keyframes flyIn {
       0% {
         transform: translate(
-          calc(-50% + var(--ox)),
-          calc(-50% + var(--oy))
+          calc(-50% + var(--ox) * var(--s)),
+          calc(-50% + var(--oy) * var(--s))
         ) scale(1);
         opacity: 0;
       }
@@ -270,8 +306,8 @@
       }
       91%, 100% {
         transform: translate(
-          calc(-50% + var(--ox)),
-          calc(-50% + var(--oy))
+          calc(-50% + var(--ox) * var(--s)),
+          calc(-50% + var(--oy) * var(--s))
         ) scale(0);
         opacity: 0;
       }
@@ -282,14 +318,19 @@
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%,-50%);
-      width: 220px; height: 220px;
+      width: 160px; height: 160px;
       border-radius: 50%;
       border: 1px solid rgba(99,102,241,.15);
       z-index: 9;
       animation: ringPulse 4s ease-out infinite;
     }
-    .absorb-ring:nth-child(2) { animation-delay: 0.8s; width: 260px; height: 260px; }
-    .absorb-ring:nth-child(3) { animation-delay: 1.6s; width: 300px; height: 300px; }
+    .absorb-ring:nth-child(2) { animation-delay: 0.8s; width: 200px; height: 200px; }
+    .absorb-ring:nth-child(3) { animation-delay: 1.6s; width: 240px; height: 240px; }
+    @media (min-width: 640px) {
+      .absorb-ring { width: 220px; height: 220px; }
+      .absorb-ring:nth-child(2) { width: 260px; height: 260px; }
+      .absorb-ring:nth-child(3) { width: 300px; height: 300px; }
+    }
     @keyframes ringPulse {
       0% { transform: translate(-50%,-50%) scale(.8); opacity: .5; border-color: rgba(99,102,241,.3); }
       50% { transform: translate(-50%,-50%) scale(1); opacity: .15; }
@@ -1359,9 +1400,9 @@
           <h3 class="reveal reveal-delay-1 text-2xl font-bold text-white mb-2">Before: Scattered Across Systems</h3>
           <p class="reveal reveal-delay-2 text-slate-400 max-w-lg mx-auto">Documentation trapped in silos — Confluence, SharePoint, wikis, PDFs, Notion. Nobody knows where to look.</p>
         </div>
-        <!-- Chaotic scattered layout -->
-        <div class="reveal reveal-delay-3 relative w-full max-w-5xl mx-auto" style="height: 380px;">
-          <!-- Main doc cards — scattered with rotations -->
+        <!-- Scattered layout: grid on mobile, absolute chaos on desktop -->
+        <div class="reveal reveal-delay-3 scatter-container w-full max-w-5xl mx-auto">
+          <!-- Main doc cards -->
           <div class="scatter-card glass-card p-5 text-center" style="top:8%; left:5%; rotate:-6deg; animation-delay:-1s;">
             <div class="text-3xl mb-2">📄</div>
             <span class="text-xs text-slate-300 font-medium">API Docs</span>
@@ -1387,7 +1428,7 @@
             <span class="text-xs text-slate-300 font-medium">PDFs</span>
             <span class="block text-[10px] text-red-400/70 mt-1">Desktops</span>
           </div>
-          <!-- Ghost duplicates (faded copies showing the same doc in multiple places) -->
+          <!-- Ghost duplicates (desktop only) -->
           <div class="scatter-card ghost glass-card p-4 text-center" style="top:22%; left:52%; rotate:5deg; animation-delay:-2.5s;">
             <div class="text-2xl">📄</div>
             <span class="text-[9px] text-slate-500">copy (3)</span>
@@ -1404,7 +1445,7 @@
             <div class="text-2xl">📊</div>
             <span class="text-[9px] text-slate-500">wrong version</span>
           </div>
-          <!-- Floating search indicators -->
+          <!-- Floating search indicators (desktop only) -->
           <div class="scatter-search" style="top:30%; left:18%; animation-delay:-1s;">
             <span class="text-red-400/60 text-sm font-mono">? "where is the runbook"</span>
           </div>
