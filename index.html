@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DocBrain — The Knowledge Layer for Engineering Teams</title>
-  <meta name="description" content="Turn scattered documentation into instant, cited answers. DocBrain ingests Confluence, GitHub, Slack, Jira and more — learns from feedback, supports 15+ LLM providers, and tells you what's missing.">
+  <title>DocBrain — Your org's knowledge, collected, connected, alive</title>
+  <meta name="description" content="DocBrain finds gaps in your docs, auto-generates what's missing, and learns from every question. The self-improving knowledge layer supporting 14 LLM providers. Not just Q&A — documentation that fixes itself.">
   <meta name="theme-color" content="#0a0a1a">
 
-  <meta property="og:title" content="DocBrain — The Knowledge Layer for Engineering Teams">
-  <meta property="og:description" content="Turn scattered documentation into instant, cited answers. Learns from team feedback, supports 15+ LLM providers, and surfaces knowledge gaps automatically.">
+  <meta property="og:title" content="DocBrain — Your org's knowledge, collected, connected, alive">
+  <meta property="og:description" content="DocBrain finds gaps in your docs, auto-generates what's missing, and learns from every question. The knowledge layer that improves itself.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://docbrainapi.com">
   <meta property="og:image" content="https://docbrainapi.com/banner.png">
@@ -129,6 +129,32 @@
     @keyframes float-badge {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
+    }
+
+    /* Floating document icons */
+    .float-doc {
+      position: absolute;
+      opacity: 0.15;
+      animation: float-doc 20s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes float-doc {
+      0%, 100% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0.1;
+      }
+      25% {
+        transform: translateY(-20px) translateX(10px) rotate(2deg);
+        opacity: 0.15;
+      }
+      50% {
+        transform: translateY(-10px) translateX(-10px) rotate(-2deg);
+        opacity: 0.2;
+      }
+      75% {
+        transform: translateY(-30px) translateX(5px) rotate(1deg);
+        opacity: 0.12;
+      }
     }
 
     /* Copy button */
@@ -732,35 +758,57 @@
   </div>
 
   <!-- ========== HERO ========== -->
-  <section class="relative min-h-screen flex items-center pt-16 grid-bg">
-    <canvas id="neural-canvas"></canvas>
-    <div class="hero-bg"></div>
-    <div class="float-badge hidden lg:block" style="top:18%;right:8%;animation-delay:0s">15+ LLM Providers</div>
+  <section class="relative min-h-screen flex items-center pt-16 overflow-hidden" style="background: radial-gradient(circle at 50% 0%, rgba(124,58,237,0.03), transparent 50%);">
+    <!-- Floating Document Icons -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="float-doc" style="top:15%;left:8%;animation-delay:0s;width:80px;height:80px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(99,102,241,0.3)"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/><path d="M14 2v6h6" fill="none" stroke="rgba(99,102,241,0.3)" stroke-width="1.5"/></svg>
+        <span style="font-size:9px;color:rgba(99,102,241,0.4);text-align:center;">Refund<br>Policy</span>
+      </div>
+      <div class="float-doc" style="top:25%;right:12%;animation-delay:3s;width:80px;height:80px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(139,92,246,0.3)"><rect x="3" y="3" width="18" height="18" rx="2" fill="rgba(139,92,246,0.3)"/><path d="M7 7h10M7 12h10M7 17h6" stroke="rgba(139,92,246,0.5)" stroke-width="1.5"/></svg>
+        <span style="font-size:9px;color:rgba(139,92,246,0.4);text-align:center;">Sales<br>Playbook</span>
+      </div>
+      <div class="float-doc hidden lg:flex" style="top:45%;left:15%;animation-delay:6s;width:80px;height:80px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(168,85,247,0.3)"><path d="M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.5 8.5 0 018 8v.5z"/></svg>
+        <span style="font-size:9px;color:rgba(168,85,247,0.4);text-align:center;">Slack<br>Thread</span>
+      </div>
+      <div class="float-doc hidden lg:flex" style="top:60%;right:18%;animation-delay:9s;width:80px;height:80px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(192,132,252,0.3)"><circle cx="12" cy="12" r="10" fill="rgba(192,132,252,0.3)"/><path d="M9 9h6v6H9z" fill="rgba(192,132,252,0.5)"/></svg>
+        <span style="font-size:9px;color:rgba(192,132,252,0.4);text-align:center;">Onboarding<br>Guide</span>
+      </div>
+      <div class="float-doc" style="top:70%;left:10%;animation-delay:12s;width:80px;height:80px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(244,114,182,0.3)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M9 22V12h6v10" fill="rgba(244,114,182,0.5)"/></svg>
+        <span style="font-size:9px;color:rgba(244,114,182,0.4);text-align:center;">Incident<br>Response</span>
+      </div>
+    </div>
+    <div class="float-badge hidden lg:block" style="top:18%;right:8%;animation-delay:0s">14 LLM Providers</div>
     <div class="float-badge hidden lg:block" style="top:28%;right:4%;animation-delay:1s">Learns from Feedback</div>
     <div class="float-badge hidden lg:block" style="top:38%;right:6%;animation-delay:2s">13+ Sources</div>
     <div class="float-badge hidden lg:block" style="top:58%;right:5%;animation-delay:3s">&lt;500ms startup</div>
     <div class="float-badge hidden lg:block" style="top:68%;right:7%;animation-delay:4s">25MB binary</div>
     <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 lg:py-32">
-      <div class="grid lg:grid-cols-2 gap-16 items-center">
-
-        <!-- Left: Copy -->
-        <div class="max-w-xl">
+      <div class="max-w-4xl mx-auto text-center">
           <div class="reveal mb-6">
             <span class="badge">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="#34d399"/><circle cx="8" cy="8" r="6" stroke="#34d399" stroke-width="1.5" opacity="0.3"/></svg>
               Open Source &middot; BSL 1.1 &middot; Built with Rust
             </span>
           </div>
-          <h1 class="reveal reveal-delay-1 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08] mb-6">
-            Your org's knowledge,
-            <span class="gradient-animate"> collected.</span><br>
-            <span class="gradient-animate">Connected.</span>
-            <span class="gradient-animate"> Alive.</span>
+          <h1 class="reveal reveal-delay-1 text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.05] mb-6">
+            Your org's knowledge,<br>
+            <span class="gradient-animate">collected, connected, alive.</span>
           </h1>
-          <p class="reveal reveal-delay-2 text-lg text-slate-400 leading-relaxed mb-8">
-            DocBrain ingests your scattered documentation — Confluence, GitHub, Slack, Jira — and turns it into an AI-powered knowledge system that <strong class="text-slate-200">answers with citations</strong>, <strong class="text-slate-200">learns from team feedback</strong> (optional embedding fine-tuning), and <strong class="text-slate-200">surfaces gaps automatically</strong>. Works with 15+ LLM providers — no vendor lock-in.
+          <p class="reveal reveal-delay-2 text-lg sm:text-xl text-slate-400 leading-relaxed mb-6">
+            DocBrain doesn't just answer questions. It <strong class="text-slate-200">finds gaps in your docs</strong>, auto-generates what's missing, and <strong class="text-slate-200">learns from every question</strong>. The knowledge layer that improves itself.
           </p>
-          <div class="reveal reveal-delay-3 flex flex-wrap gap-4">
+          <div class="reveal reveal-delay-2 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-500 mb-8">
+            <span class="flex items-center gap-1.5"><span class="text-brand-400 font-semibold">25MB</span> binary</span>
+            <span class="flex items-center gap-1.5"><span class="text-brand-400 font-semibold">&lt;500ms</span> cold start</span>
+            <span class="flex items-center gap-1.5"><span class="text-brand-400 font-semibold">14</span> LLM providers</span>
+            <span class="flex items-center gap-1.5"><span class="text-brand-400 font-semibold">13+</span> sources</span>
+          </div>
+          <div class="reveal reveal-delay-3 flex flex-wrap justify-center gap-4">
             <a href="#get-started" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-all hover:shadow-lg hover:shadow-brand-600/25">
               Get Started Free
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
@@ -772,10 +820,12 @@
           </div>
         </div>
 
-        <!-- Right: Tabbed Demo -->
-        <div class="reveal reveal-delay-2">
+      <!-- Demo Tabs Below Hero -->
+      <div class="max-w-7xl mx-auto px-6 mt-16">
+        <p class="text-center text-sm text-slate-500 mb-6">Access from anywhere you work</p>
+        <div class="reveal reveal-delay-3">
           <!-- Tab buttons -->
-          <div class="flex gap-2 mb-4">
+          <div class="flex justify-center gap-2 mb-4">
             <button class="demo-tab active" data-tab="terminal">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg>
               Terminal
@@ -783,6 +833,10 @@
             <button class="demo-tab" data-tab="slack">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="#E01E5A"><path d="M5.042 15.165a2.528 2.528 0 01-2.52 2.523A2.528 2.528 0 010 15.165a2.527 2.527 0 012.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 012.521-2.52 2.527 2.527 0 012.521 2.52v6.313A2.528 2.528 0 018.834 24a2.528 2.528 0 01-2.521-2.522v-6.313z"/></svg>
               Slack
+            </button>
+            <button class="demo-tab" data-tab="github">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub PR
             </button>
             <button class="demo-tab" data-tab="ide">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
@@ -807,49 +861,74 @@
 
           <!-- Panel 2: Slack -->
           <div class="demo-panel" id="panel-slack">
-            <div class="slack-mock">
-              <div class="flex" style="min-height:370px">
-                <div class="slack-sidebar hidden sm:block">
-                  <div class="text-xs font-bold text-slate-400 px-2 mb-3 uppercase tracking-wider">Channels</div>
-                  <div class="slack-sidebar-item mb-1"><span class="text-slate-500">#</span> general</div>
-                  <div class="slack-sidebar-item mb-1"><span class="text-slate-500">#</span> engineering</div>
-                  <div class="slack-sidebar-item active mb-1"><span class="text-slate-500">#</span> oncall-prod</div>
-                  <div class="slack-sidebar-item mb-1"><span class="text-slate-500">#</span> platform</div>
-                  <div class="slack-sidebar-item mt-4 mb-1 text-xs font-bold text-slate-400 uppercase tracking-wider" style="padding:0 8px;">Apps</div>
-                  <div class="slack-sidebar-item" style="color:#818cf8;"><img src="logo.png" alt="" width="16" height="16" style="border-radius:4px;" /> DocBrain</div>
+            <div class="slack-mock" style="background:#1a1d21;">
+              <!-- Slack Header -->
+              <div style="background:#350d36;border-bottom:1px solid rgba(255,255,255,0.1);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="font-weight:700;font-size:15px;color:#fff;">Engineering Workspace</div>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
-                <div class="flex-1">
-                  <div class="slack-channel-header"># oncall-prod</div>
-                  <div class="p-2">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="width:20px;height:20px;border-radius:4px;background:#6366f1;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600;">SP</div>
+                </div>
+              </div>
+              <div class="flex" style="min-height:420px">
+                <div class="slack-sidebar" style="background:#3f0e40;width:220px;padding:12px 0;">
+                  <div style="padding:0 12px;margin-bottom:12px;">
+                    <div style="background:rgba(255,255,255,0.08);border-radius:6px;padding:6px 10px;font-size:13px;color:#fff;display:flex;align-items:center;gap:6px;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                      <span style="color:rgba(255,255,255,0.7);">Search...</span>
+                    </div>
+                  </div>
+                  <div style="padding:0 12px;font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
+                    <span>Channels</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+                  </div>
+                  <div class="slack-sidebar-item" style="padding:4px 12px;font-size:14px;color:rgba(255,255,255,0.7);"><span style="color:rgba(255,255,255,0.5);">#</span> general</div>
+                  <div class="slack-sidebar-item active" style="padding:4px 12px;font-size:14px;background:rgba(29,155,209,0.3);color:#fff;border-left:3px solid #1d9bd1;"><span style="color:rgba(255,255,255,0.9);">#</span> oncall-prod</div>
+                  <div class="slack-sidebar-item" style="padding:4px 12px;font-size:14px;color:rgba(255,255,255,0.7);"><span style="color:rgba(255,255,255,0.5);">#</span> platform</div>
+                  <div class="slack-sidebar-item" style="padding:4px 12px;font-size:14px;color:rgba(255,255,255,0.7);"><span style="color:rgba(255,255,255,0.5);">#</span> engineering</div>
+                  <div style="padding:12px 12px 8px;font-size:15px;font-weight:600;color:#fff;margin-top:12px;">Apps</div>
+                  <div class="slack-sidebar-item" style="padding:4px 12px;font-size:14px;color:#1d9bd1;display:flex;align-items:center;gap:6px;"><img src="logo.png" width="18" height="18" style="border-radius:4px;" /> DocBrain</div>
+                </div>
+                <div class="flex-1" style="background:#222529;display:flex;flex-direction:column;">
+                  <div style="background:#222529;border-bottom:1px solid rgba(255,255,255,0.1);padding:14px 20px;font-weight:700;font-size:16px;color:#fff;display:flex;align-items:center;gap:6px;">
+                    <span style="color:rgba(255,255,255,0.6);">#</span> oncall-prod
+                  </div>
+                  <div style="flex:1;overflow-y:auto;padding:16px 20px;">
                     <!-- User message -->
-                    <div class="slack-msg">
-                      <div class="slack-avatar bg-emerald-600/80 text-white">SP</div>
-                      <div class="slack-msg-body">
-                        <div><span class="slack-msg-name">Sarah Park</span><span class="slack-msg-time">2:14 AM</span></div>
-                        <div class="slack-msg-text"><span style="color:#e8912d;background:rgba(232,145,45,0.1);padding:1px 4px;border-radius:4px;font-size:12px;">/docbrain ask</span> "redis OOM errors in payments-cache cluster"</div>
+                    <div class="slack-msg" style="display:flex;gap:10px;margin-bottom:12px;">
+                      <div style="width:36px;height:36px;border-radius:6px;background:#10b981;display:flex;align-items:center;justify-center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">SP</div>
+                      <div style="flex:1;">
+                        <div style="margin-bottom:2px;"><span style="font-weight:700;font-size:14px;color:#fff;">Sarah Park</span><span style="font-size:12px;color:rgba(255,255,255,0.5);margin-left:6px;">2:14 AM</span></div>
+                        <div style="font-size:14px;color:#c9d1d9;line-height:1.5;"><span style="background:rgba(232,145,45,0.15);color:#e8912d;padding:2px 6px;border-radius:4px;font-size:12px;font-weight:600;">/docbrain ask</span> "Redis OOM errors in payments-cache cluster"</div>
                       </div>
                     </div>
                     <!-- Bot response -->
-                    <div class="slack-msg">
-                      <img src="logo.png" alt="DocBrain" class="slack-avatar" style="border-radius:8px;" />
-                      <div class="slack-msg-body">
-                        <div><span class="slack-msg-name">DocBrain</span><span class="slack-msg-time" style="color:#818cf8;">APP</span><span class="slack-msg-time">2:14 AM</span></div>
-                        <div class="slack-bot-card">
-                          <div style="font-weight:600;color:#e2e8f0;font-size:13px;margin-bottom:4px;">Redis OOM Troubleshooting — payments-cache</div>
-                          <div style="margin-bottom:6px;">
-                            <span style="color:#34d399;font-size:11px;">✓ Freshness: 3 days</span>&nbsp;&nbsp;
-                            <span style="color:#818cf8;font-size:11px;">Confidence: 88%</span>
-                          </div>
-                          <div style="color:#94a3b8;">
-                            <strong style="color:#c9d1d9;">1.</strong> Check current memory: <code style="background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px;font-size:11px;color:#a78bfa;">redis-cli -h payments-cache info memory</code><br>
-                            <strong style="color:#c9d1d9;">2.</strong> If maxmemory is hit, set eviction policy: <code style="background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px;font-size:11px;color:#a78bfa;">allkeys-lru</code><br>
-                            <strong style="color:#c9d1d9;">3.</strong> Monitor eviction rate via Grafana → Redis dashboard → OPS-REDIS-001
-                          </div>
-                          <div style="margin-top:6px;font-size:11px;color:#64748b;">📎 Sources: [1] Redis Configuration Guide  [2] Payments Cache Runbook</div>
+                    <div class="slack-msg" style="display:flex;gap:10px;">
+                      <img src="logo.png" alt="DocBrain" style="width:36px;height:36px;border-radius:6px;flex-shrink:0;" />
+                      <div style="flex:1;">
+                        <div style="margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+                          <span style="font-weight:700;font-size:14px;color:#fff;">DocBrain</span>
+                          <span style="background:rgba(99,102,241,0.15);color:#818cf8;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700;">APP</span>
+                          <span style="font-size:12px;color:rgba(255,255,255,0.5);">2:14 AM</span>
                         </div>
-                        <div>
-                          <span class="slack-reaction">👍 3</span>
-                          <span class="slack-reaction">🎯 1</span>
+                        <div style="background:rgba(255,255,255,0.04);border-left:3px solid #6366f1;border-radius:0 6px 6px 0;padding:12px;font-size:13px;line-height:1.6;">
+                          <div style="font-weight:600;color:#e2e8f0;margin-bottom:6px;">Redis OOM Troubleshooting — payments-cache</div>
+                          <div style="margin-bottom:8px;display:flex;gap:12px;font-size:11px;">
+                            <span style="color:#34d399;">✓ Freshness: 3 days</span>
+                            <span style="color:#818cf8;">Confidence: 88%</span>
+                          </div>
+                          <div style="color:#c9d1d9;">
+                            <div><strong>1.</strong> Check current memory: <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:3px;font-size:11px;color:#a78bfa;">redis-cli -h payments-cache info memory</code></div>
+                            <div style="margin-top:4px;"><strong>2.</strong> If maxmemory is hit, set eviction policy: <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:3px;font-size:11px;color:#a78bfa;">allkeys-lru</code></div>
+                            <div style="margin-top:4px;"><strong>3.</strong> Monitor eviction rate via Grafana → Redis dashboard → OPS-REDIS-001</div>
+                          </div>
+                          <div style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.5);">📎 Sources: [1] Redis Configuration Guide  [2] Payments Cache Runbook</div>
+                        </div>
+                        <div style="margin-top:6px;display:flex;gap:6px;">
+                          <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);padding:3px 8px;border-radius:12px;font-size:12px;display:flex;align-items:center;gap:4px;">👍 <span style="color:#fff;">3</span></span>
+                          <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);padding:3px 8px;border-radius:12px;font-size:12px;display:flex;align-items:center;gap:4px;">🎯 <span style="color:#fff;">1</span></span>
                         </div>
                       </div>
                     </div>
@@ -859,63 +938,174 @@
             </div>
           </div>
 
-          <!-- Panel 3: Cursor / IDE -->
-          <div class="demo-panel" id="panel-ide">
-            <div class="ide-mock">
-              <div class="ide-titlebar">
-                <div class="terminal-dot" style="background:#ff5f57;width:12px;height:12px;"></div>
-                <div class="terminal-dot" style="background:#febc2e;width:12px;height:12px;"></div>
-                <div class="terminal-dot" style="background:#28c840;width:12px;height:12px;"></div>
-                <span class="ml-2 text-xs text-slate-500">deploy.tf — infra/modules/rds — Cursor</span>
+          <!-- Panel 3: GitHub PR -->
+          <div class="demo-panel" id="panel-github">
+            <div style="background:#0d1117;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+              <!-- GitHub Header -->
+              <div style="background:#161b22;border-bottom:1px solid rgba(255,255,255,0.1);padding:16px 20px;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                  <span style="background:#238636;color:#fff;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;">Open</span>
+                  <span style="font-size:20px;font-weight:600;color:#e6edf3;">Add zero-downtime API key rotation #2847</span>
+                </div>
+                <div style="color:#8b949e;font-size:14px;">
+                  <span style="color:#e6edf3;">jchen</span> wants to merge 4 commits into <span style="background:rgba(99,102,241,0.15);color:#818cf8;padding:2px 6px;border-radius:6px;font-size:12px;font-family:'JetBrains Mono',monospace;">main</span> from <span style="background:rgba(99,102,241,0.15);color:#818cf8;padding:2px 6px;border-radius:6px;font-size:12px;font-family:'JetBrains Mono',monospace;">feat/key-rotation</span>
+                </div>
               </div>
-              <div class="flex" style="min-height:345px">
-                <div class="ide-sidebar hidden sm:flex">
-                  <div class="ide-sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg></div>
-                  <div class="ide-sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-                  <div class="ide-sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg></div>
-                  <div class="ide-sidebar-icon active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-                </div>
-                <div class="ide-editor">
-                  <div class="ide-tab-bar">
-                    <div class="ide-tab active">deploy.tf</div>
-                    <div class="ide-tab">variables.tf</div>
-                  </div>
-                  <div class="ide-code">
-                    <div><span class="code-purple">resource</span> <span class="code-yellow">"aws_db_instance"</span> <span class="code-green">"main"</span> {</div>
-                    <div>&nbsp;&nbsp;engine&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="code-yellow">"postgres"</span></div>
-                    <div>&nbsp;&nbsp;engine_version = <span class="code-yellow">"16.2"</span></div>
-                    <div>&nbsp;&nbsp;instance_class = <span class="code-yellow">"db.r7g.xlarge"</span></div>
-                    <div>&nbsp;&nbsp;multi_az&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="code-purple">true</span></div>
-                    <div>&nbsp;&nbsp;<span class="code-gray">// ...</span></div>
-                    <div>}</div>
-                    <div class="mt-2"><span class="code-purple">resource</span> <span class="code-yellow">"aws_db_instance"</span> <span class="code-green">"replica"</span> {</div>
-                    <div>&nbsp;&nbsp;replicate_source_db = <span class="code-cyan">aws_db_instance.main.id</span></div>
-                    <div>&nbsp;&nbsp;<span style="opacity:0.5">█</span></div>
-                    <div>}</div>
+              <!-- PR Body -->
+              <div style="padding:20px;">
+                <div style="font-size:14px;color:#c9d1d9;line-height:1.6;margin-bottom:20px;">
+                  <div style="margin-bottom:12px;">Implements zero-downtime API key rotation by:</div>
+                  <ul style="margin-left:20px;color:#8b949e;">
+                    <li>Supporting multiple active keys simultaneously</li>
+                    <li>Graceful key expiration with 24h grace period</li>
+                    <li>Automated smoke testing before activation</li>
+                  </ul>
+                  <div style="margin-top:16px;padding:12px;background:rgba(33,139,255,0.1);border-left:3px solid #218bff;border-radius:0 6px 6px 0;font-size:13px;color:#79c0ff;">
+                    ℹ️ Fixes <span style="color:#58a6ff;">#2801</span> - Redis OOM during payments deploy
                   </div>
                 </div>
-                <div class="ide-chat-panel hidden sm:flex flex-col">
-                  <div class="ide-chat-header">
-                    <img src="logo.png" alt="DocBrain" width="16" height="16" style="border-radius:4px;" />
-                    DocBrain (MCP)
-                  </div>
-                  <div class="ide-chat-msg ide-chat-user">
-                    <div style="font-weight:600;margin-bottom:3px;color:#c9d1d9;font-size:11px;">You</div>
-                    What are our RDS provisioning standards for production?
-                  </div>
-                  <div class="ide-chat-msg ide-chat-ai flex-1">
-                    <div style="font-weight:600;margin-bottom:3px;color:#818cf8;font-size:11px;">DocBrain via MCP</div>
-                    <div>Per your <strong style="color:#e2e8f0;">Infra Standards v2.3</strong>:</div>
-                    <div style="margin:6px 0;">
-                      <strong style="color:#e2e8f0;">•</strong> Multi-AZ <strong style="color:#34d399;">required</strong> in production<br>
-                      <strong style="color:#e2e8f0;">•</strong> Minimum <code style="background:rgba(0,0,0,0.3);padding:1px 4px;border-radius:3px;font-size:10px;color:#a78bfa;">db.r7g.xlarge</code><br>
-                      <strong style="color:#e2e8f0;">•</strong> Encryption at rest via KMS<br>
-                      <strong style="color:#e2e8f0;">•</strong> Automated backups: 7-day retention
+
+                <!-- Comments -->
+                <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:16px;">
+                  <div style="font-weight:600;font-size:16px;color:#e6edf3;margin-bottom:16px;">Comments</div>
+
+                  <!-- Comment 1 -->
+                  <div style="display:flex;gap:12px;margin-bottom:16px;">
+                    <div style="width:40px;height:40px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">SP</div>
+                    <div style="flex:1;">
+                      <div style="background:#161b22;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px;">
+                        <div style="margin-bottom:8px;"><span style="font-weight:600;color:#e6edf3;">sparker</span> <span style="color:#8b949e;font-size:12px;">commented 3 hours ago</span></div>
+                        <div style="color:#c9d1d9;font-size:14px;line-height:1.6;">Quick question: does this handle the case where vault reloads mid-request? We've had issues with that before.</div>
+                      </div>
                     </div>
-                    <div style="color:#f59e0b;font-size:11px;margin-top:6px;">⚠ Source flagged as STALE — updated 14 months ago. Verify instance types with #platform-eng</div>
-                    <div style="margin-top:6px;">
-                      <span class="ide-chat-source">Infra Standards v2.3</span>
-                      <span class="ide-chat-source">RDS Runbook</span>
+                  </div>
+
+                  <!-- DocBrain Bot Comment -->
+                  <div style="display:flex;gap:12px;">
+                    <img src="logo.png" style="width:40px;height:40px;border-radius:50%;flex-shrink:0;" />
+                    <div style="flex:1;">
+                      <div style="background:#0d419d;border:1px solid #1f6feb;border-radius:8px;padding:12px;">
+                        <div style="margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+                          <span style="font-weight:600;color:#e6edf3;">docbrain</span>
+                          <span style="background:rgba(99,102,241,0.2);color:#818cf8;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">BOT</span>
+                          <span style="color:#8b949e;font-size:12px;">replied 2 hours ago</span>
+                        </div>
+                        <div style="color:#c9d1d9;font-size:14px;line-height:1.6;margin-bottom:10px;">
+                          Yes, per <strong style="color:#e6edf3;">Payments Service Docs</strong>, the vault client caches keys for 5min TTL. Mid-request reloads are safe because:
+                          <div style="margin:8px 0 8px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#a5d6ff;">
+                            <div>1. New requests → use cached key until TTL</div>
+                            <div>2. After TTL → fetch from vault (gets new key)</div>
+                            <div>3. Grace period ensures old key still valid</div>
+                          </div>
+                        </div>
+                        <div style="font-size:11px;color:rgba(255,255,255,0.5);">
+                          📎 <span style="color:#58a6ff;">Payments Service Docs</span> · <span style="color:#58a6ff;">Vault Runbook</span> · <span style="color:#58a6ff;">PR #2801</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel 4: Cursor / IDE -->
+          <div class="demo-panel" id="panel-ide">
+            <div style="background:#1e1e2e;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+              <!-- VS Code Header -->
+              <div style="background:#21222c;border-bottom:1px solid rgba(255,255,255,0.05);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="display:flex;gap:6px;">
+                    <div style="width:12px;height:12px;border-radius:50%;background:#ff5f57;"></div>
+                    <div style="width:12px;height:12px;border-radius:50%;background:#febc2e;"></div>
+                    <div style="width:12px;height:12px;border-radius:50%;background:#28c840;"></div>
+                  </div>
+                  <span style="font-size:12px;color:rgba(255,255,255,0.6);margin-left:12px;">deploy.tf — infra/modules/rds</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(255,255,255,0.5);">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v18H3V3zm2 2v14h14V5H5z"/></svg>
+                  <span>Cursor</span>
+                </div>
+              </div>
+              <div style="display:flex;min-height:420px;">
+                <!-- Sidebar -->
+                <div style="background:#181825;width:48px;border-right:1px solid rgba(255,255,255,0.05);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:20px;">
+                  <div style="color:#858585;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg></div>
+                  <div style="color:#858585;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+                  <div style="color:#858585;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 9l6-6-6-6"/><path d="M14 9l6 6-6 6"/></svg></div>
+                  <div style="color:#bd93f9;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+                </div>
+                <!-- Editor Area -->
+                <div style="flex:1;display:flex;flex-direction:column;">
+                  <!-- Tabs -->
+                  <div style="background:#21222c;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;font-size:12px;">
+                    <div style="padding:8px 16px;border-bottom:2px solid #bd93f9;background:rgba(189,147,249,0.1);color:#e2e8f0;">
+                      <span style="color:rgba(255,255,255,0.5);margin-right:4px;">▸</span> deploy.tf
+                    </div>
+                    <div style="padding:8px 16px;color:rgba(255,255,255,0.6);">
+                      <span style="color:rgba(255,255,255,0.3);margin-right:4px;">▸</span> variables.tf
+                    </div>
+                  </div>
+                  <!-- Code Editor -->
+                  <div style="flex:1;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;color:#e2e8f0;overflow-y:auto;">
+                    <div><span style="color:#ff79c6;">resource</span> <span style="color:#f1fa8c;">"aws_db_instance"</span> <span style="color:#50fa7b;">"main"</span> {</div>
+                    <div>&nbsp;&nbsp;<span style="color:#8be9fd;">engine</span>         = <span style="color:#f1fa8c;">"postgres"</span></div>
+                    <div>&nbsp;&nbsp;<span style="color:#8be9fd;">engine_version</span> = <span style="color:#f1fa8c;">"16.2"</span></div>
+                    <div>&nbsp;&nbsp;<span style="color:#8be9fd;">instance_class</span> = <span style="color:#f1fa8c;">"db.r7g.xlarge"</span></div>
+                    <div>&nbsp;&nbsp;<span style="color:#8be9fd;">multi_az</span>       = <span style="color:#ff79c6;">true</span></div>
+                    <div>&nbsp;&nbsp;<span style="color:#6272a4;">// ...</span></div>
+                    <div>}</div>
+                    <div style="height:12px;"></div>
+                    <div><span style="color:#ff79c6;">resource</span> <span style="color:#f1fa8c;">"aws_db_instance"</span> <span style="color:#50fa7b;">"replica"</span> {</div>
+                    <div>&nbsp;&nbsp;<span style="color:#8be9fd;">replicate_source_db</span> = <span style="color:#bd93f9;">aws_db_instance.main.id</span></div>
+                    <div>&nbsp;&nbsp;<span style="color:#f8f8f2;opacity:0.4;">█</span></div>
+                    <div>}</div>
+                  </div>
+                </div>
+                <!-- DocBrain Chat Panel -->
+                <div style="background:#16161e;width:340px;border-left:1px solid rgba(255,255,255,0.05);display:flex;flex-direction:column;">
+                  <div style="background:#21222c;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:8px;">
+                    <img src="logo.png" width="18" height="18" style="border-radius:4px;" />
+                    <span style="font-weight:600;font-size:13px;color:#e2e8f0;">DocBrain</span>
+                    <span style="background:rgba(189,147,249,0.15);color:#bd93f9;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:700;margin-left:auto;">MCP</span>
+                  </div>
+                  <div style="flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:16px;">
+                    <!-- User Message -->
+                    <div>
+                      <div style="font-weight:600;font-size:11px;color:#858585;margin-bottom:6px;">You</div>
+                      <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:10px;font-size:13px;color:#c9d1d9;line-height:1.5;">
+                        What are our RDS provisioning standards for production?
+                      </div>
+                    </div>
+                    <!-- DocBrain Response -->
+                    <div style="flex:1;">
+                      <div style="font-weight:600;font-size:11px;color:#bd93f9;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+                        <img src="logo.png" width="14" height="14" style="border-radius:3px;" />
+                        DocBrain
+                      </div>
+                      <div style="background:rgba(189,147,249,0.08);border:1px solid rgba(189,147,249,0.2);border-radius:8px;padding:12px;font-size:12px;line-height:1.6;color:#e2e8f0;">
+                        <div style="margin-bottom:10px;">Per your <strong style="color:#fff;">Infra Standards v2.3</strong>:</div>
+                        <div style="color:#c9d1d9;">
+                          <div style="margin-bottom:6px;"><strong style="color:#e2e8f0;">•</strong> Multi-AZ <strong style="color:#50fa7b;">required</strong> in production</div>
+                          <div style="margin-bottom:6px;"><strong style="color:#e2e8f0;">•</strong> Minimum <code style="background:rgba(0,0,0,0.3);padding:2px 5px;border-radius:3px;font-size:10px;color:#bd93f9;">db.r7g.xlarge</code></div>
+                          <div style="margin-bottom:6px;"><strong style="color:#e2e8f0;">•</strong> Encryption at rest via KMS</div>
+                          <div><strong style="color:#e2e8f0;">•</strong> Automated backups: 7-day retention</div>
+                        </div>
+                        <div style="margin-top:12px;padding:8px;background:rgba(251,191,36,0.1);border-left:2px solid #fbbf24;border-radius:0 4px 4px 0;font-size:11px;color:#fbbf24;">
+                          ⚠ Source updated 14 months ago. Verify instance types with #platform-eng
+                        </div>
+                        <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;font-size:10px;color:rgba(255,255,255,0.5);">
+                          <span style="background:rgba(255,255,255,0.05);padding:4px 8px;border-radius:4px;">📄 Infra Standards v2.3</span>
+                          <span style="background:rgba(255,255,255,0.05);padding:4px 8px;border-radius:4px;">📖 RDS Runbook</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Input Box -->
+                  <div style="padding:12px;border-top:1px solid rgba(255,255,255,0.05);">
+                    <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:8px 12px;display:flex;align-items:center;gap:8px;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                      <span style="font-size:12px;color:rgba(255,255,255,0.3);">Ask DocBrain...</span>
                     </div>
                   </div>
                 </div>
@@ -924,13 +1114,44 @@
           </div>
 
         </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- ========== STATS STRIP ========== -->
+  <section class="relative border-y border-white/[0.04] bg-gradient-to-b from-white/[0.01] to-transparent">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        <div class="text-center reveal">
+          <div class="text-4xl font-extrabold mb-1 bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent"><span data-counter="25">25</span></div>
+          <div class="text-xs uppercase tracking-wider text-slate-500">MB Binary</div>
+        </div>
+        <div class="text-center reveal reveal-delay-1">
+          <div class="text-4xl font-extrabold mb-1 bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent">&lt;<span data-counter="500">500</span>ms</div>
+          <div class="text-xs uppercase tracking-wider text-slate-500">Cold Start</div>
+        </div>
+        <div class="text-center reveal reveal-delay-2">
+          <div class="text-4xl font-extrabold mb-1 bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent">&lt;<span data-counter="3">3</span>s</div>
+          <div class="text-xs uppercase tracking-wider text-slate-500">Avg Response</div>
+        </div>
+        <div class="text-center reveal reveal-delay-3">
+          <div class="text-4xl font-extrabold mb-1 bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent">~<span data-counter="40">40</span>%</div>
+          <div class="text-xs uppercase tracking-wider text-slate-500">Cache Hit Rate</div>
+        </div>
+        <div class="text-center reveal reveal-delay-4">
+          <div class="text-4xl font-extrabold mb-1 bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent"><span data-counter="14">14</span></div>
+          <div class="text-xs uppercase tracking-wider text-slate-500">LLM Providers</div>
+        </div>
+        <div class="text-center reveal">
+          <div class="text-4xl font-extrabold mb-1 bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent"><span data-counter="13">13</span>+</div>
+          <div class="text-xs uppercase tracking-wider text-slate-500">Sources</div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ========== SOURCES MARQUEE ========== -->
-  <section class="relative py-16 border-t border-b border-white/[0.04]">
+  <section class="relative py-16 border-b border-white/[0.04]">
     <div class="max-w-7xl mx-auto px-6 mb-8">
       <p class="text-center text-sm font-medium text-slate-500 uppercase tracking-widest reveal">Collects knowledge from everywhere your team works</p>
     </div>
@@ -972,7 +1193,7 @@
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-16">
         <h2 class="reveal text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">Your documentation is broken</h2>
-        <p class="reveal reveal-delay-1 text-lg text-slate-400 max-w-2xl mx-auto">Engineers waste 30-60 minutes a day searching for answers that exist somewhere. DocBrain fixes the three root causes.</p>
+        <p class="reveal reveal-delay-1 text-lg text-slate-400 max-w-2xl mx-auto">Your team wastes 30-60 minutes a day hunting for answers that exist somewhere. DocBrain fixes the three root causes.</p>
       </div>
       <div class="grid md:grid-cols-3 gap-6">
         <!-- Problem 1 -->
@@ -981,7 +1202,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>
           </div>
           <h3 class="text-lg font-bold text-white mb-2">Scattered everywhere</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Confluence, GitHub wikis, Notion, Google Docs, Slack threads, Jira comments. Knowledge lives in 7+ tools. Nobody knows where to look.</p>
+          <p class="text-slate-400 text-sm leading-relaxed">Wikis, SharePoint, Google Docs, Slack threads, email chains, PDFs on someone's desktop. Knowledge lives in 7+ places. Nobody knows where to look.</p>
         </div>
         <!-- Problem 2 -->
         <div class="glass-card p-8 reveal reveal-delay-1">
@@ -989,7 +1210,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
           <h3 class="text-lg font-bold text-white mb-2">Same questions, daily</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">"How do I deploy to staging?" gets asked in Slack every week. Someone answers. Nobody writes it down. The cycle repeats.</p>
+          <p class="text-slate-400 text-sm leading-relaxed">"What's the process for X?" gets asked every week. Someone answers in Slack. Nobody documents it. The cycle repeats forever.</p>
         </div>
         <!-- Problem 3 -->
         <div class="glass-card p-8 reveal reveal-delay-2">
@@ -997,7 +1218,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"><path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"/><path d="M14 2v6h6"/><path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01M16 17h.01"/></svg>
           </div>
           <h3 class="text-lg font-bold text-white mb-2">Docs rot silently</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">340 of your 800 Confluence pages haven't been touched in a year. Nobody knows which ones are accurate until someone follows outdated steps at 2am.</p>
+          <p class="text-slate-400 text-sm leading-relaxed">40% of your documentation hasn't been updated in a year. Nobody knows which policies are current until someone follows outdated steps and it breaks.</p>
         </div>
       </div>
     </div>
@@ -1010,34 +1231,81 @@
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-20">
         <p class="reveal text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">How It Works</p>
-        <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">From scattered docs to instant answers</h2>
-        <p class="reveal reveal-delay-2 text-lg text-slate-400 max-w-2xl mx-auto">A four-phase pipeline that ingests, understands, answers, and learns — getting smarter with every question your team asks.</p>
+        <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">Not just search. Self-improving knowledge.</h2>
+        <p class="reveal reveal-delay-2 text-lg text-slate-400 max-w-2xl mx-auto">DocBrain collects, connects, detects what's missing, auto-generates docs, and learns from every interaction. The moat is the loop.</p>
       </div>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <!-- Step 1 -->
+        <!-- Step 1: Collect -->
         <div class="reveal pipeline-step">
           <div class="pipeline-number bg-brand-500/10 text-brand-400 mb-5">01</div>
-          <h3 class="text-lg font-bold text-white mb-2">Ingest</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Point DocBrain at your Confluence spaces, GitHub repos, Slack channels, Jira projects. It chunks, embeds, and indexes everything — including images.</p>
+          <h3 class="text-lg font-bold text-white mb-2">Collect</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-3">Ingest from 13+ sources: Confluence, GitHub, Slack, Jira, Zendesk, SharePoint, PDFs, and more. Chunks, embeds, indexes everything.</p>
+          <div class="text-xs text-slate-500 font-mono">→ Multi-source truth</div>
         </div>
-        <!-- Step 2 -->
+
+        <!-- Step 2: Connect -->
         <div class="reveal reveal-delay-1 pipeline-step">
           <div class="pipeline-number bg-violet-500/10 text-violet-400 mb-5">02</div>
-          <h3 class="text-lg font-bold text-white mb-2">Understand</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Hybrid search (vector + keyword) finds the right chunks. Cross-document references pull in linked Jira tickets, PRs, and runbooks automatically.</p>
+          <h3 class="text-lg font-bold text-white mb-2">Connect</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-3">Builds a knowledge graph linking entities, concepts, and relationships across documents. Synthesizes insights no single doc contains.</p>
+          <div class="text-xs text-slate-500 font-mono">→ Cross-doc intelligence</div>
         </div>
-        <!-- Step 3 -->
-        <div class="reveal reveal-delay-2 pipeline-step">
-          <div class="pipeline-number bg-purple-500/10 text-purple-400 mb-5">03</div>
-          <h3 class="text-lg font-bold text-white mb-2">Answer</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Grounded answers with citations, freshness badges, and confidence scores. No hallucination — every claim traces to a source document.</p>
+
+        <!-- Step 3: Self-Improve (THE MOAT) -->
+        <div class="reveal reveal-delay-2 pipeline-step relative">
+          <div class="absolute -top-3 -right-3 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">The Moat</div>
+          <div class="pipeline-number bg-emerald-500/10 text-emerald-400 mb-5">03</div>
+          <h3 class="text-lg font-bold text-white mb-2">Self-Improve</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-3">Detects gaps from unanswered questions. <strong class="text-white">Auto-generates missing docs</strong> via Autopilot. Learns which docs work best.</p>
+          <div class="text-xs text-emerald-400 font-mono">→ Docs that fix themselves</div>
         </div>
-        <!-- Step 4 -->
+
+        <!-- Step 4: Instant -->
         <div class="reveal reveal-delay-3 pipeline-step">
-          <div class="pipeline-number bg-pink-500/10 text-pink-400 mb-5">04</div>
-          <h3 class="text-lg font-bold text-white mb-2">Learn</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Every thumbs-up and thumbs-down trains the system. Procedural memory learns which docs answer which types of questions. It literally gets smarter.</p>
+          <div class="pipeline-number bg-purple-500/10 text-purple-400 mb-5">04</div>
+          <h3 class="text-lg font-bold text-white mb-2">Instant</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-3">Answers questions in &lt;3s with citations, freshness badges, and confidence scores. Works in Slack, Terminal, GitHub, or your IDE.</p>
+          <div class="text-xs text-slate-500 font-mono">→ Zero search time</div>
+        </div>
+      </div>
+
+      <!-- The Self-Improving Loop -->
+      <div class="reveal mt-20 glass-card p-8 md:p-12 border-emerald-500/20">
+        <div class="max-w-3xl mx-auto">
+          <div class="text-center mb-8">
+            <div class="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">The Self-Improving Loop</div>
+            <h3 class="text-2xl font-bold text-white mb-3">This is what makes DocBrain different</h3>
+            <p class="text-slate-400">It's not just AI Q&A. It's a knowledge layer that <strong class="text-white">fixes your documentation automatically.</strong></p>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-6 text-center">
+            <div class="p-4">
+              <div class="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center mx-auto mb-3">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+              </div>
+              <div class="text-sm font-semibold text-white mb-2">1. Detect Gaps</div>
+              <div class="text-xs text-slate-400">Questions that can't be answered = missing docs. DocBrain tracks every gap.</div>
+            </div>
+            <div class="p-4">
+              <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-3">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"/><path d="M14 2v6h6"/><path d="M10 13l2 2 4-4"/></svg>
+              </div>
+              <div class="text-sm font-semibold text-white mb-2">2. Auto-Generate</div>
+              <div class="text-xs text-slate-400">Autopilot drafts missing docs from existing knowledge, Slack threads, and PRs.</div>
+            </div>
+            <div class="p-4">
+              <div class="w-12 h-12 rounded-full bg-brand-500/10 flex items-center justify-center mx-auto mb-3">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              </div>
+              <div class="text-sm font-semibold text-white mb-2">3. Learn & Improve</div>
+              <div class="text-xs text-slate-400">Feedback trains the system. The 100th question is answered faster and better than the 1st.</div>
+            </div>
+          </div>
+
+          <div class="mt-8 p-4 rounded-lg bg-white/5 border border-white/10 text-center">
+            <p class="text-sm text-slate-300"><strong class="text-white">Result:</strong> Your docs get more complete, more accurate, and more useful every week — <span class="text-emerald-400">without manual intervention.</span></p>
+          </div>
         </div>
       </div>
     </div>
@@ -1118,6 +1386,134 @@
               <div>
                 <h4 class="font-bold text-white mb-1">Procedural Memory <span class="text-xs font-mono text-purple-400/60 ml-2">Learned Rules</span></h4>
                 <p class="text-sm text-slate-400">Adapts retrieval strategy from feedback. Learns: "deployment questions → search DevOps space first." Not configured — discovered.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ========== THE ENGINEERING STORY (Rust) ========== -->
+  <section class="py-24 lg:py-32 relative overflow-hidden">
+    <div class="absolute inset-0">
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-red-600/[0.03] rounded-full blur-[120px]"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-600/[0.03] rounded-full blur-[120px]"></div>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="reveal text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Engineering Excellence</p>
+        <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">Built different. Runs everywhere.</h2>
+        <p class="reveal reveal-delay-2 text-lg text-slate-400 max-w-2xl mx-auto">Single static binary. No runtime dependencies. Ships in seconds. Starts in milliseconds.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <!-- Left: Comparison -->
+        <div class="reveal reveal-delay-1">
+          <div class="space-y-6">
+            <!-- The old way -->
+            <div class="glass-card p-6 border-red-500/20">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zm7-13h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"/></svg>
+                </div>
+                <div>
+                  <h3 class="font-bold text-white">The Old Way</h3>
+                  <p class="text-xs text-slate-500">Python/Node RAG Stack</p>
+                </div>
+              </div>
+              <div class="space-y-2 text-sm text-slate-400">
+                <div class="flex items-start gap-2">
+                  <span class="text-red-400 mt-0.5">×</span>
+                  <span>~2GB Docker image (multiple layers)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-red-400 mt-0.5">×</span>
+                  <span>30-60s cold start (pip/npm install)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-red-400 mt-0.5">×</span>
+                  <span>5+ containers (app, workers, Redis, DB, vector store)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-red-400 mt-0.5">×</span>
+                  <span>Dependency hell (requirements.txt → package.json)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-red-400 mt-0.5">×</span>
+                  <span>Runtime crashes (OOM, GC pauses, segfaults)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- DocBrain -->
+            <div class="glass-card p-6 border-emerald-500/20">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><path d="M7 10v12M15 5v12M21 2v12"/></svg>
+                </div>
+                <div>
+                  <h3 class="font-bold text-white">DocBrain</h3>
+                  <p class="text-xs text-slate-500">Rust + Single Binary</p>
+                </div>
+              </div>
+              <div class="space-y-2 text-sm text-slate-300">
+                <div class="flex items-start gap-2">
+                  <span class="text-emerald-400 mt-0.5">✓</span>
+                  <span><strong class="text-white">25MB</strong> static binary (one file)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-emerald-400 mt-0.5">✓</span>
+                  <span><strong class="text-white">&lt;500ms</strong> cold start (no dependencies)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-emerald-400 mt-0.5">✓</span>
+                  <span><strong class="text-white">1 container</strong> (+ PostgreSQL, OpenSearch, Redis)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-emerald-400 mt-0.5">✓</span>
+                  <span><strong class="text-white">Zero runtime deps</strong> (statically linked)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-emerald-400 mt-0.5">✓</span>
+                  <span><strong class="text-white">Memory safe</strong> (no segfaults, controlled OOM)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Terminal -->
+        <div class="reveal reveal-delay-2">
+          <div class="terminal">
+            <div class="terminal-bar">
+              <div class="terminal-dot" style="background:#ff5f57"></div>
+              <div class="terminal-dot" style="background:#febc2e"></div>
+              <div class="terminal-dot" style="background:#28c840"></div>
+              <span class="ml-3 text-xs text-slate-500 font-mono">docker pull + startup</span>
+            </div>
+            <div class="terminal-body text-xs" style="min-height:auto;padding:20px 24px;">
+              <div class="code-gray mb-2"># Pull the image</div>
+              <div><span class="code-green">$</span> docker pull ghcr.io/docbrain-ai/docbrain:latest</div>
+              <div class="mt-1 text-slate-500">
+                <div>latest: Pulling from docbrain-ai/docbrain</div>
+                <div>4f4fb700ef54: Pull complete</div>
+                <div>Digest: sha256:a3b4c...</div>
+                <div class="text-emerald-400">Status: Downloaded newer image</div>
+                <div class="mt-1"><strong class="text-white">Size: 25.3 MB</strong></div>
+              </div>
+
+              <div class="mt-4 code-gray"># Start the server</div>
+              <div><span class="code-green">$</span> docker run -p 3000:3000 ghcr.io/docbrain-ai/docbrain:latest</div>
+              <div class="mt-1 text-slate-400">
+                <div><span class="code-blue">[2026-03-19T17:30:42Z INFO]</span> Starting DocBrain Server...</div>
+                <div><span class="code-blue">[2026-03-19T17:30:42Z INFO]</span> Connected to PostgreSQL</div>
+                <div><span class="code-blue">[2026-03-19T17:30:42Z INFO]</span> Connected to OpenSearch</div>
+                <div><span class="code-blue">[2026-03-19T17:30:42Z INFO]</span> Connected to Redis</div>
+                <div class="mt-1"><span class="code-green">[2026-03-19T17:30:42Z INFO]</span> <strong class="text-emerald-400">Server listening on 0.0.0.0:3000</strong></div>
+                <div class="text-emerald-400 mt-1">✓ Startup time: <strong class="text-white">412ms</strong></div>
               </div>
             </div>
           </div>
@@ -1824,7 +2220,7 @@
     // ===== Demo tab switching =====
     const tabs = document.querySelectorAll('.demo-tab');
     const panels = document.querySelectorAll('.demo-panel');
-    const tabOrder = ['terminal', 'slack', 'ide'];
+    const tabOrder = ['terminal', 'slack', 'github', 'ide'];
     let currentTabIndex = 0;
     let autoCycleTimer = null;
     let userInteracted = false;
@@ -2243,6 +2639,34 @@
       }
       requestAnimationFrame(tick);
     })();
+
+    // ===== Stats Counter Animation =====
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('[data-counter]').forEach(el => {
+            const target = parseInt(el.getAttribute('data-counter'), 10);
+            const duration = 1500;
+            const start = performance.now();
+
+            function animate(now) {
+              const elapsed = now - start;
+              const progress = Math.min(elapsed / duration, 1);
+              const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+              const current = Math.floor(eased * target);
+              el.textContent = current;
+              if (progress < 1) requestAnimationFrame(animate);
+              else el.textContent = target;
+            }
+            requestAnimationFrame(animate);
+          });
+          statsObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    const statsSection = document.querySelector('[data-counter]')?.closest('section');
+    if (statsSection) statsObserver.observe(statsSection);
   </script>
 </body>
 </html>
