@@ -2211,6 +2211,104 @@
 
   <div class="section-divider"></div>
 
+  <!-- ========== QUALITY RULES ========== -->
+  <section id="quality-rules" class="py-24 lg:py-32 relative overflow-hidden">
+    <div class="absolute inset-0">
+      <div class="absolute top-0 right-1/4 w-96 h-96 bg-emerald-600/[0.04] rounded-full blur-[120px]"></div>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Left: Messaging -->
+        <div>
+          <p class="reveal text-sm font-semibold uppercase tracking-widest text-emerald-400 mb-3">Quality Rules Engine</p>
+          <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-6">Your style guide,<br>enforced automatically.</h2>
+          <p class="reveal reveal-delay-2 text-lg text-slate-400 mb-8">Every team has a style guide. Nobody follows it. DocBrain enforces it on every document, every draft, every fragment — automatically. No more "can someone review this for style?"</p>
+
+          <div class="space-y-4">
+            <div class="reveal flex items-start gap-3">
+              <div class="mt-1 w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <div>
+                <p class="text-white font-semibold text-sm">4 rule types</p>
+                <p class="text-slate-400 text-sm">Terminology (banned/preferred terms), formatting (heading depth, sentence length), structure (required sections), and custom regex patterns.</p>
+              </div>
+            </div>
+
+            <div class="reveal reveal-delay-1 flex items-start gap-3">
+              <div class="mt-1 w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <div>
+                <p class="text-white font-semibold text-sm">Per-space scoping</p>
+                <p class="text-slate-400 text-sm">Different rules for API docs vs. runbooks vs. onboarding guides. Global defaults with space-level overrides.</p>
+              </div>
+            </div>
+
+            <div class="reveal reveal-delay-2 flex items-start gap-3">
+              <div class="mt-1 w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <div>
+                <p class="text-white font-semibold text-sm">YAML import/export</p>
+                <p class="text-slate-400 text-sm">Version-control your quality rules. Export → commit to git → import on deploy. Rules-as-code.</p>
+              </div>
+            </div>
+
+            <div class="reveal flex items-start gap-3">
+              <div class="mt-1 w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <div>
+                <p class="text-white font-semibold text-sm">CI-ready lint endpoint</p>
+                <p class="text-slate-400 text-sm"><code class="text-xs">POST /api/v1/quality/lint</code> — lint any text, get violations with line numbers. Block PRs that break your style guide.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Code example -->
+        <div class="reveal reveal-delay-1">
+          <div class="glass-card p-0 overflow-hidden border-emerald-500/20">
+            <div class="flex items-center gap-2 px-4 py-3 border-b border-white/5">
+              <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/60"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/60"></div>
+              <span class="text-xs text-slate-500 ml-2">style-rules.yaml</span>
+            </div>
+            <pre class="p-5 text-sm leading-relaxed overflow-x-auto" style="background:transparent;margin:0;"><code class="text-slate-300"><span class="text-emerald-400"># Terminology rules</span>
+- rule_type: <span class="text-amber-300">terminology</span>
+  name: <span class="text-sky-300">no-simple</span>
+  config:
+    wrong: <span class="text-red-400">"simple"</span>
+    right: <span class="text-emerald-300">"straightforward"</span>
+  severity: <span class="text-yellow-300">warning</span>
+
+<span class="text-emerald-400"># Formatting rules</span>
+- rule_type: <span class="text-amber-300">formatting</span>
+  name: <span class="text-sky-300">short-sentences</span>
+  config:
+    max_words: <span class="text-violet-300">40</span>
+  severity: <span class="text-yellow-300">info</span>
+
+<span class="text-emerald-400"># Custom patterns</span>
+- rule_type: <span class="text-amber-300">custom_pattern</span>
+  name: <span class="text-sky-300">no-internal-urls</span>
+  config:
+    pattern: <span class="text-red-400">"https?://internal\\."</span>
+    message: <span class="text-slate-400">"Remove internal URL"</span>
+  severity: <span class="text-red-300">error</span></code></pre>
+          </div>
+          <p class="text-center text-xs text-slate-500 mt-3">Export rules as YAML → commit to git → import across spaces</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
   <!-- ========== LLM PROVIDERS ========== -->
   <section id="providers" class="py-24 lg:py-32 relative overflow-hidden">
     <div class="absolute inset-0">
