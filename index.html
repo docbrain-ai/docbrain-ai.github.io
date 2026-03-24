@@ -920,7 +920,7 @@
       <div class="hidden md:flex items-center gap-8 text-sm text-slate-400">
         <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
         <a href="#features" class="hover:text-white transition-colors">Features</a>
-        <a href="#videos" class="hover:text-white transition-colors">Videos</a>
+        <a href="#videos" class="hover:text-white transition-colors">Workflows</a>
         <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
         <a href="/docs/" class="hover:text-white transition-colors">Docs</a>
         <a href="https://github.com/docbrain-ai/docbrain" class="hover:text-white transition-colors flex items-center gap-1.5" target="_blank" rel="noopener">
@@ -2541,39 +2541,69 @@
   <section id="videos" class="py-24 lg:py-32">
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-16">
-        <p class="reveal text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">See It In Action</p>
-        <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">Watch DocBrain in 30 seconds</h2>
-        <p class="reveal reveal-delay-2 text-lg text-slate-400 max-w-2xl mx-auto">From product overview to MCP demos — see how teams use DocBrain every day.</p>
+        <p class="reveal text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Real Workflows</p>
+        <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">A day with DocBrain</h2>
+        <p class="reveal reveal-delay-2 text-lg text-slate-400 max-w-2xl mx-auto">Here's what happens when your team stops writing docs manually.</p>
       </div>
-      <div class="grid sm:grid-cols-2 gap-6">
-        <a href="https://youtu.be/S4aSTmevvOQ" target="_blank" rel="noopener" class="reveal glass-card p-0 overflow-hidden group block">
-          <div class="aspect-video bg-slate-800/50 relative">
-            <img src="https://img.youtube.com/vi/S4aSTmevvOQ/maxresdefault.jpg" alt="What is DocBrain? 5-min overview" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-            <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/30 transition-colors">
-              <div class="w-16 h-16 rounded-full bg-brand-600 flex items-center justify-center">
-                <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              </div>
+
+      <!-- Timeline -->
+      <div class="max-w-3xl mx-auto space-y-0">
+
+        <div class="reveal flex gap-6">
+          <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
+              <span class="text-emerald-400 font-bold text-sm">1</span>
+            </div>
+            <div class="w-px h-full bg-gradient-to-b from-emerald-500/30 to-violet-500/30 my-2"></div>
+          </div>
+          <div class="pb-12">
+            <p class="text-xs text-emerald-400 font-semibold uppercase tracking-wider mb-1">9:15 AM — PR Merged</p>
+            <h4 class="text-white font-bold text-lg mb-2">Engineer merges a payment refund PR</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">DocBrain's CI capture extracts 3 knowledge fragments: a decision about retry logic, a caveat about idempotency keys, and a procedure for manual refund overrides. All auto-indexed with 92% confidence.</p>
+          </div>
+        </div>
+
+        <div class="reveal reveal-delay-1 flex gap-6">
+          <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-violet-500/20 border border-violet-500/30 flex items-center justify-center flex-shrink-0">
+              <span class="text-violet-400 font-bold text-sm">2</span>
+            </div>
+            <div class="w-px h-full bg-gradient-to-b from-violet-500/30 to-amber-500/30 my-2"></div>
+          </div>
+          <div class="pb-12">
+            <p class="text-xs text-violet-400 font-semibold uppercase tracking-wider mb-1">11:30 AM — Slack Thread</p>
+            <h4 class="text-white font-bold text-lg mb-2">Support team asks "how do refunds work now?"</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">DocBrain answers with the fragments captured 2 hours ago — plus links to the original PR. The support engineer types <code class="text-xs bg-white/5 px-1 py-0.5 rounded">/docbrain capture</code> to save additional context from the thread.</p>
+          </div>
+        </div>
+
+        <div class="reveal reveal-delay-2 flex gap-6">
+          <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
+              <span class="text-amber-400 font-bold text-sm">3</span>
+            </div>
+            <div class="w-px h-full bg-gradient-to-b from-amber-500/30 to-sky-500/30 my-2"></div>
+          </div>
+          <div class="pb-12">
+            <p class="text-xs text-amber-400 font-semibold uppercase tracking-wider mb-1">2:00 PM — Auto-Composition</p>
+            <h4 class="text-white font-bold text-lg mb-2">5 fragments cluster into a draft doc</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">DocBrain detects semantic similarity across the PR fragments, Slack capture, and 2 older fragments about the payment service. It composes a "Payment Refund Procedures" draft, scores it at 78/100, and routes it for SME review.</p>
+          </div>
+        </div>
+
+        <div class="reveal flex gap-6">
+          <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center flex-shrink-0">
+              <span class="text-sky-400 font-bold text-sm">4</span>
             </div>
           </div>
-          <div class="p-5">
-            <h4 class="font-bold text-white mb-1">What is DocBrain?</h4>
-            <p class="text-sm text-slate-500">5-minute overview</p>
+          <div class="pb-4">
+            <p class="text-xs text-sky-400 font-semibold uppercase tracking-wider mb-1">3:30 PM — Published</p>
+            <h4 class="text-white font-bold text-lg mb-2">Reviewed, style-checked, published</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">The tech lead approves the draft. DocBrain's quality rules catch 2 style violations (sentence too long, missing intro paragraph), auto-fixed. Final score: 91/100. Published to the "Payments" knowledge space. Total engineer effort: <strong class="text-white">zero</strong>.</p>
           </div>
-        </a>
-        <a href="https://youtu.be/9mZLoQnGLl8" target="_blank" rel="noopener" class="reveal reveal-delay-1 glass-card p-0 overflow-hidden group block">
-          <div class="aspect-video bg-slate-800/50 relative">
-            <img src="https://img.youtube.com/vi/9mZLoQnGLl8/maxresdefault.jpg" alt="MCP Preview — 30-sec IDE demo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-            <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/30 transition-colors">
-              <div class="w-16 h-16 rounded-full bg-brand-600 flex items-center justify-center">
-                <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-            </div>
-          </div>
-          <div class="p-5">
-            <h4 class="font-bold text-white mb-1">MCP in Cursor / IDE</h4>
-            <p class="text-sm text-slate-500">30-second demo</p>
-          </div>
-        </a>
+        </div>
+
       </div>
     </div>
   </section>
