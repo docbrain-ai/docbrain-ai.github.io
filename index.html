@@ -954,57 +954,33 @@
   </div>
 
   <!-- ========== HERO ========== -->
-  <section class="relative min-h-screen flex items-center pt-16 overflow-hidden" style="background: radial-gradient(circle at 50% 0%, rgba(124,58,237,0.03), transparent 50%);">
-    <!-- Floating Document Icons -->
-    <div class="absolute inset-0 pointer-events-none">
-      <div class="float-doc" style="top:15%;left:8%;animation-delay:0s;width:80px;height:80px;display:flex;flex-direction:column;align-items:center;gap:4px;">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(99,102,241,0.3)"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/><path d="M14 2v6h6" fill="none" stroke="rgba(99,102,241,0.3)" stroke-width="1.5"/></svg>
-        <span style="font-size:9px;color:rgba(99,102,241,0.4);text-align:center;">Refund<br>Policy</span>
-      </div>
-      <div class="float-doc" style="top:25%;right:12%;animation-delay:3s;width:80px;height:80px;display:flex;flex-direction:column;align-items:center;gap:4px;">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(139,92,246,0.3)"><rect x="3" y="3" width="18" height="18" rx="2" fill="rgba(139,92,246,0.3)"/><path d="M7 7h10M7 12h10M7 17h6" stroke="rgba(139,92,246,0.5)" stroke-width="1.5"/></svg>
-        <span style="font-size:9px;color:rgba(139,92,246,0.4);text-align:center;">Sales<br>Playbook</span>
-      </div>
-      <div class="float-doc hidden lg:flex" style="top:45%;left:15%;animation-delay:6s;width:80px;height:80px;display:flex;flex-direction:column;align-items:center;gap:4px;">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(168,85,247,0.3)"><path d="M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.5 8.5 0 018 8v.5z"/></svg>
-        <span style="font-size:9px;color:rgba(168,85,247,0.4);text-align:center;">Slack<br>Thread</span>
-      </div>
-      <div class="float-doc hidden lg:flex" style="top:60%;right:18%;animation-delay:9s;width:80px;height:80px;display:flex;flex-direction:column;align-items:center;gap:4px;">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(192,132,252,0.3)"><circle cx="12" cy="12" r="10" fill="rgba(192,132,252,0.3)"/><path d="M9 9h6v6H9z" fill="rgba(192,132,252,0.5)"/></svg>
-        <span style="font-size:9px;color:rgba(192,132,252,0.4);text-align:center;">Onboarding<br>Guide</span>
-      </div>
-      <div class="float-doc" style="top:70%;left:10%;animation-delay:12s;width:80px;height:80px;display:flex;flex-direction:column;align-items:center;gap:4px;">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(244,114,182,0.3)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M9 22V12h6v10" fill="rgba(244,114,182,0.5)"/></svg>
-        <span style="font-size:9px;color:rgba(244,114,182,0.4);text-align:center;">Incident<br>Response</span>
-      </div>
-    </div>
-    <div class="float-badge hidden lg:block" style="top:18%;right:8%;animation-delay:0s">14 LLM Providers</div>
-    <div class="float-badge hidden lg:block" style="top:28%;right:4%;animation-delay:1s">Learns from Feedback</div>
-    <div class="float-badge hidden lg:block" style="top:38%;right:6%;animation-delay:2s">13+ Sources</div>
-    <div class="float-badge hidden lg:block" style="top:58%;right:5%;animation-delay:3s">&lt;500ms startup</div>
-    <div class="float-badge hidden lg:block" style="top:68%;right:7%;animation-delay:4s">25MB binary</div>
-    <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 lg:py-32">
-      <div class="max-w-4xl mx-auto text-center">
+  <section class="relative min-h-screen flex items-center pt-16 overflow-hidden" style="background: #06060e;">
+    <!-- Knowledge Graph Sphere Canvas -->
+    <canvas id="knowledge-sphere" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+    <!-- Gradient overlay: left side dark for text readability, right side clear for sphere -->
+    <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(to right,rgba(6,6,14,0.97) 0%,rgba(6,6,14,0.90) 28%,rgba(6,6,14,0.22) 55%,transparent 72%);z-index:1;"></div>
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 py-24 lg:py-32">
+      <div class="text-center lg:text-left lg:max-w-[50%]">
           <div class="reveal mb-6">
             <span class="badge">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="#34d399"/><circle cx="8" cy="8" r="6" stroke="#34d399" stroke-width="1.5" opacity="0.3"/></svg>
               Open Source &middot; BSL 1.1 &middot; Built with Rust
             </span>
           </div>
-          <h1 class="reveal reveal-delay-1 text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.05] mb-6">
-            Knowledge captured<br>
-            <span class="gradient-animate">where the work happens.</span>
+          <h1 class="reveal reveal-delay-1 text-4xl sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1] mb-6">
+            Your organization's<br>
+            <span class="gradient-animate">living knowledge graph.</span>
           </h1>
           <p class="reveal reveal-delay-2 text-lg sm:text-xl text-slate-400 leading-relaxed mb-6">
-            DocBrain captures knowledge from <strong class="text-slate-200">PRs, Slack threads, CI pipelines, and your IDE</strong> the moment it's created — then quality-scores, reviews, and publishes it automatically. <strong class="text-slate-200">No more "we should document that."</strong>
+            DocBrain captures knowledge from <strong class="text-slate-200">PRs, Slack threads, CI pipelines, and your IDE</strong> the moment it's created — connects it into a living graph, quality-scores it, and publishes it automatically. <strong class="text-slate-200">Every source. Every insight. Connected.</strong>
           </p>
-          <div class="reveal reveal-delay-2 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-500 mb-8">
+          <div class="reveal reveal-delay-2 flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-2 text-sm text-slate-500 mb-8">
             <span class="flex items-center gap-1.5"><span class="text-brand-400 font-semibold">25MB</span> binary</span>
             <span class="flex items-center gap-1.5"><span class="text-brand-400 font-semibold">&lt;500ms</span> cold start</span>
             <span class="flex items-center gap-1.5"><span class="text-brand-400 font-semibold">14</span> LLM providers</span>
             <span class="flex items-center gap-1.5"><span class="text-brand-400 font-semibold">13+</span> sources</span>
           </div>
-          <div class="reveal reveal-delay-3 flex flex-wrap justify-center gap-4">
+          <div class="reveal reveal-delay-3 flex flex-wrap justify-center lg:justify-start gap-4">
             <a href="#get-started" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-all hover:shadow-lg hover:shadow-brand-600/25">
               Get Started Free
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
@@ -1015,9 +991,12 @@
             </a>
           </div>
         </div>
+    </div>
+  </section>
 
-      <!-- Demo Tabs Below Hero -->
-      <div class="max-w-7xl mx-auto px-6 mt-16">
+  <!-- ========== HOW IT WORKS ========== -->
+  <section class="relative py-16 border-b border-white/[0.04]">
+    <div class="max-w-7xl mx-auto px-6">
         <p class="text-center text-sm text-slate-500 mb-6">Access from anywhere you work</p>
         <div class="reveal reveal-delay-3">
           <!-- Tab buttons -->
@@ -1311,7 +1290,6 @@
 
         </div>
       </div>
-    </div>
   </section>
 
   <!-- ========== STATS STRIP ========== -->
@@ -2910,6 +2888,286 @@
     }, { threshold: 0.3 });
 
     terminalObserver.observe(document.getElementById('terminal'));
+
+    // ===== Knowledge Graph Sphere =====
+    (function() {
+      const canvas = document.getElementById('knowledge-sphere');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      let W, H, dpr, sphereR, cx, cy;
+
+      const SOURCES = [
+        { label: 'Confluence',  r: 38,  g: 132, b: 255 },
+        { label: 'Slack',       r: 224, g: 30,  b: 90  },
+        { label: 'GitHub',      r: 220, g: 226, b: 240 },
+        { label: 'Jira',        r: 0,   g: 130, b: 255 },
+        { label: 'GitLab',      r: 252, g: 109, b: 38  },
+        { label: 'PagerDuty',   r: 6,   g: 200, b: 80  },
+        { label: 'Linear',      r: 100, g: 110, b: 220 },
+        { label: 'Zendesk',     r: 31,  g: 150, b: 240 },
+        { label: 'Teams',       r: 96,  g: 103, b: 228 },
+        { label: 'Discord',     r: 88,  g: 101, b: 242 },
+        { label: 'Intercom',    r: 0,   g: 178, b: 107 },
+        { label: 'Opsgenie',    r: 247, g: 112, b: 2   },
+        { label: 'Local Files', r: 148, g: 163, b: 184 },
+      ];
+
+      const DOC_LABELS = [
+        'Runbook','PR #347','Postmortem','RFC-012','Incident log',
+        'Deploy guide','API docs','Config ref','Migration','Playbook',
+        'HOW-TO','Architecture','Onboarding','Release notes','ADR-041',
+        'Threat model','SLO policy','Decision log','MR !89','FAQ',
+      ];
+
+      const nodes = [];
+      const N_FRAG = 160;
+      const GR = (1 + Math.sqrt(5)) / 2;
+
+      // Fragment nodes: uniform Fibonacci sphere distribution
+      // ~35% get a doc-type label so the sphere feels rich with content
+      for (let i = 0; i < N_FRAG; i++) {
+        const theta = Math.acos(1 - 2 * (i + 0.5) / N_FRAG);
+        const phi   = 2 * Math.PI * i / GR;
+        const hasLabel = (i % 3 === 0);
+        nodes.push({
+          x: Math.sin(theta) * Math.cos(phi),
+          y: Math.sin(theta) * Math.sin(phi),
+          z: Math.cos(theta),
+          type: 'fragment', src: null,
+          label: hasLabel ? DOC_LABELS[i % DOC_LABELS.length] : null,
+          pulse: 0
+        });
+      }
+
+      // Source nodes: evenly spread across the full sphere surface
+      SOURCES.forEach(function(src, i) {
+        var theta = Math.PI * (0.15 + 0.70 * i / (SOURCES.length - 1));
+        var phi   = (2 * Math.PI * i / SOURCES.length) + 0.5;
+        nodes.push({
+          x: Math.sin(theta) * Math.cos(phi),
+          y: Math.sin(theta) * Math.sin(phi),
+          z: Math.cos(theta),
+          type: 'source', src: src, pulse: 0
+        });
+      });
+
+      const totalN = nodes.length;
+
+      // Build edges: connect nodes within chord-distance threshold (creates the dense web)
+      const THRESH_SQ = 0.65 * 0.65;
+      const edges = [];
+      for (let i = 0; i < totalN; i++) {
+        for (let j = i + 1; j < totalN; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dz = nodes[i].z - nodes[j].z;
+          if (dx*dx + dy*dy + dz*dz < THRESH_SQ) edges.push([i, j]);
+        }
+      }
+
+      // Pre-allocate projection cache
+      const proj = [];
+      for (let i = 0; i < totalN; i++) proj.push({ sx:0, sy:0, depth:0, scale:0, idx:i });
+
+      let rotY = 0;
+      const TILT_X = 0.28;
+      let frame = 0;
+      let centerPulse = 0;
+      const particles = [];
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = canvas.offsetWidth  || window.innerWidth;
+        H = canvas.offsetHeight || window.innerHeight;
+        canvas.width  = Math.round(W * dpr);
+        canvas.height = Math.round(H * dpr);
+        canvas.style.width  = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const isLg = W >= 1024;
+        sphereR = Math.min(W, H) * (isLg ? 0.40 : 0.44);
+        cx = isLg ? W * 0.67 : W * 0.50;
+        cy = isLg ? H * 0.50 : H * 0.44;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const cosX = Math.cos(TILT_X), sinX = Math.sin(TILT_X);
+
+      function projectAll() {
+        const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+        const fov = 3.0;
+        for (let i = 0; i < totalN; i++) {
+          const n = nodes[i];
+          // Rotate Y
+          const px = n.x * cosY - n.z * sinY;
+          const py0 = n.y;
+          const pz0 = n.x * sinY + n.z * cosY;
+          // Rotate X (fixed tilt)
+          const py = py0 * cosX - pz0 * sinX;
+          const pz = py0 * sinX + pz0 * cosX;
+          // Perspective
+          const sc = fov / (fov + pz);
+          proj[i].sx    = cx + px * sphereR * sc;
+          proj[i].sy    = cy + py * sphereR * sc;
+          proj[i].depth = pz;
+          proj[i].scale = sc;
+        }
+      }
+
+      // Sort buffer (avoids allocation per frame after warmup)
+      const sortBuf = proj.slice();
+
+      function tick() {
+        ctx.clearRect(0, 0, W, H);
+        rotY += 0.0022;
+        frame++;
+
+        const isLg = W >= 1024;
+        const alphaMul = isLg ? 1.0 : 0.60;
+
+        projectAll();
+
+        // Spawn a capture particle from a random source node every ~28 frames
+        if (frame % 28 === 0) {
+          const si = N_FRAG + Math.floor(Math.random() * SOURCES.length);
+          const sp = proj[si];
+          const sn = nodes[si];
+          particles.push({
+            x: sp.sx, y: sp.sy,
+            tx: cx + (Math.random() - 0.5) * sphereR * 0.12,
+            ty: cy + (Math.random() - 0.5) * sphereR * 0.12,
+            r: sn.src.r, g: sn.src.g, b: sn.src.b,
+            progress: 0,
+            speed: 0.011 + Math.random() * 0.008,
+            size: 1.8 + Math.random() * 1.4,
+          });
+          nodes[si].pulse = Math.max(nodes[si].pulse, 0.7);
+        }
+
+        // Draw edges (depth-cued opacity and thickness)
+        for (let e = 0; e < edges.length; e++) {
+          const ai = edges[e][0], bi = edges[e][1];
+          const pa = proj[ai], pb = proj[bi];
+          const t = ((pa.depth + pb.depth) * 0.5 + 1) * 0.5;
+          const alpha = (t * 0.34 + 0.07) * alphaMul;
+          ctx.beginPath();
+          ctx.moveTo(pa.sx, pa.sy);
+          ctx.lineTo(pb.sx, pb.sy);
+          ctx.strokeStyle = 'rgba(160,175,255,' + alpha.toFixed(3) + ')';
+          ctx.lineWidth = 0.5 + t * 0.55;
+          ctx.stroke();
+        }
+
+        // Sort nodes back-to-front for correct overdraw
+        for (let i = 0; i < totalN; i++) sortBuf[i] = proj[i];
+        sortBuf.sort(function(a,b){ return a.depth - b.depth; });
+
+        // Draw nodes
+        for (let o = 0; o < totalN; o++) {
+          const p = sortBuf[o];
+          const n = nodes[p.idx];
+          const t = (p.depth + 1) * 0.5;
+          const alpha = (t * 0.75 + 0.18) * alphaMul;
+
+          if (n.type === 'source') {
+            const sr = n.src.r, sg = n.src.g, sb = n.src.b;
+            const rad = 4.5 * p.scale + 1.0;
+
+            // Pulse glow
+            if (n.pulse > 0) {
+              const gr = rad * 5 * n.pulse;
+              const grd = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, gr);
+              grd.addColorStop(0, 'rgba(' + sr + ',' + sg + ',' + sb + ',' + (0.28 * n.pulse * alphaMul).toFixed(3) + ')');
+              grd.addColorStop(1, 'rgba(' + sr + ',' + sg + ',' + sb + ',0)');
+              ctx.beginPath();
+              ctx.arc(p.sx, p.sy, gr, 0, Math.PI * 2);
+              ctx.fillStyle = grd;
+              ctx.fill();
+              n.pulse = Math.max(0, n.pulse - 0.020);
+            }
+
+            ctx.beginPath();
+            ctx.arc(p.sx, p.sy, rad, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(' + sr + ',' + sg + ',' + sb + ',' + alpha.toFixed(3) + ')';
+            ctx.fill();
+
+            // Label: only when front-facing
+            if (p.depth > -0.08 && p.scale > 0.70) {
+              const fs = Math.max(8, Math.round(10 * p.scale));
+              ctx.font = '600 ' + fs + 'px Inter,system-ui,sans-serif';
+              ctx.textAlign = 'center';
+              ctx.fillStyle = 'rgba(' + sr + ',' + sg + ',' + sb + ',' + Math.min(1, alpha * 1.1).toFixed(3) + ')';
+              ctx.fillText(n.src.label, p.sx, p.sy - rad - 5);
+            }
+
+          } else {
+            const rad = Math.max(1.0, 2.2 * p.scale);
+            ctx.beginPath();
+            ctx.arc(p.sx, p.sy, rad, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(200,212,255,' + (alpha * 0.72).toFixed(3) + ')';
+            ctx.fill();
+            // Doc-type label on labeled fragment nodes when front-facing
+            if (n.label && p.depth > 0.05 && p.scale > 0.76) {
+              const fs = Math.max(7, Math.round(8 * p.scale));
+              ctx.font = '400 ' + fs + 'px Inter,system-ui,sans-serif';
+              ctx.textAlign = 'center';
+              ctx.fillStyle = 'rgba(180,192,220,' + (alpha * 0.45).toFixed(3) + ')';
+              ctx.fillText(n.label, p.sx, p.sy - rad - 3);
+            }
+          }
+        }
+
+        // === Capture particles: fly from source node → sphere center ===
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.progress += p.speed;
+          if (p.progress >= 1) {
+            particles.splice(i, 1);
+            centerPulse = Math.min(1, centerPulse + 0.50);
+            continue;
+          }
+          const t = p.progress;
+          const ease = 1 - Math.pow(1 - t, 2); // accelerates toward center
+          const px = p.x + (p.tx - p.x) * ease;
+          const py = p.y + (p.ty - p.y) * ease;
+          const a = Math.sin(t * Math.PI) * alphaMul;
+          const sz = p.size * (1 - t * 0.4);
+          // Soft glow halo around particle
+          ctx.beginPath();
+          ctx.arc(px, py, sz * 2.2, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(' + p.r + ',' + p.g + ',' + p.b + ',' + (a * 0.22).toFixed(3) + ')';
+          ctx.fill();
+          // Core dot
+          ctx.beginPath();
+          ctx.arc(px, py, sz, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(' + p.r + ',' + p.g + ',' + p.b + ',' + a.toFixed(3) + ')';
+          ctx.fill();
+        }
+
+        // === Center glow: ambient brain pulse + brightens on particle arrival ===
+        centerPulse *= 0.94;
+        const ambientGlow = 0.06 + 0.025 * Math.sin(frame * 0.022);
+        const glowIntensity = (ambientGlow + centerPulse * 0.30) * alphaMul;
+        if (glowIntensity > 0.005) {
+          const glowR = sphereR * (0.20 + centerPulse * 0.10);
+          const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowR);
+          grd.addColorStop(0,   'rgba(130,140,255,' + Math.min(0.55, glowIntensity * 2.2).toFixed(3) + ')');
+          grd.addColorStop(0.4, 'rgba(110,120,245,' + glowIntensity.toFixed(3) + ')');
+          grd.addColorStop(1,   'rgba(90,100,230,0)');
+          ctx.beginPath();
+          ctx.arc(cx, cy, glowR, 0, Math.PI * 2);
+          ctx.fillStyle = grd;
+          ctx.fill();
+        }
+
+requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    })();
 
     // ===== Knowledge Flow Animation =====
     (function() {
