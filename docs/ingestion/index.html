@@ -16,7 +16,7 @@
         <link rel="prev" href="../learning/">
       
       
-        <link rel="next" href="../slack/">
+        <link rel="next" href="../connectors/">
       
       
         
@@ -422,6 +422,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rerank-providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rerank Providers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -554,6 +582,62 @@
     
   
     Autopilot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reviews/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Review Workflows
   
 
     
@@ -945,10 +1029,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#creating-a-github-token-for-private-repos" class="md-nav__link">
+  <a href="#creating-a-github-token" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating a GitHub Token (for private repos)
+        Creating a GitHub Token
       
     </span>
   </a>
@@ -1558,6 +1642,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../connectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Connectors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../slack/" class="md-nav__link">
         
   
@@ -2097,10 +2209,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#creating-a-github-token-for-private-repos" class="md-nav__link">
+  <a href="#creating-a-github-token" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating a GitHub Token (for private repos)
+        Creating a GitHub Token
       
     </span>
   </a>
@@ -2728,50 +2840,83 @@
 </ol>
 <p>After ingestion, you can immediately start asking questions. DocBrain cites sources in every answer, linking back to the original document.</p>
 <h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
-<p>Configure sources in <code>config/local.yaml</code> (gitignored). Put only infrastructure secrets in <code>.env</code>.</p>
+<p>Configure sources in <code>config/local.yaml</code> (gitignored) under the top-level
+<code>sources:</code> block. Put only infrastructure secrets in <code>.env</code>. A sub-source is
+enabled simply by being present in YAML — there is <strong>no separate
+<code>INGEST_SOURCES</code> env var</strong>, and every list of targets must be non-empty.</p>
 <table>
 <thead>
 <tr>
-<th>Source</th>
-<th><code>ingest_sources</code> value</th>
+<th>Provider</th>
+<th>Sub-source</th>
 <th>What You Need</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Local files</td>
-<td><code>local</code></td>
+<td><code>sources.local.path</code></td>
 <td>A directory of <code>.md</code> or <code>.txt</code> files</td>
 </tr>
 <tr>
 <td>Confluence</td>
-<td><code>confluence</code></td>
+<td><code>confluence.*</code> (flat, legacy)</td>
 <td>Atlassian URL, email, API token, space keys</td>
 </tr>
 <tr>
-<td>GitHub</td>
-<td><code>github</code></td>
-<td>Repository URL, optional token for private repos</td>
+<td>GitHub code</td>
+<td><code>sources.github.code</code></td>
+<td>GitHub token, list of <code>owner/repo[:branch]</code></td>
 </tr>
 <tr>
 <td>GitHub PRs</td>
-<td><code>github_pr</code></td>
-<td>GitHub token, owner/repo</td>
+<td><code>sources.github.pull_requests</code></td>
+<td>GitHub token, list of <code>owner/repo</code></td>
 </tr>
 <tr>
 <td>GitLab MRs</td>
-<td><code>gitlab_mr</code></td>
-<td>GitLab token, project path</td>
+<td><code>sources.gitlab.merge_requests</code></td>
+<td>GitLab token, list of <code>group/project</code></td>
 </tr>
 <tr>
 <td>Slack threads</td>
-<td><code>slack_thread</code></td>
-<td>Slack bot token, channel IDs</td>
+<td><code>sources.slack.threads</code></td>
+<td>Slack bot token, list of channel names</td>
 </tr>
 <tr>
 <td>Jira</td>
-<td><code>jira</code></td>
-<td>Jira URL, email, API token, project keys</td>
+<td><code>sources.jira</code></td>
+<td>Jira URL, email, API token, list of project keys</td>
+</tr>
+<tr>
+<td>Linear</td>
+<td><code>sources.linear</code></td>
+<td>Linear API key, list of team keys</td>
+</tr>
+<tr>
+<td>PagerDuty</td>
+<td><code>sources.pagerduty</code></td>
+<td>PagerDuty API token, list of service IDs</td>
+</tr>
+<tr>
+<td>OpsGenie</td>
+<td><code>sources.opsgenie</code></td>
+<td>OpsGenie API key, list of team names</td>
+</tr>
+<tr>
+<td>Zendesk</td>
+<td><code>sources.zendesk</code></td>
+<td>Zendesk subdomain, email, API token</td>
+</tr>
+<tr>
+<td>Intercom</td>
+<td><code>sources.intercom</code></td>
+<td>Intercom access token</td>
+</tr>
+<tr>
+<td>MS Teams</td>
+<td><code>sources.ms_teams</code></td>
+<td>Azure tenant/client/secret, list of team names</td>
 </tr>
 </tbody>
 </table>
@@ -2781,10 +2926,11 @@
 <h3 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h3>
 <p>Add to <code>config/local.yaml</code>:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># config/local.yaml</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">ingest</span><span class="p">:</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">ingest_sources</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">sources</span><span class="p">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">local</span><span class="p">:</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/data/docs</span>
 </span></code></pre></div>
-<p>And set the path in <code>.env</code> (it's a filesystem path, not a secret, but it's deployment-specific):</p>
+<p>Or set the path via <code>.env</code>:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>LOCAL_DOCS_PATH=/data/docs
 </span></code></pre></div>
 <p>By default, Docker Compose mounts <code>./examples/sample-docs</code> to <code>/data/docs</code> — so DocBrain works out of the box with the included sample documents.</p>
@@ -2827,14 +2973,11 @@
 <p>Common examples: <code>ENG</code>, <code>DOCS</code>, <code>OPS</code>, <code>PLATFORM</code></p>
 <h3 id="step-3-configure-configlocalyaml">Step 3: Configure <code>config/local.yaml</code><a class="headerlink" href="#step-3-configure-configlocalyaml" title="Permanent link">&para;</a></h3>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># config/local.yaml — never committed (gitignored)</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">ingest</span><span class="p">:</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">ingest_sources</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">confluence</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nt">confluence</span><span class="p">:</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nt">base_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://yourcompany.atlassian.net/wiki</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="nt">user_email</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you@yourcompany.com</span>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="nt">api_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-api-token-here</span>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span><span class="nt">space_keys</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ENG,DOCS</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">confluence</span><span class="p">:</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">base_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://yourcompany.atlassian.net/wiki</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">user_email</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you@yourcompany.com</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nt">api_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-api-token-here</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nt">space_keys</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ENG,DOCS</span>
 </span></code></pre></div>
 <p><strong>Multiple spaces</strong>: Separate with commas: <code>ENG,DOCS,OPS</code></p>
 <p><strong>Limiting pages</strong>: By default, DocBrain ingests all pages in each space. To cap the number of pages per space (useful for testing), add:</p>
@@ -2949,30 +3092,32 @@
 </table>
 <hr />
 <h2 id="option-3-github-repository">Option 3: GitHub Repository<a class="headerlink" href="#option-3-github-repository" title="Permanent link">&para;</a></h2>
-<p>Ingest documentation from a GitHub repository. DocBrain clones the repo, finds Markdown and text files, and indexes them.</p>
+<p>Ingest documentation from one or more GitHub repositories. DocBrain clones each
+repo, finds Markdown and text files, and indexes them. Each repo may optionally
+pin a specific branch via the <code>:branch</code> suffix — otherwise the default branch
+is used.</p>
 <h3 id="setup_1">Setup<a class="headerlink" href="#setup_1" title="Permanent link">&para;</a></h3>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># config/local.yaml</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">ingest</span><span class="p">:</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">ingest_sources</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github</span>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nt">github</span><span class="p">:</span>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span><span class="nt">repo_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/your-org/your-docs-repo</span>
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span><span class="nt">branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">sources</span><span class="p">:</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">github</span><span class="p">:</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${GITHUB_TOKEN}</span><span class="w">                 </span><span class="c1"># repo:read scope</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="nt">code</span><span class="p">:</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-org/your-docs-repo</span><span class="w">          </span><span class="c1"># default branch</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-org/runbooks:develop</span><span class="w">        </span><span class="c1"># pinned branch</span>
 </span></code></pre></div>
-<p><strong>For private repositories</strong>, add a personal access token:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">github</span><span class="p">:</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghp_your_token_here</span>
-</span></code></pre></div>
-<h3 id="creating-a-github-token-for-private-repos">Creating a GitHub Token (for private repos)<a class="headerlink" href="#creating-a-github-token-for-private-repos" title="Permanent link">&para;</a></h3>
+<p>Each entry in <code>repos</code> is an <code>owner/repo[:branch]</code> selector. The list must be
+non-empty — an empty list is a startup error.</p>
+<h3 id="creating-a-github-token">Creating a GitHub Token<a class="headerlink" href="#creating-a-github-token" title="Permanent link">&para;</a></h3>
 <ol>
 <li>Go to <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a></li>
 <li>Click <strong>Generate new token (classic)</strong></li>
 <li>Select scope: <code>repo</code> (for private repos) or <code>public_repo</code> (for public repos only)</li>
-<li>Copy the token</li>
+<li>Copy the token and either export it as <code>GITHUB_TOKEN</code> or put it directly in <code>sources.github.token</code></li>
 </ol>
 <h3 id="run-ingestion_1">Run Ingestion<a class="headerlink" href="#run-ingestion_1" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>server
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>server<span class="w"> </span>docbrain-ingest
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>server
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>server<span class="w"> </span>docbrain-ingest
 </span></code></pre></div>
 <h3 id="what-gets-ingested">What Gets Ingested<a class="headerlink" href="#what-gets-ingested" title="Permanent link">&para;</a></h3>
 <p>DocBrain ingests all <code>.md</code> and <code>.txt</code> files in the repository. It respects directory structure and uses file paths as metadata for source citations.</p>
@@ -3059,7 +3204,7 @@
 </tbody>
 </table>
 <h3 id="disabling-image-extraction">Disabling Image Extraction<a class="headerlink" href="#disabling-image-extraction" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>IMAGE_EXTRACTION_ENABLED=false
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>IMAGE_EXTRACTION_ENABLED=false
 </span></code></pre></div>
 <p>When disabled, images get a <code>[Image: filename.png]</code> placeholder in the text (the pre-existing behavior). You can re-enable later and re-ingest to pick up image descriptions.</p>
 <h3 id="cost">Cost<a class="headerlink" href="#cost" title="Permanent link">&para;</a></h3>
@@ -3097,23 +3242,23 @@
 <p>All processing happens asynchronously — DocBrain returns <code>200 OK</code> to Confluence immediately and syncs in the background.</p>
 <h3 id="step-1-generate-a-webhook-secret">Step 1: Generate a Webhook Secret<a class="headerlink" href="#step-1-generate-a-webhook-secret" title="Permanent link">&para;</a></h3>
 <p>Pick a strong random string. This secret is shared between Confluence and DocBrain for HMAC-SHA256 signature verification.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Generate a random secret</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Generate a random secret</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span>
 </span></code></pre></div>
 <h3 id="step-2-configure-docbrain">Step 2: Configure DocBrain<a class="headerlink" href="#step-2-configure-docbrain" title="Permanent link">&para;</a></h3>
 <p>Set the webhook secret as an environment variable (it's a runtime secret injected by the environment):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a># .env — webhook secret only
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>CONFLUENCE_WEBHOOK_SECRET=your-generated-secret-here
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a># .env — webhook secret only
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>CONFLUENCE_WEBHOOK_SECRET=your-generated-secret-here
 </span></code></pre></div>
 <p>Confluence credentials must also be set in <code>config/local.yaml</code> (DocBrain needs API access to fetch page content when a webhook fires):</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># config/local.yaml</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nt">confluence</span><span class="p">:</span>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span><span class="nt">base_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://yourcompany.atlassian.net/wiki</span>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">  </span><span class="nt">api_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-api-token</span>
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">  </span><span class="nt">user_email</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you@yourcompany.com</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># config/local.yaml</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nt">confluence</span><span class="p">:</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span><span class="nt">base_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://yourcompany.atlassian.net/wiki</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">  </span><span class="nt">api_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-api-token</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">  </span><span class="nt">user_email</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you@yourcompany.com</span>
 </span></code></pre></div>
 <p>Restart the server. You should see:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>[startup] Confluence webhook integration enabled
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>[startup] Confluence webhook integration enabled
 </span></code></pre></div>
 <p>If you see <code>CONFLUENCE_WEBHOOK_SECRET set but missing CONFLUENCE_BASE_URL/API_TOKEN — webhook sync disabled</code>, check that both <code>CONFLUENCE_BASE_URL</code> and <code>CONFLUENCE_API_TOKEN</code> are set.</p>
 <h3 id="step-3-configure-the-webhook-in-confluence">Step 3: Configure the Webhook in Confluence<a class="headerlink" href="#step-3-configure-the-webhook-in-confluence" title="Permanent link">&para;</a></h3>
@@ -3160,11 +3305,11 @@
 </ol>
 <h3 id="step-4-verify">Step 4: Verify<a class="headerlink" href="#step-4-verify" title="Permanent link">&para;</a></h3>
 <p>Create or edit a page in Confluence. Within a few seconds, check the DocBrain server logs:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>[confluence] Processing page_updated for page &#39;My Test Page&#39; (id=12345)
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>[confluence] Updated page &#39;My Test Page&#39; — 8 chunks re-indexed
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>[confluence] Processing page_updated for page &#39;My Test Page&#39; (id=12345)
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>[confluence] Updated page &#39;My Test Page&#39; — 8 chunks re-indexed
 </span></code></pre></div>
 <p>Then ask a question about the content you just changed:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>docbrain-cli<span class="w"> </span>ask<span class="w"> </span><span class="s2">&quot;What did I just write about?&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>docbrain-cli<span class="w"> </span>ask<span class="w"> </span><span class="s2">&quot;What did I just write about?&quot;</span>
 </span></code></pre></div>
 <p>The answer should reflect the latest content.</p>
 <h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
@@ -3236,7 +3381,7 @@
 </tr>
 <tr>
 <td>Slack</td>
-<td>Run <code>/docbrain capture</code> inside a thread</td>
+<td>Message shortcut, <code>@DocBrain capture</code> mention, or <code>/docbrain capture</code></td>
 <td>All thread messages, user names resolved</td>
 <td>Posts a message in the thread confirming capture</td>
 </tr>
@@ -3248,12 +3393,12 @@
 <p>Comment <code>@docbrain capture</code> on any GitHub pull request or issue to immediately index the discussion.</p>
 <p><strong>Requirements:</strong> GitHub webhook configured to send <code>issue_comment</code> and <code>pull_request_review_comment</code> events to DocBrain.</p>
 <h3 id="setup_2">Setup<a class="headerlink" href="#setup_2" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>GITHUB_CAPTURE_WEBHOOK_SECRET=your-webhook-secret   # generate with: openssl rand -hex 32
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>GITHUB_CAPTURE_TOKEN=ghp_...                         # Personal access token with repo:read scope
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>GITHUB_CAPTURE_WEBHOOK_SECRET=your-webhook-secret   # generate with: openssl rand -hex 32
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>GITHUB_CAPTURE_TOKEN=ghp_...                         # Personal access token with repo:read scope
 </span></code></pre></div>
 <p>Optional access control (recommended for shared installations):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>GITHUB_CAPTURE_ALLOWED_REPOS=myorg/backend,myorg/frontend  # Only these repos can trigger capture
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>GITHUB_CAPTURE_ALLOWED_USERS=alice,bob                      # Only these users can trigger capture
+<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>GITHUB_CAPTURE_ALLOWED_REPOS=myorg/backend,myorg/frontend  # Only these repos can trigger capture
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>GITHUB_CAPTURE_ALLOWED_USERS=alice,bob                      # Only these users can trigger capture
 </span></code></pre></div>
 <h3 id="register-the-webhook-in-github">Register the Webhook in GitHub<a class="headerlink" href="#register-the-webhook-in-github" title="Permanent link">&para;</a></h3>
 <ol>
@@ -3274,11 +3419,11 @@
 </ul>
 <h3 id="reply-behavior">Reply Behavior<a class="headerlink" href="#reply-behavior" title="Permanent link">&para;</a></h3>
 <p>On success, DocBrain posts a comment:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>✅ Captured by DocBrain — 12 chunks indexed and immediately searchable.
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>This thread will feed Autopilot&#39;s next gap analysis run.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>✅ Captured by DocBrain — 12 chunks indexed and immediately searchable.
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>This thread will feed Autopilot&#39;s next gap analysis run.
 </span></code></pre></div></p>
 <p>On failure:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>⚠️ Capture failed: &lt;error message&gt;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>⚠️ Capture failed: &lt;error message&gt;
 </span></code></pre></div></p>
 <h3 id="security-and-access-control">Security and Access Control<a class="headerlink" href="#security-and-access-control" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3292,13 +3437,13 @@
 <p>Comment <code>@docbrain capture</code> on any GitLab merge request to immediately index the full MR discussion.</p>
 <p><strong>Requirements:</strong> <code>GITLAB_CAPTURE_WEBHOOK_SECRET</code> and <code>GITLAB_CAPTURE_TOKEN</code> configured, webhook registered in GitLab.</p>
 <h3 id="step-1-configure-docbrain">Step 1: Configure DocBrain<a class="headerlink" href="#step-1-configure-docbrain" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>GITLAB_CAPTURE_WEBHOOK_SECRET=your-webhook-secret   # generate with: openssl rand -hex 32
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>GITLAB_CAPTURE_TOKEN=glpat-...                       # Personal access token with api scope
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>GITLAB_CAPTURE_BASE_URL=https://gitlab.com           # Default; set for self-hosted GitLab
+<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>GITLAB_CAPTURE_WEBHOOK_SECRET=your-webhook-secret   # generate with: openssl rand -hex 32
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>GITLAB_CAPTURE_TOKEN=glpat-...                       # Personal access token with api scope
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>GITLAB_CAPTURE_BASE_URL=https://gitlab.com           # Default; set for self-hosted GitLab
 </span></code></pre></div>
 <p>Optional allowlists (recommended for shared instances):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>GITLAB_CAPTURE_ALLOWED_USERS=alice,bob          # Only these users can trigger capture
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>GITLAB_CAPTURE_ALLOWED_PROJECTS=myorg/myrepo    # Only these projects can trigger capture
+<div class="language-text highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>GITLAB_CAPTURE_ALLOWED_USERS=alice,bob          # Only these users can trigger capture
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>GITLAB_CAPTURE_ALLOWED_PROJECTS=myorg/myrepo    # Only these projects can trigger capture
 </span></code></pre></div>
 <h3 id="step-2-register-the-webhook-in-gitlab">Step 2: Register the Webhook in GitLab<a class="headerlink" href="#step-2-register-the-webhook-in-gitlab" title="Permanent link">&para;</a></h3>
 <ol>
@@ -3311,8 +3456,8 @@
 </ol>
 <h3 id="step-3-test-it">Step 3: Test It<a class="headerlink" href="#step-3-test-it" title="Permanent link">&para;</a></h3>
 <p>Open any merge request and add a comment containing <code>@docbrain capture</code>. Within a few seconds, DocBrain replies with a note on the MR:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>✅ Captured by DocBrain — 12 chunks indexed and immediately searchable.
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>This MR will feed Autopilot&#39;s next gap analysis run.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>✅ Captured by DocBrain — 12 chunks indexed and immediately searchable.
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>This MR will feed Autopilot&#39;s next gap analysis run.
 </span></code></pre></div>
 <h3 id="what-gets-indexed_1">What Gets Indexed<a class="headerlink" href="#what-gets-indexed_1" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3337,24 +3482,29 @@
 </ul>
 <hr />
 <h2 id="slack-thread-capture">Slack Thread Capture<a class="headerlink" href="#slack-thread-capture" title="Permanent link">&para;</a></h2>
-<p>Run <code>/docbrain capture</code> inside any Slack thread to immediately index the conversation.</p>
-<p><strong>Note:</strong> <code>/docbrain capture</code> only ingests the thread. Use <code>/docbrain ask &lt;question&gt;</code> separately to query the knowledge base.</p>
+<p>Capture any Slack thread into DocBrain using one of three methods:</p>
+<ul>
+<li><strong>Message shortcut (recommended):</strong> Right-click a message in the thread → <strong>Shortcuts</strong> → <strong>Capture to DocBrain</strong></li>
+<li><strong>Bot mention:</strong> Type <code>@DocBrain capture</code> in the thread (requires Event Subscriptions with <code>app_mention</code>)</li>
+<li><strong>Slash command:</strong> <code>/docbrain capture</code> — works outside threads, but <strong>Slack blocks slash commands inside threads</strong>, so use the shortcut or @mention instead</li>
+</ul>
+<p><strong>Note:</strong> Capture only ingests the thread. Use <code>/docbrain ask &lt;question&gt;</code> separately to query the knowledge base.</p>
 <h3 id="setup_3">Setup<a class="headerlink" href="#setup_3" title="Permanent link">&para;</a></h3>
-<p>Ensure the Slack bot is installed and <code>SLACK_BOT_TOKEN</code> is configured. The bot needs <code>channels:history</code> and <code>users:read</code> OAuth scopes.</p>
+<p>Ensure the Slack bot is installed and <code>SLACK_BOT_TOKEN</code> is configured. The bot needs <code>channels:history</code> and <code>users:read</code> OAuth scopes. For @mention support, also enable Event Subscriptions and add the <code>app_mentions:read</code> scope. See the <a href="../slack/">Slack integration guide</a> for full setup steps.</p>
 <h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
 <ol>
 <li>Open a Slack thread with a substantive discussion</li>
-<li>Run <code>/docbrain capture</code> inside the thread (not on a top-level message)</li>
+<li>Use the <strong>message shortcut</strong> (right-click → Shortcuts → Capture to DocBrain), type <strong><code>@DocBrain capture</code></strong> in the thread, or run <strong><code>/docbrain capture</code></strong> (outside threads only)</li>
 <li>DocBrain fetches all messages, resolves user names, and indexes the conversation</li>
 </ol>
 <p>Within ~15 seconds, DocBrain posts back in the thread:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>✅ Thread from #platform-incidents captured into DocBrain (8 chunks indexed).
-</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>It&#39;s now searchable and will be used by Autopilot&#39;s next gap analysis.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>✅ Thread from #platform-incidents captured into DocBrain (8 chunks indexed).
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>It&#39;s now searchable and will be used by Autopilot&#39;s next gap analysis.
 </span></code></pre></div></p>
 <h3 id="access-control">Access Control<a class="headerlink" href="#access-control" title="Permanent link">&para;</a></h3>
-<p>By default, any user in any channel can run <code>/docbrain capture</code>. Restrict access with:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>SLACK_CAPTURE_ALLOWED_CHANNELS=platform-team,infra-review  # channel names (no #) or IDs
-</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>SLACK_CAPTURE_ALLOWED_USERS=alice,U01234567                 # usernames or user IDs
+<p>By default, any user in any channel can trigger capture (via shortcut, @mention, or slash command). Restrict access with:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>SLACK_CAPTURE_ALLOWED_CHANNELS=platform-team,infra-review  # channel names (no #) or IDs
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>SLACK_CAPTURE_ALLOWED_USERS=alice,U01234567                 # usernames or user IDs
 </span></code></pre></div>
 <ul>
 <li>Channel check matches against both <code>channel_name</code> and <code>channel_id</code></li>
@@ -3400,60 +3550,74 @@
 <ul>
 <li>The freshness scorer uses the <strong>original content creation date</strong> (when the PR/MR was opened, when the Slack thread started) as the age baseline — not the time DocBrain captured it.</li>
 <li>Captures age through the standard time-decay curve: a 2-year-old architectural discussion will score significantly lower freshness than a recent one, which reduces its weight in RAG retrieval and Autopilot gap analysis.</li>
-<li><strong>Re-capturing the same thread</strong> (running <code>/docbrain capture</code> again on the same PR or Slack thread) updates the content but preserves the original creation date as the age baseline.</li>
+<li><strong>Re-capturing the same thread</strong> (via message shortcut, <code>@DocBrain capture</code>, or <code>@docbrain capture</code> on a PR) updates the content but preserves the original creation date as the age baseline.</li>
 </ul>
 <p>This ensures that outdated design decisions, replaced architectures, or deprecated processes are progressively de-emphasized in answers as they age — without ever being deleted (the historical record is preserved for explicit search).</p>
 <hr />
 <h2 id="re-ingestion-and-updates">Re-Ingestion and Updates<a class="headerlink" href="#re-ingestion-and-updates" title="Permanent link">&para;</a></h2>
 <h3 id="updating-documents">Updating Documents<a class="headerlink" href="#updating-documents" title="Permanent link">&para;</a></h3>
 <p>Run ingestion again to pick up changes:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>server<span class="w"> </span>docbrain-ingest
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>server<span class="w"> </span>docbrain-ingest
 </span></code></pre></div>
 <p>DocBrain uses upsert logic — new and changed documents are updated, unchanged documents are skipped. This is safe to run repeatedly.</p>
 <h3 id="scheduled-ingestion-kubernetes">Scheduled Ingestion (Kubernetes)<a class="headerlink" href="#scheduled-ingestion-kubernetes" title="Permanent link">&para;</a></h3>
 <p>The Helm chart includes a CronJob that runs ingestion on a schedule:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># In values.yaml</span>
-</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="nt">ingest</span><span class="p">:</span>
-</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="w">  </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">*/6</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w">  </span><span class="c1"># every 6 hours</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># In values.yaml</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="nt">ingest</span><span class="p">:</span>
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="w">  </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">*/6</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w">  </span><span class="c1"># every 6 hours</span>
 </span></code></pre></div>
 <h3 id="full-re-index">Full Re-Index<a class="headerlink" href="#full-re-index" title="Permanent link">&para;</a></h3>
 <p>If you change your embedding provider (e.g., from Ollama to OpenAI), you need a full re-index because embedding dimensions differ between providers. Delete the OpenSearch index and re-ingest:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Delete the existing index</span>
-</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span>http://localhost:9200/docbrain_chunks
-</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
-</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="c1"># Re-ingest everything</span>
-</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>server<span class="w"> </span>docbrain-ingest
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Delete the existing index</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span>http://localhost:9200/docbrain_chunks
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="c1"># Re-ingest everything</span>
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>server<span class="w"> </span>docbrain-ingest
 </span></code></pre></div>
 <hr />
 <h2 id="multiple-sources">Multiple Sources<a class="headerlink" href="#multiple-sources" title="Permanent link">&para;</a></h2>
-<p>DocBrain supports ingesting from multiple sources simultaneously. Set <code>ingest_sources</code> in <code>config/local.yaml</code> to a comma-separated list of sources, and configure credentials for each:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># config/local.yaml</span>
-</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="nt">ingest</span><span class="p">:</span>
-</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">  </span><span class="nt">ingest_sources</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">confluence,github_pr,jira</span>
-</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>
-</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="nt">confluence</span><span class="p">:</span>
-</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="w">  </span><span class="nt">base_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://acme.atlassian.net/wiki</span>
-</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a><span class="w">  </span><span class="nt">user_email</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you@acme.com</span>
-</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a><span class="w">  </span><span class="nt">api_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ATATT3x...</span>
-</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a><span class="w">  </span><span class="nt">space_keys</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DOCS,ENG</span>
-</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a>
-</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a><span class="nt">github_pr</span><span class="p">:</span>
-</span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a><span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghp_...</span>
-</span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a><span class="w">  </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">acme/platform</span>
-</span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a>
-</span><span id="__span-36-15"><a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a><span class="nt">jira_ingest</span><span class="p">:</span>
-</span><span id="__span-36-16"><a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a><span class="w">  </span><span class="nt">base_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://acme.atlassian.net</span>
-</span><span id="__span-36-17"><a id="__codelineno-36-17" name="__codelineno-36-17" href="#__codelineno-36-17"></a><span class="w">  </span><span class="nt">user_email</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you@acme.com</span>
-</span><span id="__span-36-18"><a id="__codelineno-36-18" name="__codelineno-36-18" href="#__codelineno-36-18"></a><span class="w">  </span><span class="nt">api_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-jira-token</span>
-</span><span id="__span-36-19"><a id="__codelineno-36-19" name="__codelineno-36-19" href="#__codelineno-36-19"></a><span class="w">  </span><span class="nt">projects</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ENG,OPS</span>
+<p>DocBrain supports ingesting from multiple providers simultaneously. Simply
+declare each under <code>sources:</code> — enablement is structural (a sub-source runs
+if its block is present in YAML). There is no <code>INGEST_SOURCES</code> env var.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># config/local.yaml</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="nt">confluence</span><span class="p">:</span>
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="w">  </span><span class="nt">base_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://acme.atlassian.net/wiki</span>
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="w">  </span><span class="nt">user_email</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you@acme.com</span>
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="w">  </span><span class="nt">api_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ATATT3x...</span>
+</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a><span class="w">  </span><span class="nt">space_keys</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DOCS,ENG</span>
+</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>
+</span><span id="__span-35-8"><a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a><span class="nt">sources</span><span class="p">:</span>
+</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a><span class="w">  </span><span class="nt">github</span><span class="p">:</span>
+</span><span id="__span-35-10"><a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a><span class="w">    </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${GITHUB_TOKEN}</span>
+</span><span id="__span-35-11"><a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a><span class="w">    </span><span class="nt">pull_requests</span><span class="p">:</span>
+</span><span id="__span-35-12"><a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a><span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
+</span><span id="__span-35-13"><a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">acme/platform</span>
+</span><span id="__span-35-14"><a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">acme/docs</span>
+</span><span id="__span-35-15"><a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a><span class="w">      </span><span class="nt">lookback_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">365</span>
+</span><span id="__span-35-16"><a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a>
+</span><span id="__span-35-17"><a id="__codelineno-35-17" name="__codelineno-35-17" href="#__codelineno-35-17"></a><span class="w">  </span><span class="nt">jira</span><span class="p">:</span>
+</span><span id="__span-35-18"><a id="__codelineno-35-18" name="__codelineno-35-18" href="#__codelineno-35-18"></a><span class="w">    </span><span class="nt">base_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://acme.atlassian.net</span>
+</span><span id="__span-35-19"><a id="__codelineno-35-19" name="__codelineno-35-19" href="#__codelineno-35-19"></a><span class="w">    </span><span class="nt">user_email</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you@acme.com</span>
+</span><span id="__span-35-20"><a id="__codelineno-35-20" name="__codelineno-35-20" href="#__codelineno-35-20"></a><span class="w">    </span><span class="nt">api_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${JIRA_API_TOKEN}</span>
+</span><span id="__span-35-21"><a id="__codelineno-35-21" name="__codelineno-35-21" href="#__codelineno-35-21"></a><span class="w">    </span><span class="nt">projects</span><span class="p">:</span>
+</span><span id="__span-35-22"><a id="__codelineno-35-22" name="__codelineno-35-22" href="#__codelineno-35-22"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ENG</span>
+</span><span id="__span-35-23"><a id="__codelineno-35-23" name="__codelineno-35-23" href="#__codelineno-35-23"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OPS</span>
+</span><span id="__span-35-24"><a id="__codelineno-35-24" name="__codelineno-35-24" href="#__codelineno-35-24"></a>
+</span><span id="__span-35-25"><a id="__codelineno-35-25" name="__codelineno-35-25" href="#__codelineno-35-25"></a><span class="w">  </span><span class="nt">slack</span><span class="p">:</span>
+</span><span id="__span-35-26"><a id="__codelineno-35-26" name="__codelineno-35-26" href="#__codelineno-35-26"></a><span class="w">    </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${SLACK_INGEST_TOKEN}</span>
+</span><span id="__span-35-27"><a id="__codelineno-35-27" name="__codelineno-35-27" href="#__codelineno-35-27"></a><span class="w">    </span><span class="nt">threads</span><span class="p">:</span>
+</span><span id="__span-35-28"><a id="__codelineno-35-28" name="__codelineno-35-28" href="#__codelineno-35-28"></a><span class="w">      </span><span class="nt">channels</span><span class="p">:</span>
+</span><span id="__span-35-29"><a id="__codelineno-35-29" name="__codelineno-35-29" href="#__codelineno-35-29"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;#incident-response&quot;</span>
+</span><span id="__span-35-30"><a id="__codelineno-35-30" name="__codelineno-35-30" href="#__codelineno-35-30"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;#eng-platform&quot;</span>
 </span></code></pre></div>
 <p>Then run a single ingestion pass to pull from all sources:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>server<span class="w"> </span>docbrain-ingest
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>server<span class="w"> </span>docbrain-ingest
 </span></code></pre></div>
 <p>Documents from different sources coexist in the same index and are searched together.</p>
 <hr />
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
+<li><a href="../connectors/">External Connectors</a> — build a connector for any knowledge source (ServiceNow, Notion, SharePoint, custom databases, etc.)</li>
 <li><a href="../configuration/">Configuration Reference</a> — all ingestion-related environment variables</li>
 <li><a href="../providers/">Provider Setup</a> — configure embedding providers for ingestion</li>
 <li><a href="../architecture/">Architecture</a> — how the ingestion pipeline works under the hood</li>
@@ -3512,13 +3676,13 @@
         
         
           
-          <a href="../slack/" class="md-footer__link md-footer__link--next" aria-label="Next: Slack">
+          <a href="../connectors/" class="md-footer__link md-footer__link--next" aria-label="Next: External Connectors">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Slack
+                External Connectors
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -3562,7 +3726,7 @@
       
       
     
-    <a href="https://www.youtube.com/@what_just_happend" target="_blank" rel="noopener" title="www.youtube.com" class="md-social__link">
+    <a href="https://www.youtube.com/@docbrain-ai" target="_blank" rel="noopener" title="www.youtube.com" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M549.7 124.1c-6.2-23.7-24.8-42.3-48.3-48.6C458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5c-23.5 6.3-42 24.9-48.3 48.6C15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8C117.3 448 288.1 448 288.1 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6V175.2l142.7 81.2z"/></svg>
     </a>
   

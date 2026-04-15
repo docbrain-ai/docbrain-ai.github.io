@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://docbrainapi.com/docs/confluence-webhook/">
+        <link rel="canonical" href="https://docbrainapi.com/docs/governance/">
       
       
-        <link rel="prev" href="../gitlab-capture/">
+        <link rel="prev" href="../autopilot/">
       
       
-        <link rel="next" href="../kubernetes/">
+        <link rel="next" href="../reviews/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Confluence Webhook - DocBrain Docs</title>
+        <title>Governance - DocBrain Docs</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#confluence-webhook-real-time-page-sync" class="md-skip">
+        <a href="#governance" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Confluence Webhook
+              Governance
             
           </span>
         </div>
@@ -461,8 +461,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -473,13 +475,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -500,7 +500,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -599,10 +599,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../governance/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -618,6 +645,209 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spaces-and-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spaces and Ownership
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Spaces and Ownership">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#managing-space-owners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Managing Space Owners
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-stewards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Topic Stewards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my-governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        My Governance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sla-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SLA Policies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SLA Policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sla-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SLA Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-slas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuring SLAs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breach-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Breach Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#governance-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Governance Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configdefaultyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config/default.yaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roles-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles Required
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-setting-up-governance-for-a-new-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow: Setting Up Governance for a New Space
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -690,8 +920,6 @@
       
   
   
-    
-  
   
   
     
@@ -704,11 +932,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
@@ -729,7 +959,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -856,37 +1086,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Confluence Webhook
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../confluence-webhook/" class="md-nav__link">
         
   
   
@@ -902,136 +1105,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#endpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Endpoint
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#events-handled" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Events handled
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Environment variables
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#helm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Helm
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docker-compose-raw-env" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Docker Compose / raw env
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-the-webhook-in-confluence-cloud" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuring the webhook in Confluence Cloud
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-the-webhook-in-confluence-data-center" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuring the webhook in Confluence Data Center
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#verifying-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verifying it works
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-webhooks-alongside-scheduled-ingest" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using webhooks alongside scheduled ingest
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1277,10 +1350,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#endpoint" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Endpoint
+        Overview
       
     </span>
   </a>
@@ -1288,10 +1361,110 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#events-handled" class="md-nav__link">
+  <a href="#spaces-and-ownership" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Events handled
+        Spaces and Ownership
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Spaces and Ownership">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#managing-space-owners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Managing Space Owners
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-stewards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Topic Stewards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my-governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        My Governance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sla-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SLA Policies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SLA Policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sla-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SLA Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-slas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuring SLAs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breach-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Breach Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#governance-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Governance Dashboard
       
     </span>
   </a>
@@ -1299,21 +1472,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prerequisites
+        Configuration
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Environment variables
+        Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configdefaultyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config/default.yaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roles-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles Required
       
     </span>
   </a>
@@ -1321,65 +1522,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#helm" class="md-nav__link">
+  <a href="#workflow-setting-up-governance-for-a-new-space" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Helm
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docker-compose-raw-env" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Docker Compose / raw env
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-the-webhook-in-confluence-cloud" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuring the webhook in Confluence Cloud
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-the-webhook-in-confluence-data-center" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuring the webhook in Confluence Data Center
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#verifying-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verifying it works
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-webhooks-alongside-scheduled-ingest" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using webhooks alongside scheduled ingest
+        Workflow: Setting Up Governance for a New Space
       
     </span>
   </a>
@@ -1406,145 +1552,264 @@
   
 
 
-<h1 id="confluence-webhook-real-time-page-sync">Confluence Webhook — Real-Time Page Sync<a class="headerlink" href="#confluence-webhook-real-time-page-sync" title="Permanent link">&para;</a></h1>
-<p>DocBrain can update its index the moment a Confluence page is created, updated, or deleted — no polling, no waiting for the next scheduled ingest run.</p>
-<p>When a webhook fires, DocBrain re-fetches the page content from the Confluence API, re-chunks and re-embeds it, and updates OpenSearch. Delete events remove all chunks for that page. The response is always <code>200 OK</code> within milliseconds; all processing happens asynchronously to satisfy Confluence's 30-second timeout.</p>
-<h2 id="endpoint">Endpoint<a class="headerlink" href="#endpoint" title="Permanent link">&para;</a></h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>POST /confluence/events
+<h1 id="governance">Governance<a class="headerlink" href="#governance" title="Permanent link">&para;</a></h1>
+<p>Documentation without ownership decays. DocBrain's governance system makes ownership, accountability, and quality standards explicit — with automated enforcement.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Governance in DocBrain has four pillars:</p>
+<ol>
+<li><strong>Space Ownership</strong> — Who is responsible for which knowledge areas</li>
+<li><strong>Topic Stewardship</strong> — Subject-matter experts for specific topics within spaces</li>
+<li><strong>SLA Policies</strong> — Deadlines for gap resolution, draft review, and freshness</li>
+<li><strong>Breach Detection</strong> — Automated scanning that surfaces violations before they become incidents</li>
+</ol>
+<p>All governance features are accessible from the <strong>Governance</strong> page in the web UI (sidebar → Govern → Governance), which shows the dashboard and rules/owners management via tab navigation.</p>
+<hr />
+<h2 id="spaces-and-ownership">Spaces and Ownership<a class="headerlink" href="#spaces-and-ownership" title="Permanent link">&para;</a></h2>
+<p>A <strong>space</strong> is a logical grouping of documentation — typically aligned to a team, product area, or domain (e.g., <code>PLATFORM</code>, <code>API</code>, <code>ONBOARDING</code>, <code>SRE</code>).</p>
+<p>Every space should have:
+- <strong>Owners</strong> — Accountable for the space's overall documentation health. Receive SLA breach notifications.
+- <strong>Maintainers</strong> — Can approve drafts and manage content within the space.</p>
+<h3 id="managing-space-owners">Managing Space Owners<a class="headerlink" href="#managing-space-owners" title="Permanent link">&para;</a></h3>
+<p><strong>Web UI:</strong> Governance → Rules &amp; Owners tab → select a space → manage owners.</p>
+<p><strong>API:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># List spaces with ownership info</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>GET<span class="w"> </span>/api/v1/governance/spaces
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Add an owner to a space</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>POST<span class="w"> </span>/api/v1/governance/spaces/<span class="o">{</span>space<span class="o">}</span>/owners
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="o">{</span><span class="w"> </span><span class="s2">&quot;user_id&quot;</span>:<span class="w"> </span><span class="s2">&quot;uuid&quot;</span>,<span class="w"> </span><span class="s2">&quot;role&quot;</span>:<span class="w"> </span><span class="s2">&quot;owner&quot;</span><span class="w"> </span><span class="o">}</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Remove an owner</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>DELETE<span class="w"> </span>/api/v1/governance/spaces/<span class="o">{</span>space<span class="o">}</span>/owners/<span class="o">{</span>user_id<span class="o">}</span>
+</span></code></pre></div></p>
+<h3 id="topic-stewards">Topic Stewards<a class="headerlink" href="#topic-stewards" title="Permanent link">&para;</a></h3>
+<p>A <strong>topic steward</strong> is a subject-matter expert responsible for a specific topic within a space. When a documentation gap is detected in their topic area, they're notified and can be assigned to resolve it.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># List stewards</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>GET<span class="w"> </span>/api/v1/governance/stewards
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Create a steward assignment</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>POST<span class="w"> </span>/api/v1/governance/stewards
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="o">{</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="s2">&quot;user_id&quot;</span>:<span class="w"> </span><span class="s2">&quot;uuid&quot;</span>,
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="s2">&quot;space&quot;</span>:<span class="w"> </span><span class="s2">&quot;PLATFORM&quot;</span>,
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="s2">&quot;topic&quot;</span>:<span class="w"> </span><span class="s2">&quot;kubernetes-networking&quot;</span>,
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="s2">&quot;description&quot;</span>:<span class="w"> </span><span class="s2">&quot;Owns all K8s networking documentation&quot;</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="o">}</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># Remove a steward</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>DELETE<span class="w"> </span>/api/v1/governance/stewards/<span class="o">{</span>id<span class="o">}</span>
 </span></code></pre></div>
-<p>Confluence sends an <code>X-Hub-Signature: sha256=&lt;hex&gt;</code> header. DocBrain verifies the HMAC-SHA256 signature against <code>CONFLUENCE_WEBHOOK_SECRET</code> before processing any payload.</p>
-<h2 id="events-handled">Events handled<a class="headerlink" href="#events-handled" title="Permanent link">&para;</a></h2>
+<h3 id="my-governance">My Governance<a class="headerlink" href="#my-governance" title="Permanent link">&para;</a></h3>
+<p>Every user can see their own governance responsibilities:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Spaces I own</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>GET<span class="w"> </span>/api/v1/governance/my-spaces
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Topics I steward</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>GET<span class="w"> </span>/api/v1/governance/my-stewardships
+</span></code></pre></div>
+<hr />
+<h2 id="sla-policies">SLA Policies<a class="headerlink" href="#sla-policies" title="Permanent link">&para;</a></h2>
+<p>SLA policies define deadlines for documentation activities. They can be set globally (default) or per-space.</p>
+<h3 id="sla-types">SLA Types<a class="headerlink" href="#sla-types" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Confluence event</th>
-<th>DocBrain action</th>
+<th>SLA Type</th>
+<th>What It Measures</th>
+<th>Default</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>page_created</code></td>
-<td>Fetch, chunk, embed, index</td>
+<td><strong>Gap Acknowledgment</strong></td>
+<td>Time from gap detection to someone acknowledging it</td>
+<td>24 hours</td>
 </tr>
 <tr>
-<td><code>page_updated</code></td>
-<td>Re-fetch, re-chunk, re-embed, update index</td>
+<td><strong>Gap Resolution</strong></td>
+<td>Time from gap detection to documentation being written</td>
+<td>7 days</td>
 </tr>
 <tr>
-<td><code>page_restored</code></td>
-<td>Same as <code>page_updated</code></td>
+<td><strong>Draft Review</strong></td>
+<td>Time from draft submission to review completion</td>
+<td>48 hours</td>
 </tr>
 <tr>
-<td><code>page_removed</code></td>
-<td>Delete all chunks for this page</td>
-</tr>
-<tr>
-<td><code>page_trashed</code></td>
-<td>Delete all chunks for this page</td>
+<td><strong>Freshness</strong></td>
+<td>Maximum age before a document is considered stale</td>
+<td>90 days</td>
 </tr>
 </tbody>
 </table>
-<p>All other events (space events, blog posts, etc.) are acknowledged and ignored.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
-<p>The webhook uses the same Confluence API credentials as the ingest job. If you are already running scheduled Confluence ingest, <code>CONFLUENCE_BASE_URL</code> and <code>CONFLUENCE_API_TOKEN</code> are already set — only <code>CONFLUENCE_WEBHOOK_SECRET</code> is new.</p>
-<p>If you are running webhooks <strong>without</strong> scheduled ingest, all three credentials are required.</p>
-<h2 id="environment-variables">Environment variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
+<h3 id="configuring-slas">Configuring SLAs<a class="headerlink" href="#configuring-slas" title="Permanent link">&para;</a></h3>
+<p><strong>Web UI:</strong> Governance → Dashboard → SLA section shows compliance. Rules &amp; Owners tab lets you manage per-space policies.</p>
+<p><strong>API:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># List all SLA policies</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>GET<span class="w"> </span>/api/v1/governance/slas
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Set default SLA policy</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>PUT<span class="w"> </span>/api/v1/governance/slas/default
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="o">{</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="s2">&quot;gap_ack_hours&quot;</span>:<span class="w"> </span><span class="m">24</span>,
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="s2">&quot;gap_resolution_days&quot;</span>:<span class="w"> </span><span class="m">7</span>,
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="s2">&quot;draft_review_hours&quot;</span>:<span class="w"> </span><span class="m">48</span>,
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="s2">&quot;freshness_days&quot;</span>:<span class="w"> </span><span class="m">90</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="o">}</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Set space-specific SLA (overrides default)</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>PUT<span class="w"> </span>/api/v1/governance/slas/spaces/<span class="o">{</span>space<span class="o">}</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="o">{</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span><span class="s2">&quot;gap_ack_hours&quot;</span>:<span class="w"> </span><span class="m">12</span>,
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">  </span><span class="s2">&quot;gap_resolution_days&quot;</span>:<span class="w"> </span><span class="m">3</span>,
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">  </span><span class="s2">&quot;draft_review_hours&quot;</span>:<span class="w"> </span><span class="m">24</span>,
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">  </span><span class="s2">&quot;freshness_days&quot;</span>:<span class="w"> </span><span class="m">60</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="o">}</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="c1"># Delete a space-specific policy (falls back to default)</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>DELETE<span class="w"> </span>/api/v1/governance/slas/spaces/<span class="o">{</span>space<span class="o">}</span>
+</span></code></pre></div></p>
+<h3 id="breach-detection">Breach Detection<a class="headerlink" href="#breach-detection" title="Permanent link">&para;</a></h3>
+<p>DocBrain runs an automated SLA checker on a configurable interval (default: every hour). When a policy is breached:</p>
+<ol>
+<li>A <code>sla.breached</code> event is emitted to the event bus</li>
+<li>Space owners receive in-app notifications</li>
+<li>The breach appears on the governance dashboard</li>
+<li>If webhooks are configured, external systems are notified</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># List current breaches</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>GET<span class="w"> </span>/api/v1/governance/slas/breaches
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Get breach summary (counts by type and space)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>GET<span class="w"> </span>/api/v1/governance/slas/breaches/summary
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Acknowledge a breach (stops re-alerting)</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>POST<span class="w"> </span>/api/v1/governance/slas/breaches/<span class="o">{</span>id<span class="o">}</span>/acknowledge
+</span></code></pre></div>
+<hr />
+<h2 id="governance-dashboard">Governance Dashboard<a class="headerlink" href="#governance-dashboard" title="Permanent link">&para;</a></h2>
+<p>The dashboard provides a single view of documentation health:</p>
+<ul>
+<li><strong>Coverage</strong> — Percentage of topics with documentation per space</li>
+<li><strong>SLA Compliance</strong> — Which spaces are meeting their SLAs, which are in breach</li>
+<li><strong>Quality Distribution</strong> — Document scores across spaces (how many are A/B/C/D/F)</li>
+<li><strong>Capture Velocity</strong> — Fragments captured per week, trending up or down</li>
+<li><strong>Top Contributors</strong> — Who is contributing the most knowledge, by space</li>
+</ul>
+<p><strong>API:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Full governance dashboard data</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>GET<span class="w"> </span>/api/v1/governance/dashboard
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Coverage report</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>GET<span class="w"> </span>/api/v1/governance/coverage
+</span></code></pre></div></p>
+<p>Both require <code>analyst</code> role or higher.</p>
+<hr />
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<h3 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
-<th>Required</th>
+<th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>CONFLUENCE_WEBHOOK_SECRET</code></td>
-<td>Yes</td>
-<td>Shared secret you generate and paste into Confluence. Enables the webhook endpoint.</td>
+<td><code>SLA_CHECK_INTERVAL_SECS</code></td>
+<td><code>3600</code></td>
+<td>How often the SLA checker runs (seconds)</td>
 </tr>
 <tr>
-<td><code>CONFLUENCE_BASE_URL</code></td>
-<td>Yes</td>
-<td>Full Confluence base URL, e.g. <code>https://your-org.atlassian.net/wiki</code></td>
+<td><code>SLA_DEFAULT_GAP_ACK_HOURS</code></td>
+<td><code>24</code></td>
+<td>Default hours before a gap must be acknowledged</td>
 </tr>
 <tr>
-<td><code>CONFLUENCE_API_TOKEN</code></td>
-<td>Yes</td>
-<td>API token (Cloud) or Personal Access Token (Data Center)</td>
+<td><code>SLA_DEFAULT_GAP_RESOLUTION_DAYS</code></td>
+<td><code>7</code></td>
+<td>Default days before a gap must be resolved</td>
 </tr>
 <tr>
-<td><code>CONFLUENCE_USER_EMAIL</code></td>
-<td>Cloud only</td>
-<td>Email of the Confluence user (not required for Data Center)</td>
+<td><code>SLA_DEFAULT_DRAFT_REVIEW_HOURS</code></td>
+<td><code>48</code></td>
+<td>Default hours for draft review completion</td>
 </tr>
 <tr>
-<td><code>CONFLUENCE_API_VERSION</code></td>
-<td>No</td>
-<td><code>v2</code> for Cloud (default), <code>v1</code> for self-hosted Data Center</td>
+<td><code>SLA_DEFAULT_FRESHNESS_DAYS</code></td>
+<td><code>90</code></td>
+<td>Default days before a document is stale</td>
 </tr>
 </tbody>
 </table>
-<h2 id="helm">Helm<a class="headerlink" href="#helm" title="Permanent link">&para;</a></h2>
-<p>Add to your <code>values.yaml</code>:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">confluenceWebhook</span><span class="p">:</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">webhookSecret</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your-random-secret&quot;</span><span class="w">   </span><span class="c1"># generate with: openssl rand -hex 32</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="c1"># Required only if ingest.confluence is not already configured:</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">baseUrl</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://your-org.atlassian.net/wiki&quot;</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;docbrain@your-org.com&quot;</span><span class="w">        </span><span class="c1"># Cloud only</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nt">apiToken</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your-confluence-api-token&quot;</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2</span><span class="w">                        </span><span class="c1"># v2 for Cloud, v1 for Data Center</span>
+<h3 id="configdefaultyaml">config/default.yaml<a class="headerlink" href="#configdefaultyaml" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">governance</span><span class="p">:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">sla_check_interval_secs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${SLA_CHECK_INTERVAL_SECS:-3600}</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">default_gap_ack_hours</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${SLA_DEFAULT_GAP_ACK_HOURS:-24}</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">default_gap_resolution_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${SLA_DEFAULT_GAP_RESOLUTION_DAYS:-7}</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="nt">default_draft_review_hours</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${SLA_DEFAULT_DRAFT_REVIEW_HOURS:-48}</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="nt">default_freshness_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${SLA_DEFAULT_FRESHNESS_DAYS:-90}</span>
 </span></code></pre></div>
-<p>Then upgrade:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>docbrain<span class="w"> </span>./helm/docbrain<span class="w"> </span>-f<span class="w"> </span>values.yaml
-</span></code></pre></div>
-<h2 id="docker-compose-raw-env">Docker Compose / raw env<a class="headerlink" href="#docker-compose-raw-env" title="Permanent link">&para;</a></h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>CONFLUENCE_WEBHOOK_SECRET=your-random-secret
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>CONFLUENCE_BASE_URL=https://your-org.atlassian.net/wiki
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>CONFLUENCE_USER_EMAIL=docbrain@your-org.com
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>CONFLUENCE_API_TOKEN=your-confluence-api-token
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>CONFLUENCE_API_VERSION=v2
-</span></code></pre></div>
-<h2 id="configuring-the-webhook-in-confluence-cloud">Configuring the webhook in Confluence Cloud<a class="headerlink" href="#configuring-the-webhook-in-confluence-cloud" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="roles-required">Roles Required<a class="headerlink" href="#roles-required" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Minimum Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>View governance dashboard</td>
+<td><code>analyst</code></td>
+</tr>
+<tr>
+<td>View coverage report</td>
+<td><code>viewer</code></td>
+</tr>
+<tr>
+<td>View spaces and stewards</td>
+<td><code>viewer</code></td>
+</tr>
+<tr>
+<td>Manage space owners</td>
+<td><code>admin</code></td>
+</tr>
+<tr>
+<td>Manage stewards</td>
+<td><code>admin</code></td>
+</tr>
+<tr>
+<td>Configure SLA policies</td>
+<td><code>admin</code></td>
+</tr>
+<tr>
+<td>View/acknowledge breaches</td>
+<td><code>analyst</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="workflow-setting-up-governance-for-a-new-space">Workflow: Setting Up Governance for a New Space<a class="headerlink" href="#workflow-setting-up-governance-for-a-new-space" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Go to <strong>Confluence Settings</strong> → <strong>System</strong> → <strong>Webhooks</strong> (requires Confluence Admin).</li>
-<li>Click <strong>Create a Webhook</strong>.</li>
-<li>Set <strong>URL</strong> to <code>https://your-docbrain-domain/confluence/events</code>.</li>
-<li>Set <strong>Secret</strong> to the same value as <code>CONFLUENCE_WEBHOOK_SECRET</code>.</li>
-<li>Under <strong>Page</strong> events, check:</li>
-<li>Page Created</li>
-<li>Page Updated</li>
-<li>Page Removed</li>
-<li>Page Restored</li>
-<li>Page Trashed</li>
-<li>Click <strong>Save</strong>.</li>
+<li>
+<p><strong>Create the space</strong> — Spaces are created implicitly when documents or fragments are assigned to them. Set <code>space: "PLATFORM"</code> on ingested docs or captured fragments.</p>
+</li>
+<li>
+<p><strong>Assign owners</strong> — <code>POST /api/v1/governance/spaces/PLATFORM/owners</code> with the team lead's user ID.</p>
+</li>
+<li>
+<p><strong>Assign stewards</strong> — For specialized topics within the space (e.g., "kubernetes", "ci-cd"), assign subject-matter experts.</p>
+</li>
+<li>
+<p><strong>Set SLA policies</strong> — Override defaults if the space has stricter requirements (e.g., SRE runbooks need 12h gap acknowledgment).</p>
+</li>
+<li>
+<p><strong>Monitor</strong> — The governance dashboard shows compliance. SLA breaches trigger notifications automatically.</p>
+</li>
 </ol>
-<p>Confluence will immediately send a test ping. DocBrain returns <code>200 OK</code> for all unrecognised events, so the ping succeeds.</p>
-<h2 id="configuring-the-webhook-in-confluence-data-center">Configuring the webhook in Confluence Data Center<a class="headerlink" href="#configuring-the-webhook-in-confluence-data-center" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Go to <strong>Administration</strong> → <strong>System</strong> → <strong>WebHooks</strong>.</li>
-<li>Click <strong>Create a WebHook</strong>.</li>
-<li>Set <strong>URL</strong> to <code>https://your-docbrain-domain/confluence/events</code>.</li>
-<li>Set <strong>Secret</strong> to the value of <code>CONFLUENCE_WEBHOOK_SECRET</code>.</li>
-<li>Select the same page events listed above.</li>
-<li>Set <code>CONFLUENCE_API_VERSION=v1</code> in your DocBrain environment.</li>
-</ol>
-<h2 id="verifying-it-works">Verifying it works<a class="headerlink" href="#verifying-it-works" title="Permanent link">&para;</a></h2>
-<p>After setup, edit a Confluence page and check the DocBrain server logs:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>INFO Processing page_updated for page &#39;My Page&#39; (id=12345)
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>INFO Updated page &#39;My Page&#39; — 8 chunks re-indexed
-</span></code></pre></div>
-<p>If you see a <code>401 Unauthorized</code> log entry instead, the shared secret does not match — regenerate it and update both sides.</p>
-<p>If you see <code>CONFLUENCE_WEBHOOK_SECRET set but missing CONFLUENCE_BASE_URL/API_TOKEN</code>, the Confluence credentials are not configured alongside the secret.</p>
-<h2 id="using-webhooks-alongside-scheduled-ingest">Using webhooks alongside scheduled ingest<a class="headerlink" href="#using-webhooks-alongside-scheduled-ingest" title="Permanent link">&para;</a></h2>
-<p>Webhooks and scheduled ingest complement each other:</p>
-<ul>
-<li>Scheduled ingest (running <code>docbrain-ingest</code> on a cron with Confluence credentials set) handles the full crawl on a periodic schedule, catching any changes that arrived while the server was down.</li>
-<li>Webhooks keep the index current between scheduled runs.</li>
-</ul>
-<p>When both are active, the same <code>CONFLUENCE_BASE_URL</code> / <code>CONFLUENCE_API_TOKEN</code> credentials are shared. Set <code>CONFLUENCE_WEBHOOK_SECRET</code> in addition to your existing ingest config and both will work independently.</p>
 
 
 
@@ -1582,7 +1847,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../gitlab-capture/" class="md-footer__link md-footer__link--prev" aria-label="Previous: GitLab Capture">
+          <a href="../autopilot/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Autopilot">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1592,20 +1857,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                GitLab Capture
+                Autopilot
               </div>
             </div>
           </a>
         
         
           
-          <a href="../kubernetes/" class="md-footer__link md-footer__link--next" aria-label="Next: Kubernetes">
+          <a href="../reviews/" class="md-footer__link md-footer__link--next" aria-label="Next: Review Workflows">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Kubernetes
+                Review Workflows
               </div>
             </div>
             <div class="md-footer__button md-icon">
