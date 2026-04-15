@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://docbrainapi.com/docs/slack/">
       
       
-        <link rel="prev" href="../ingestion/">
+        <link rel="prev" href="../connectors/">
       
       
         <link rel="next" href="../gitlab-capture/">
@@ -422,6 +422,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rerank-providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rerank Providers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -574,6 +602,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reviews/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Review Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../learning/" class="md-nav__link">
         
   
@@ -671,6 +755,34 @@
     
   
     Ingestion Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Connectors
   
 
     
@@ -806,6 +918,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#step-3b-add-message-shortcut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3b: Add Message Shortcut
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3c-enable-event-subscriptions-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3c: Enable Event Subscriptions (optional)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#step-4-add-oauth-scopes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -860,6 +994,17 @@
   
     <nav class="md-nav" aria-label="Usage Examples">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#capture-a-thread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capture a thread
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#ask-a-question" class="md-nav__link">
@@ -1325,6 +1470,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#step-3b-add-message-shortcut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3b: Add Message Shortcut
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3c-enable-event-subscriptions-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3c: Enable Event Subscriptions (optional)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#step-4-add-oauth-scopes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1379,6 +1546,17 @@
   
     <nav class="md-nav" aria-label="Usage Examples">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#capture-a-thread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capture a thread
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#ask-a-question" class="md-nav__link">
@@ -1598,6 +1776,51 @@
 <ol>
 <li>Click <strong>Save Changes</strong>.</li>
 </ol>
+<h2 id="step-3b-add-message-shortcut">Step 3b: Add Message Shortcut<a class="headerlink" href="#step-3b-add-message-shortcut" title="Permanent link">&para;</a></h2>
+<p>This allows users to capture Slack threads via a right-click shortcut — useful because Slack blocks slash commands inside threads.</p>
+<ol>
+<li>In the left sidebar, click <strong>Interactivity &amp; Shortcuts</strong> → <strong>Shortcuts</strong> → <strong>Create New Shortcut</strong>.</li>
+<li>Select <strong>On messages</strong>.</li>
+<li>Fill in:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Capture to DocBrain</code></td>
+</tr>
+<tr>
+<td>Callback ID</td>
+<td><code>docbrain_capture</code></td>
+</tr>
+<tr>
+<td>Short Description</td>
+<td><code>Index this thread into DocBrain</code></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<h2 id="step-3c-enable-event-subscriptions-optional">Step 3c: Enable Event Subscriptions (optional)<a class="headerlink" href="#step-3c-enable-event-subscriptions-optional" title="Permanent link">&para;</a></h2>
+<p>This enables <code>@DocBrain capture</code> mentions as an alternative way to trigger thread capture.</p>
+<ol>
+<li>In the left sidebar, click <strong>Event Subscriptions</strong> → toggle <strong>On</strong>.</li>
+<li>Set the <strong>Request URL</strong> to:</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>https://&lt;your-domain&gt;/slack/events
+</span></code></pre></div>
+<ol>
+<li>Under <strong>Subscribe to bot events</strong>, add <code>app_mention</code>.</li>
+<li>Go to <strong>OAuth &amp; Permissions</strong> → <strong>Bot Token Scopes</strong> and add <code>app_mentions:read</code> and <code>channels:history</code> (if not already present).</li>
+<li>Click <strong>Save Changes</strong>.</li>
+</ol>
 <h2 id="step-4-add-oauth-scopes">Step 4: Add OAuth Scopes<a class="headerlink" href="#step-4-add-oauth-scopes" title="Permanent link">&para;</a></h2>
 <ol>
 <li>In the left sidebar, click <strong>OAuth &amp; Permissions</strong>.</li>
@@ -1623,6 +1846,14 @@
 <td><code>users:read.email</code></td>
 <td>Look up doc authors by email for stale-doc DMs</td>
 </tr>
+<tr>
+<td><code>app_mentions:read</code></td>
+<td>Handle <code>@DocBrain capture</code> mentions in threads</td>
+</tr>
+<tr>
+<td><code>channels:history</code></td>
+<td>Read thread messages for capture</td>
+</tr>
 </tbody>
 </table>
 <ol>
@@ -1636,44 +1867,49 @@
 </ol>
 <h2 id="step-6-configure-docbrain">Step 6: Configure DocBrain<a class="headerlink" href="#step-6-configure-docbrain" title="Permanent link">&para;</a></h2>
 <p>Add these environment variables to your <code>.env</code> or deployment config:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Required — without SLACK_SIGNING_SECRET, Slack routes are not mounted</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">SLACK_SIGNING_SECRET</span><span class="o">=</span>your-signing-secret-here
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nv">SLACK_BOT_TOKEN</span><span class="o">=</span>xoxb-your-bot-token-here
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Optional — channel for critical gap alerts (e.g. #docs-alerts)</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nv">SLACK_GAP_NOTIFICATION_CHANNEL</span><span class="o">=</span><span class="c1">#docs-alerts</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Required — without SLACK_SIGNING_SECRET, Slack routes are not mounted</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">SLACK_SIGNING_SECRET</span><span class="o">=</span>your-signing-secret-here
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nv">SLACK_BOT_TOKEN</span><span class="o">=</span>xoxb-your-bot-token-here
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Optional — channel for critical gap alerts (e.g. #docs-alerts)</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nv">SLACK_GAP_NOTIFICATION_CHANNEL</span><span class="o">=</span><span class="c1">#docs-alerts</span>
 </span></code></pre></div>
 <p>Restart DocBrain. On startup you should see:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>[startup] Slack integration enabled
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>[startup] Slack integration enabled
 </span></code></pre></div>
 <p>If <code>SLACK_SIGNING_SECRET</code> is not set, the Slack routes will not be registered and you'll see no Slack-related startup message.</p>
 <h2 id="step-7-verify">Step 7: Verify<a class="headerlink" href="#step-7-verify" title="Permanent link">&para;</a></h2>
 <p>In any Slack channel, type:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>/docbrain help
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>/docbrain help
 </span></code></pre></div>
 <p>You should see the list of available commands. Then try a real query:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>/docbrain ask how do we deploy to production?
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>/docbrain ask how do we deploy to production?
 </span></code></pre></div>
 <p>You'll see a "Searching documentation..." acknowledgement, followed by the full answer with sources and feedback buttons.</p>
 <h2 id="usage-examples">Usage Examples<a class="headerlink" href="#usage-examples" title="Permanent link">&para;</a></h2>
+<h3 id="capture-a-thread">Capture a thread<a class="headerlink" href="#capture-a-thread" title="Permanent link">&para;</a></h3>
+<p>Slack blocks slash commands in threads, so <code>/docbrain capture</code> only works as a top-level command. Use one of these alternatives to capture a thread:</p>
+<p><strong>Message shortcut (recommended):</strong> Right-click any message in a thread → <strong>Shortcuts</strong> → <strong>Capture to DocBrain</strong></p>
+<p><strong>Bot mention:</strong> Type <code>@DocBrain capture</code> in a thread (requires Event Subscriptions — see Step 3c)</p>
+<p><strong>Slash command (top-level only):</strong> <code>/docbrain capture</code> works outside of threads but is blocked by Slack inside threads.</p>
 <h3 id="ask-a-question">Ask a question<a class="headerlink" href="#ask-a-question" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>/docbrain ask what&#39;s the runbook for Redis OOM errors?
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>/docbrain ask what&#39;s the runbook for Redis OOM errors?
 </span></code></pre></div>
 <p>Returns a sourced answer with confidence rating, freshness indicators on each source, and thumbs up/down buttons.</p>
 <h3 id="incident-triage-at-2am">Incident triage at 2am<a class="headerlink" href="#incident-triage-at-2am" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>/docbrain incident payments service returning 502 after deploy
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>/docbrain incident payments service returning 502 after deploy
 </span></code></pre></div>
 <p>Prioritizes runbooks and rollback procedures. The response is posted to the channel (visible to everyone) so the whole on-call team can see it.</p>
 <h3 id="check-documentation-freshness">Check documentation freshness<a class="headerlink" href="#check-documentation-freshness" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>/docbrain freshness PLATFORM
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>/docbrain freshness PLATFORM
 </span></code></pre></div>
 <p>Returns a summary: how many docs are fresh, stale, or outdated in the PLATFORM space.</p>
 <h3 id="nudge-doc-owners">Nudge doc owners<a class="headerlink" href="#nudge-doc-owners" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>/docbrain notify SRE
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>/docbrain notify SRE
 </span></code></pre></div>
 <p>Sends a Slack DM to every author in the SRE space whose docs are stale (freshness score &lt; 40). The DM includes the doc title, how old it is, and how many times it was cited recently.</p>
 <h3 id="onboard-a-new-hire">Onboard a new hire<a class="headerlink" href="#onboard-a-new-hire" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>/docbrain onboard ENG
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>/docbrain onboard ENG
 </span></code></pre></div>
 <p>Generates an AI-curated reading list of the most important docs in the ENG space, sorted by relevance and freshness — takes about 30 seconds.</p>
 <h2 id="proactive-notifications">Proactive Notifications<a class="headerlink" href="#proactive-notifications" title="Permanent link">&para;</a></h2>
@@ -1705,7 +1941,7 @@
 </tbody>
 </table>
 <p>To restrict notifications to specific spaces:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nv">NOTIFICATION_SPACE_FILTER</span><span class="o">=</span>PLATFORM,SRE
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nv">NOTIFICATION_SPACE_FILTER</span><span class="o">=</span>PLATFORM,SRE
 </span></code></pre></div>
 <h2 id="configuration-reference">Configuration Reference<a class="headerlink" href="#configuration-reference" title="Permanent link">&para;</a></h2>
 <table>
@@ -1813,7 +2049,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../ingestion/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Ingestion Guide">
+          <a href="../connectors/" class="md-footer__link md-footer__link--prev" aria-label="Previous: External Connectors">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1823,7 +2059,7 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Ingestion Guide
+                External Connectors
               </div>
             </div>
           </a>
@@ -1880,7 +2116,7 @@
       
       
     
-    <a href="https://www.youtube.com/@what_just_happend" target="_blank" rel="noopener" title="www.youtube.com" class="md-social__link">
+    <a href="https://www.youtube.com/@docbrain-ai" target="_blank" rel="noopener" title="www.youtube.com" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M549.7 124.1c-6.2-23.7-24.8-42.3-48.3-48.6C458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5c-23.5 6.3-42 24.9-48.3 48.6C15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8C117.3 448 288.1 448 288.1 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6V175.2l142.7 81.2z"/></svg>
     </a>
   
