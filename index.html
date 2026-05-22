@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DocBrain — Your organization's living knowledge graph.</title>
+  <title>DocBrain · Your organization's living knowledge graph</title>
   <meta name="description" content="DocBrain captures knowledge from PRs, conversations, CI pipelines, and IDEs the moment it's created — then scores, reviews, and publishes it automatically. Shift-left documentation for engineering teams. 14 LLM providers, self-hosted.">
   <meta name="theme-color" content="#0a0a1a">
   <meta property="og:title" content="DocBrain — Capture knowledge at the source. Ship docs that stay accurate.">
@@ -324,6 +324,7 @@
       </a>
       <div class="hidden md:flex items-center gap-8 text-sm text-slate-400">
         <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
+        <a href="#live" class="hover:text-white transition-colors">Live Data</a>
         <a href="#features" class="hover:text-white transition-colors">Features</a>
         <a href="#videos" class="hover:text-white transition-colors">Workflows</a>
         <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
@@ -349,6 +350,7 @@
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
       <a href="#how-it-works" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">How It Works</a>
+      <a href="#live" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Live Data</a>
       <a href="#features" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Features</a>
       <a href="#videos" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Workflows</a>
       <a href="#faq" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">FAQ</a>
@@ -378,12 +380,12 @@
           <span class="gradient-text">living knowledge graph.</span>
         </h1>
         <p id="hero-sub" class="text-lg sm:text-xl text-slate-400 leading-relaxed mb-8 max-w-xl opacity-0">
-          DocBrain captures knowledge from <strong class="text-slate-200">PRs, Slack threads, CI pipelines, and your IDE</strong> the moment it's created — connects it into a living graph, quality-scores it, and publishes it automatically.
+          DocBrain captures knowledge from <strong class="text-slate-200">PRs, Slack threads, CI pipelines, and your IDE</strong> the moment it's created. It connects that into a living graph, scores the quality, and publishes it for you.
         </p>
         <div id="hero-stats" class="flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-500 mb-10 opacity-0">
           <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">25MB</span> binary</span>
           <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">&lt;500ms</span> cold start</span>
-          <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">14</span> LLM providers</span>
+          <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">15</span> LLM providers</span>
           <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">13+</span> sources</span>
         </div>
         <div id="hero-cta" class="flex flex-wrap gap-4 opacity-0">
@@ -393,7 +395,11 @@
           </a>
           <a href="https://github.com/docbrain-ai/docbrain" target="_blank" rel="noopener" class="magnetic-btn secondary">
             <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-            View on GitHub
+            Star on GitHub
+            <span id="gh-stars" class="ml-1 inline-flex items-center gap-1 text-xs font-mono text-brand-300 bg-brand-500/10 px-2 py-0.5 rounded-full" aria-label="GitHub stars">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.401 8.166L12 18.896l-7.335 3.857 1.401-8.166L.132 9.21l8.2-1.192z"/></svg>
+              <span id="gh-star-count">&middot;</span>
+            </span>
           </a>
         </div>
       </div>
@@ -420,7 +426,7 @@
           <div class="text-sm text-slate-500 mt-2">Cold start time</div>
         </div>
         <div class="stat-block">
-          <div class="stat-value" data-counter="14">0</div>
+          <div class="stat-value" data-counter="15">0</div>
           <div class="text-sm text-slate-500 mt-2">LLM providers</div>
         </div>
         <div class="stat-block">
@@ -436,7 +442,7 @@
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-20">
         <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">Documentation is broken<br><span class="text-slate-500">at the source.</span></h2>
-        <p class="text-xl text-slate-400 max-w-2xl mx-auto">The problem isn't missing docs. It's that knowledge is created in one place and documented in another — if it's documented at all.</p>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">The problem isn't missing docs. It's that knowledge gets created in one place and written down in another. If it gets written down at all.</p>
       </div>
       <div class="grid md:grid-cols-3 gap-8">
         <div class="glass-card p-10 group">
@@ -451,7 +457,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
           <h3 class="text-xl font-bold text-white mb-3">PRs are documentation goldmines</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Every merged PR contains decisions, caveats, and procedures — but PR descriptions are write-once, read-never.</p>
+          <p class="text-slate-400 text-sm leading-relaxed">Every merged PR contains decisions, caveats, and procedures. But PR descriptions are write-once, read-never.</p>
         </div>
         <div class="glass-card p-10 group">
           <div class="feature-icon bg-orange-500/10 mb-6">
@@ -510,7 +516,7 @@
           <h3 class="text-2xl lg:text-3xl font-bold text-white mb-4">The complete knowledge lifecycle</h3>
           <p class="text-slate-400 text-lg mb-8">Other tools index existing docs. DocBrain <strong class="text-white">captures the knowledge that was never written down</strong> and turns it into quality documentation.</p>
           <div class="p-5 rounded-xl bg-white/5 border border-white/10">
-            <p class="text-sm text-slate-300"><strong class="text-white">Result:</strong> Documentation grounded in real engineering work, quality-scored, and governed — <span class="text-emerald-400">without asking anyone to write docs.</span></p>
+            <p class="text-sm text-slate-300"><strong class="text-white">Result:</strong> documentation grounded in real engineering work, quality-scored and governed, <span class="text-emerald-400">without asking anyone to write docs.</span></p>
           </div>
         </div>
       </div>
@@ -664,7 +670,7 @@
             </div>
             <div class="ide-chat-msg ide-chat-user">What happens if the idempotency key expires?</div>
             <div class="ide-chat-msg ide-chat-ai">
-              Keys expire after <strong class="text-white">24 hours</strong>. After expiry, a retry with the same key generates a <em>new</em> refund — the client must generate a fresh key.
+              Keys expire after <strong class="text-white">24 hours</strong>. After that, a retry with the same key generates a <em>new</em> refund, so the client must generate a fresh key.
               <div class="mt-2">
                 <span class="ide-chat-source">PR #347</span>
                 <span class="ide-chat-source">Payments On-Call Guide</span>
@@ -672,6 +678,142 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-glow"></div>
+
+  <!-- ========== LIVE INTELLIGENCE (MCP TOOL PLATFORM) ========== -->
+  <section id="live" class="py-32 lg:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-20 items-center">
+        <!-- Left: the narrative -->
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">Live Intelligence</p>
+          <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-8 leading-[1.1]">Answers from<br>what's true <span class="text-slate-500">right now</span></h2>
+          <p class="text-lg text-slate-400 leading-relaxed mb-6">Most doc assistants answer from a snapshot. An index tells you what was true the last time it crawled, not what's happening this minute.</p>
+          <p class="text-lg text-slate-400 leading-relaxed mb-10">DocBrain reaches into your live systems <em class="text-slate-300 not-italic font-semibold">at the moment you ask</em>. &ldquo;What's the status of PROJ&#8209;412?&rdquo; pulls the ticket from Jira as it stands right now, then combines it with your indexed runbooks into one cited answer. Old knowledge and live state, in a single response.</p>
+
+          <div class="space-y-5 mb-10">
+            <div class="flex items-start gap-4">
+              <div class="feature-icon bg-emerald-500/10 mt-0.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+              <div>
+                <h4 class="font-bold text-white mb-1">Read-only by design</h4>
+                <p class="text-sm text-slate-400">DocBrain can <em class="not-italic text-slate-300">read</em> your tools, never write to them. Any tool that could change a system is dropped at discovery. Enforced, not promised.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="feature-icon bg-brand-500/10 mt-0.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+              <div>
+                <h4 class="font-bold text-white mb-1">Each user, their own permissions</h4>
+                <p class="text-sm text-slate-400">Connected per&#8209;user over OAuth. Your answer is scoped to what <em class="not-italic text-slate-300">you</em> can see in the source. Tokens refresh on their own, and nobody sees data they shouldn't.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="feature-icon bg-violet-500/10 mt-0.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+              <div>
+                <h4 class="font-bold text-white mb-1">Any MCP-enabled system</h4>
+                <p class="text-sm text-slate-400">Jira, Confluence, and Slack out of the box, plus anything that speaks the Model Context Protocol. Add a tool, and DocBrain starts answering from it.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-6">
+            <div class="text-center">
+              <div class="stat-value text-3xl">0</div>
+              <p class="text-xs text-slate-500 mt-1">Write operations</p>
+            </div>
+            <div class="glow-line-v h-12"></div>
+            <div class="text-center">
+              <div class="stat-value text-3xl">Per&#8209;user</div>
+              <p class="text-xs text-slate-500 mt-1">OAuth scope</p>
+            </div>
+            <div class="glow-line-v h-12"></div>
+            <div class="text-center">
+              <div class="stat-value text-3xl">Live</div>
+              <p class="text-xs text-slate-500 mt-1">At answer time</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: a live, cited answer -->
+        <div>
+          <div class="glass-card overflow-hidden border-brand-500/20">
+            <div class="flex items-center gap-3 px-6 py-4 border-b border-white/5">
+              <div class="w-7 h-7 rounded-lg bg-brand-600/30 flex items-center justify-center text-brand-300 text-xs font-bold">DB</div>
+              <span class="text-sm font-semibold text-white">DocBrain</span>
+              <span class="ml-auto inline-flex items-center gap-1.5 text-[11px] text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Live data
+              </span>
+            </div>
+            <div class="p-6">
+              <p class="text-xs text-slate-500 mb-4">&ldquo;Is the payments outage from yesterday resolved, and what was the fix?&rdquo;</p>
+
+              <div class="slack-bot-card mb-4">
+                <strong class="text-white">Resolved, 14h ago.</strong>
+                <p class="text-sm text-slate-400 mt-2">PROJ&#8209;412 (&ldquo;Payments 502s after deploy&rdquo;) moved to <span class="text-emerald-400">Done</span> at 09:14 UTC. The fix was a rollback of <code class="text-xs text-brand-300">payment-processor</code> plus an idempotency-key guard, per the linked runbook.</p>
+                <div class="mt-3 pt-3 border-t border-white/5 flex flex-wrap gap-2">
+                  <span class="ide-chat-source">Jira &middot; PROJ-412 <span class="text-emerald-400/70">live</span></span>
+                  <span class="ide-chat-source">Payments Rollback Runbook v3</span>
+                  <span class="ide-chat-source">PR #347</span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 text-[11px]">
+                <div class="glass-card p-3 !rounded-lg">
+                  <div class="text-slate-500 mb-1">Indexed knowledge</div>
+                  <div class="text-slate-300">The runbook &amp; PR. <span class="text-slate-500">What was true at capture.</span></div>
+                </div>
+                <div class="glass-card p-3 !rounded-lg border-brand-500/20">
+                  <div class="text-brand-300 mb-1">Live tool</div>
+                  <div class="text-slate-300">Ticket status <span class="text-emerald-400">right now</span>. Pulled at answer time.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="text-center text-xs text-slate-600 mt-4">One answer. Indexed history reconciled with live source-system state.</p>
+        </div>
+      </div>
+
+      <!-- "But my IDE already does MCP" -->
+      <div class="mt-24 max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+          <h3 class="text-2xl lg:text-3xl font-bold text-white mb-3">&ldquo;My IDE already does MCP.&rdquo;</h3>
+          <p class="text-slate-400 max-w-2xl mx-auto">True. Cursor and Claude Code can hit your tools live too. The difference is what happens after the answer. They forget it. DocBrain keeps it, connects it, and gets better every time someone asks.</p>
+        </div>
+        <div class="glass-card overflow-hidden">
+          <div class="grid grid-cols-3 text-sm">
+            <div class="p-4 border-b border-white/5"></div>
+            <div class="p-4 border-b border-l border-white/5 text-center font-semibold text-slate-400">IDE + MCP</div>
+            <div class="p-4 border-b border-l border-white/5 text-center font-semibold text-brand-300">DocBrain</div>
+
+            <div class="p-4 border-b border-white/5 text-slate-300">Reads live tools at answer time</div>
+            <div class="p-4 border-b border-l border-white/5 text-center text-emerald-400">Yes</div>
+            <div class="p-4 border-b border-l border-white/5 text-center text-emerald-400">Yes</div>
+
+            <div class="p-4 border-b border-white/5 text-slate-300">Remembers the answer after you close the tab</div>
+            <div class="p-4 border-b border-l border-white/5 text-center text-slate-600">No</div>
+            <div class="p-4 border-b border-l border-white/5 text-center text-emerald-400">Yes</div>
+
+            <div class="p-4 border-b border-white/5 text-slate-300">Learns from everyone, not just you</div>
+            <div class="p-4 border-b border-l border-white/5 text-center text-slate-600">No</div>
+            <div class="p-4 border-b border-l border-white/5 text-center text-emerald-400">Yes</div>
+
+            <div class="p-4 border-b border-white/5 text-slate-300">Maps who owns what, what depends on what</div>
+            <div class="p-4 border-b border-l border-white/5 text-center text-slate-600">No</div>
+            <div class="p-4 border-b border-l border-white/5 text-center text-emerald-400">Yes</div>
+
+            <div class="p-4 border-b border-white/5 text-slate-300">Turns answers into durable, quality-scored docs</div>
+            <div class="p-4 border-b border-l border-white/5 text-center text-slate-600">No</div>
+            <div class="p-4 border-b border-l border-white/5 text-center text-emerald-400">Yes</div>
+
+            <div class="p-4 text-slate-300">One shared brain for the org, with access control</div>
+            <div class="p-4 border-l border-white/5 text-center text-slate-600">Per-dev</div>
+            <div class="p-4 border-l border-white/5 text-center text-emerald-400">Org-wide</div>
+          </div>
+        </div>
+        <p class="text-center text-sm text-slate-500 mt-6">An IDE asks your tools a question. DocBrain turns every question your org has ever asked into a system that gets smarter.</p>
       </div>
     </div>
   </section>
@@ -733,7 +875,7 @@
               </div>
               <div>
                 <h4 class="font-bold text-white mb-1">Semantic Memory <span class="text-xs font-mono text-violet-400/60 ml-2">Knowledge Graph</span></h4>
-                <p class="text-sm text-slate-400">Entity relationships via graph traversal. "Who owns the payment service?" — resolved, not searched.</p>
+                <p class="text-sm text-slate-400">Entity relationships via graph traversal. "Who owns the payment service?" gets resolved, not searched.</p>
               </div>
             </div>
           </div>
@@ -769,13 +911,13 @@
         <div class="glass-card p-8"><div class="feature-icon bg-brand-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div><h4 class="font-bold text-white mb-2">Confidence-Scored Q&A</h4><p class="text-sm text-slate-400">Hybrid search, intent classification, cited answers with freshness. Low confidence asks questions instead of hallucinating.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-violet-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v4M7.5 17.2L10 14M16.5 17.2L14 14"/></svg></div><h4 class="font-bold text-white mb-2">Knowledge Graph</h4><p class="text-sm text-slate-400">Entity relationships with BFS/DFS traversal. Blast radius analysis, expertise routing.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-amber-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><h4 class="font-bold text-white mb-2">Documentation Autopilot</h4><p class="text-sm text-slate-400">Clusters unanswered questions, detects gaps, auto-drafts missing documentation.</p></div>
-        <div class="glass-card p-8"><div class="feature-icon bg-orange-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M3 12h18"/><path d="M8 8l4-4 4 4M8 16l4 4 4-4M16 8l4 4-4 4M8 8L4 12l4 4"/></svg></div><h4 class="font-bold text-white mb-2">14 LLM Providers</h4><p class="text-sm text-slate-400">Anthropic, OpenAI, Bedrock, Ollama (local), Gemini, Azure, and 8 more. Swap via config.</p></div>
+        <div class="glass-card p-8"><div class="feature-icon bg-orange-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M3 12h18"/><path d="M8 8l4-4 4 4M8 16l4 4 4-4M16 8l4 4-4 4M8 8L4 12l4 4"/></svg></div><h4 class="font-bold text-white mb-2">15 LLM Providers</h4><p class="text-sm text-slate-400">Anthropic, OpenAI, Bedrock, Ollama (local), Gemini, Azure, and 9 more. Swap via config.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-pink-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><h4 class="font-bold text-white mb-2">SSO & RBAC</h4><p class="text-sm text-slate-400">GitHub/GitLab/OIDC SSO. Four roles. Space-level isolation. API keys Argon2-hashed.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-rose-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><h4 class="font-bold text-white mb-2">Source-System ACL</h4><p class="text-sm text-slate-400">Mirrors real Confluence / Slack / GitHub / Jira permissions at query time. Restricted page in source = filtered out for users who can't read it. Three modes, side-channel-safe, audit-logged.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-red-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/></svg></div><h4 class="font-bold text-white mb-2">Built with Rust</h4><p class="text-sm text-slate-400">25MB binary. &lt;500ms cold start. Under 100MB memory. Self-hosted, your data stays yours.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-sky-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"><path d="M4 14a1 1 0 01-.78-1.63l9.9-10.2a.5.5 0 01.86.46l-1.92 6.02A1 1 0 0013 10h7a1 1 0 01.78 1.63l-9.9 10.2a.5.5 0 01-.86-.46l1.92-6.02A1 1 0 0011 14z"/></svg></div><h4 class="font-bold text-white mb-2">Connector SDK</h4><p class="text-sm text-slate-400">Plug in any knowledge source in any language. 3 endpoints, DocBrain handles the rest.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-sky-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="14" y1="4" x2="10" y2="20"/></svg></div><h4 class="font-bold text-white mb-2">MCP IDE Capture</h4><p class="text-sm text-slate-400">10 tools for Claude Code, Cursor, and any MCP editor. Capture decisions at commit time.</p></div>
-        <div class="glass-card p-8"><div class="feature-icon bg-violet-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><h4 class="font-bold text-white mb-2">Live MCP Tool Platform</h4><p class="text-sm text-slate-400">Pull live Jira tickets, GitHub PR state, or any MCP-enabled system at answer time. Per-user OAuth with transparent refresh. Answers cite live data, not stale chunks.</p></div>
+        <a href="#live" class="glass-card p-8 block hover:border-brand-500/30 transition-colors group"><div class="feature-icon bg-violet-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><h4 class="font-bold text-white mb-2 flex items-center gap-2">Live MCP Tool Platform <svg class="opacity-0 group-hover:opacity-100 transition-opacity" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></h4><p class="text-sm text-slate-400">Pull live Jira tickets, GitHub PR state, or any MCP-enabled system at answer time. Per-user OAuth with transparent refresh. Answers cite live data, not stale chunks. <span class="text-brand-400">See how &rarr;</span></p></a>
         <div class="glass-card p-8"><div class="feature-icon bg-cyan-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div><h4 class="font-bold text-white mb-2">13+ Knowledge Sources</h4><p class="text-sm text-slate-400">Confluence, Slack, Teams, GitHub, GitLab, Jira, PagerDuty, OpsGenie, Zendesk, and more.</p></div>
       </div>
     </div>
@@ -800,7 +942,7 @@
             <div class="w-px h-full bg-gradient-to-b from-emerald-500/30 to-violet-500/30 my-2"></div>
           </div>
           <div class="pb-14">
-            <p class="text-xs text-emerald-400 font-semibold uppercase tracking-wider mb-2">9:15 AM &mdash; PR Merged</p>
+            <p class="text-xs text-emerald-400 font-semibold uppercase tracking-wider mb-2">9:15 AM · PR Merged</p>
             <h4 class="text-white font-bold text-xl mb-3">Engineer merges a payment refund PR</h4>
             <p class="text-slate-400 leading-relaxed">DocBrain's CI capture extracts 3 knowledge fragments: a decision about retry logic, a caveat about idempotency keys, and a procedure for manual refund overrides. All auto-indexed with 92% confidence.</p>
           </div>
@@ -813,9 +955,9 @@
             <div class="w-px h-full bg-gradient-to-b from-violet-500/30 to-amber-500/30 my-2"></div>
           </div>
           <div class="pb-14">
-            <p class="text-xs text-violet-400 font-semibold uppercase tracking-wider mb-2">11:30 AM &mdash; Slack Thread</p>
+            <p class="text-xs text-violet-400 font-semibold uppercase tracking-wider mb-2">11:30 AM · Slack Thread</p>
             <h4 class="text-white font-bold text-xl mb-3">Support asks "how do refunds work now?"</h4>
-            <p class="text-slate-400 leading-relaxed">DocBrain answers with fragments captured 2 hours ago — plus links to the original PR. The support engineer types <code class="text-xs bg-white/5 px-1.5 py-0.5 rounded">/docbrain capture</code> to save additional context.</p>
+            <p class="text-slate-400 leading-relaxed">DocBrain answers with fragments captured 2 hours ago, plus links to the original PR. The support engineer types <code class="text-xs bg-white/5 px-1.5 py-0.5 rounded">/docbrain capture</code> to save more context.</p>
           </div>
         </div>
         <div class="timeline-item flex gap-6">
@@ -826,7 +968,7 @@
             <div class="w-px h-full bg-gradient-to-b from-amber-500/30 to-sky-500/30 my-2"></div>
           </div>
           <div class="pb-14">
-            <p class="text-xs text-amber-400 font-semibold uppercase tracking-wider mb-2">2:00 PM &mdash; Auto-Composition</p>
+            <p class="text-xs text-amber-400 font-semibold uppercase tracking-wider mb-2">2:00 PM · Auto-Composition</p>
             <h4 class="text-white font-bold text-xl mb-3">5 fragments cluster into a draft doc</h4>
             <p class="text-slate-400 leading-relaxed">DocBrain detects semantic similarity across PR fragments, Slack capture, and older fragments. Composes "Payment Refund Procedures," scores at 78/100, routes for SME review.</p>
           </div>
@@ -838,7 +980,7 @@
             </div>
           </div>
           <div class="pb-4">
-            <p class="text-xs text-sky-400 font-semibold uppercase tracking-wider mb-2">3:30 PM &mdash; Published</p>
+            <p class="text-xs text-sky-400 font-semibold uppercase tracking-wider mb-2">3:30 PM · Published</p>
             <h4 class="text-white font-bold text-xl mb-3">Reviewed, style-checked, published</h4>
             <p class="text-slate-400 leading-relaxed">Quality rules catch 2 violations, auto-fixed. Final score: 91/100. Published to "Payments" space. Total engineer effort: <strong class="text-white">zero</strong>.</p>
           </div>
@@ -868,10 +1010,27 @@
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Does my data leave my infrastructure?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">When self-hosted, docs and queries never leave your infra. Use Ollama for 100% local, air-gapped deployment with zero data egress.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Which LLMs does DocBrain support?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">15+ providers: Anthropic (Claude), OpenAI, AWS Bedrock, Vertex AI, Azure OpenAI, Groq, OpenRouter, Together, DeepSeek, Mistral, xAI, Gemini, Cohere, and Ollama. Swap via config.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Does DocBrain learn from feedback?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Yes. Thumbs up/down updates procedural retrieval rules and feeds Autopilot gap detection. Optional learning pipeline fine-tunes embeddings from feedback.</div></details>
-        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">How long does setup take?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Docker Compose: about 5 minutes. Run <code class="bg-white/5 px-1.5 rounded text-brand-300">bash scripts/setup.sh</code> — PostgreSQL, OpenSearch, Redis, migrations, sample docs. Add your LLM API key and go.</div></details>
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">How long does setup take?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Docker Compose: about 5 minutes. Run <code class="bg-white/5 px-1.5 rounded text-brand-300">bash scripts/setup.sh</code> and it brings up PostgreSQL, OpenSearch, Redis, migrations, and sample docs. Add your LLM API key and go.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">What is "shift-left documentation"?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Same idea as shift-left testing: capture knowledge at the source instead of documenting after the fact. Fragments accumulate, cluster, and auto-compose into quality-scored documentation.</div></details>
+
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">My IDE already has MCP. Why DocBrain?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Your IDE can read live tools, and so can DocBrain. The difference is memory. Cursor or Claude Code answers your question in your session, then forgets it the moment you close the tab. DocBrain keeps every answer, links the entities into a knowledge graph, learns which sources to trust from feedback, and turns recurring questions into durable docs. The 100th person asking about Kubernetes gets a faster, better answer because of the first 99. It's one shared brain for the whole org with access control, not a private session per developer.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">How are docs quality-scored?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Three layers: <strong class="text-white">Structural</strong> (deterministic), <strong class="text-white">Style</strong> (configurable rules per team), and <strong class="text-white">Semantic</strong> (LLM-assessed). Composite score 0-100.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Can I integrate with PagerDuty / incident management?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Yes. Native PagerDuty and OpsGenie ingestion. Knowledge Stream fires early warnings during incidents. Webhook subscriptions push events to any tool.</div></details>
+
+        <!-- Security & Access -->
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 pt-10 pb-2">Security &amp; Access</p>
+
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Can DocBrain change anything in my connected tools?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed"><strong class="text-white">No. It's read-only, and that's enforced, not promised.</strong> When DocBrain connects to a live tool over MCP, any tool that could create, edit, or delete gets dropped during discovery. It can read Jira, Confluence, or Slack to answer a question. It cannot file a ticket, post a message, or change a page.</div></details>
+
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Will users see data they're not allowed to?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">No. DocBrain enforces access at <em class="not-italic text-slate-300">query time</em> on two fronts. <strong class="text-white">Source-system ACL</strong> mirrors the real permissions of Confluence, Slack, GitHub, and Jira. A page someone can't open in the source gets filtered out of their answers, side-channel-safe and audit-logged. For live tools, each user connects with their <strong class="text-white">own OAuth</strong>, so live results are scoped to exactly what that person can see.</div></details>
+
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">How is access controlled inside DocBrain?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">SSO via GitHub, GitLab, or any OIDC provider. Role-based access control with four roles, space-level isolation between teams, and API keys hashed with Argon2. Every privileged action is audit-logged.</div></details>
+
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Can I run it fully air-gapped?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Yes. Self-host and point DocBrain at a local Ollama model. No API calls leave your network, zero data egress. Documents, queries, and embeddings stay entirely on your infrastructure.</div></details>
+
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">How are secrets and credentials handled?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">OAuth tokens are encrypted at rest and refreshed transparently; API keys are Argon2-hashed and never stored in plaintext. Connector credentials are referenced by name, never logged, and never surfaced in the UI. LLM and source keys live in your environment, not in DocBrain's database.</div></details>
+
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Is the source code auditable?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Fully. DocBrain is open source under BSL 1.1, so you can read every line, run your own security review, and self-host the exact code you audited. No closed-source agent runs on your infrastructure.</div></details>
       </div>
     </div>
   </section>
@@ -1390,6 +1549,23 @@
         requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
+    })();
+
+    // Live GitHub star count — real traction, always current. Fails silently:
+    // if the API is unreachable, the badge is hidden rather than showing a stale
+    // or broken number.
+    (function () {
+      const badge = document.getElementById('gh-stars');
+      const count = document.getElementById('gh-star-count');
+      if (!badge || !count) return;
+      fetch('https://api.github.com/repos/docbrain-ai/docbrain')
+        .then((r) => (r.ok ? r.json() : Promise.reject()))
+        .then((d) => {
+          const n = d.stargazers_count;
+          if (typeof n !== 'number') return Promise.reject();
+          count.textContent = n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n);
+        })
+        .catch(() => { badge.style.display = 'none'; });
     })();
   </script>
 </body>
