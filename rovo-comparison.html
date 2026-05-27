@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocBrain vs Rovo — Full AI Assessment Transcript</title>
+<meta name="description" content="We asked Rovo (Atlassian's AI) to compare itself to DocBrain honestly. This is the full, unedited response — including where Rovo wins.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #06060e;
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #818cf8, #a78bfa, #c084fc, #f472b6);
+    background-size: 300% 100%;
+    animation: gradient-shift 6s ease infinite;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .glass-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+  }
+
+  .section-glow {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99,102,241,0.15), rgba(139,92,246,0.15), transparent);
+  }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 100px; font-size: 13px; font-weight: 500;
+    background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.15); color: #a5b4fc;
+  }
+
+  /* Chat bubble styles */
+  .chat-wrap { max-width: 820px; margin: 0 auto; }
+
+  .bubble-user {
+    display: flex; justify-content: flex-end; margin-bottom: 12px;
+  }
+  .bubble-user-inner {
+    max-width: 72%;
+    background: rgba(99,102,241,0.15);
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 18px 18px 4px 18px;
+    padding: 14px 18px;
+    font-size: 15px; color: #e2e8f0; line-height: 1.6;
+  }
+
+  .bubble-rovo {
+    display: flex; gap: 12px; margin-bottom: 8px;
+    align-items: flex-start;
+  }
+  .rovo-avatar {
+    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+    background: linear-gradient(135deg, #1868db, #0052cc);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: white;
+    margin-top: 2px;
+  }
+  .bubble-rovo-inner {
+    flex: 1;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px 18px 18px 18px;
+    padding: 18px 22px;
+    font-size: 15px; color: #cbd5e1; line-height: 1.75;
+  }
+
+  /* Comparison table */
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .compare-table th {
+    padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .06em;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .compare-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top; line-height: 1.6;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: rgba(255,255,255,0.015); }
+
+  .win-row td:nth-child(1) { color: #34d399; }
+  .rovo-win td:nth-child(1) { color: #60a5fa; }
+
+  /* Pill */
+  .pill {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 12px; font-weight: 500;
+  }
+  .pill-db { background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.2); }
+  .pill-rv { background: rgba(96,165,250,0.1); color: #60a5fa; border: 1px solid rgba(96,165,250,0.2); }
+
+  /* Pull quote */
+  .pull-quote {
+    border-left: 3px solid #6366f1;
+    padding: 20px 24px;
+    background: rgba(99,102,241,0.04);
+    border-radius: 0 12px 12px 0;
+    font-size: 18px; font-style: italic; color: #e2e8f0; line-height: 1.6;
+  }
+
+  /* Sticky nav */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(6,6,14,0.85); backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Timeline dot */
+  .tl-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #4f46e5;
+    flex-shrink: 0; margin-top: 8px;
+  }
+
+  /* Noise */
+  .noise-overlay {
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Fade in */
+  .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(99,102,241,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,102,241,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  h3.section-h { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 12px; margin-top: 24px; }
+  h3.section-h:first-child { margin-top: 0; }
+  p.body-p { color: #94a3b8; font-size: 15px; line-height: 1.75; margin-bottom: 12px; }
+  ul.body-ul { margin: 0 0 12px 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  ul.body-ul li { display: flex; gap: 10px; align-items: flex-start; color: #94a3b8; font-size: 15px; line-height: 1.6; }
+  ul.body-ul li::before { content: '→'; color: #4f46e5; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  strong.hl { font-weight: 600; color: #e2e8f0; }
+</style>
+</head>
+<body>
+<div class="noise-overlay" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav>
+  <div style="max-width:900px; margin:0 auto; padding:0 24px; height:56px; display:flex; align-items:center; justify-content:space-between;">
+    <a href="https://docbrainapi.com" style="display:flex; align-items:center; gap:10px; text-decoration:none;">
+      <div style="width:28px; height:28px; border-radius:7px; background:linear-gradient(135deg,#4f46e5,#818cf8); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:white;">D</div>
+      <span style="font-weight:700; font-size:15px; color:#e2e8f0;">DocBrain</span>
+    </a>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <span style="font-size:12px; color:#64748b;">Full AI transcript</span>
+      <a href="https://github.com/docbrain-ai/docbrain" target="_blank" style="font-size:13px; color:#818cf8; text-decoration:none; border:1px solid rgba(99,102,241,0.2); padding:5px 14px; border-radius:8px; background:rgba(99,102,241,0.06);">GitHub →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="position:relative; padding: 80px 24px 60px; text-align:center; overflow:hidden;">
+  <div class="grid-bg" style="position:absolute; inset:0; opacity:0.4;"></div>
+  <div style="position:relative; z-index:1; max-width:720px; margin:0 auto;">
+    <div class="badge fade-in" style="margin-bottom:20px;">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="#34d399"/><circle cx="8" cy="8" r="6" stroke="#34d399" stroke-width="1.5" opacity="0.3"/></svg>
+      Unedited · Published in full · Including where Rovo wins
+    </div>
+    <h1 class="fade-in" style="font-size:clamp(2rem,5vw,3.25rem); font-weight:900; line-height:1.1; letter-spacing:-0.03em; color:#fff; margin-bottom:20px;">
+      We asked Rovo to compare<br>itself to DocBrain. <span class="gradient-text">Honestly.</span>
+    </h1>
+    <p class="fade-in" style="font-size:17px; color:#64748b; line-height:1.65; max-width:560px; margin:0 auto 32px;">
+      No prompted marketing. No cherry-picked screenshots. We opened Rovo, asked one question, and published everything it said — the good and the bad for both sides.
+    </p>
+
+    <!-- The killer quote -->
+    <div class="fade-in" style="background:rgba(99,102,241,0.06); border:1px solid rgba(99,102,241,0.15); border-radius:16px; padding:28px 32px; margin-bottom:12px; text-align:left;">
+      <div style="font-size:13px; color:#6366f1; font-weight:600; text-transform:uppercase; letter-spacing:.06em; margin-bottom:12px;">The line that stopped us</div>
+      <p style="font-size:20px; font-weight:600; color:#e2e8f0; line-height:1.5; font-style:italic;">
+        "DocBrain's 'capture knowledge that was never written down' is solving a problem I fundamentally can't."
+      </p>
+      <p style="font-size:13px; color:#64748b; margin-top:12px;">— Rovo, Atlassian's AI assistant</p>
+    </div>
+    <p style="font-size:12px; color:#334155;">Scroll down for the full exchange ↓</p>
+  </div>
+</section>
+
+<div class="section-glow"></div>
+
+<!-- TRANSCRIPT -->
+<section style="padding: 60px 24px 80px;">
+  <div class="chat-wrap">
+
+    <!-- Context label -->
+    <div style="text-align:center; margin-bottom:40px;">
+      <span style="font-size:12px; color:#475569; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:6px 16px; border-radius:20px;">
+        Full conversation · Rovo Chat · May 2025
+      </span>
+    </div>
+
+    <!-- USER MESSAGE -->
+    <div class="bubble-user fade-in">
+      <div class="bubble-user-inner">
+        Give me an honest, detailed comparison between yourself (Rovo) and DocBrain. Where does DocBrain win, where do you win? Be direct — don't just say you're both great.
+      </div>
+    </div>
+    <div style="text-align:right; font-size:11px; color:#334155; margin-bottom:28px; padding-right:4px;">You · via Rovo Chat</div>
+
+    <!-- ROVO RESPONSE -->
+    <div class="bubble-rovo fade-in">
+      <div class="rovo-avatar">R</div>
+      <div class="bubble-rovo-inner">
+
+        <p style="font-size:13px; color:#475569; margin-bottom:20px; font-style:italic;">Great question, and I appreciate you asking for honesty. Here's my genuine assessment:</p>
+
+        <!-- Where DocBrain wins -->
+        <h3 class="section-h" style="color:#34d399;">Where DocBrain wins</h3>
+
+        <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:28px;">
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="width:28px; height:28px; border-radius:8px; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px;">📥</div>
+            <div>
+              <div style="font-weight:600; color:#e2e8f0; font-size:15px; margin-bottom:3px;">Documentation capture at source</div>
+              <div style="color:#94a3b8; font-size:14px; line-height:1.6;">This is their killer feature. I don't do this. Knowledge from PRs, Slack threads, CI logs gets captured as it happens. I can only search what already exists.</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="width:28px; height:28px; border-radius:8px; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px;">📊</div>
+            <div>
+              <div style="font-weight:600; color:#e2e8f0; font-size:15px; margin-bottom:3px;">Doc quality scoring</div>
+              <div style="color:#94a3b8; font-size:14px; line-height:1.6;">They score docs 0–100 with a multi-layer pipeline. I have zero capability to assess documentation quality.</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="width:28px; height:28px; border-radius:8px; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px;">✍️</div>
+            <div>
+              <div style="font-weight:600; color:#e2e8f0; font-size:15px; margin-bottom:3px;">Auto-composing docs from fragments</div>
+              <div style="color:#94a3b8; font-size:14px; line-height:1.6;">They cluster knowledge fragments and draft docs automatically. I can create pages, but only when you explicitly ask me to.</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="width:28px; height:28px; border-radius:8px; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px;">🏠</div>
+            <div>
+              <div style="font-weight:600; color:#e2e8f0; font-size:15px; margin-bottom:3px;">Self-hosted / data sovereignty</div>
+              <div style="color:#94a3b8; font-size:14px; line-height:1.6;">25MB binary, runs on your infra. I'm cloud-only — your data goes through Atlassian's infrastructure.</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="width:28px; height:28px; border-radius:8px; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px;">🤖</div>
+            <div>
+              <div style="font-weight:600; color:#e2e8f0; font-size:15px; margin-bottom:3px;">Multi-LLM flexibility</div>
+              <div style="color:#94a3b8; font-size:14px; line-height:1.6;">They support Anthropic, OpenAI, Ollama, Gemini, etc. I'm locked to whatever Atlassian uses under the hood.</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="width:28px; height:28px; border-radius:8px; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px;">🔍</div>
+            <div>
+              <div style="font-weight:600; color:#e2e8f0; font-size:15px; margin-bottom:3px;">Captures undocumented knowledge</div>
+              <div style="color:#94a3b8; font-size:14px; line-height:1.6;">The architecture decision in a Slack thread that nobody wrote down? DocBrain catches it. I can only find it if you point me to it.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:1px; background:rgba(255,255,255,0.05); margin-bottom:28px;"></div>
+
+        <!-- Where Rovo wins -->
+        <h3 class="section-h" style="color:#60a5fa;">Where I (Rovo) win</h3>
+
+        <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:28px;">
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="width:28px; height:28px; border-radius:8px; background:rgba(96,165,250,0.1); border:1px solid rgba(96,165,250,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px;">🔗</div>
+            <div>
+              <div style="font-weight:600; color:#e2e8f0; font-size:15px; margin-bottom:3px;">Native Atlassian integration</div>
+              <div style="color:#94a3b8; font-size:14px; line-height:1.6;">I live inside Jira, Confluence, Bitbucket. I can act — create issues, update pages, transition tickets, comment on PRs. DocBrain integrates with these tools but doesn't operate natively inside them.</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="width:28px; height:28px; border-radius:8px; background:rgba(96,165,250,0.1); border:1px solid rgba(96,165,250,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px;">⚡</div>
+            <div>
+              <div style="font-weight:600; color:#e2e8f0; font-size:15px; margin-bottom:3px;">Breadth of task execution</div>
+              <div style="color:#94a3b8; font-size:14px; line-height:1.6;">I'm a general work assistant. Sprint planning, bug triage, performance reviews, meeting prep, analytics. DocBrain is laser-focused on documentation.</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="width:28px; height:28px; border-radius:8px; background:rgba(96,165,250,0.1); border:1px solid rgba(96,165,250,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px;">🔀</div>
+            <div>
+              <div style="font-weight:600; color:#e2e8f0; font-size:15px; margin-bottom:3px;">Cross-tool orchestration</div>
+              <div style="color:#94a3b8; font-size:14px; line-height:1.6;">I can chain actions across Jira + Confluence + Slack + Google Calendar + Bitbucket in one conversation. DocBrain queries across tools but doesn't orchestrate workflows.</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="width:28px; height:28px; border-radius:8px; background:rgba(96,165,250,0.1); border:1px solid rgba(96,165,250,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px;">🚀</div>
+            <div>
+              <div style="font-weight:600; color:#e2e8f0; font-size:15px; margin-bottom:3px;">Zero setup for Atlassian shops</div>
+              <div style="color:#94a3b8; font-size:14px; line-height:1.6;">If you're already on Atlassian Cloud, I'm just there. DocBrain requires deployment, configuration, connector setup.</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="width:28px; height:28px; border-radius:8px; background:rgba(96,165,250,0.1); border:1px solid rgba(96,165,250,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px;">💬</div>
+            <div>
+              <div style="font-weight:600; color:#e2e8f0; font-size:15px; margin-bottom:3px;">Interactive work companion</div>
+              <div style="color:#94a3b8; font-size:14px; line-height:1.6;">I'm conversational, can iterate with you, track todos, manage complex multi-step tasks in real-time.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:1px; background:rgba(255,255,255,0.05); margin-bottom:28px;"></div>
+
+        <!-- The honest truth -->
+        <h3 class="section-h">The honest truth</h3>
+        <p style="color:#94a3b8; font-size:15px; line-height:1.75; margin-bottom:20px;">
+          We're not really competitors — we solve different problems:
+        </p>
+
+        <!-- Side by side -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px;">
+          <div style="background:rgba(96,165,250,0.05); border:1px solid rgba(96,165,250,0.12); border-radius:12px; padding:16px 18px;">
+            <div style="font-size:12px; font-weight:600; color:#60a5fa; text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;">Rovo</div>
+            <div style="font-size:13px; color:#94a3b8; display:flex; flex-direction:column; gap:6px;">
+              <div><span style="color:#64748b; font-size:11px;">Core strength</span><br><span style="color:#e2e8f0;">Work execution & search</span></div>
+              <div><span style="color:#64748b; font-size:11px;">Approach</span><br><span style="color:#e2e8f0;">Reactive (you ask, I do)</span></div>
+              <div><span style="color:#64748b; font-size:11px;">Scope</span><br><span style="color:#e2e8f0;">General-purpose assistant</span></div>
+              <div><span style="color:#64748b; font-size:11px;">Best for</span><br><span style="color:#e2e8f0;">"Help me do work"</span></div>
+            </div>
+          </div>
+          <div style="background:rgba(52,211,153,0.05); border:1px solid rgba(52,211,153,0.12); border-radius:12px; padding:16px 18px;">
+            <div style="font-size:12px; font-weight:600; color:#34d399; text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;">DocBrain</div>
+            <div style="font-size:13px; color:#94a3b8; display:flex; flex-direction:column; gap:6px;">
+              <div><span style="color:#64748b; font-size:11px;">Core strength</span><br><span style="color:#e2e8f0;">Knowledge capture & doc quality</span></div>
+              <div><span style="color:#64748b; font-size:11px;">Approach</span><br><span style="color:#e2e8f0;">Proactive (auto-captures knowledge)</span></div>
+              <div><span style="color:#64748b; font-size:11px;">Scope</span><br><span style="color:#e2e8f0;">Documentation specialist</span></div>
+              <div><span style="color:#64748b; font-size:11px;">Best for</span><br><span style="color:#e2e8f0;">"Make sure knowledge doesn't get lost"</span></div>
+            </div>
+          </div>
+        </div>
+
+        <p style="color:#94a3b8; font-size:15px; line-height:1.75; margin-bottom:16px;">
+          If your pain is <strong style="color:#e2e8f0;">"our docs are stale, knowledge lives in people's heads, and nobody writes things down"</strong> → DocBrain is better.
+        </p>
+        <p style="color:#94a3b8; font-size:15px; line-height:1.75; margin-bottom:24px;">
+          If your pain is <strong style="color:#e2e8f0;">"I need help navigating Jira/Confluence, executing tasks, and getting answers from existing knowledge"</strong> → I'm better.
+        </p>
+
+        <div style="background:rgba(99,102,241,0.06); border:1px solid rgba(99,102,241,0.12); border-radius:12px; padding:18px 20px; margin-bottom:24px;">
+          <div style="font-size:13px; font-weight:600; color:#818cf8; margin-bottom:8px;">💡 Ideal scenario? Use both.</div>
+          <p style="font-size:14px; color:#94a3b8; line-height:1.65;">DocBrain ensures knowledge gets captured and docs stay high-quality. I help you act on that knowledge day-to-day.</p>
+        </div>
+
+        <!-- THE line -->
+        <div style="border-left:3px solid #6366f1; padding:16px 20px; background:rgba(99,102,241,0.04); border-radius:0 10px 10px 0;">
+          <p style="font-size:17px; font-weight:600; color:#e2e8f0; line-height:1.55; font-style:italic;">
+            "One thing I'll admit: DocBrain's 'capture knowledge that was never written down' is solving a problem I fundamentally can't. I can only work with what exists — they create what should exist."
+          </p>
+        </div>
+
+      </div>
+    </div>
+    <div style="font-size:11px; color:#334155; margin-top:6px; margin-bottom:48px; padding-left:48px;">Rovo · Atlassian AI assistant · Full response, unedited</div>
+
+  </div>
+</section>
+
+<div class="section-glow"></div>
+
+<!-- CONTEXT NOTE -->
+<section style="padding:60px 24px 80px;">
+  <div style="max-width:680px; margin:0 auto;">
+    <div class="glass-card fade-in" style="padding:36px 40px;">
+      <div style="font-size:13px; color:#6366f1; font-weight:600; text-transform:uppercase; letter-spacing:.06em; margin-bottom:16px;">Why we published this</div>
+      <p style="color:#94a3b8; font-size:15px; line-height:1.75; margin-bottom:16px;">
+        We didn't publish this because Rovo said nice things about us. We published it because <strong style="color:#e2e8f0;">it's honest</strong>, and honest comparisons are rare in enterprise software.
+      </p>
+      <p style="color:#94a3b8; font-size:15px; line-height:1.75; margin-bottom:16px;">
+        Rovo is a well-built product. If you're already deep in the Atlassian ecosystem and need a general-purpose work assistant, it's the right choice. We're not here to tell you otherwise.
+      </p>
+      <p style="color:#94a3b8; font-size:15px; line-height:1.75;">
+        But if your problem is the one we described — knowledge dying in Slack threads, docs that go stale the moment something ships, engineers who'll never write docs after the fact — that's what DocBrain was built to solve. And apparently even Rovo agrees.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:0 24px 100px; text-align:center;">
+  <div style="max-width:560px; margin:0 auto;">
+    <h2 style="font-size:clamp(1.75rem,4vw,2.5rem); font-weight:800; color:#fff; letter-spacing:-0.03em; line-height:1.2; margin-bottom:16px;">
+      See it for yourself.
+    </h2>
+    <p style="color:#64748b; font-size:16px; margin-bottom:32px;">
+      Open source, self-hosted, 25MB. Five minutes to your first captured knowledge fragment.
+    </p>
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <a href="https://github.com/docbrain-ai/docbrain" target="_blank" style="display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:12px; background:linear-gradient(135deg,#4f46e5,#6366f1); color:white; font-weight:600; font-size:15px; text-decoration:none; box-shadow:0 8px 32px -8px rgba(99,102,241,0.4);">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        View on GitHub
+      </a>
+      <a href="https://docbrainapi.com" style="display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:12px; background:rgba(255,255,255,0.04); color:#e2e8f0; font-weight:600; font-size:15px; text-decoration:none; border:1px solid rgba(255,255,255,0.08);">
+        Back to DocBrain →
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Fade in on scroll
+  const els = document.querySelectorAll('.fade-in');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
