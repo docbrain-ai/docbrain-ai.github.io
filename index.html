@@ -325,6 +325,7 @@
       <div class="hidden md:flex items-center gap-8 text-sm text-slate-400">
         <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
         <a href="#live" class="hover:text-white transition-colors">Live Data</a>
+        <a href="#generate" class="hover:text-white transition-colors">Generate</a>
         <a href="#features" class="hover:text-white transition-colors">Features</a>
         <a href="#videos" class="hover:text-white transition-colors">Workflows</a>
         <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
@@ -353,6 +354,7 @@
       </button>
       <a href="#how-it-works" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">How It Works</a>
       <a href="#live" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Live Data</a>
+      <a href="#generate" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Generate</a>
       <a href="#features" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Features</a>
       <a href="#videos" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Workflows</a>
       <a href="#faq" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">FAQ</a>
@@ -384,7 +386,7 @@
           <span class="gradient-text">living knowledge graph.</span>
         </h1>
         <p id="hero-sub" class="text-lg sm:text-xl text-slate-400 leading-relaxed mb-8 max-w-xl opacity-0">
-          DocBrain captures knowledge from <strong class="text-slate-200">PRs, Slack threads, CI pipelines, and your IDE</strong> the moment it's created. It connects that into a living graph, scores the quality, and publishes it for you.
+          DocBrain captures knowledge from <strong class="text-slate-200">PRs, Slack threads, CI pipelines, and your IDE</strong> the moment it's created, connects it into a living graph, and scores the quality. Then <strong class="text-slate-200">one command &mdash; <code class="text-emerald-300">docbrain generate</code> &mdash; turns it into a grounded runbook, postmortem, or reference</strong>, right from your terminal or your CI pipeline.
         </p>
         <div id="hero-stats" class="flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-500 mb-10 opacity-0">
           <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">25MB</span> binary</span>
@@ -523,6 +525,106 @@
             <p class="text-sm text-slate-300"><strong class="text-white">Result:</strong> documentation grounded in real engineering work, quality-scored and governed, <span class="text-emerald-400">without asking anyone to write docs.</span></p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-glow"></div>
+
+  <!-- ========== GENERATE — GROUNDED DOC GENERATION ========== -->
+  <section id="generate" class="py-32 lg:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-20">
+        <p class="text-sm font-semibold uppercase tracking-widest text-emerald-400 mb-4">Generate &middot; The Moat</p>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">One command turns your<br>org's knowledge into docs.</h2>
+        <p class="text-xl text-slate-400 max-w-3xl mx-auto"><code class="text-emerald-300 text-lg">docbrain generate</code> drafts a runbook, postmortem, or API reference grounded in <strong class="text-slate-200">your</strong> runbooks, incidents, tickets, and PRs &mdash; with per-claim provenance. A frontier model writes fluent, generic prose. <code class="text-emerald-300">generate</code> writes what is true for you, or tells you what it can't answer. Run it from your terminal today, or wire it into CI so docs update the moment a PR merges.</p>
+      </div>
+
+      <!-- Two terminals: local + CI -->
+      <div class="grid lg:grid-cols-2 gap-8 mb-20">
+
+        <!-- LOCAL -->
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg>
+            <span class="text-sm font-semibold text-white">Local &mdash; draft a runbook from your notes</span>
+          </div>
+          <div class="terminal relative">
+            <button type="button" class="copy-btn" data-copy='docbrain generate "runbook for cert rotation" --source notes.md --type runbook > runbook.md' aria-label="Copy to clipboard">Copy</button>
+            <div class="terminal-bar">
+              <div class="terminal-dot" style="background:#ff5f57"></div>
+              <div class="terminal-dot" style="background:#febc2e"></div>
+              <div class="terminal-dot" style="background:#28c840"></div>
+              <span class="ml-3 text-xs text-slate-500 font-mono">docbrain-cli</span>
+            </div>
+            <div class="terminal-body p-5 font-mono text-[13px] leading-relaxed min-h-[300px]">
+              <div><span class="code-gray">$</span> <span class="code-green">docbrain generate</span> <span class="code-yellow">"runbook for cert rotation"</span> <span class="code-purple">--source</span> notes.md <span class="code-purple">--type</span> runbook <span class="text-slate-500">&gt; runbook.md</span></div>
+              <div class="mt-3 text-slate-500">&#8987; Gathering org context (corpus + episodes)&hellip;</div>
+              <div class="text-slate-500">&#8987; Drafting &middot; resolving provenance per section&hellip;</div>
+              <div class="mt-3"><span class="text-slate-500">doc_type:</span> <span class="text-slate-300">runbook</span>  <span class="text-slate-500">quality:</span> <span class="code-green">87/100</span> <span class="text-slate-600">(0 errors)</span></div>
+              <div><span class="text-slate-500">provenance:</span> <span class="text-slate-300">Overview &larr; Deploy Runbook v3 &middot; Steps &larr; Cert Rotation SOP</span></div>
+              <div><span class="text-slate-500">needs_input:</span> <span class="code-yellow">"Which CA issues the production certs?"</span></div>
+              <div class="mt-3"><span class="code-green">&#10003;</span> <span class="text-slate-300">runbook.md written</span> <span class="text-slate-600">&middot; 142 lines, grounded, ready to review</span></div>
+            </div>
+          </div>
+          <p class="text-sm text-slate-500 mt-4">stdout is the markdown (pipe-clean). Diagnostics go to stderr. Swap <code class="text-xs text-brand-300">--source notes.md</code> for <code class="text-xs text-brand-300">--source-url</code> to ground in a Confluence page, Jira issue, Slack thread, or GitHub PR.</p>
+        </div>
+
+        <!-- CI -->
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="#34d399"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            <span class="text-sm font-semibold text-white">CI &mdash; update the runbook on every merge</span>
+          </div>
+          <div class="terminal relative">
+            <button type="button" class="copy-btn" data-copy='docbrain generate "update the deploy runbook for this PR" --source-url https://github.com/acme/payments/pull/$PR --target https://acme.atlassian.net/wiki/spaces/SRE/pages/12345 --type runbook --out runbook-draft.md' aria-label="Copy to clipboard">Copy</button>
+            <div class="terminal-bar">
+              <div class="terminal-dot" style="background:#ff5f57"></div>
+              <div class="terminal-dot" style="background:#febc2e"></div>
+              <div class="terminal-dot" style="background:#28c840"></div>
+              <span class="ml-3 text-xs text-slate-500 font-mono">.github/workflows/docs-on-merge.yml</span>
+            </div>
+            <div class="terminal-body p-5 font-mono text-[13px] leading-relaxed min-h-[300px]">
+              <div><span class="code-cyan">- name:</span> <span class="text-slate-300">Update runbook from the merged PR</span></div>
+              <div><span class="code-cyan">  run:</span> <span class="text-slate-400">|</span></div>
+              <div class="pl-4"><span class="code-green">docbrain generate</span> <span class="code-yellow">"update the deploy runbook for this PR"</span> \</div>
+              <div class="pl-8"><span class="code-purple">--source-url</span> https://github.com/acme/payments/pull/<span class="text-slate-300">$PR</span> \</div>
+              <div class="pl-8"><span class="code-purple">--target</span> https://acme.atlassian.net/&hellip;/Deploy+Runbook \</div>
+              <div class="pl-8"><span class="code-purple">--type</span> runbook <span class="code-purple">--out</span> runbook-draft.md</div>
+              <div class="mt-3 text-slate-500">&#8987; Fetching PR via the GitHub connector&hellip;</div>
+              <div class="text-slate-500">&#8987; Augmenting the existing runbook (not overwriting)&hellip;</div>
+              <div class="mt-3"><span class="code-green">&#10003;</span> <span class="text-slate-300">runbook-draft.md</span> <span class="text-slate-600">&middot; posted to the PR for review</span></div>
+            </div>
+          </div>
+          <p class="text-sm text-slate-500 mt-4">Drop <code class="text-xs text-brand-300">--out</code> and the exit code becomes a gate: <code class="text-xs text-brand-300">generate</code> exits non-zero on error-severity quality violations, so a sub-bar doc fails the build. If a named source can't be fetched, the whole run hard-fails &mdash; never a doc from a partial set.</p>
+        </div>
+      </div>
+
+      <!-- The moat: 3-up -->
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-emerald-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+          <h3 class="font-bold text-white mb-2">Grounded, with provenance</h3>
+          <p class="text-sm text-slate-400">Reads your real PRs, runbooks, incidents, and threads through your connectors. Every section is attributed to the source it came from &mdash; reviewers verify, they don't trust.</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-amber-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
+          <h3 class="font-bold text-white mb-2">Honest when it doesn't know</h3>
+          <p class="text-sm text-slate-400">When the knowledge isn't there, it emits <code class="text-xs text-amber-300">needs_input</code> &mdash; the open questions &mdash; instead of fabricating. You fix gaps on purpose, not mid-incident.</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-brand-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg></div>
+          <h3 class="font-bold text-white mb-2">Same gates, in CI</h3>
+          <p class="text-sm text-slate-400">Secret/PII redaction, hostname scrub, injection-quarantine, and a 0&ndash;100 quality score run on every draft. The exit code is your CI signal &mdash; "good enough to publish" becomes machine-checkable.</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-4 mt-12">
+        <a href="/docs/generate/" class="magnetic-btn primary">
+          Read the Generate guide
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a href="/docs/generate/#using-generate-in-ci" class="magnetic-btn secondary">See the CI playbooks</a>
       </div>
     </div>
   </section>
@@ -915,6 +1017,7 @@
         <div class="glass-card p-8"><div class="feature-icon bg-brand-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div><h4 class="font-bold text-white mb-2">Confidence-Scored Q&A</h4><p class="text-sm text-slate-400">Hybrid search, intent classification, cited answers with freshness. Low confidence asks questions instead of hallucinating.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-violet-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v4M7.5 17.2L10 14M16.5 17.2L14 14"/></svg></div><h4 class="font-bold text-white mb-2">Knowledge Graph</h4><p class="text-sm text-slate-400">Entity relationships with BFS/DFS traversal. Blast radius analysis, expertise routing.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-amber-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><h4 class="font-bold text-white mb-2">Documentation Autopilot</h4><p class="text-sm text-slate-400">Clusters unanswered questions, detects gaps, auto-drafts missing documentation.</p></div>
+        <div class="glass-card p-8"><div class="feature-icon bg-emerald-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><h4 class="font-bold text-white mb-2">Generate Grounded Docs On Demand</h4><p class="text-sm text-slate-400"><code class="text-xs text-emerald-300">docbrain generate</code> drafts a runbook, postmortem, or reference grounded in your own runbooks, incidents, tickets, and PRs &mdash; with per-claim provenance, or an honest list of what it can't answer instead of confident fiction. Same redaction, injection-quarantine, and quality gates as every DocBrain doc. Returns the markdown &mdash; you decide what to publish. Wire it into CI to update docs on merge.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-orange-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M3 12h18"/><path d="M8 8l4-4 4 4M8 16l4 4 4-4M16 8l4 4-4 4M8 8L4 12l4 4"/></svg></div><h4 class="font-bold text-white mb-2">14 LLM Providers</h4><p class="text-sm text-slate-400">Anthropic, OpenAI, Bedrock, Ollama (local), Gemini, Azure, and 8 more. Swap via config.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-pink-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><h4 class="font-bold text-white mb-2">SSO & RBAC</h4><p class="text-sm text-slate-400">GitHub/GitLab/OIDC SSO. Four roles. Space-level isolation. API keys Argon2-hashed.</p></div>
         <div class="glass-card p-8"><div class="feature-icon bg-rose-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><h4 class="font-bold text-white mb-2">Source-System ACL</h4><p class="text-sm text-slate-400">Mirrors real Confluence / Slack / GitHub / Jira permissions at query time. Restricted page in source = filtered out for users who can't read it. Three modes, side-channel-safe, audit-logged.</p></div>
