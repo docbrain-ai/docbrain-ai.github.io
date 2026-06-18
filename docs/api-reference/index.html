@@ -5935,7 +5935,7 @@ doc from a subset.</p>
 <li><code>ask</code> — required. The natural-language description of the doc to write.</li>
 <li><code>sources</code> — primary material. <code>kind</code> is <code>file</code>, <code>stdin</code>, or <code>url</code>. For <code>kind: "url"</code>, the URL goes in <code>label</code> and <code>raw</code> is <code>""</code> — the server fetches it via the connected MCP connector (Confluence page, Jira issue, Slack thread, GitHub PR or file).</li>
 <li><code>target</code> — augment an existing doc rather than write from scratch.</li>
-<li><code>template</code> — the raw template <strong>file content</strong> (not a path); shapes structure/tone only, can never disable a safety or quality rule.</li>
+<li><code>template</code> — the raw template <strong>file content</strong> (not a path); shapes section structure, block shape (table columns, checklists, code-block language, header fields) and tone only — filled from your sources, gaps marked <code>NEEDS INPUT</code>, example rows/commands never copied. Can never disable a safety or quality rule.</li>
 <li><code>space</code> — applies that Confluence space's quality rules; <code>no_enrich: true</code> disables live-MCP enrichment.</li>
 </ul>
 <p><strong>Response (<code>GeneratedArtifact</code>):</strong>
