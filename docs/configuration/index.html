@@ -4908,6 +4908,72 @@ only when you have query latency or quality data to justify a change.</p>
 <td><code>0.1</code></td>
 <td><strong>Source-suppression — penalty strength.</strong> Multiplier applied to a suppressed document's retrieval score. Range <code>(0, 1]</code>: <code>1.0</code> means no penalty, smaller is a stronger down-rank. It is a down-rank, never a hard drop, so a suppressed document that is the only available evidence still surfaces (with an empty-answer floor guard) rather than producing an empty answer. A document that <em>every</em> match is suppressed is never resurrected above the relevance floor.</td>
 </tr>
+<tr>
+<td><code>rag.regen_loop_enabled</code></td>
+<td><code>DOCBRAIN_REGEN_LOOP_ENABLED</code></td>
+<td><code>true</code></td>
+<td><strong>Regenerate-with-feedback loop — master kill-switch.</strong> The doc reviewer flags claims its evidence contradicts; this loop consumes those flags and regenerates the draft until they clear. The UI is human-in-loop (each "Regenerate" click is one round); the CLI/generate path auto-reviews. Reviewer feedback shapes the <strong>writing prompt only</strong> — it can never clear a flagged claim, because the reviewer re-derives flags from the evidence alone, so a "ship it anyway" instruction cannot override a contradicted claim. Disable only with <code>false \| 0 \| no \| off</code>.</td>
+</tr>
+<tr>
+<td><code>rag.regen_loop_max_rounds</code></td>
+<td><code>DOCBRAIN_REGEN_LOOP_MAX_ROUNDS</code></td>
+<td><code>3</code></td>
+<td><strong>Auto-review round cap (CLI / generate).</strong> Hard upper bound on automatic regenerate rounds on the non-interactive path. The loop also stops early once the flags stop decreasing (a plateau) and exits honestly with the unresolved flags attached, so it never runs forever and never silently ships flags. Range <code>1..=20</code>.</td>
+</tr>
+<tr>
+<td><code>rag.regen_loop_max_revisions</code></td>
+<td><code>DOCBRAIN_REGEN_LOOP_MAX_REVISIONS</code></td>
+<td><code>10</code></td>
+<td><strong>Human-in-loop revision cap (UI).</strong> Maximum number of regenerations a reviewer can chain on a single draft from the UI. Each regeneration is preserved as a new revision linked to the original — the original is never overwritten — so the full feedback history stays auditable. Range <code>1..=100</code>.</td>
+</tr>
+<tr>
+<td><code>rag.regen_loop_min_budget_ms</code></td>
+<td><code>DOCBRAIN_REGEN_LOOP_MIN_BUDGET_MS</code></td>
+<td><code>20000</code></td>
+<td><strong>Minimum wall-clock headroom to start a round.</strong> A regenerate round costs a gather + write + review pass; this guard refuses to start a round that cannot plausibly finish, so the loop degrades to an honest exit rather than a half-finished write. Set to <code>0</code> to disable the guard.</td>
+</tr>
+<tr>
+<td><code>rag.generate_hollow_min_sections</code></td>
+<td><code>DOCBRAIN_GENERATE_HOLLOW_MIN_SECTIONS</code></td>
+<td><code>3</code></td>
+<td><strong>Hollow-document guard — section floor.</strong> Generation refuses (HTTP 422) a draft that is mostly unanswered <code>NEEDS INPUT:</code> placeholders, by placeholder <em>density</em>: the guard applies only when the draft has at least this many <code>##</code> sections. Below the floor (short / free-form docs) the rule is off. Set to <code>0</code> to disable the guard entirely.</td>
+</tr>
+<tr>
+<td><code>rag.generate_hollow_ratio_pct</code></td>
+<td><code>DOCBRAIN_GENERATE_HOLLOW_RATIO_PCT</code></td>
+<td><code>50</code></td>
+<td><strong>Hollow-document guard — density threshold.</strong> Refuse when at least this percentage of the draft's <code>##</code> sections are <code>NEEDS INPUT:</code> placeholders (<code>50</code> = half the doc). A draft that honestly flags 1-2 of N sections ships untouched; the guard keys on the <em>output shape</em>, not on whether sources were supplied, so a generic corpus match that still yields a hollow doc is caught.</td>
+</tr>
+<tr>
+<td><code>rag.support_critic_enabled</code></td>
+<td><code>DOCBRAIN_SUPPORT_CRITIC_ENABLED</code></td>
+<td><code>true</code></td>
+<td>Master kill-switch for the <strong>support critic</strong> — the doc-generation GROUNDING reviewer. It extracts the draft's claims and flags the ones <strong>no supplied source supports</strong> (fabrication), plus <code>NEEDS INPUT:</code> markers the sources actually cover (the inverted self-flag). Distinct from the freshness critic (which flags only CONTRADICTED claims): the support critic flags UNSUPPORTED ones. <strong>Advisory</strong> — never blocks generation; findings are surfaced in the grounding report for the reviewer. <strong>ON by default</strong>. Disable only with <code>false</code>/<code>0</code>/<code>no</code>/<code>off</code>. Fail-open: any critic error ships the draft unchanged.</td>
+</tr>
+<tr>
+<td><code>rag.support_critic_max_claims</code></td>
+<td><code>DOCBRAIN_SUPPORT_CRITIC_MAX_CLAIMS</code></td>
+<td><code>40</code></td>
+<td>Hard cap on the number of claims grounding-checked per draft. Bounds the worst-case LLM cost of the support critic. Range <code>1..=200</code>.</td>
+</tr>
+<tr>
+<td><code>rag.merge_enabled</code></td>
+<td><code>DOCBRAIN_MERGE_ENABLED</code></td>
+<td><code>true</code></td>
+<td>Master kill-switch for the <strong>merged-doc update</strong>. When generating against an existing target document, the output is the <strong>full merged document</strong> — unchanged sections preserved byte-exact, changed sections rewritten, new sections surfaced — plus a per-section change manifest, so the result can replace the whole doc with confidence about what changed. Defaults ON (unchanged sections are byte-exact, an unsafe splice bails, nothing is ever published). Disable only with <code>false</code>/<code>0</code>/<code>no</code>/<code>off</code>.</td>
+</tr>
+<tr>
+<td><code>rag.merge_max_sections</code></td>
+<td><code>DOCBRAIN_MERGE_MAX_SECTIONS</code></td>
+<td><code>60</code></td>
+<td>Max existing sections fed to the merge decision in one pass. Sections beyond the cap are kept verbatim, so the cap limits cost, not correctness. Range <code>1..=500</code>.</td>
+</tr>
+<tr>
+<td><code>rag.merge_max_tokens</code></td>
+<td><code>DOCBRAIN_MERGE_MAX_TOKENS</code></td>
+<td><code>4096</code></td>
+<td>Max output tokens for the merge decision call (the model returns only the changed spans). Range <code>512..=32768</code>.</td>
+</tr>
 </tbody>
 </table>
 <h3 id="confidence-retry-fallback-when-to-enable">Confidence-retry fallback — when to enable<a class="headerlink" href="#confidence-retry-fallback-when-to-enable" title="Permanent link">&para;</a></h3>
@@ -6178,6 +6244,11 @@ in the Kubernetes Secret via <code>mcpTools.serviceAccount.rootly.*</code> in He
 <td><code>45.0</code></td>
 <td>Corpus-probe relevance floor: minimum OpenSearch hybrid (BM25+kNN, unbounded) probe score a candidate target doc must reach before autopilot auto-picks it to augment a <code>poor_coverage</code> gap. Below this the cluster is marked "needs human pick". Distinct from <code>VERIFY_CORPUS_MIN_SCORE</code>.</td>
 </tr>
+<tr>
+<td><code>GENERATED_DOCS_RETENTION_DAYS</code></td>
+<td><code>90</code></td>
+<td>Retention window (days) for persisted ad-hoc <code>generate</code> runs shown in the web <code>/generate</code> History view (<code>generated_documents</code> table). Rows older than this are purged by a daily job, and the History list/detail also filter to this window. Bounds the data-at-rest exposure of the persisted document body, which is <strong>owner-scoped</strong> (you see your own runs; admins see all; machine-key runs are admin-only). Set <code>0</code> to keep indefinitely (both the purge and the read-window filter no-op).</td>
+</tr>
 </tbody>
 </table>
 <p>When enabled, Autopilot runs on the configured schedule, exposes management endpoints at <code>/api/v1/autopilot/*</code>, and posts critical gap alerts to <code>SLACK_GAP_NOTIFICATION_CHANNEL</code> if configured. See the <a href="../api-reference/">API Reference</a> for endpoint details.</p>
@@ -6737,6 +6808,11 @@ in the Kubernetes Secret via <code>mcpTools.serviceAccount.rootly.*</code> in He
 <td><code>OIDC_WEB_UI_URL</code></td>
 <td><code>http://localhost:3001</code></td>
 <td>Where to redirect after successful login</td>
+</tr>
+<tr>
+<td><code>DOCBRAIN_WEB_BASE_URL</code></td>
+<td>—</td>
+<td>Public origin of the DocBrain <strong>web UI</strong>. Drives the MCP-OAuth landing redirect AND the <strong>"view in browser"</strong> deep link the CLI prints after a <code>generate</code> (plus the shareable per-document link). Set to the user-facing web origin — <strong>not</strong> the API host if they differ. Unset → no link is offered (never guessed or hardcoded). Trailing slash trimmed.</td>
 </tr>
 <tr>
 <td><code>OIDC_ACCEPT_INVALID_CERTS</code></td>
