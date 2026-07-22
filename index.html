@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DocBrain· Your organization's living knowledge graph</title>
-  <meta name="description" content="DocBrain captures knowledge from PRs, conversations, CI pipelines, and IDEs the moment it's created, then scores, reviews, and publishes it automatically. Shift-left documentation for engineering teams. 14 LLM providers, self-hosted.">
+  <title>DocBrain · The institutional memory layer for your organization</title>
+  <meta name="description" content="DocBrain is the institutional memory layer for your organization. It captures the decisions, fixes, and expertise that live in conversations, tickets, and people's heads — connects them across your tools, keeps them accurate, and preserves them when people leave. Self-hosted. Read-only. Every answer cited to its source.">
   <meta name="theme-color" content="#0a0a1a">
-  <meta property="og:title" content="DocBrain: Capture knowledge at the source. Ship docs that stay accurate.">
-  <meta property="og:description" content="DocBrain captures knowledge from PRs, Slack threads, and CI pipelines, then auto-composes, quality-scores, and publishes documentation.">
+  <meta property="og:title" content="DocBrain: The institutional memory layer for your organization">
+  <meta property="og:description" content="Hard-won knowledge walks out the door when people do. DocBrain captures the context that was never written down, connects it across every tool, and keeps it accurate — so understanding outlives turnover. Self-hosted, read-only, cited.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://docbrainapi.com">
   <meta property="og:image" content="https://docbrainapi.com/banner.png">
@@ -323,12 +323,11 @@
         <span class="font-bold text-lg text-white tracking-tight">DocBrain</span>
       </a>
       <div class="hidden md:flex items-center gap-8 text-sm text-slate-400">
+        <a href="#problem" class="hover:text-white transition-colors">Why It Matters</a>
         <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
-        <a href="#live" class="hover:text-white transition-colors">Live Data</a>
-        <a href="#generate" class="hover:text-white transition-colors">Generate</a>
-        <a href="#features" class="hover:text-white transition-colors">Features</a>
-        <a href="#videos" class="hover:text-white transition-colors">Workflows</a>
-        <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+        <a href="#features" class="hover:text-white transition-colors">Capabilities</a>
+        <a href="#security" class="hover:text-white transition-colors">Security</a>
+        <a href="#videos" class="hover:text-white transition-colors">In Practice</a>
         <a href="/docs/trust/" class="hover:text-white transition-colors">Trust</a>
         <a href="/docs/" class="hover:text-white transition-colors">Docs</a>
         <a href="/rovo-comparison" class="hover:text-white transition-colors" style="color:#818cf8;">vs Rovo</a>
@@ -352,11 +351,11 @@
       <button id="mobile-menu-close" class="absolute top-6 right-6 p-2 rounded-lg text-slate-400 hover:text-white" aria-label="Close menu">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
+      <a href="#problem" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Why It Matters</a>
       <a href="#how-it-works" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">How It Works</a>
-      <a href="#live" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Live Data</a>
-      <a href="#generate" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Generate</a>
-      <a href="#features" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Features</a>
-      <a href="#videos" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Workflows</a>
+      <a href="#features" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Capabilities</a>
+      <a href="#security" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Security</a>
+      <a href="#videos" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">In Practice</a>
       <a href="#faq" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">FAQ</a>
       <a href="/rovo-comparison" class="nav-link-mobile text-xl font-medium hover:text-white" style="color:#818cf8;">vs Rovo</a>
       <a href="/docs/trust/" class="nav-link-mobile text-xl font-medium text-slate-300 hover:text-white">Trust</a>
@@ -378,21 +377,21 @@
         <div id="hero-badge" class="mb-8 opacity-0">
           <span class="badge">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="#34d399"/><circle cx="8" cy="8" r="6" stroke="#34d399" stroke-width="1.5" opacity="0.3"/></svg>
-            Self-Hosted &middot; BSL 1.1 &middot; Built with Rust
+            Self-hosted &middot; Read-only by design &middot; Zero data egress
           </span>
         </div>
         <h1 id="hero-title" class="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.05] mb-8 opacity-0">
-          Your organization's<br>
-          <span class="gradient-text">living knowledge graph.</span>
+          The memory layer<br>
+          <span class="gradient-text">your organization never had.</span>
         </h1>
         <p id="hero-sub" class="text-lg sm:text-xl text-slate-400 leading-relaxed mb-8 max-w-xl opacity-0">
-          DocBrain captures knowledge from <strong class="text-slate-200">PRs, Slack threads, CI pipelines, and your IDE</strong> the moment it's created, connects it into a living graph, and scores the quality. Then <strong class="text-slate-200">one command &mdash; <code class="text-emerald-300">docbrain generate</code> &mdash; turns it into a grounded runbook, postmortem, or reference</strong>, right from your terminal or your CI pipeline.
+          Every organization runs on knowledge that never gets written down &mdash; the decision made in a meeting, the fix found at 2am, the workaround only one person knows. It lives in <strong class="text-slate-200">conversations, tickets, and people's heads</strong>, and it walks out the door when they do. DocBrain captures that knowledge where it's created, connects it across the tools you already use, and keeps it accurate. So <strong class="text-slate-200">expertise survives turnover, new people ramp in weeks instead of months, and your teams stop re-solving problems they already solved.</strong>
         </p>
         <div id="hero-stats" class="flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-500 mb-10 opacity-0">
-          <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">25MB</span> binary</span>
-          <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">&lt;500ms</span> cold start</span>
-          <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">14</span> LLM providers</span>
-          <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">13+</span> sources</span>
+          <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">13+</span> sources, one memory</span>
+          <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">Zero</span> data egress</span>
+          <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">Read-only</span> by design</span>
+          <span class="flex items-center gap-1.5"><span class="text-brand-400 font-bold text-base">Cited</span> answers, always</span>
         </div>
         <div id="hero-cta" class="flex flex-wrap gap-4 opacity-0">
           <a href="#get-started" class="magnetic-btn primary">
@@ -419,59 +418,121 @@
     </div>
   </section>
 
-  <!-- ========== SOCIAL PROOF STRIP ========== -->
+  <!-- ========== TRUST / SCOPE STRIP ========== -->
   <section class="relative py-20 border-y border-white/[0.04]">
     <div class="max-w-7xl mx-auto px-6">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
         <div class="stat-block">
-          <div class="stat-value" data-counter="25">0</div>
-          <div class="text-sm text-slate-500 mt-2">MB binary size</div>
+          <div class="stat-value"><span data-counter="13">0</span>+</div>
+          <div class="text-sm text-slate-500 mt-2">Knowledge sources, unified</div>
         </div>
         <div class="stat-block">
-          <div class="stat-value text-3xl">&lt;500<span class="text-2xl">ms</span></div>
-          <div class="text-sm text-slate-500 mt-2">Cold start time</div>
+          <div class="stat-value text-3xl">Zero</div>
+          <div class="text-sm text-slate-500 mt-2">Data leaves your network</div>
         </div>
         <div class="stat-block">
-          <div class="stat-value" data-counter="14">0</div>
-          <div class="text-sm text-slate-500 mt-2">LLM providers</div>
+          <div class="stat-value text-3xl">Read-only</div>
+          <div class="text-sm text-slate-500 mt-2">Access to your systems</div>
         </div>
         <div class="stat-block">
-          <div class="stat-value" data-counter="13">0</div>
-          <div class="text-sm text-slate-500 mt-2">Knowledge sources</div>
+          <div class="stat-value text-3xl">Cited</div>
+          <div class="text-sm text-slate-500 mt-2">Every answer, to its source</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ========== THE PROBLEM (scroll-pinned) ========== -->
+  <!-- ========== THE PROBLEM ========== -->
   <section id="problem" class="py-32 lg:py-40">
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-20">
-        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">Documentation is broken<br><span class="text-slate-500">at the source.</span></h2>
-        <p class="text-xl text-slate-400 max-w-2xl mx-auto">The problem isn't missing docs. It's that knowledge gets created in one place and written down in another. If it gets written down at all.</p>
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">The hidden cost</p>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">The knowledge you're losing<br><span class="text-slate-500">right now.</span></h2>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">It isn't a documentation problem. The knowledge that runs your organization was never written down in the first place &mdash; it lives in conversations, tickets, and the heads of your most experienced people. Every day, some of it disappears.</p>
       </div>
       <div class="grid md:grid-cols-3 gap-8">
         <div class="glass-card p-10 group">
           <div class="feature-icon bg-red-500/10 mb-6">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
           </div>
-          <h3 class="text-xl font-bold text-white mb-3">Knowledge dies in Slack threads</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">A senior engineer explains a critical architecture decision in a thread. Two months later, nobody can find it.</p>
+          <h3 class="text-xl font-bold text-white mb-3">Your experts leave, and take years with them</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">The engineer who designed the system, the operator who knows the workaround, the lead who remembers <em class="not-italic text-slate-300">why</em>. When they go, decades of hard-won context walk out with them &mdash; and no wiki ever captured it.</p>
         </div>
         <div class="glass-card p-10 group">
           <div class="feature-icon bg-amber-500/10 mb-6">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
-          <h3 class="text-xl font-bold text-white mb-3">PRs are documentation goldmines</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Every merged PR contains decisions, caveats, and procedures. But PR descriptions are write-once, read-never.</p>
+          <h3 class="text-xl font-bold text-white mb-3">New people take months to get up to speed</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Onboarding runs on interruptions. Every new hire re-asks questions someone already answered, because the answers were never captured anywhere they can find them.</p>
         </div>
         <div class="glass-card p-10 group">
           <div class="feature-icon bg-orange-500/10 mb-6">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"><path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"/><path d="M14 2v6h6"/><path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01M16 17h.01"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
           </div>
-          <h3 class="text-xl font-bold text-white mb-3">Quality is nobody's job</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Code has linters, tests, and review workflows. Documentation has nothing. No quality scores, no style enforcement, no SLAs.</p>
+          <h3 class="text-xl font-bold text-white mb-3">The same problems get solved over and over</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">A team hits an issue another team fixed last quarter, and burns days rediscovering the answer &mdash; because the knowledge was fragmented across tools nobody thinks to search.</p>
         </div>
+      </div>
+
+      <!-- Why now -->
+      <div class="mt-16 max-w-3xl mx-auto">
+        <div class="glass-card p-8 md:p-10 border-brand-500/20 text-center">
+          <p class="text-lg text-slate-300 leading-relaxed">And it's getting more expensive. People change roles faster, teams work across time zones, and AI now produces work faster than any human can absorb the reasoning behind it. <strong class="text-white">The gap between what your organization does and what it remembers is widening every quarter.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-glow"></div>
+
+  <!-- ========== WHY EXISTING TOOLS FAIL ========== -->
+  <section id="why" class="py-32 lg:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-20">
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">Why the old way fails</p>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">Why the tools you have<br><span class="text-slate-500">don't fix this.</span></h2>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">You've already bought places to store knowledge. The problem is what they can capture &mdash; and what they can't.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 items-stretch">
+        <!-- Wikis & docs -->
+        <div class="glass-card p-8 flex flex-col">
+          <div class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Wikis &amp; knowledge bases</div>
+          <h3 class="text-lg font-bold text-white mb-5">Written by hand, after the fact</h3>
+          <ul class="space-y-3 text-sm text-slate-400 flex-1">
+            <li class="flex gap-2.5"><span class="text-slate-600 font-bold">&times;</span> Only holds what someone remembered to write down</li>
+            <li class="flex gap-2.5"><span class="text-slate-600 font-bold">&times;</span> Stale the moment the work moves on</li>
+            <li class="flex gap-2.5"><span class="text-slate-600 font-bold">&times;</span> Disconnected from where knowledge is actually created</li>
+            <li class="flex gap-2.5"><span class="text-slate-600 font-bold">&times;</span> No idea which pages are still true</li>
+          </ul>
+          <div class="mt-6 pt-5 border-t border-white/5 text-sm font-medium text-slate-500">A snapshot that decays.</div>
+        </div>
+        <!-- AI chatbots -->
+        <div class="glass-card p-8 flex flex-col">
+          <div class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">AI chatbots &amp; search</div>
+          <h3 class="text-lg font-bold text-white mb-5">A bot bolted onto the same wiki</h3>
+          <ul class="space-y-3 text-sm text-slate-400 flex-1">
+            <li class="flex gap-2.5"><span class="text-slate-600 font-bold">&times;</span> Answers only from what's already written</li>
+            <li class="flex gap-2.5"><span class="text-slate-600 font-bold">&times;</span> Retrieves faster, but the source is still stale</li>
+            <li class="flex gap-2.5"><span class="text-slate-600 font-bold">&times;</span> Forgets every question the moment it's answered</li>
+            <li class="flex gap-2.5"><span class="text-slate-600 font-bold">&times;</span> Confidently makes things up when the doc is missing</li>
+          </ul>
+          <div class="mt-6 pt-5 border-t border-white/5 text-sm font-medium text-slate-500">Retrieves a stale wiki faster.</div>
+        </div>
+        <!-- DocBrain -->
+        <div class="glass-card p-8 flex flex-col border-brand-500/30 bg-brand-500/[0.03]">
+          <div class="text-xs font-semibold uppercase tracking-widest text-brand-300 mb-2">DocBrain</div>
+          <h3 class="text-lg font-bold text-white mb-5">Captured where knowledge is created</h3>
+          <ul class="space-y-3 text-sm text-slate-300 flex-1">
+            <li class="flex gap-2.5"><span class="text-emerald-400 font-bold">&#10003;</span> Captures the knowledge that was never written down</li>
+            <li class="flex gap-2.5"><span class="text-emerald-400 font-bold">&#10003;</span> Connects it across every tool into one memory</li>
+            <li class="flex gap-2.5"><span class="text-emerald-400 font-bold">&#10003;</span> Tracks freshness and flags what's gone stale</li>
+            <li class="flex gap-2.5"><span class="text-emerald-400 font-bold">&#10003;</span> Preserves the decisions and the <em class="not-italic text-white">why</em></li>
+          </ul>
+          <div class="mt-6 pt-5 border-t border-white/5 text-sm font-medium text-brand-300">Memory that compounds.</div>
+        </div>
+      </div>
+      <div class="mt-14 max-w-3xl mx-auto text-center">
+        <p class="text-lg text-slate-300 leading-relaxed">Existing tools index what was written down. The knowledge that actually runs your organization never was. <strong class="text-white">That's the layer DocBrain builds.</strong></p>
       </div>
     </div>
   </section>
@@ -483,46 +544,46 @@
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-24">
         <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">How It Works</p>
-        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">The shift-left<br>documentation pipeline</h2>
-        <p class="text-xl text-slate-400 max-w-2xl mx-auto">Knowledge captured at the source, quality-scored automatically, published through configurable review workflows.</p>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">How DocBrain builds<br>your organization's memory</h2>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">Knowledge captured where it's created, connected into one memory, preserved with its context, and kept accurate over time &mdash; capturing knowledge at the source instead of documenting after the fact.</p>
       </div>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
-        <div class="pipeline-step group">
-          <div class="pipeline-number bg-brand-500/10 text-brand-400 mb-6 group-hover:scale-110 transition-transform">01</div>
-          <h3 class="text-lg font-bold text-white mb-3">Capture</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">Knowledge fragments auto-extracted from merged PRs, Slack conversations, CI deployments, and IDE annotations.</p>
-          <div class="text-xs text-slate-600 font-mono">Knowledge at the source</div>
-        </div>
-        <div class="pipeline-step group">
-          <div class="pipeline-number bg-violet-500/10 text-violet-400 mb-6 group-hover:scale-110 transition-transform">02</div>
-          <h3 class="text-lg font-bold text-white mb-3">Score</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">Three-layer quality pipeline: structural analysis, team-defined style rules, and LLM-assessed semantic scoring.</p>
-          <div class="text-xs text-slate-600 font-mono">Quality gates for docs</div>
-        </div>
         <div class="pipeline-step group relative">
-          <div class="absolute -top-3 -right-3 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">The Moat</div>
-          <div class="pipeline-number bg-emerald-500/10 text-emerald-400 mb-6 group-hover:scale-110 transition-transform">03</div>
-          <h3 class="text-lg font-bold text-white mb-3">Compose</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">Fragments cluster by semantic similarity. When enough accumulate, <strong class="text-white">DocBrain auto-composes them into documentation</strong>.</p>
-          <div class="text-xs text-emerald-400 font-mono">Docs write themselves</div>
+          <div class="absolute -top-3 -right-3 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">The difference</div>
+          <div class="pipeline-number bg-emerald-500/10 text-emerald-400 mb-6 group-hover:scale-110 transition-transform">01</div>
+          <h3 class="text-lg font-bold text-white mb-3">Capture</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">Knowledge is captured the moment it's created &mdash; from the conversations, tickets, incidents, and work systems your teams already use. Nothing to write. No wiki to maintain.</p>
+          <div class="text-xs text-emerald-400 font-mono">Knowledge never written down</div>
+        </div>
+        <div class="pipeline-step group">
+          <div class="pipeline-number bg-brand-500/10 text-brand-400 mb-6 group-hover:scale-110 transition-transform">02</div>
+          <h3 class="text-lg font-bold text-white mb-3">Connect</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">Every fragment is linked into a single connected memory &mdash; by topic, by who knows it, by what depends on what. Not a pile of documents; a graph you can ask.</p>
+          <div class="text-xs text-slate-600 font-mono">One connected memory</div>
+        </div>
+        <div class="pipeline-step group">
+          <div class="pipeline-number bg-violet-500/10 text-violet-400 mb-6 group-hover:scale-110 transition-transform">03</div>
+          <h3 class="text-lg font-bold text-white mb-3">Preserve</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">Decisions, fixes, and the reasoning behind them are kept with their provenance &mdash; so the <em class="not-italic text-white">why</em> survives long after the person who knew it has moved on.</p>
+          <div class="text-xs text-slate-600 font-mono">The why, kept</div>
         </div>
         <div class="pipeline-step group">
           <div class="pipeline-number bg-purple-500/10 text-purple-400 mb-6 group-hover:scale-110 transition-transform">04</div>
-          <h3 class="text-lg font-bold text-white mb-3">Govern</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">Space ownership, SLA policies, multi-stage review workflows, and breach detection.</p>
-          <div class="text-xs text-slate-600 font-mono">Accountability built in</div>
+          <h3 class="text-lg font-bold text-white mb-3">Keep current</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">Freshness is tracked continuously. When something goes stale or two sources contradict, DocBrain flags it &mdash; so you can trust what the memory tells you.</p>
+          <div class="text-xs text-slate-600 font-mono">Always know what's true</div>
         </div>
       </div>
 
       <!-- Knowledge lifecycle card -->
       <div class="mt-24 glass-card p-10 md:p-14 border-emerald-500/20">
         <div class="max-w-3xl mx-auto text-center">
-          <div class="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-6">What No One Else Does</div>
-          <h3 class="text-2xl lg:text-3xl font-bold text-white mb-4">The complete knowledge lifecycle</h3>
-          <p class="text-slate-400 text-lg mb-8">Other tools index existing docs. DocBrain <strong class="text-white">captures the knowledge that was never written down</strong> and turns it into quality documentation.</p>
+          <div class="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-6">What no one else does</div>
+          <h3 class="text-2xl lg:text-3xl font-bold text-white mb-4">Memory, not another archive</h3>
+          <p class="text-slate-400 text-lg mb-8">Other tools organize the knowledge you already wrote down. DocBrain <strong class="text-white">captures the knowledge you didn't</strong> &mdash; the decisions, fixes, and expertise that only ever lived in a conversation or someone's head &mdash; and turns it into memory your whole organization can draw on.</p>
           <div class="p-5 rounded-xl bg-white/5 border border-white/10">
-            <p class="text-sm text-slate-300"><strong class="text-white">Result:</strong> documentation grounded in real engineering work, quality-scored and governed, <span class="text-emerald-400">without asking anyone to write docs.</span></p>
+            <p class="text-sm text-slate-300"><strong class="text-white">Result:</strong> a living memory grounded in real work, kept current, <span class="text-emerald-400">without asking anyone to stop and write docs.</span></p>
           </div>
         </div>
       </div>
@@ -535,9 +596,9 @@
   <section id="generate" class="py-32 lg:py-40">
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-20">
-        <p class="text-sm font-semibold uppercase tracking-widest text-emerald-400 mb-4">Generate &middot; The Moat</p>
-        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">One command turns your<br>org's knowledge into docs.</h2>
-        <p class="text-xl text-slate-400 max-w-3xl mx-auto"><code class="text-emerald-300 text-lg">docbrain generate</code> drafts a runbook, postmortem, or API reference grounded in <strong class="text-slate-200">your</strong> runbooks, incidents, tickets, and PRs &mdash; with per-claim provenance. A frontier model writes fluent, generic prose. <code class="text-emerald-300">generate</code> writes what is true for you, or tells you what it can't answer. Run it from your terminal today, or wire it into CI so docs update the moment a PR merges.</p>
+        <p class="text-sm font-semibold uppercase tracking-widest text-emerald-400 mb-4">On demand &middot; docbrain generate</p>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">Turn your memory into<br>a document, on demand.</h2>
+        <p class="text-xl text-slate-400 max-w-3xl mx-auto"><code class="text-emerald-300 text-lg">docbrain generate</code> drafts a runbook, a postmortem, an onboarding guide, or a reference &mdash; grounded in <strong class="text-slate-200">your</strong> organization's own memory: your incidents, tickets, decisions, and past work, with per-claim provenance. A general AI model writes fluent, generic prose. <code class="text-emerald-300">generate</code> writes what is true <em>for you</em>, or tells you honestly what it can't answer. Run it from your terminal, or wire it into your pipeline so documents update themselves as work happens.</p>
       </div>
 
       <!-- Two terminals: local + CI -->
@@ -637,7 +698,7 @@
       <div class="text-center mb-20">
         <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">Access Everywhere</p>
         <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">Meets you where<br>you work</h2>
-        <p class="text-xl text-slate-400 max-w-2xl mx-auto">One knowledge layer, five interfaces. Ask from Slack during an incident, from your IDE while coding, or from the terminal at 2am.</p>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">One memory, many ways in. Ask from chat during an incident, from your editor while you work, from the terminal, or from the web dashboard &mdash; everyone drawing on the same shared memory.</p>
       </div>
 
       <!-- Demo tabs -->
@@ -798,7 +859,7 @@
         <div>
           <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">Live Intelligence</p>
           <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-8 leading-[1.1]">Answers from<br>what's true <span class="text-slate-500">right now</span></h2>
-          <p class="text-lg text-slate-400 leading-relaxed mb-6">Most doc assistants answer from a snapshot. An index tells you what was true the last time it crawled, not what's happening this minute.</p>
+          <p class="text-lg text-slate-400 leading-relaxed mb-6">Most knowledge tools answer from a snapshot. An index tells you what was true the last time it crawled, not what's happening this minute.</p>
           <p class="text-lg text-slate-400 leading-relaxed mb-10">DocBrain reaches into your live systems <em class="text-slate-300 not-italic font-semibold">at the moment you ask</em>. &ldquo;What's the status of PROJ&#8209;412?&rdquo; pulls the ticket from Jira as it stands right now, then combines it with your indexed runbooks into one cited answer. Old knowledge and live state, in a single response.</p>
 
           <div class="space-y-5 mb-10">
@@ -882,16 +943,16 @@
         </div>
       </div>
 
-      <!-- "But my IDE already does MCP" -->
+      <!-- A question answered vs. a memory that grows -->
       <div class="mt-24 max-w-4xl mx-auto">
         <div class="text-center mb-10">
-          <h3 class="text-2xl lg:text-3xl font-bold text-white mb-3">&ldquo;My IDE already does MCP.&rdquo;</h3>
-          <p class="text-slate-400 max-w-2xl mx-auto">True. Cursor and Claude Code can hit your tools live too. The difference is what happens after the answer. They forget it. DocBrain keeps it, connects it, and gets better every time someone asks.</p>
+          <h3 class="text-2xl lg:text-3xl font-bold text-white mb-3">A question answered vs. a memory that grows</h3>
+          <p class="text-slate-400 max-w-2xl mx-auto">Any AI assistant can look something up for you. The difference is what happens after the answer. It forgets. DocBrain keeps it, connects it, and gets better every time someone asks.</p>
         </div>
         <div class="glass-card overflow-hidden">
           <div class="grid grid-cols-3 text-sm">
             <div class="p-4 border-b border-white/5"></div>
-            <div class="p-4 border-b border-l border-white/5 text-center font-semibold text-slate-400">IDE + MCP</div>
+            <div class="p-4 border-b border-l border-white/5 text-center font-semibold text-slate-400">AI assistant</div>
             <div class="p-4 border-b border-l border-white/5 text-center font-semibold text-brand-300">DocBrain</div>
 
             <div class="p-4 border-b border-white/5 text-slate-300">Reads live tools at answer time</div>
@@ -914,12 +975,12 @@
             <div class="p-4 border-b border-l border-white/5 text-center text-slate-600">No</div>
             <div class="p-4 border-b border-l border-white/5 text-center text-emerald-400">Yes</div>
 
-            <div class="p-4 text-slate-300">One shared brain for the org, with access control</div>
-            <div class="p-4 border-l border-white/5 text-center text-slate-600">Per-dev</div>
+            <div class="p-4 text-slate-300">One shared memory for the organization, with access control</div>
+            <div class="p-4 border-l border-white/5 text-center text-slate-600">Per-user</div>
             <div class="p-4 border-l border-white/5 text-center text-emerald-400">Org-wide</div>
           </div>
         </div>
-        <p class="text-center text-sm text-slate-500 mt-6">An IDE asks your tools a question. DocBrain turns every question your org has ever asked into a system that gets smarter.</p>
+        <p class="text-center text-sm text-slate-500 mt-6">An assistant asks your tools a question. DocBrain turns every question your organization has ever asked into a memory that gets smarter.</p>
       </div>
     </div>
   </section>
@@ -933,7 +994,7 @@
         <div>
           <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">4-Layer Memory System</p>
           <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-8 leading-[1.1]">A brain that<br>remembers everything</h2>
-          <p class="text-lg text-slate-400 leading-relaxed mb-10">Four memory layers work together so every question makes the system sharper. The 100th query about Kubernetes is faster and better-answered than the first.</p>
+          <p class="text-lg text-slate-400 leading-relaxed mb-10">Four memory layers work together so every question makes the system sharper. The 100th question about a topic is faster and better-answered than the first.</p>
           <div class="flex items-center gap-6">
             <div class="text-center">
               <div class="stat-value text-3xl">~40%</div>
@@ -1007,8 +1068,8 @@
   <section id="features" class="py-32 lg:py-40">
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-20">
-        <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">Features</p>
-        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">Everything you need</h2>
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">Capabilities</p>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">Everything the memory layer does</h2>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="glass-card p-8"><div class="feature-icon bg-emerald-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div><h4 class="font-bold text-white mb-2">Knowledge Fragments</h4><p class="text-sm text-slate-400">First-class knowledge units with provenance. Auto-captured from PRs, conversations, and CI pipelines.</p></div>
@@ -1032,13 +1093,115 @@
 
   <div class="section-glow"></div>
 
+  <!-- ========== SECURITY & ENTERPRISE READINESS ========== -->
+  <section id="security" class="py-32 lg:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-20">
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">Security &amp; enterprise readiness</p>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">Built to pass<br>your security review</h2>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">DocBrain is designed for the teams whose job is to say no. It runs entirely inside your infrastructure, reads your systems without ever writing to them, and shows its work on every answer.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-emerald-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Self-hosted, zero egress</h4>
+          <p class="text-sm text-slate-400">Runs entirely in your infrastructure from Docker images and Helm charts you pin and control. Point it at a local model and nothing ever leaves your network. Air-gap capable.</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-brand-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Read-only by design</h4>
+          <p class="text-sm text-slate-400">When DocBrain connects to a live system, any tool that could create, edit, or delete is dropped at discovery. It can read to answer a question. It cannot change anything. Enforced, not promised.</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-rose-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Access that mirrors your sources</h4>
+          <p class="text-sm text-slate-400">Source-system ACL mirrors the real permissions of Confluence, Slack, GitHub, and Jira at query time; per-user OAuth scopes live results to what each person can already see. Side-channel-safe, audit-logged.</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-violet-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><path d="M21 2l-5.5 5.5"/><circle cx="9.5" cy="14.5" r="5.5"/><path d="M15.5 7.5L19 11l3-3-3.5-3.5"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Identity &amp; governance</h4>
+          <p class="text-sm text-slate-400">SSO via GitHub, GitLab, or any OIDC provider. Four-tier RBAC, space isolation between teams, API keys hashed with Argon2, and every privileged action audit-logged.</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-amber-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Honest by architecture</h4>
+          <p class="text-sm text-slate-400">Every answer is cited to its source. When the knowledge isn't there, DocBrain asks a question instead of inventing one. The design goal is "roughly 0% confidently wrong," not "always right."</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-sky-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Published threat model</h4>
+          <p class="text-sm text-slate-400">Eleven analyzed attack vectors and an operator security checklist, open today. Because DocBrain runs inside your boundary, you can audit the boundary &mdash; not just the codebase.</p>
+        </div>
+      </div>
+
+      <!-- Deployment model -->
+      <div class="mt-16 glass-card p-8 md:p-10">
+        <div class="grid md:grid-cols-[auto,1fr] gap-6 md:gap-10 items-center">
+          <div class="text-sm font-semibold uppercase tracking-widest text-brand-400 md:whitespace-nowrap">Deployment model</div>
+          <p class="text-slate-300 leading-relaxed">Deploy with Docker Compose or Helm. PostgreSQL, OpenSearch, and Redis run inside your network; the AI model runs wherever you choose &mdash; a local model for zero egress, your own cloud account (Bedrock, Azure, Vertex) for your KMS and audit trail, or a provider API for the fastest setup. You decide where your data goes, source by source.</p>
+        </div>
+      </div>
+
+      <p class="text-center text-sm text-slate-500 mt-8 max-w-2xl mx-auto">Source code publishes in H1 2026 under BSL 1.1. Until then, what determines your risk is already open: the deployment you control, the threat model, and the read-only, zero-egress boundary. <a href="/docs/trust/" class="text-brand-300 hover:text-brand-200 underline underline-offset-2">How DocBrain earns trust &rarr;</a></p>
+    </div>
+  </section>
+
+  <div class="section-glow"></div>
+
+  <!-- ========== USE CASES ========== -->
+  <section id="use-cases" class="py-32 lg:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-20">
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">Use cases</p>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">Where a memory layer<br>pays off</h2>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">Anywhere critical knowledge lives in people's heads and conversations instead of a system you can search &mdash; engineering, operations, support, and beyond.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-emerald-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Onboarding</h4>
+          <p class="text-sm text-slate-400">New people answer their own questions from day one, drawing on everything the team already figured out. Ramp in weeks, not months &mdash; without pulling a senior person off their work.</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-red-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Incident &amp; outage response</h4>
+          <p class="text-sm text-slate-400">During an incident, ask what broke last time and what fixed it. Answers combine past incidents with live system state, cited &mdash; so the fix doesn't depend on who happens to be online.</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-violet-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Preserving decisions</h4>
+          <p class="text-sm text-slate-400">Every "why did we do it this way?" has an answer: the decision, the context that shaped it, and who made it &mdash; kept with provenance instead of lost in a two-year-old thread.</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-amber-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Offboarding &amp; continuity</h4>
+          <p class="text-sm text-slate-400">Capture what your most experienced people know before they leave. When they do, the memory stays &mdash; and the next person inherits their context, not a blank page.</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-sky-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Support &amp; operations</h4>
+          <p class="text-sm text-slate-400">Front-line teams resolve issues from the whole organization's history instead of escalating the same question twice. The answer someone found once is available to everyone after.</p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="feature-icon bg-brand-500/10 mb-5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+          <h4 class="font-bold text-white mb-2">Cross-team knowledge</h4>
+          <p class="text-sm text-slate-400">Stop re-solving what another team already solved. One connected memory spans every tool and team, so a fix found in one corner of the organization is findable from every other.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-glow"></div>
+
   <!-- ========== A DAY WITH DOCBRAIN ========== -->
   <section id="videos" class="py-32 lg:py-40">
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-20">
-        <p class="text-sm font-semibold uppercase tracking-widest text-emerald-400 mb-4">Shift-Left In Practice</p>
+        <p class="text-sm font-semibold uppercase tracking-widest text-emerald-400 mb-4">In practice</p>
         <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">A day with DocBrain</h2>
-        <p class="text-xl text-slate-400 max-w-2xl mx-auto">Knowledge captured where the work happens. Not after. Not in a doc sprint. <strong class="text-slate-300">At the source, in real-time.</strong></p>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">One worked example, from an engineering team. Knowledge captured where the work happens &mdash; not after, not in a doc sprint. <strong class="text-slate-300">At the source, as it happens.</strong></p>
       </div>
       <div class="max-w-3xl mx-auto space-y-0">
         <div class="timeline-item flex gap-6">
@@ -1096,8 +1259,8 @@
 
       <div class="mt-16 text-center">
         <div class="glass-card inline-block px-10 py-6 border-emerald-500/20">
-          <p class="text-slate-400 text-sm mb-2">Traditional: schedule a doc sprint, assign writers, review in 2 weeks, stale in 2 months.</p>
-          <p class="text-white font-bold text-lg">Shift-left: captured at 9:15 AM. Published by 3:30 PM. <span class="text-emerald-400">Stays accurate forever.</span></p>
+          <p class="text-slate-400 text-sm mb-2">The old way: schedule a doc sprint, assign writers, review in 2 weeks, stale in 2 months.</p>
+          <p class="text-white font-bold text-lg">With DocBrain: captured at 9:15 AM, part of your memory by 3:30 PM. <span class="text-emerald-400">Kept accurate from then on.</span></p>
         </div>
       </div>
     </div>
@@ -1168,15 +1331,17 @@
         <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">Common questions</h2>
       </div>
       <div class="space-y-4">
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">What exactly is DocBrain?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">An institutional memory layer for your organization. It captures the knowledge your teams create as they work &mdash; decisions, fixes, answers, context &mdash; from the tools you already use, connects it into one searchable memory, keeps it accurate, and preserves it when people leave. It sits on top of your existing systems, reads them (never writes), and doesn't ask anyone to move to a new tool.</div></details>
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">We already have Confluence, Notion, GitHub, and Slack. Why do we need this?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Those are places to <em class="not-italic text-slate-300">store</em> knowledge someone remembered to write down. DocBrain captures what never gets stored &mdash; the reasoning in a ticket, the fix in an incident thread, the decision made in a meeting &mdash; connects it across all of them, keeps it fresh, and tells you when it's gone stale. You're not replacing Confluence; you're capturing the knowledge Confluence never sees. DocBrain reads your existing tools; it doesn't ask your teams to adopt another one.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Is DocBrain really free?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Yes, free for production use under BSL 1.1. Only restriction: you cannot offer DocBrain as a hosted service. The source code publishes in H1 2026; today you get versioned Docker images, Helm charts, and full docs to self-host. The license converts to Apache 2.0 at 5k stars or Jan 1, 2028.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">How do I know the data is accurate and not made up?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">DocBrain is built to <strong class="text-white">refuse to show anything it can't stand behind</strong>. Confident ownership only shows up after it's been measured against a human-checked answer key and passed a strict accuracy bar. Until then you see "no confident owner," not a guess. Every confident claim carries its evidence. Low-confidence answers ask a question instead of making something up, and the system never passes off intent as a measured result. The honest promise is "roughly 0% confidently wrong," not "always right." <a href="/docs/trust/" class="text-brand-300 hover:text-brand-200 underline">Read how DocBrain earns trust &rarr;</a></div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Does my data leave my infrastructure?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">When self-hosted, docs and queries never leave your infra. Use Ollama for 100% local, air-gapped deployment with zero data egress.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Which LLMs does DocBrain support?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">14 providers: Anthropic (Claude), OpenAI, AWS Bedrock, Vertex AI, Azure OpenAI, Groq, OpenRouter, Together, DeepSeek, Mistral, xAI, Gemini, Cohere, and Ollama. Swap via config.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Does DocBrain learn from feedback?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Yes. Thumbs up/down updates procedural retrieval rules and feeds Autopilot gap detection. Optional learning pipeline fine-tunes embeddings from feedback.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">How long does setup take?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Docker Compose: about 5 minutes. Run <code class="bg-white/5 px-1.5 rounded text-brand-300">bash scripts/setup.sh</code> and it brings up PostgreSQL, OpenSearch, Redis, migrations, and sample docs. Add your LLM API key and go.</div></details>
-        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">What is "shift-left documentation"?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Same idea as shift-left testing: capture knowledge at the source instead of documenting after the fact. Fragments accumulate, cluster, and auto-compose into quality-scored documentation.</div></details>
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">What is "capturing knowledge at the source"?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">It's the mechanism behind the memory layer &mdash; the same idea as shift-left testing. Capture knowledge the moment it's created, where it's created, instead of documenting after the fact. Fragments accumulate, connect, and compose into memory, without asking anyone to stop and write docs.</div></details>
 
-        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">My IDE already has MCP. Why DocBrain?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Your IDE can read live tools, and so can DocBrain. The difference is memory. Cursor or Claude Code answers your question in your session, then forgets it the moment you close the tab. DocBrain keeps every answer, links the entities into a knowledge graph, learns which sources to trust from feedback, and turns recurring questions into durable docs. The 100th person asking about Kubernetes gets a faster, better answer because of the first 99. It's one shared brain for the whole org with access control, not a private session per developer.</div></details>
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">My IDE already has MCP. Why DocBrain?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Your IDE can read live tools, and so can DocBrain. The difference is memory. Cursor or Claude Code answers your question in your session, then forgets it the moment you close the tab. DocBrain keeps every answer, links the entities into a connected memory, learns which sources to trust from feedback, and turns recurring questions into durable knowledge. The 100th person asking about a topic gets a faster, better answer because of the first 99. It's one shared memory for the whole organization with access control, not a private session per person.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">How are docs quality-scored?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Three layers: <strong class="text-white">Structural</strong> (deterministic), <strong class="text-white">Style</strong> (configurable rules per team), and <strong class="text-white">Semantic</strong> (LLM-assessed). Composite score 0-100.</div></details>
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Can I integrate with PagerDuty / incident management?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">Yes. Native PagerDuty and OpsGenie ingestion. Knowledge Stream fires early warnings during incidents. Webhook subscriptions push events to any tool.</div></details>
 
@@ -1193,7 +1358,7 @@
 
         <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">How are secrets and credentials handled?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">OAuth tokens are encrypted at rest and refreshed transparently; API keys are Argon2-hashed and never stored in plaintext. Connector credentials are referenced by name, never logged, and never surfaced in the UI. LLM and source keys live in your environment, not in DocBrain's database.</div></details>
 
-        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Is the source code auditable?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">The source publishes in H1 2026 under BSL 1.1. Until then, you audit what actually determines your risk: DocBrain runs entirely inside your infrastructure from versioned Docker images and Helm charts you pin and control, with a [published threat model](https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md) covering 11 attack vectors, a zero-egress mode using local models, and enforced read-only access to your tools. Nothing leaves your network for you to trust us with — audit the boundary, not just the codebase.</div></details>
+        <details class="glass-card group"><summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">Is the source code auditable?<span class="ml-2 text-slate-500 group-open:rotate-180 transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="px-6 pb-6 text-slate-400 text-sm leading-relaxed">The source publishes in H1 2026 under BSL 1.1. Until then, you audit what actually determines your risk: DocBrain runs entirely inside your infrastructure from versioned Docker images and Helm charts you pin and control, with a <a href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md" class="text-brand-300 hover:text-brand-200 underline" target="_blank" rel="noopener">published threat model</a> covering 11 attack vectors, a zero-egress mode using local models, and enforced read-only access to your tools. Nothing leaves your network for you to trust us with — audit the boundary, not just the codebase.</div></details>
       </div>
     </div>
   </section>
@@ -1241,6 +1406,33 @@
         <a href="/docs/" class="magnetic-btn secondary">
           Read the Docs
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-glow"></div>
+
+  <!-- ========== OPEN SOURCE & COMMUNITY ========== -->
+  <section id="community" class="py-28">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="text-center mb-14">
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-4">Open source &amp; community</p>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-4 leading-[1.1]">Built in the open, honestly</h2>
+        <p class="text-lg text-slate-400 max-w-2xl mx-auto">DocBrain is licensed under BSL 1.1 and free for production use. The source code publishes in H1 2026; today you get the production Docker images, Helm charts, full configuration, and the threat model to run it yourself. We'd rather tell you that plainly than dress it up.</p>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-6">
+        <a href="https://github.com/docbrain-ai/docbrain" target="_blank" rel="noopener" class="glass-card p-6 block hover:border-brand-500/30 transition-colors">
+          <h4 class="font-bold text-white mb-1">GitHub</h4>
+          <p class="text-sm text-slate-400">Star the repo, file issues, and follow the roadmap.</p>
+        </a>
+        <a href="https://github.com/docbrain-ai/docbrain/discussions" target="_blank" rel="noopener" class="glass-card p-6 block hover:border-brand-500/30 transition-colors">
+          <h4 class="font-bold text-white mb-1">Discussions</h4>
+          <p class="text-sm text-slate-400">Ask questions and help shape where DocBrain goes next.</p>
+        </a>
+        <a href="mailto:hello@docbrainapi.com" class="glass-card p-6 block hover:border-brand-500/30 transition-colors">
+          <h4 class="font-bold text-white mb-1">Talk to us</h4>
+          <p class="text-sm text-slate-400">Evaluating DocBrain for your organization? We work closely with early adopters.</p>
         </a>
       </div>
     </div>
