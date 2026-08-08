@@ -851,6 +851,38 @@
 
   <div class="section-glow"></div>
 
+  <!-- ========== TEACH YOUR AGENT (MCP CAPTURE) ========== -->
+  <section id="agents" class="py-32 lg:py-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="text-sm font-semibold uppercase tracking-widest text-violet-400 mb-4">Coding agents &middot; Claude Code &amp; Cursor</p>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">Your agent fixes it.<br>DocBrain remembers it.</h2>
+        <p class="text-xl text-slate-400 max-w-3xl mx-auto">Engineers now solve their hardest problems inside agent sessions &mdash; and that knowledge dies when the terminal closes. DocBrain's MCP tools give your agent a write path: it checks whether the org already knows the fix, drafts a capture, and <strong class="text-slate-200">asks you before filing it</strong>. Three lines in your <code class="text-violet-300">CLAUDE.md</code>:</p>
+      </div>
+
+      <div class="max-w-3xl mx-auto">
+        <div class="terminal relative">
+          <button type="button" class="copy-btn" data-copy="When we resolve an error or discover non-obvious behavior, call docbrain_suggest_capture for the files involved. If a gap exists, draft a 3-5 line capture and ask me to approve it before calling docbrain_capture. Never include secrets or .env values in a capture." aria-label="Copy to clipboard">Copy</button>
+          <div class="terminal-bar">
+            <div class="terminal-dot" style="background:#ff5f57"></div>
+            <div class="terminal-dot" style="background:#febc2e"></div>
+            <div class="terminal-dot" style="background:#28c840"></div>
+            <span class="ml-3 text-xs text-slate-500 font-mono">CLAUDE.md</span>
+          </div>
+          <div class="terminal-body p-5 font-mono text-[13px] leading-relaxed">
+            <div class="text-slate-400">When we resolve an error or discover non-obvious behavior, call</div>
+            <div><span class="code-green">docbrain_suggest_capture</span> <span class="text-slate-400">for the files involved. If a gap exists,</span></div>
+            <div class="text-slate-400">draft a 3&ndash;5 line capture and ask me to approve it before calling</div>
+            <div><span class="code-green">docbrain_capture</span><span class="text-slate-400">. Never include secrets or .env values in a capture.</span></div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-500 mt-5 text-center">Nothing uploads automatically &mdash; the agent proposes, you approve, and the capture lands in the normal review queue. The client is MIT-licensed: <a href="https://github.com/docbrain-ai/docbrain/blob/main/docs/agents.md" class="text-violet-400 hover:text-violet-300 underline underline-offset-2">read the full guide</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-glow"></div>
+
   <!-- ========== LIVE INTELLIGENCE (MCP TOOL PLATFORM) ========== -->
   <section id="live" class="py-32 lg:py-40">
     <div class="max-w-7xl mx-auto px-6">
