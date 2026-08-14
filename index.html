@@ -5,764 +5,538 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <title>DocBrain — The memory layer for humans and AI agents</title>
-<meta name="description" content="DocBrain captures the knowledge your organization never writes down, connects it into one memory, and keeps it accurate. Self-hosted, read-only, zero data egress.">
+<meta name="description" content="DocBrain captures the knowledge your organization never writes down, cites every claim to its source, and serves it to your people and your coding agents. Self-hosted.">
 <style>
   *,*::before,*::after{ box-sizing:border-box; }
   html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
   body{ margin:0; }
-  h1,h2,h3,h4,p,dl,dd,figure{ margin:0; }
+  h1,h2,h3,h4,p,figure{ margin:0; }
   ul,ol{ margin:0; padding:0; list-style:none; }
   button,input{ font:inherit; color:inherit; }
-  table{ border-collapse:collapse; }
 
-  /* ─────────────────────────────────────────────────────────────
-     TYPEFACES — self-hosted, no third-party CDN.
-     A product that promises zero data egress should not leak
-     every visitor's IP to a font CDN before the page paints.
-     Drop the .woff2 files in assets/fonts/ (see fetch script).
-     Until then, the system stacks below render correctly.
-     ───────────────────────────────────────────────────────────── */
-  @font-face{ font-family:"Newsreader"; src:url("assets/fonts/newsreader-var.woff2") format("woff2-variations");
-    font-weight:200 800; font-style:normal; font-display:swap; }
-  @font-face{ font-family:"IBM Plex Sans"; src:url("assets/fonts/ibm-plex-sans-400.woff2") format("woff2");
-    font-weight:400; font-style:normal; font-display:swap; }
-  @font-face{ font-family:"IBM Plex Sans"; src:url("assets/fonts/ibm-plex-sans-600.woff2") format("woff2");
-    font-weight:600 700; font-style:normal; font-display:swap; }
-  @font-face{ font-family:"IBM Plex Mono"; src:url("assets/fonts/ibm-plex-mono-400.woff2") format("woff2");
-    font-weight:400 600; font-style:normal; font-display:swap; }
+  @font-face{ font-family:"Newsreader"; src:url("assets/fonts/newsreader-var.woff2") format("woff2-variations"); font-weight:200 800; font-display:swap; }
+  @font-face{ font-family:"Plex"; src:url("assets/fonts/ibm-plex-sans-400.woff2") format("woff2"); font-weight:400; font-display:swap; }
+  @font-face{ font-family:"Plex"; src:url("assets/fonts/ibm-plex-sans-600.woff2") format("woff2"); font-weight:600 700; font-display:swap; }
+  @font-face{ font-family:"PlexMono"; src:url("assets/fonts/ibm-plex-mono-400.woff2") format("woff2"); font-weight:400 600; font-display:swap; }
 
   :root{
-    --page:#FFFFFF; --tint:#F6F7F9; --tint2:#EEF1F5;
-    --ink:#0E1420; --body:#414A5C; --muted:#6B7488;
-    --line:#DFE3EA; --line2:#EDEFF4;
-    --navy:#16365C; --navy2:#0F2440; --navyT:#EDF2F8;
-    --ok:#0F5D48; --okT:#E8F3EF;
-    --gap:#8A6218; --gapT:#FBF3E4;
-    --flag:#8C2F39; --flagT:#FBEEEF;
-    --serif:"Newsreader",ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
-    --sans:"IBM Plex Sans",ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    /* the archive: card stock, ink, and two hands writing on it */
+    --paper:#F4F2EC; --paper2:#EFEDE5; --card:#FDFCF9; --card2:#F8F6F0;
+    --ink:#1B1915; --body:#4E4A42; --dim:#8A857A;
+    --rule:#DED9CC; --rule2:#EAE6DC; --blue:#C6D2DE;
+    --margin:#B4483F;
+    --hum:#1E6B54; --humS:#E7F1EC;
+    --agt:#26588F; --agtS:#E6EDF6;
+    --key:var(--margin);
+    --serif:"Newsreader",ui-serif,Georgia,serif;
+    --sans:"Plex",ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:"PlexMono",ui-monospace,SFMono-Regular,Menlo,monospace;
   }
-  body{ background:var(--page); color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.62; -webkit-font-smoothing:antialiased; }
-  .wrap{ width:100%; max-width:72rem; margin:0 auto; padding-inline:clamp(1.15rem,4vw,2.75rem); }
-  .measure{ max-width:38rem; }
 
-  .kicker{ font-family:var(--mono); font-size:.66rem; font-weight:600; letter-spacing:.19em; text-transform:uppercase; color:var(--navy); }
-  h1{ font-family:var(--serif); font-weight:600; font-size:clamp(2.4rem,5.8vw,4rem); line-height:1.04; letter-spacing:-.024em; text-wrap:balance; }
-  h2{ font-family:var(--serif); font-weight:600; font-size:clamp(1.7rem,3.7vw,2.35rem); line-height:1.14; letter-spacing:-.016em; text-wrap:balance; }
+  body{
+    background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      linear-gradient(var(--rule2) 1px, transparent 1px);
+    background-size:100% 2.1rem;
+    background-attachment:fixed;
+  }
+
+  .wrap{ width:100%; max-width:74rem; margin:0 auto; padding-inline:clamp(1.25rem,4vw,3rem); }
+  .narrow{ max-width:41rem; }
+  .eye{ font-family:var(--mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); }
+  h1{ font-family:var(--serif); font-weight:500; font-size:clamp(2.5rem,6.2vw,4.5rem); line-height:1.02; letter-spacing:-.032em; text-wrap:balance; }
+  h2{ font-family:var(--serif); font-weight:500; font-size:clamp(1.9rem,4vw,2.85rem); line-height:1.08; letter-spacing:-.025em; text-wrap:balance; }
   h3{ font-size:1rem; font-weight:650; }
-  .lede{ font-size:clamp(1.02rem,1.85vw,1.15rem); line-height:1.58; color:var(--body); }
-  .body{color:var(--body);} .muted{color:var(--muted);} .sm{font-size:.88rem;} .xs{font-size:.8rem;}
-  strong{ font-weight:650; color:var(--ink); }
+  .lede{ font-size:clamp(1.02rem,1.8vw,1.19rem); line-height:1.58; color:var(--body); }
+  .body{color:var(--body);} .dim{color:var(--dim);} .sm{font-size:.89rem;} .xs{font-size:.79rem;}
+  strong{ color:var(--ink); font-weight:650; }
+  code{ font-family:var(--mono); font-size:.9em; }
 
-  .btn{ display:inline-flex; align-items:center; justify-content:center; font-size:.87rem; font-weight:600; padding:.72rem 1.25rem; border-radius:3px; text-decoration:none; cursor:pointer; background:var(--navy); border:1px solid var(--navy); color:#fff; transition:.15s; }
-  .btn:hover{ background:var(--navy2); border-color:var(--navy2); }
-  .btn2{ background:transparent; color:var(--ink); border-color:var(--line); }
-  .btn2:hover{ background:var(--tint); border-color:var(--muted); }
+  .btn{ display:inline-flex; align-items:center; justify-content:center; font-size:.88rem; font-weight:600;
+        padding:.75rem 1.3rem; border-radius:3px; text-decoration:none; cursor:pointer;
+        background:var(--ink); border:1px solid var(--ink); color:var(--card); transition:.15s;
+        box-shadow:2px 2px 0 rgba(27,25,21,.16); }
+  .btn:hover{ background:var(--margin); border-color:var(--margin); transform:translate(1px,1px); box-shadow:1px 1px 0 rgba(27,25,21,.16); }
+  .btn2{ background:var(--card); color:var(--ink); border-color:var(--rule); }
+  .btn2:hover{ background:var(--card); color:var(--margin); border-color:var(--margin); }
 
-  .nav{ position:sticky; top:0; z-index:60; background:rgba(255,255,255,.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--line2); }
-  .navin{ display:flex; align-items:center; gap:1.6rem; height:4.1rem; }
-  .brand{ display:inline-flex; align-items:center; gap:.55rem; text-decoration:none; color:var(--ink); }
-  .mark{ width:1.45rem; height:1.45rem; flex:none; }
-  .brand b{ font-family:var(--serif); font-size:1.18rem; font-weight:600; letter-spacing:-.012em; }
-  .navlinks{ display:none; gap:1.45rem; margin-left:auto; }
-  @media (min-width:64rem){ .navlinks{ display:flex; } }
-  .navlinks a{ font-size:.86rem; color:var(--body); text-decoration:none; }
-  .navlinks a:hover{ color:var(--navy); }
-  .navcta{ margin-left:auto; } @media (min-width:64rem){ .navcta{ margin-left:0; } }
+  nav{ position:sticky; top:0; z-index:80; background:rgba(244,242,236,.9); backdrop-filter:blur(10px); border-bottom:1px solid transparent; transition:.2s; }
+  nav.on{ border-bottom-color:var(--rule); }
+  .navin{ display:flex; align-items:center; gap:1.6rem; height:4.2rem; }
+  .brand{ display:inline-flex; align-items:center; gap:.5rem; color:var(--ink); text-decoration:none; font-family:var(--serif); font-size:1.24rem; font-weight:600; letter-spacing:-.02em; }
+  .nlinks{ display:none; gap:1.5rem; margin-left:auto; }
+  @media (min-width:66rem){ .nlinks{ display:flex; } }
+  .nlinks a{ font-size:.85rem; color:var(--body); text-decoration:none; }
+  .nlinks a:hover{ color:var(--margin); }
+  .ncta{ margin-left:auto; } @media (min-width:66rem){ .ncta{ margin-left:0; } }
 
-  section{ padding-block:clamp(3.5rem,6.5vw,5.5rem); }
-  .rule{ border-top:1px solid var(--line2); }
-  .head{ display:flex; flex-direction:column; gap:.7rem; margin-bottom:2.3rem; }
+  section{ padding-block:clamp(4rem,7.5vw,6.5rem); }
+  .sechead{ display:flex; flex-direction:column; gap:.85rem; margin-bottom:2.5rem; }
 
-  .hero{ padding-block:clamp(2.9rem,6vw,5rem) clamp(2.6rem,5vw,4rem); }
-  .hgrid{ display:grid; grid-template-columns:1fr; gap:2.5rem; align-items:start; }
-  @media (min-width:68rem){ .hgrid{ grid-template-columns:.92fr 1.08fr; gap:3.4rem; } }
-  .hcopy{ display:flex; flex-direction:column; gap:1.15rem; }
-  .acts{ display:flex; flex-wrap:wrap; gap:.65rem; align-items:center; }
-  .assure{ display:flex; flex-wrap:wrap; gap:.35rem 1.25rem; padding-top:.45rem; }
-  .assure span{ font-size:.81rem; color:var(--muted); display:inline-flex; align-items:center; gap:.4rem; }
-  .assure span::before{ content:""; width:.3rem; height:.3rem; background:var(--navy); border-radius:50%; }
+  /* ═══ the record card — the page's whole visual system ═══ */
+  .rec{ position:relative; background:var(--card); border:1px solid var(--rule); border-radius:2px;
+        box-shadow:2px 2px 0 rgba(27,25,21,.05), 0 14px 34px -28px rgba(27,25,21,.5); }
+  .rec::before{ content:""; position:absolute; left:2.1rem; top:0; bottom:0; width:1px; background:var(--margin); opacity:.28; }
+  .rec.plain::before{ display:none; }
+  .rec > *{ padding-left:3rem; }
+  .rec.plain > *{ padding-left:1.3rem; }
+  .tab{ position:absolute; top:-.9rem; left:1.4rem; font-family:var(--mono); font-size:.6rem; letter-spacing:.14em;
+        text-transform:uppercase; padding:.28rem .7rem; border:1px solid var(--rule); border-bottom:none;
+        border-radius:3px 3px 0 0; background:var(--card2); color:var(--dim); }
+  .tab.h{ color:var(--hum); background:var(--humS); border-color:#CFE0D8; }
+  .tab.a{ color:var(--agt); background:var(--agtS); border-color:#CFDCEB; }
+  .recb{ padding-block:1.35rem 1.4rem; padding-right:1.3rem; }
+  .recb p{ font-size:.94rem; line-height:1.6; color:var(--body); }
+  .recb h3{ margin-bottom:.35rem; }
 
-  /* product panel */
-  .app{ border:1px solid var(--line); border-radius:5px; overflow:hidden; background:var(--page); box-shadow:3px 3px 0 var(--tint2), 0 18px 44px -30px rgba(14,20,32,.4); }
-  .appbar{ display:flex; align-items:center; gap:.6rem; padding:.6rem .85rem; border-bottom:1px solid var(--line); background:var(--tint); }
-  .appbar .t{ font-family:var(--mono); font-size:.67rem; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); }
-  .replay{ margin-left:auto; font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); background:var(--page); border:1px solid var(--line); border-radius:3px; padding:.22rem .5rem; cursor:pointer; }
-  .replay:hover{ color:var(--navy); border-color:var(--navy); }
-  .qbar{ display:flex; flex-wrap:wrap; gap:.35rem; padding:.7rem .85rem; border-bottom:1px solid var(--line2); }
-  .qchip{ font-size:.75rem; padding:.3rem .6rem; border:1px solid var(--line); border-radius:3px; background:var(--page); color:var(--body); cursor:pointer; }
-  .qchip:hover{ border-color:var(--muted); }
-  .qchip[aria-pressed="true"]{ background:var(--navy); border-color:var(--navy); color:#fff; }
-  .stage{ padding:1rem .9rem 1.05rem; min-height:20.5rem; display:flex; flex-direction:column; gap:.6rem; }
-  .ask{ font-family:var(--mono); font-size:.78rem; }
-  .caret{ display:inline-block; width:.5em; background:var(--navy); color:transparent; animation:bl 1s steps(1) infinite; }
-  @keyframes bl{ 50%{opacity:0;} }
-  .status{ font-family:var(--mono); font-size:.71rem; color:var(--muted); }
-  .claim{ border-left:2px solid var(--ok); background:var(--okT); border-radius:0 3px 3px 0; padding:.6rem .75rem; opacity:0; animation:fi .3s ease forwards; }
-  .claim.isgap{ border-left-color:var(--gap); background:var(--gapT); }
-  @keyframes fi{ to{opacity:1;} }
-  .claim p{ font-size:.91rem; line-height:1.55; }
+  .hero{ padding-block:clamp(3rem,6vw,4.6rem) clamp(2.6rem,5vw,4rem); }
+  .hcopy{ max-width:47rem; display:flex; flex-direction:column; gap:1.25rem; margin-bottom:2.6rem; }
+  .swap{ display:inline-block; position:relative; font:inherit; background:none; border:none; padding:0 .06em; cursor:pointer; transition:color .2s; color:var(--dim); }
+  .swap::after{ content:""; position:absolute; left:.04em; right:.04em; bottom:.08em; height:.14em; background:currentColor; opacity:.25; transition:.2s; }
+  .swap:hover{ color:var(--body); }
+  #sw-h.sel{ color:var(--hum); } #sw-h.sel::after{ opacity:1; }
+  #sw-a.sel{ color:var(--agt); } #sw-a.sel::after{ opacity:1; }
+  .prod{ font-family:var(--serif); font-size:clamp(1.12rem,2.2vw,1.45rem); line-height:1.42; letter-spacing:-.012em; color:var(--body); }
+  .prod strong{ color:var(--ink); font-weight:500; }
+  .gainbar{ border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding-block:1.1rem; margin-block:.3rem; }
+  .gain{ display:flex; align-items:baseline; flex-wrap:wrap; gap:.2rem .9rem; }
+  .gl{ font-family:var(--mono); font-size:.66rem; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); width:100%; }
+  .gain b{ font-family:var(--serif); font-size:clamp(2.4rem,5.5vw,3.4rem); font-weight:500; letter-spacing:-.032em;
+           line-height:1.05; color:var(--hum); font-variant-numeric:tabular-nums; }
+  body[data-mode="agent"] .gain b{ color:var(--agt); }
+  .gs{ font-size:.92rem; color:var(--body); }
+  .gs a{ color:var(--margin); text-decoration:none; border-bottom:1px solid currentColor; }
+  .gnote{ font-size:.75rem; color:var(--dim); line-height:1.5; margin-top:.5rem; max-width:38rem; }
+  .gen{ display:flex; flex-direction:column; }
+  .genrow{ display:grid; grid-template-columns:auto 1fr; gap:.2rem .8rem; align-items:baseline;
+           padding:.55rem 0; border-bottom:1px solid var(--rule2); font-size:.88rem; }
+  @media (min-width:44rem){ .genrow{ grid-template-columns:5rem 11rem 1fr; } }
+  .genrow:last-child{ border-bottom:none; }
+  .gk{ font-family:var(--mono); font-size:.6rem; letter-spacing:.11em; text-transform:uppercase; color:var(--dim); }
+  .gv{ font-weight:650; color:var(--ink); }
+  .gp{ font-family:var(--mono); font-size:.75rem; color:var(--body); }
+  .genrow.gapline .gv{ color:var(--margin); } .genrow.gapline .gp{ color:var(--margin); }
+  .cue{ font-family:var(--mono); font-size:.72rem; color:var(--dim); }
+  .m-h,.m-a{ display:none; }
+  body[data-mode="human"] .m-h{ display:block; } body[data-mode="agent"] .m-a{ display:block; }
+  .acts{ display:flex; flex-wrap:wrap; gap:.7rem; }
+  .trust{ display:flex; flex-wrap:wrap; gap:.35rem 1.5rem; }
+  .trust span{ font-family:var(--mono); font-size:.72rem; color:var(--dim); }
+
+  /* the answer card */
+  .qline{ font-family:var(--mono); font-size:.79rem; color:var(--dim); padding-block:.85rem; border-bottom:1px dashed var(--rule); padding-right:1.3rem; }
+  .claim{ padding-block:.85rem; border-bottom:1px solid var(--rule2); padding-right:1.3rem; position:relative; }
+  .claim:last-of-type{ border-bottom:none; }
+  .claim .who{ position:absolute; left:.55rem; top:.95rem; font-family:var(--mono); font-size:.58rem; letter-spacing:.06em; text-transform:uppercase; }
+  .claim.byh .who{ color:var(--hum); } .claim.bya .who{ color:var(--agt); }
+  .claim p{ font-size:.96rem; line-height:1.55; color:var(--ink); }
+  .claim.gapc p{ color:var(--margin); }
   .cites{ display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.5rem; }
-  .cbtn{ font-family:var(--mono); font-size:.65rem; padding:.22rem .5rem; border:1px solid var(--line); border-radius:3px; background:var(--page); color:var(--navy); cursor:pointer; }
-  .cbtn:hover{ background:var(--navyT); border-color:var(--navy); }
-  .cbtn.live{ color:var(--flag); border-color:#E6C9CC; }
-  .src{ margin-top:.5rem; border:1px solid var(--line); border-left:2px solid var(--navy); border-radius:0 3px 3px 0; padding:.55rem .7rem; background:var(--page); font-size:.79rem; line-height:1.5; color:var(--body); }
-  .src b{ display:block; font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:.3rem; }
-  .verdict{ margin-top:auto; display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; padding-top:.65rem; border-top:1px solid var(--line2); }
-  .pill{ font-family:var(--mono); font-size:.62rem; letter-spacing:.07em; text-transform:uppercase; padding:.2rem .45rem; border-radius:3px; }
-  .pok{ color:var(--ok); background:var(--okT); } .pgap{ color:var(--gap); background:var(--gapT); } .plive{ color:var(--flag); background:var(--flagT); }
+  .cite{ font-family:var(--mono); font-size:.68rem; padding:.2rem .5rem; border:1px solid var(--rule); border-radius:2px;
+         background:var(--card2); color:var(--body); cursor:pointer; }
+  .cite:hover{ border-color:var(--margin); color:var(--margin); }
+  .srcbox{ margin-top:.55rem; border-left:2px solid var(--rule); padding:.4rem 0 .4rem .7rem; font-family:var(--mono); font-size:.73rem; line-height:1.55; color:var(--body); }
+  .srcbox b{ display:block; font-size:.6rem; letter-spacing:.09em; text-transform:uppercase; color:var(--dim); margin-bottom:.2rem; }
+  .stamp{ display:flex; flex-wrap:wrap; gap:.4rem; padding-block:.85rem 0; border-top:1px dashed var(--rule); padding-right:1.3rem; }
+  .pill{ font-family:var(--mono); font-size:.64rem; padding:.2rem .45rem; border-radius:2px; }
+  .pill.h{ color:var(--hum); background:var(--humS); } .pill.a{ color:var(--agt); background:var(--agtS); }
+  .pill.g{ color:var(--margin); background:#F7E9E7; }
 
-  .strip{ background:var(--tint); border-block:1px solid var(--line2); }
-  .stripin{ display:grid; grid-template-columns:repeat(2,1fr); }
-  @media (min-width:56rem){ .stripin{ grid-template-columns:repeat(4,1fr); } }
-  .cell{ padding:1.35rem 1.2rem; border-right:1px solid var(--line2); border-bottom:1px solid var(--line2); }
-  .cell:nth-child(2n){ border-right:none; }
-  @media (min-width:56rem){ .cell{ border-bottom:none; border-right:1px solid var(--line2); } .cell:last-child{ border-right:none; } }
-  .cell b{ display:block; font-size:.93rem; margin-bottom:.12rem; } .cell span{ font-size:.81rem; color:var(--muted); }
+  .hgrid{ display:grid; grid-template-columns:1fr; gap:1.5rem; }
+  @media (min-width:64rem){ .hgrid{ grid-template-columns:1.1fr .9fr; gap:2.4rem; } }
 
-  .g3{ display:grid; grid-template-columns:1fr; gap:1.1rem; }
-  @media (min-width:52rem){ .g3{ grid-template-columns:repeat(3,1fr); } }
-  .g2{ display:grid; grid-template-columns:1fr; gap:1.5rem; }
-  @media (min-width:58rem){ .g2{ grid-template-columns:1fr 1fr; gap:2.6rem; align-items:start; } }
-  .card{ border:1px solid var(--line); border-radius:5px; padding:1.3rem 1.35rem; background:var(--page); }
-  .card h3{ margin-bottom:.4rem; } .card p{ font-size:.89rem; color:var(--body); }
+  .drawer{ display:grid; grid-template-columns:repeat(2,1fr); border-block:1px solid var(--rule); background:var(--paper2); }
+  @media (min-width:56rem){ .drawer{ grid-template-columns:repeat(4,1fr); } }
+  .dcell{ padding:1.55rem 1.35rem; border-right:1px solid var(--rule); border-bottom:1px solid var(--rule); }
+  .dcell:nth-child(2n){ border-right:none; }
+  @media (min-width:56rem){ .dcell{ border-bottom:none; border-right:1px solid var(--rule); } .dcell:last-child{ border-right:none; } }
+  .dcell b{ display:block; font-family:var(--serif); font-size:1.35rem; font-weight:500; letter-spacing:-.02em; margin-bottom:.15rem; }
+  .dcell span{ font-size:.81rem; color:var(--dim); line-height:1.45; }
 
-  /* three-way */
-  .three{ display:grid; grid-template-columns:1fr; gap:1.1rem; }
-  @media (min-width:58rem){ .three{ grid-template-columns:repeat(3,1fr); } }
-  .way{ border:1px solid var(--line); border-radius:5px; overflow:hidden; display:flex; flex-direction:column; }
-  .way.win{ border-color:var(--navy); box-shadow:4px 4px 0 var(--navyT), 0 14px 34px -26px rgba(22,54,92,.45); }
-  .wayh{ padding:.85rem .95rem; border-bottom:1px solid var(--line); background:var(--tint); }
-  .way.win .wayh{ background:var(--navy); color:#fff; }
-  .wayh .k{ font-family:var(--mono); font-size:.63rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:.15rem; }
-  .way.win .wayh .k{ color:#A9C2E0; }
-  .wayh .n{ font-weight:650; font-size:.95rem; }
-  .wayb{ padding:1rem .95rem; display:flex; flex-direction:column; gap:.5rem; flex:1; }
-  .wayb li{ font-size:.87rem; color:var(--body); padding-left:1.3rem; position:relative; line-height:1.5; }
-  .wayb li::before{ content:"×"; position:absolute; left:.15rem; color:var(--flag); font-weight:700; }
-  .way.win .wayb li::before{ content:"✓"; color:var(--ok); }
-  .wayf{ padding:.7rem .95rem; border-top:1px solid var(--line2); font-size:.83rem; font-style:italic; color:var(--muted); background:var(--tint); }
-  .way.win .wayf{ color:var(--navy); font-style:normal; font-weight:650; background:var(--navyT); }
+  .two{ display:grid; grid-template-columns:1fr; gap:2rem; }
+  @media (min-width:58rem){ .two{ grid-template-columns:1fr 1fr; gap:1.6rem; } }
+  .stack{ display:flex; flex-direction:column; gap:1.7rem; }
 
-  .steps{ display:grid; grid-template-columns:1fr; border:1px solid var(--line); border-radius:5px; overflow:hidden; box-shadow:3px 3px 0 var(--tint2); }
-  @media (min-width:60rem){ .steps{ grid-template-columns:repeat(4,1fr); } }
-  .step{ padding:1.35rem 1.2rem; border-bottom:1px solid var(--line2); }
-  @media (min-width:60rem){ .step{ border-bottom:none; border-right:1px solid var(--line2); } .step:last-child{ border-right:none; } }
-  .step .n{ font-family:var(--mono); font-size:.64rem; letter-spacing:.12em; color:var(--navy); display:block; margin-bottom:.3rem; }
-  .step p{ font-size:.86rem; color:var(--body); margin-top:.25rem; }
-  .step .tagline{ font-family:var(--mono); font-size:.66rem; color:var(--muted); margin-top:.5rem; display:block; }
+  .grid3{ display:grid; grid-template-columns:1fr; gap:1.6rem 1.2rem; }
+  @media (min-width:46rem){ .grid3{ grid-template-columns:1fr 1fr; } }
+  @media (min-width:72rem){ .grid3{ grid-template-columns:repeat(3,1fr); } }
 
-  /* memory layers */
-  .mem{ display:grid; grid-template-columns:1fr; gap:.85rem; }
-  @media (min-width:46rem){ .mem{ grid-template-columns:1fr 1fr; } }
-  @media (min-width:72rem){ .mem{ grid-template-columns:repeat(4,1fr); } }
-  .layer{ border:1px solid var(--line); border-top:2px solid var(--navy); border-radius:0 0 4px 4px; padding:1.1rem 1.15rem; }
-  .layer .s{ font-family:var(--mono); font-size:.63rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); display:block; margin-top:.2rem; }
-  .layer p{ font-size:.86rem; color:var(--body); margin-top:.5rem; }
-  .metrics{ display:flex; flex-wrap:wrap; gap:2rem; margin-top:1.6rem; padding-top:1.4rem; border-top:1px solid var(--line2); }
-  .metric b{ font-family:var(--serif); font-size:1.7rem; font-weight:600; color:var(--navy); display:block; line-height:1; }
-  .metric span{ font-size:.79rem; color:var(--muted); }
+  .quote{ position:relative; background:var(--card); border:1px solid var(--rule); border-radius:2px;
+          box-shadow:3px 3px 0 rgba(27,25,21,.06); }
+  .qb{ padding:clamp(1.8rem,3.5vw,2.7rem); border-bottom:1px solid var(--rule); }
+  .qb blockquote{ font-family:var(--serif); font-size:clamp(1.3rem,2.8vw,2rem); line-height:1.28; letter-spacing:-.02em; color:var(--ink); }
+  .qb cite{ display:block; margin-top:1rem; font-style:normal; font-family:var(--mono); font-size:.74rem; color:var(--dim); }
+  .qsplit{ display:grid; grid-template-columns:1fr; }
+  @media (min-width:52rem){ .qsplit{ grid-template-columns:1fr 1fr; } }
+  .qs{ padding:1.3rem 1.45rem; } @media (min-width:52rem){ .qs:first-child{ border-right:1px solid var(--rule); } }
+  .qs h4{ font-family:var(--mono); font-size:.65rem; letter-spacing:.13em; text-transform:uppercase; margin-bottom:.7rem; color:var(--dim); }
+  .qs li{ font-size:.87rem; color:var(--body); padding:.28rem 0 .28rem 1.1rem; position:relative; }
+  .qs li::before{ content:"·"; position:absolute; left:.25rem; color:var(--dim); }
+  .qs.w li::before{ content:"✓"; color:var(--hum); font-size:.8em; }
 
-  /* terminal */
-  .term{ border:1px solid var(--line); border-radius:5px; overflow:hidden; background:#0F1626; box-shadow:3px 3px 0 var(--tint2); }
-  .termbar{ padding:.55rem .8rem; border-bottom:1px solid #23304A; font-family:var(--mono); font-size:.65rem; letter-spacing:.09em; text-transform:uppercase; color:#7C89A8; }
-  .termb{ padding:.9rem .85rem; overflow-x:auto; }
-  .termb pre{ margin:0; font-family:var(--mono); font-size:.74rem; line-height:1.7; color:#C6CFE4; white-space:pre; }
-  .tp{ color:#7FD3B8; } .tc{ color:#F2F4F9; } .td{ color:#69769A; } .tw{ color:#E0B368; } .tk{ color:#8FB6E8; }
-
-  /* rovo */
-  .quote{ border:1px solid var(--navy); border-radius:5px; overflow:hidden; box-shadow:4px 4px 0 var(--navyT); }
-  .quoteb{ padding:1.7rem 1.6rem; background:var(--navyT); }
-  .quoteb p{ font-family:var(--serif); font-size:clamp(1.15rem,2.4vw,1.5rem); line-height:1.42; color:var(--navy2); letter-spacing:-.01em; }
-  .quoteb cite{ display:block; margin-top:.9rem; font-style:normal; font-size:.83rem; color:var(--body); }
-  .splitw{ display:grid; grid-template-columns:1fr; }
-  @media (min-width:52rem){ .splitw{ grid-template-columns:1fr 1fr; } }
-  .sw{ padding:1.2rem 1.35rem; border-top:1px solid var(--line); }
-  @media (min-width:52rem){ .sw:first-child{ border-right:1px solid var(--line); } }
-  .sw h4{ font-family:var(--mono); font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.6rem; }
-  .sw.a h4{ color:var(--ok); } .sw.b h4{ color:var(--muted); }
-  .sw li{ font-size:.86rem; color:var(--body); padding-left:1.2rem; position:relative; margin-bottom:.4rem; line-height:1.5; }
-  .sw.a li::before{ content:"✓"; position:absolute; left:0; color:var(--ok); }
-  .sw.b li::before{ content:"·"; position:absolute; left:.25rem; color:var(--muted); }
-
-  /* caps */
-  .caps{ display:grid; grid-template-columns:1fr; gap:0; border:1px solid var(--line); border-radius:5px; overflow:hidden; box-shadow:3px 3px 0 var(--tint2); }
-  @media (min-width:46rem){ .caps{ grid-template-columns:1fr 1fr; } }
-  @media (min-width:68rem){ .caps{ grid-template-columns:repeat(3,1fr); } }
-  .cap{ padding:1.15rem 1.2rem; border-right:1px solid var(--line2); border-bottom:1px solid var(--line2); }
-  .cap h3{ font-size:.93rem; margin-bottom:.25rem; } .cap p{ font-size:.84rem; color:var(--body); }
-
-  /* roi */
-  .roi{ border:1px solid var(--line); border-radius:5px; overflow:hidden; box-shadow:3px 3px 0 var(--tint2); }
+  .roi{ background:var(--card); border:1px solid var(--rule); border-radius:2px; box-shadow:3px 3px 0 rgba(27,25,21,.06); overflow:hidden; }
   .roig{ display:grid; grid-template-columns:1fr; }
   @media (min-width:60rem){ .roig{ grid-template-columns:1fr 1fr; } }
-  .roiin{ padding:1.55rem; display:flex; flex-direction:column; gap:1.15rem; border-bottom:1px solid var(--line); }
-  @media (min-width:60rem){ .roiin{ border-bottom:none; border-right:1px solid var(--line); } }
-  .roiout{ padding:1.55rem; display:flex; flex-direction:column; gap:1rem; background:var(--tint); }
-  .f{ display:flex; flex-direction:column; gap:.35rem; }
-  .f label{ font-size:.83rem; font-weight:650; }
-  .f .hint{ font-size:.76rem; color:var(--muted); line-height:1.45; }
-  .f input[type=range]{ width:100%; accent-color:var(--navy); }
-  .f input[type=number]{ width:100%; padding:.5rem .6rem; border:1px solid var(--line); border-radius:3px; font-family:var(--mono); font-size:.86rem; font-variant-numeric:tabular-nums; background:var(--page); }
+  .rin{ padding:clamp(1.4rem,2.8vw,2rem); display:flex; flex-direction:column; gap:1.3rem; border-bottom:1px solid var(--rule); }
+  @media (min-width:60rem){ .rin{ border-bottom:none; border-right:1px solid var(--rule); } }
+  .rout{ padding:clamp(1.4rem,2.8vw,2rem); display:flex; flex-direction:column; gap:1.1rem; background:var(--card2); }
+  .f{ display:flex; flex-direction:column; gap:.4rem; }
+  .f label{ font-size:.84rem; font-weight:650; }
+  .f .h{ font-size:.77rem; color:var(--dim); line-height:1.45; }
+  .f input[type=range]{ width:100%; accent-color:var(--margin); }
+  .f input[type=number]{ width:100%; padding:.55rem .7rem; border:1px solid var(--rule); border-radius:2px; background:var(--paper);
+    font-family:var(--mono); font-size:.88rem; font-variant-numeric:tabular-nums; }
   .frow{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; }
-  .fval{ font-family:var(--mono); font-size:.84rem; color:var(--navy); font-variant-numeric:tabular-nums; }
-  .big .n{ font-family:var(--serif); font-size:clamp(2.1rem,5.5vw,3rem); font-weight:600; line-height:1; letter-spacing:-.02em; color:var(--navy); font-variant-numeric:tabular-nums; }
-  .big .l{ font-size:.82rem; color:var(--body); }
-  .rl{ display:flex; justify-content:space-between; gap:1rem; font-size:.85rem; color:var(--body); padding-block:.45rem; border-top:1px solid var(--line2); }
+  .fv{ font-family:var(--mono); font-size:.85rem; color:var(--margin); font-variant-numeric:tabular-nums; }
+  .big .n{ font-family:var(--serif); font-weight:500; font-size:clamp(2.4rem,6vw,3.5rem); line-height:1; letter-spacing:-.03em; font-variant-numeric:tabular-nums; }
+  .big .l{ font-size:.85rem; color:var(--body); margin-top:.25rem; display:block; }
+  .rl{ display:flex; justify-content:space-between; gap:1rem; font-size:.86rem; color:var(--body); padding:.5rem 0; border-top:1px solid var(--rule2); }
   .rl span:last-child{ font-family:var(--mono); color:var(--ink); font-variant-numeric:tabular-nums; }
-  .rnote{ font-size:.79rem; line-height:1.5; color:var(--body); background:var(--page); border:1px solid var(--line); border-left:2px solid var(--gap); border-radius:0 3px 3px 0; padding:.7rem .8rem; }
-  .srcs{ border-top:1px solid var(--line2); padding-top:1.1rem; margin-top:1.8rem; }
-  .srcs ol{ counter-reset:s; }
-  .srcs li{ font-size:.78rem; color:var(--muted); line-height:1.55; padding-left:1.5rem; position:relative; counter-increment:s; margin-bottom:.5rem; }
-  .srcs li::before{ content:counter(s); position:absolute; left:0; font-family:var(--mono); font-size:.67rem; color:var(--navy); font-weight:600; }
-  .srcs a{ color:var(--body); }
+  .rnote{ font-size:.81rem; line-height:1.5; color:var(--body); border-left:2px solid var(--margin); padding-left:.85rem; }
+  .refs{ margin-top:1.8rem; padding-top:1.3rem; border-top:1px solid var(--rule); }
+  .refs li{ font-size:.78rem; color:var(--dim); line-height:1.55; margin-bottom:.55rem; padding-left:1.4rem; position:relative; }
+  .refs li b{ position:absolute; left:0; color:var(--margin); font-weight:400; font-family:var(--mono); }
+  .refs a{ color:var(--body); }
 
-  .limits{ border:1px solid var(--line); border-radius:5px; padding:1.6rem; max-width:47rem; box-shadow:3px 3px 0 var(--tint2); }
-  .limits li{ font-size:.89rem; color:var(--body); padding-left:1.4rem; position:relative; line-height:1.55; margin-bottom:.8rem; }
-  .limits li:last-child{ margin-bottom:0; }
-  .limits li::before{ content:""; position:absolute; left:.1rem; top:.6em; width:.42rem; height:.42rem; border:1px solid var(--muted); }
+  .close{ text-align:center; display:flex; flex-direction:column; align-items:center; gap:1.4rem; }
+  .close h2{ max-width:19ch; } .close .lede{ max-width:44ch; }
+  footer{ border-top:1px solid var(--rule); padding-block:2.6rem 3.6rem; background:var(--paper2); }
+  .foot{ display:grid; grid-template-columns:1fr; gap:1.7rem; }
+  @media (min-width:52rem){ .foot{ grid-template-columns:1.4fr 1fr 1fr 1fr; gap:2.3rem; } }
+  .fc{ display:flex; flex-direction:column; gap:.5rem; }
+  .fc a{ font-size:.84rem; color:var(--body); text-decoration:none; } .fc a:hover{ color:var(--margin); }
+  .fh{ font-family:var(--mono); font-size:.65rem; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
 
-  .close{ text-align:center; display:flex; flex-direction:column; align-items:center; gap:1.25rem; }
-  .close h2{ max-width:21ch; } .close .lede{ max-width:44ch; }
-
-  footer{ border-top:1px solid var(--line2); padding-block:2.4rem 3.4rem; background:var(--tint); }
-  .foot{ display:flex; flex-wrap:wrap; gap:1.4rem 3rem; justify-content:space-between; }
-  .fcol{ display:flex; flex-direction:column; gap:.45rem; }
-  .fcol a{ font-size:.82rem; color:var(--body); text-decoration:none; } .fcol a:hover{ color:var(--navy); }
-  .fh{ font-family:var(--mono); font-size:.63rem; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); }
-
-  .doclinks{ display:flex; flex-wrap:wrap; gap:.5rem 1.4rem; margin-top:1.6rem; padding-top:1.1rem; border-top:1px solid var(--line2); }
-  .doclink{ font-size:.83rem; color:var(--navy); text-decoration:none; display:inline-flex; align-items:center; gap:.35rem; }
-  .doclink::after{ content:"→"; font-size:.9em; }
-  .doclink:hover{ text-decoration:underline; }
-
-  a:focus-visible,button:focus-visible,input:focus-visible{ outline:2px solid var(--navy); outline-offset:2px; }
-  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} .claim{animation:none;opacity:1;} .caret{animation:none;} }
+  a:focus-visible,button:focus-visible,input:focus-visible{ outline:2px solid var(--margin); outline-offset:3px; }
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;} }
 </style>
 </head>
-<body>
+<body data-mode="human">
 
-<nav class="nav"><div class="wrap navin">
-  <a class="brand" href="#top">
-    <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect x="1.5" y="2.5" width="21" height="19" rx="2" stroke="#16365C" stroke-width="1.6"/>
-      <path d="M7 8h6M7 12h10M7 16h7" stroke="#16365C" stroke-width="1.6" stroke-linecap="round"/>
-      <circle cx="18.5" cy="8" r="2.2" fill="#8C2F39"/>
-    </svg><b>DocBrain</b>
-  </a>
-  <div class="navlinks">
-    <a href="#why">Why it works</a>
-    <a href="#memory">Memory</a>
-    <a href="#live">Live</a>
-    <a href="#agents">Agents</a>
-    <a href="#rovo">Assessment</a>
-    <a href="#roi">ROI</a>
-    <a href="/docs/">Docs</a>
+<nav id="nav"><div class="wrap navin">
+  <a class="brand" href="#top">DocBrain</a>
+  <div class="nlinks">
+    <a href="#learns">It compounds</a><a href="#writes">It writes</a><a href="#people">People</a><a href="#agents">Agents</a><a href="#roi">ROI</a><a href="/docs/">Docs</a>
   </div>
-  <div class="navcta"><a class="btn" href="#start">Self-host free</a></div>
+  <div class="ncta"><a class="btn" href="#start">Self-host free</a></div>
 </div></nav>
 
 <header class="hero" id="top">
-  <div class="wrap hgrid">
+  <div class="wrap">
     <div class="hcopy">
-      <div class="kicker">Institutional memory · self-hosted</div>
-      <h1>The memory layer for humans and AI agents.</h1>
-      <p class="lede">Every organization runs on knowledge that never gets written down — the decision made in a meeting, the fix found at 2am, the workaround only one person knows. <strong>DocBrain captures it where it's created</strong>, connects it across the tools you already use, and keeps it accurate.</p>
+      <div class="eye">The institutional memory category</div>
+      <h1>The memory layer for
+        <button class="swap sel" id="sw-h" type="button">humans</button> and
+        <button class="swap" id="sw-a" type="button">AI agents</button>.
+      </h1>
+      <p class="prod">Your organization stops re-solving what it already solved.<br><strong>Every answer arrives cited, and nothing walks out the door when people do.</strong></p>
+      <div class="m-h"><p class="lede">New joiners answer themselves from week one. Your senior engineers stop being a search engine. And when someone leaves, the reasoning stays behind them.</p></div>
+      <div class="m-a"><p class="lede">Every session starts warm. What one agent works out is available to all of them, so they stop paying to re-derive what your organization settled months ago.</p></div>
+
+      <div class="gainbar">
+        <div class="gain">
+          <span class="gl">What a 250-person organization gets back</span>
+          <b id="heroGain">$718,750</b>
+          <span class="gs">a year — <a href="#roi">run it on your own numbers →</a></span>
+        </div>
+        <p class="gnote">Our model, arithmetic shown and sources cited. Not a customer average — we don't have one yet, and we won't borrow someone else's.</p>
+      </div>
+      <p class="cue">↑ two words, two readers. Pick one.</p>
       <div class="acts">
         <a class="btn" href="#start">Self-host in 5 minutes</a>
         <a class="btn btn2" href="#roi">Calculate the return</a>
       </div>
-      <div class="assure"><span>Read-only by design</span><span>Zero data egress</span><span>Cited answers, always</span></div>
+      <div class="trust"><span>Read-only by design</span><span>Zero data egress</span><span>Free for production use</span></div>
     </div>
 
-    <div class="app">
-      <div class="appbar"><span class="t">DocBrain · answer</span><button class="replay" id="replay" type="button">Replay</button></div>
-      <div class="qbar" id="qbar"></div>
-      <div class="stage" id="stage"></div>
+    <div class="hgrid">
+      <div class="rec">
+        <span class="tab">One answer · two hands</span>
+        <div class="qline">“Is the payments outage from yesterday resolved, and what was the fix?”</div>
+        <div class="claim byh">
+          <span class="who">human</span>
+          <p>Resolved 14 hours ago. PROJ-412 moved to Done at 09:14 UTC — pulled from Jira the moment you asked.</p>
+          <div class="cites"><button class="cite" type="button" data-src="Read live at answer time, not from an index. Status Done, transitioned 09:14 UTC.">Jira · PROJ-412</button></div>
+        </div>
+        <div class="claim bya">
+          <span class="who">agent</span>
+          <p>The fix was a rollback of payment-processor plus an idempotency-key guard. Captured from an agent session at 02:14, approved by a human before it entered the record.</p>
+          <div class="cites">
+            <button class="cite" type="button" data-src="The documented rollback path, written by the on-call engineer after the incident.">Runbook v3</button>
+            <button class="cite" type="button" data-src="The change that introduced the idempotency-key guard.">PR #347</button>
+          </div>
+        </div>
+        <div class="claim gapc">
+          <span class="who" style="color:var(--margin)">gap</span>
+          <p>Who approves an out-of-hours rollback — <strong style="color:inherit">nobody ever wrote this down</strong>.</p>
+        </div>
+        <div class="stamp">
+          <span class="pill h">1 human source</span><span class="pill a">2 from an agent</span><span class="pill g">1 gap declared</span>
+          <span class="dim xs" style="font-family:var(--mono)">click a citation</span>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="rec plain">
+          <span class="tab h">Written by people</span>
+          <div class="recb"><p>Threads, tickets, incident reviews, the answer someone typed at 2am. Captured where it happened — nobody has to remember to file it.</p></div>
+        </div>
+        <div class="rec plain">
+          <span class="tab a">Written by agents</span>
+          <div class="recb"><p>Your coding agents check what the organization already knows, then propose what's missing. A human approves before anything is recorded.</p></div>
+        </div>
+        <div class="rec plain">
+          <span class="tab">Read by both</span>
+          <div class="recb"><p>One memory. People ask in the web app, Slack or the CLI. Agents read and write over MCP. The same cited record serves both.</p></div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
 
-<div class="strip"><div class="wrap stripin">
-  <div class="cell"><b>13+ sources, one memory</b><span>Confluence, Slack, Teams, Jira, GitHub, GitLab, PagerDuty and more.</span></div>
-  <div class="cell"><b>14 LLM providers</b><span>Anthropic, OpenAI, Bedrock, Ollama for local. Swap via config.</span></div>
-  <div class="cell"><b>Zero data egress</b><span>Runs in your infrastructure. Air-gap capable.</span></div>
-  <div class="cell"><b>Read-only, enforced</b><span>Any tool that could change a system is dropped at discovery.</span></div>
-</div></div>
+<div class="drawer">
+  <div class="dcell"><b>13+</b><span>Sources read — Confluence, Slack, Jira, GitHub, PagerDuty, Zendesk and more</span></div>
+  <div class="dcell"><b>14</b><span>LLM providers, including fully local for zero egress</span></div>
+  <div class="dcell"><b>0</b><span>Write operations. Any tool that could change a system is dropped at discovery</span></div>
+  <div class="dcell"><b>MIT</b><span>Client source, auditable. Full threat model published</span></div>
+</div>
 
-<section id="why">
+<section id="changes">
   <div class="wrap">
-    <div class="head measure">
-      <div class="kicker">Why the old way fails</div>
-      <h2>You've already bought places to store knowledge.</h2>
-      <p class="lede">The problem is what they can capture — and what they can't.</p>
+    <div class="sechead narrow">
+      <div class="eye">What changes</div>
+      <h2>Three things are true by the end of the first quarter.</h2>
     </div>
-    <div class="three">
-      <div class="way">
-        <div class="wayh"><span class="k">Wikis &amp; knowledge bases</span><span class="n">Written by hand, after the fact</span></div>
-        <div class="wayb"><ul>
-          <li>Only holds what someone remembered to write down</li>
-          <li>Stale the moment the work moves on</li>
-          <li>Disconnected from where knowledge is created</li>
-          <li>No idea which pages are still true</li>
-        </ul></div>
-        <div class="wayf">A snapshot that decays.</div>
-      </div>
-      <div class="way">
-        <div class="wayh"><span class="k">AI chatbots &amp; search</span><span class="n">A bot bolted onto the same wiki</span></div>
-        <div class="wayb"><ul>
-          <li>Answers only from what's already written</li>
-          <li>Retrieves faster, but the source is still stale</li>
-          <li>Forgets every question the moment it's answered</li>
-          <li>Confidently makes things up when the doc is missing</li>
-        </ul></div>
-        <div class="wayf">Retrieves a stale wiki faster.</div>
-      </div>
-      <div class="way win">
-        <div class="wayh"><span class="k">DocBrain</span><span class="n">Captured where knowledge is created</span></div>
-        <div class="wayb"><ul>
-          <li>Captures knowledge that was never written down</li>
-          <li>Connects it across every tool into one memory</li>
-          <li>Tracks freshness and flags what's gone stale</li>
-          <li>Cites every claim, or says it doesn't know</li>
-        </ul></div>
-        <div class="wayf">A memory that compounds.</div>
-      </div>
+    <div class="grid3">
+      <div class="rec plain"><span class="tab">01</span><div class="recb">
+        <h3>Nobody is the bottleneck anymore</h3>
+        <p>The question that used to route to one senior engineer gets answered by the record instead — with the thread, the ticket and the change it came from attached. They get their week back.</p></div></div>
+      <div class="rec plain"><span class="tab">02</span><div class="recb">
+        <h3>Leaving stops being a loss event</h3>
+        <p>Notice periods turn into handovers instead of archaeology. The decisions, the caveats and the reasoning are already recorded, because they were captured the day they happened.</p></div></div>
+      <div class="rec plain"><span class="tab">03</span><div class="recb">
+        <h3>Your agents compound instead of repeating</h3>
+        <p>Every debugging session leaves something behind. The next agent — and the next engineer — starts from what was already learned rather than from nothing.</p></div></div>
     </div>
   </div>
 </section>
 
-<section id="how" class="rule">
+<section id="learns">
   <div class="wrap">
-    <div class="head measure">
-      <div class="kicker">How it works</div>
-      <h2>How DocBrain builds your organization's memory.</h2>
+    <div class="sechead narrow">
+      <div class="eye">What happens after month one</div>
+      <h2>It is the only one that gets better at you.</h2>
+      <p class="lede">Capture, citations and answers work from the first day. Then there's a second thing, which you switch on when you're ready: <strong>DocBrain can learn from what your team marks useful, and tune its own retrieval to your organization.</strong> Everyone else's understanding is identical on your first day and your five-hundredth.</p>
     </div>
-    <div class="steps">
-      <div class="step"><span class="n">01 CAPTURE</span><h3>At the source</h3><p>Knowledge is captured the moment it's created — from the conversations, tickets, incidents and work systems your teams already use. Nothing to write. No wiki to maintain.</p><span class="tagline">Knowledge never written down</span></div>
-      <div class="step"><span class="n">02 CONNECT</span><h3>Into one memory</h3><p>Every fragment is linked into a single connected memory — by topic, by who knows it, by what depends on what. Not a pile of documents; a graph you can ask.</p><span class="tagline">One connected memory</span></div>
-      <div class="step"><span class="n">03 PRESERVE</span><h3>With the reasoning</h3><p>Decisions, fixes and the reasoning behind them are kept with their provenance — so the why survives long after the person who knew it has moved on.</p><span class="tagline">The why, kept</span></div>
-      <div class="step"><span class="n">04 KEEP CURRENT</span><h3>As reality changes</h3><p>Freshness is tracked continuously. When something goes stale or two sources contradict, DocBrain flags it — so you can trust what the memory tells you.</p><span class="tagline">Always know what's true</span></div>
+    <div class="two">
+      <div class="rec plain"><span class="tab">Everyone else</span><div class="recb">
+        <h3>A model frozen on the day it shipped</h3>
+        <p>Your acronyms, your systems, the way your people actually phrase a question — permanently foreign to it. Feedback might nudge a ranking weight. The understanding underneath never moves.</p>
+      </div></div>
+      <div class="rec plain" style="border-color:var(--margin);"><span class="tab" style="color:var(--margin);border-color:var(--margin);background:#F9EDEB;">DocBrain</span><div class="recb">
+        <h3>Understanding that becomes yours</h3>
+        <p>What your team marks useful shapes what “relevant” means here. Each version is proved against held-back questions before it ever reaches your users, and refuses to learn from a corpus one loud voice dominates.</p>
+      </div></div>
     </div>
+    <p class="dim xs" style="margin-top:1.1rem;"><strong style="color:var(--body)">Optional, and off until you ask for it.</strong> It needs real feedback volume before it earns its keep — most teams run without it first, and everything above works either way. It stays inside your infrastructure. <a href="/docs/learning/" style="color:var(--margin)">How it works →</a></p>
   </div>
 </section>
 
-<section id="memory" class="rule">
+<section id="writes">
   <div class="wrap">
-    <div class="head measure">
-      <div class="kicker">4-layer memory system</div>
-      <h2>A brain that remembers everything.</h2>
-      <p class="lede">Four memory layers work together so every question makes the system sharper. <strong>The 100th question about a topic is faster and better-answered than the first.</strong></p>
+    <div class="sechead narrow">
+      <div class="eye">It does the writing</div>
+      <h2>The documentation nobody had time to write.</h2>
+      <p class="lede">Capture is passive — it happens whether anyone remembers or not. This is the part that acts: DocBrain finds what's missing, drafts it from your own record, and puts it in front of a human to approve. <strong>Nothing publishes on its own.</strong></p>
     </div>
-    <div class="mem">
-      <div class="layer"><h3>Working Memory</h3><span class="s">Redis</span><p>Multi-turn conversation context. Resolves "it", "that service", "the same thing."</p></div>
-      <div class="layer"><h3>Episodic Memory</h3><span class="s">Postgres + OpenSearch</span><p>Every Q&amp;A ever asked. Semantic caching and feedback learning — it gets cheaper as it learns.</p></div>
-      <div class="layer"><h3>Semantic Memory</h3><span class="s">Knowledge graph</span><p>Entity relationships via graph traversal. "Who owns the payment service?" gets resolved, not searched.</p></div>
-      <div class="layer"><h3>Procedural Memory</h3><span class="s">Learned rules</span><p>Adapts retrieval from feedback. Discovers patterns like "deployment questions → search DevOps first."</p></div>
-    </div>
-    <div class="metrics">
-      <div class="metric"><b>~40%</b><span>Cache hit rate</span></div>
-      <div class="metric"><b>&lt;3s</b><span>Average response</span></div>
-      <div class="metric"><b>25MB</b><span>Binary (Rust)</span></div>
-    </div>
-    <div class="doclinks"><a class="doclink" href="/docs/architecture/">Architecture &amp; memory design</a><a class="doclink" href="/docs/knowledge-intelligence/">Knowledge intelligence</a><a class="doclink" href="/docs/learning/">How it learns</a></div>
-  </div>
-</section>
 
-<section id="live" class="rule">
-  <div class="wrap">
-    <div class="head measure">
-      <div class="kicker">Live intelligence</div>
-      <h2>Answers from what's true right now.</h2>
-      <p class="lede">Most knowledge tools answer from a snapshot — what was true the last time they crawled. <strong>DocBrain reaches into your live systems at the moment you ask</strong>, then combines that with your indexed knowledge into one cited answer.</p>
-    </div>
-    <div class="g2">
-      <div class="g3" style="grid-template-columns:1fr;gap:1rem;">
-        <div class="card"><h3>Read-only by design</h3><p>DocBrain can read your tools, never write to them. Any tool that could change a system is dropped at discovery. Enforced, not promised.</p></div>
-        <div class="card"><h3>Each user, their own permissions</h3><p>Connected per-user over OAuth. Your answer is scoped to what you can see in the source. Tokens refresh on their own, and nobody sees data they shouldn't.</p></div>
-        <div class="card"><h3>Any MCP-enabled system</h3><p>Jira, Confluence and Slack out of the box, plus anything that speaks the Model Context Protocol. Add a tool, and DocBrain starts answering from it.</p></div>
-      </div>
-      <div class="card" style="padding:1.35rem;">
-        <div class="kicker" style="margin-bottom:.8rem;">Indexed history + live state, one answer</div>
-        <p class="sm" style="font-family:var(--mono);color:var(--muted);margin-bottom:.7rem;">"Is the payments outage from yesterday resolved, and what was the fix?"</p>
-        <div class="claim" style="animation:none;opacity:1;">
-          <p><strong>Resolved, 14h ago.</strong> PROJ-412 ("Payments 502s after deploy") moved to Done at 09:14 UTC. The fix was a rollback of payment-processor plus an idempotency-key guard, per the linked runbook.</p>
-          <div class="cites">
-            <span class="cbtn live">Jira · PROJ-412 — live</span>
-            <span class="cbtn">Payments Rollback Runbook v3</span>
-            <span class="cbtn">PR #347</span>
-          </div>
+    <div class="two">
+      <div class="rec">
+        <span class="tab">Autopilot · unprompted</span>
+        <div class="recb">
+          <h3>It notices what you couldn't answer</h3>
+          <p style="margin-bottom:.8rem;">Every question your memory failed is a signal. Autopilot clusters them, works out the gap sitting behind the cluster, drafts the missing document from what your organization already knows — and routes it to review.</p>
+          <p>You wake up to a queue of drafts for the exact things people kept asking about, instead of a documentation backlog nobody will ever get to.</p>
         </div>
-        <div class="verdict" style="margin-top:.9rem;">
-          <span class="pill pok">Indexed knowledge</span><span class="pill plive">Live tool, at answer time</span>
-        </div>
-        <p class="xs muted" style="margin-top:.7rem;">The runbook and PR are what was true at capture. The ticket status is pulled the moment you ask.</p>
       </div>
-    </div>
-    <div class="doclinks"><a class="doclink" href="/docs/mcp-tools/">MCP tools</a><a class="doclink" href="/docs/access-control/">Access control</a><a class="doclink" href="/docs/connectors/">Build a connector</a></div>
-  </div>
-</section>
-
-<section id="autopilot" class="rule">
-  <div class="wrap">
-    <div class="head measure">
-      <div class="kicker">Documentation autopilot &amp; generate</div>
-      <h2>The memory writes the documents.</h2>
-      <p class="lede">Autopilot clusters the questions your organization couldn't answer, detects the gaps behind them, and drafts what's missing. <code>docbrain generate</code> turns that memory into a runbook, postmortem or onboarding guide on demand — with per-claim provenance.</p>
-    </div>
-    <div class="g2">
-      <div>
-        <div class="card" style="margin-bottom:1rem;"><h3>Documentation Autopilot</h3><p>Clusters unanswered questions, detects the gaps behind them, and auto-drafts the missing documentation — routed to human review. Nothing publishes without oversight.</p></div>
-        <div class="card" style="margin-bottom:1rem;"><h3>Grounded, not generic</h3><p>A general AI model writes fluent, generic prose. <code>generate</code> writes what is true <em>for you</em> — grounded in your incidents, tickets, decisions and past work — or tells you honestly what it can't answer.</p></div>
-        <div class="card"><h3>Wire it into CI</h3><p>Run it from your terminal, or put it in your pipeline so documents update themselves as work happens. Same redaction, injection-quarantine and quality gates as every DocBrain document.</p></div>
-      </div>
-      <div class="term">
-        <div class="termbar">docbrain-cli</div>
-        <div class="termb">
-<pre><span class="tp">$</span> <span class="tc">docbrain generate "runbook for cert rotation" \</span>
-    <span class="tc">--source notes.md --type runbook &gt; runbook.md</span>
-
-<span class="td">⌛ Gathering org context (corpus + episodes)…</span>
-<span class="td">⌛ Drafting · resolving provenance per section…</span>
-
-<span class="tk">doc_type</span>:   runbook
-<span class="tk">quality</span>:    87/100 (0 errors)
-<span class="tk">provenance</span>: Overview   ← Deploy Runbook v3
-             Steps      ← PROJ-412, PR #347
-             Rollback   ← <span class="tw">NEEDS INPUT</span>
-
-<span class="tw">⚠</span> <span class="td">2 sections could not be grounded — listed,
-  not invented. Review before publishing.</span>
-</pre>
+      <div class="rec">
+        <span class="tab">On demand · <code>docbrain generate</code></span>
+        <div class="recb">
+          <h3>A runbook, from what actually happened</h3>
+          <p style="margin-bottom:.8rem;">Ask for a runbook, a postmortem, an onboarding guide. It's written from your incidents, tickets, decisions and changes — not from a model's general idea of what a runbook looks like.</p>
+          <p>Every claim carries the source it came from. Where your record can't answer, it says so in the document rather than inventing a plausible paragraph.</p>
         </div>
       </div>
     </div>
-    <div class="doclinks"><a class="doclink" href="/docs/autopilot/">Autopilot guide</a><a class="doclink" href="/docs/generate/">generate reference</a><a class="doclink" href="/docs/generate/#using-generate-in-ci">Wire generate into CI</a><a class="doclink" href="/docs/style-policy/">Quality &amp; style gates</a></div>
-  </div>
-</section>
 
-<section id="agents" class="rule">
-  <div class="wrap">
-    <div class="head measure">
-      <div class="kicker">Coding agents · Claude Code &amp; Cursor</div>
-      <h2>Your agent fixes it. DocBrain remembers it.</h2>
-      <p class="lede">Engineers now solve their hardest problems inside agent sessions — and that knowledge dies when the terminal closes. DocBrain's MCP tools give your agent a <strong>write path</strong>: it checks whether the org already knows the fix, drafts a capture, and asks you before filing it.</p>
-    </div>
-    <div class="g2">
-      <div class="term">
-        <div class="termbar">CLAUDE.md — three lines</div>
-        <div class="termb">
-<pre><span class="td"># add to your CLAUDE.md</span>
-
-When we resolve an error or discover non-obvious
-behavior, call <span class="tp">docbrain_suggest_capture</span> for the
-files involved. If a gap exists, draft a 3–5 line
-capture and <span class="tw">ask me to approve it</span> before calling
-<span class="tp">docbrain_capture</span>. Never include secrets or .env
-values in a capture.
-</pre>
+    <div class="rec plain" style="margin-top:1.7rem;">
+      <span class="tab">Draft output</span>
+      <div class="recb" style="padding-right:1.3rem;">
+        <div class="gen">
+          <div class="genrow"><span class="gk">Section</span><span class="gv">Overview</span><span class="gp">← Deploy Runbook v3</span></div>
+          <div class="genrow"><span class="gk">Section</span><span class="gv">Steps</span><span class="gp">← PROJ-412 · PR #347</span></div>
+          <div class="genrow"><span class="gk">Section</span><span class="gv">Verification</span><span class="gp">← #inc-eu-canary, 14 Jul</span></div>
+          <div class="genrow gapline"><span class="gk">Section</span><span class="gv">Rollback approval</span><span class="gp">← nothing in the record. Flagged, not invented.</span></div>
         </div>
-      </div>
-      <div>
-        <div class="card" style="margin-bottom:1rem;"><h3>Nothing uploads automatically</h3><p>The agent proposes, you approve, and the capture lands in the normal review queue. The session never leaves your machine.</p></div>
-        <div class="card" style="margin-bottom:1rem;"><h3>Captured at the only moment it's free</h3><p>Seconds after the fix, while the context is still loaded — not in a documentation sprint three months later that never happens.</p></div>
-        <div class="card"><h3>The client is MIT-licensed</h3><p>Everything running on your side of the network boundary is open source and auditable. Read exactly what it does before you install it.</p></div>
+        <p class="dim xs" style="margin-top:.9rem;">Every section traced to where it came from, and one honest hole. That hole is the most useful line in the document — it's a question your organization has never answered, now written down.</p>
       </div>
     </div>
-    <div class="doclinks"><a class="doclink" href="https://github.com/docbrain-ai/docbrain/blob/main/docs/agents.md">Teach your agent — full guide</a><a class="doclink" href="/docs/mcp-tools/">MCP tool reference</a><a class="doclink" href="https://github.com/docbrain-ai/docbrain/tree/main/crates">Client source (MIT)</a></div>
+
+    <div class="grid3" style="margin-top:1.7rem;">
+      <div class="rec plain"><span class="tab">Repair</span><div class="recb"><h3>Contradictions</h3><p>Two documents disagree. It drafts the resolution, showing both versions and a suggested merge, with a confidence score.</p></div></div>
+      <div class="rec plain"><span class="tab">Repair</span><div class="recb"><h3>Broken references</h3><p>Links pointing at moved or deleted documents are found, with a replacement proposed from the record.</p></div></div>
+      <div class="rec plain"><span class="tab">Repair</span><div class="recb"><h3>Stale versions</h3><p>Documents citing outdated dependency or API versions are flagged, with replacements sourced from your repositories.</p></div></div>
+    </div>
+
+    <p class="dim xs" style="margin-top:1.2rem;">Approve or reject — both are recorded, and a rejection teaches it what not to propose next time. <a href="/docs/autopilot/" style="color:var(--margin)">Autopilot →</a> &nbsp; <a href="/docs/generate/" style="color:var(--margin)">generate →</a></p>
   </div>
 </section>
 
-<section id="rovo" class="rule">
+<section id="people">
   <div class="wrap">
-    <div class="head measure">
-      <div class="kicker">Independent assessment</div>
-      <h2>We asked Rovo to compare itself. Honestly.</h2>
-      <p class="lede">No cherry-picked benchmarks. We opened Atlassian's own AI assistant, asked it for a fair comparison, and published the full response — including where it wins.</p>
+    <div class="sechead narrow">
+      <div class="eye" style="color:var(--hum)">For your people</div>
+      <h2>Your best engineer stops being the search engine.</h2>
     </div>
+    <div class="grid3">
+      <div class="rec plain"><span class="tab h">Onboarding</span><div class="recb"><h3>New joiners answer themselves</h3><p>From day one, drawing on everything the team already worked out — without taking a senior engineer off their sprint.</p></div></div>
+      <div class="rec plain"><span class="tab h">Continuity</span><div class="recb"><h3>The expert leaves, the reasoning stays</h3><p>Decisions keep the context that shaped them. “Why did we do it this way” has an answer after the person is gone.</p></div></div>
+      <div class="rec plain"><span class="tab h">Trust</span><div class="recb"><h3>Cited, or it says it doesn't know</h3><p>Every claim carries its source, so nobody takes an answer on faith. A declared gap is a real question your organization never answered.</p></div></div>
+      <div class="rec plain"><span class="tab h">Blind spots</span><div class="recb"><h3>It sees what veterans can't</h3><p>It watches what people ask in their first thirty days — the gaps your experienced engineers stopped noticing years ago.</p></div></div>
+      <div class="rec plain"><span class="tab h">Ahead of demand</span><div class="recb"><h3>It knows January is coming</h3><p>If your auth docs take ten times the traffic every onboarding season, you hear about it while there's still time to fix them.</p></div></div>
+      <div class="rec plain"><span class="tab h">Repair</span><div class="recb"><h3>It drafts the fix, you approve it</h3><p>Contradictions between documents, broken cross-references, outdated versions — proposed with a confidence score, never applied on its own.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="wrap">
+    <div class="sechead narrow">
+      <div class="eye" style="color:var(--agt)">For your agents</div>
+      <h2>Every session makes the next one cheaper.</h2>
+    </div>
+    <div class="grid3">
+      <div class="rec plain"><span class="tab a">Write path</span><div class="recb"><h3>Agents file what they learn</h3><p>Over MCP, an agent checks whether the organization already knows something, drafts what's missing, and asks a human before recording it.</p></div></div>
+      <div class="rec plain"><span class="tab a">Cold starts</span><div class="recb"><h3>No session starts from zero</h3><p>What one agent learned is available to every other, instead of the same context being re-sent and re-derived forever.</p></div></div>
+      <div class="rec plain"><span class="tab a">Grounding</span><div class="recb"><h3>Agents read stale docs too</h3><p>A wrong page doesn't just mislead a person now — it propagates into code at machine speed. Freshness and contradictions are surfaced before that happens.</p></div></div>
+      <div class="rec plain"><span class="tab a">CI</span><div class="recb"><h3>Ship a change, learn what it breaks</h3><p>Hand it a diff and get back the documentation that probably just went wrong, ranked. Stale docs stop being something your customers discover.</p></div></div>
+      <div class="rec plain"><span class="tab a">Any client</span><div class="recb"><h3>Claude Code, Cursor, anything MCP</h3><p>No lock-in and no new runtime. Three lines in your project instructions is the whole integration.</p></div></div>
+      <div class="rec plain"><span class="tab a">Always free</span><div class="recb"><h3>Agents never count as seats</h3><p>Every competitor has to decide whether a bot is a licence. We don't — agents make the memory better, so charging for them would be backwards.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="proof">
+  <div class="wrap">
+    <div class="sechead narrow"><div class="eye">Independent assessment</div><h2>We asked a competitor's AI to judge us. Unedited.</h2></div>
     <div class="quote">
-      <div class="quoteb">
-        <p>“DocBrain's ‘capture knowledge that was never written down' is solving a problem I fundamentally can't.”</p>
-        <cite>— Rovo (Atlassian's AI assistant), responding to a direct comparison prompt</cite>
+      <div class="qb">
+        <blockquote>“DocBrain's ‘capture knowledge that was never written down' is solving a problem I fundamentally can't.”</blockquote>
+        <cite>Rovo — Atlassian's AI assistant, answering a direct comparison prompt</cite>
       </div>
-      <div class="splitw">
-        <div class="sw a">
-          <h4>Where DocBrain wins</h4>
-          <ul>
-            <li>Captures knowledge that was never written down</li>
-            <li>Document quality scoring, 0–100 pipeline</li>
-            <li>Self-hosted — your data never leaves your infrastructure</li>
-            <li>14 LLM providers, including local Ollama for air-gap</li>
-            <li>Auto-composes documents from fragments, without being asked</li>
-          </ul>
-        </div>
-        <div class="sw b">
-          <h4>Where Rovo wins</h4>
-          <ul>
-            <li>Native Atlassian integration (Jira, Confluence, Bitbucket)</li>
-            <li>Zero setup for existing Atlassian Cloud teams</li>
-            <li>Broad work execution — sprint planning, triage, reviews</li>
-            <li>Cross-tool action orchestration</li>
-            <li>3M+ users, Fortune 500 enterprise reach</li>
-          </ul>
-        </div>
+      <div class="qsplit">
+        <div class="qs w"><h4>Where DocBrain wins</h4><ul>
+          <li>Captures knowledge that was never written down</li><li>Document quality scoring, 0–100</li>
+          <li>Self-hosted — data never leaves your infrastructure</li><li>14 providers, including local for air-gap</li></ul></div>
+        <div class="qs"><h4>Where Rovo wins</h4><ul>
+          <li>Native Atlassian integration</li><li>Zero setup for Atlassian Cloud teams</li>
+          <li>Broad work execution and orchestration</li><li>3M+ users, Fortune 500 reach</li></ul></div>
       </div>
     </div>
-    <div class="doclinks" style="margin-top:1.1rem;"><a class="doclink" href="/rovo-comparison.html">Read the full transcript, unedited</a></div>
-    <p class="xs muted" style="margin-top:.7rem;">Rovo's assessment, not ours. Nothing removed.</p>
+    <p class="sm" style="margin-top:1rem;"><a href="/rovo-comparison.html" style="color:var(--margin);text-decoration:none;">Read the full transcript →</a></p>
   </div>
 </section>
 
-<section id="capabilities" class="rule">
+<section id="roi">
   <div class="wrap">
-    <div class="head measure">
-      <div class="kicker">Capabilities</div>
-      <h2>Everything the memory layer does.</h2>
-    </div>
-    <div class="caps">
-      <div class="cap"><h3>Knowledge Fragments</h3><p>First-class knowledge units with provenance, auto-captured from PRs, conversations and CI pipelines.</p></div>
-      <div class="cap"><h3>CI/CD Capture</h3><p>Merged PRs and deployments analyzed automatically. Decisions, caveats and procedures extracted as fragments.</p></div>
-      <div class="cap"><h3>Quality Pipeline</h3><p>Three-layer scoring — structural, style rules, and LLM-assessed semantic quality. Composite score 0–100.</p></div>
-      <div class="cap"><h3>Confidence-Scored Q&amp;A</h3><p>Hybrid search with intent classification and cited answers. Low confidence asks a question instead of hallucinating.</p></div>
-      <div class="cap"><h3>Knowledge Graph</h3><p>Entity relationships with graph traversal. Blast-radius analysis and expertise routing.</p></div>
-      <div class="cap"><h3>Source-System ACL</h3><p>Mirrors real Confluence, Slack, GitHub and Jira permissions at query time. Restricted stays restricted.</p></div>
-      <div class="cap"><h3>SSO &amp; RBAC</h3><p>GitHub, GitLab and OIDC SSO. Four roles, space-level isolation, API keys Argon2-hashed.</p></div>
-      <div class="cap"><h3>Freshness &amp; Contradictions</h3><p>Stale documents flagged, conflicting sources surfaced, staleness cascaded across dependents.</p></div>
-      <div class="cap"><h3>Review &amp; Governance</h3><p>Multi-stage approvals, space owners, SLAs and governance dashboards. Documentation with accountability.</p></div>
-    </div>
-    <div class="doclinks"><a class="doclink" href="/docs/">Full documentation</a><a class="doclink" href="/docs/ingestion/">Ingestion &amp; sources</a><a class="doclink" href="/docs/providers/">LLM providers</a><a class="doclink" href="/docs/governance/">Governance</a><a class="doclink" href="/docs/api-reference/">API reference</a></div>
-  </div>
-</section>
-
-<section id="roi" class="rule">
-  <div class="wrap">
-    <div class="head measure">
-      <div class="kicker">Return on investment</div>
-      <h2>What it's worth, with the arithmetic shown.</h2>
-      <p class="lede">Your numbers, not ours. Where published evidence exists we cite it. Where it doesn't, we say so rather than invent a figure.</p>
-    </div>
+    <div class="sechead narrow"><div class="eye">Return</div><h2>What it's worth, with the arithmetic shown.</h2>
+      <p class="lede">Your numbers, not ours. Where evidence exists we cite it. Where it doesn't, we say so.</p></div>
     <div class="roi"><div class="roig">
-      <div class="roiin">
-        <div class="f"><label for="people">People in scope</label><input type="number" id="people" value="250" min="1" max="100000" step="10"></div>
-        <div class="f"><label for="cost">Fully loaded cost per person, per year</label><input type="number" id="cost" value="90000" min="10000" max="600000" step="5000"><span class="hint">Salary plus employer costs, benefits and overhead.</span></div>
-        <div class="f">
-          <div class="frow"><label for="mins">Minutes a day seeking or re-explaining</label><span class="fval" id="minsv">50 min</span></div>
+      <div class="rin">
+        <div class="f"><label for="people2">People in scope</label><input type="number" id="people2" value="250" min="1" max="100000" step="10"></div>
+        <div class="f"><label for="cost">Fully loaded cost per person</label><input type="number" id="cost" value="90000" min="10000" max="600000" step="5000"></div>
+        <div class="f"><div class="frow"><label for="mins">Minutes a day seeking or re-explaining</label><span class="fv" id="minsv">50 min</span></div>
           <input type="range" id="mins" value="50" min="10" max="180" step="5">
-          <span class="hint">Seeded from published software-team survey data.<sup style="font-family:var(--mono);color:var(--navy);">1</sup> <strong>If your sector differs, change it</strong> — we won't invent a figure nobody has measured.</span>
-        </div>
-        <div class="f">
-          <div class="frow"><label for="rem">Proportion DocBrain removes</label><span class="fval" id="remv">30%</span></div>
+          <span class="h">Seeded from software-team survey data.<sup>1</sup> If your sector differs, change it — we won't invent a figure nobody has measured.</span></div>
+        <div class="f"><div class="frow"><label for="rem">Proportion DocBrain removes</label><span class="fv" id="remv">30%</span></div>
           <input type="range" id="rem" value="30" min="5" max="70" step="5">
-          <span class="hint">We suggest 20–30% for a first year, measured during a pilot rather than assumed.</span>
-        </div>
+          <span class="h">Suggest 20–30% for year one, measured in a pilot rather than assumed.</span></div>
       </div>
-      <div class="roiout">
-        <div class="big"><span class="n" id="total">$1.44M</span><span class="l">recovered per year across the organization</span></div>
+      <div class="rout">
+        <div class="big"><span class="n" id="total">$718,750</span><span class="l">recovered per year across the organization</span></div>
         <div>
           <div class="rl"><span>Hours lost per person, per year</span><span id="hrs">192 h</span></div>
           <div class="rl"><span>Proportion of the working year</span><span id="pct">10.6%</span></div>
-          <div class="rl"><span>Value per person, per year</span><span id="perp">$5,750</span></div>
-          <div class="rl"><span>Equivalent full-time people</span><span id="fte">16.0</span></div>
+          <div class="rl"><span>Value per person, per year</span><span id="perp">$2,875</span></div>
+          <div class="rl"><span>Equivalent full-time people</span><span id="fte">8.0</span></div>
         </div>
-        <div class="rnote"><strong>What this model does not know:</strong> your actual removal rate. No vendor's does, including those quoting one. Treat both inputs as hypotheses to test in a pilot and measure afterwards.</div>
+        <p class="rnote"><strong>What this model doesn't know:</strong> your actual removal rate. No vendor's does, including those quoting one. Both inputs are hypotheses to test in a pilot.</p>
       </div>
     </div></div>
-    <div class="srcs"><ol>
-      <li>Stack Overflow Developer Survey 2022 — 61% of respondents spend over 30 minutes a day searching for answers; 47% spend 30+ minutes answering questions, and three in four answer questions they've answered before. <a href="https://survey.stackoverflow.co/2022/">survey.stackoverflow.co/2022</a>. Stack Overflow sells a competing product, so only raw survey responses are used here. This is software-team data, labelled as such rather than presented as universal.</li>
-      <li>DORA, <em>Documentation quality</em>. <a href="https://dora.dev/capabilities/documentation-quality/">dora.dev</a>. High-quality documentation was found to amplify the impact of every technical capability studied. Directional only — DORA publishes no cost figure and we don't invent one on their behalf.</li>
-    </ol></div>
+    <ul class="refs">
+      <li><b>1</b>Stack Overflow Developer Survey 2022 — 61% spend 30+ minutes a day searching for answers; 47% spend 30+ minutes answering, three in four re-answer questions they've answered before. <a href="https://survey.stackoverflow.co/2022/">survey.stackoverflow.co/2022</a>. They sell a competing product, so only raw responses are used, and this is software-team data.</li>
+      <li><b>2</b>DORA — documentation quality amplifies the impact of every technical capability studied. <a href="https://dora.dev/capabilities/documentation-quality/">dora.dev</a>. Directional only; DORA publishes no cost figure and we don't invent one for them.</li>
+    </ul>
   </div>
 </section>
 
-<section id="security" class="rule">
+<section id="honest">
   <div class="wrap">
-    <div class="head measure">
-      <div class="kicker">Security &amp; enterprise readiness</div>
-      <h2>Built to pass your security review.</h2>
-      <p class="lede">DocBrain is designed for the teams whose job is to say no. It runs entirely inside your infrastructure, reads your systems without ever writing to them, and shows its work on every answer.</p>
-    </div>
-    <div class="g3">
-      <div class="card"><h3>Self-hosted, zero egress</h3><p>Runs entirely in your infrastructure from Docker images and Helm charts you pin and control. Point it at a local model and nothing ever leaves your network. Air-gap capable.</p></div>
-      <div class="card"><h3>Read-only by design</h3><p>When DocBrain connects to a live system, any tool that could create, edit or delete is dropped at discovery. It can read to answer a question. It cannot change anything.</p></div>
-      <div class="card"><h3>Access that mirrors your sources</h3><p>Source-system ACL mirrors real Confluence, Slack, GitHub and Jira permissions at query time; per-user OAuth scopes live results to what each person can already see.</p></div>
-    </div>
-    <div class="doclinks"><a class="doclink" href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md">Full threat model</a><a class="doclink" href="/docs/security/">Security guide</a><a class="doclink" href="/docs/rbac/">RBAC &amp; SSO</a><a class="doclink" href="/docs/trust/">How DocBrain earns trust</a></div>
+    <div class="sechead narrow"><div class="eye">Straight answers</div><h2>What we haven't proven yet.</h2></div>
+    <div class="rec plain" style="max-width:49rem;"><span class="tab">Known limits</span><div class="recb">
+      <ul>
+        <li style="padding-block:.7rem;border-bottom:1px solid var(--rule2);"><strong>The server is closed source.</strong> The client inside your network is MIT and auditable; the server isn't published. We targeted the first half of 2026, missed it, and won't name a new date until we're certain.</li>
+        <li style="padding-block:.7rem;border-bottom:1px solid var(--rule2);"><strong>We publish no measured accuracy figure.</strong> Grounding is measured internally, but nothing goes on this page until it's measured on real customer data — with its methodology.</li>
+        <li style="padding-block:.7rem;border-bottom:1px solid var(--rule2);"><strong>Learning is optional and off by default.</strong> It needs real feedback volume and some compute before it's worth switching on. Everything else works without it.</li>
+        <li style="padding-block:.7rem;"><strong>Self-hosting isn't unique to us.</strong> Open-source alternatives exist and several are excellent at retrieval. What they don't do is capture what was never written down.</li>
+      </ul>
+    </div></div>
   </div>
 </section>
 
-<section id="limits" class="rule">
-  <div class="wrap">
-    <div class="head measure">
-      <div class="kicker">Straight answers</div>
-      <h2>What we haven't proven yet.</h2>
-      <p class="lede">A product built on refusing to overclaim should not overclaim about itself.</p>
+<section id="start">
+  <div class="wrap close">
+    <div class="eye">Get started</div>
+    <h2>Ask it something only one person knows.</h2>
+    <p class="lede">Free for production use, self-hosted in minutes. The fastest way to find what your organization never wrote down is to watch where it declares a gap.</p>
+    <div class="acts" style="justify-content:center;">
+      <a class="btn" href="https://github.com/docbrain-ai/docbrain">Self-host in 5 minutes</a>
+      <a class="btn btn2" href="https://youtu.be/zZ7WdjmOXHU">Watch the unedited quickstart</a>
     </div>
-    <div class="limits"><ul>
-      <li><strong>The server is closed source.</strong> The client that runs inside your network is MIT-licensed and auditable; the server isn't published yet. We targeted the first half of 2026, missed it, and won't name a new date until we're certain of it. If that's a dealbreaker, it's a rational position and we respect it.</li>
-      <li><strong>We publish no measured accuracy benchmark.</strong> Grounding is measured internally, but no number goes on this page until it's measured against real customer data — and when it does, it arrives with its methodology.</li>
-      <li><strong>Self-hosting isn't unique to us.</strong> Open-source alternatives exist and several are very good at retrieval. What they don't do is capture knowledge that was never written down. Evaluate us on that.</li>
-      <li><strong>Our evidence base is strongest for software teams.</strong> The mechanism generalises across sectors; the published statistics haven't been measured everywhere, and we won't imply otherwise.</li>
-    </ul></div>
-  </div>
-</section>
-
-<section id="start" class="rule">
-  <div class="wrap">
-    <div class="head measure" style="text-align:left;">
-      <div class="kicker">Get started</div>
-      <h2>Self-host in 5 minutes.</h2>
-      <p class="lede">Docker, an API key, and three commands. That's it.</p>
-    </div>
-    <div class="g2">
-      <div class="term">
-        <div class="termbar">quickstart</div>
-        <div class="termb">
-<pre><span class="tp">$</span> <span class="tc">git clone https://github.com/docbrain-ai/docbrain</span>
-<span class="tp">$</span> <span class="tc">cd docbrain</span>
-<span class="tp">$</span> <span class="tc">bash scripts/setup.sh</span>
-
-<span class="tp">✓</span> <span class="td">Created .env with defaults</span>
-<span class="tp">✓</span> <span class="td">Started PostgreSQL, OpenSearch, Redis</span>
-<span class="tp">✓</span> <span class="td">Ran 43 migrations</span>
-<span class="tp">✓</span> <span class="td">Ingested sample docs</span>
-<span class="tp">✓</span> <span class="td">Server running at http://localhost:3000</span>
-<span class="tp">✓</span> <span class="td">Web UI at http://localhost:3001</span>
-
-<span class="tk">Bootstrap admin key:</span> db_sk_boot_…
-</pre>
-        </div>
-      </div>
-      <div class="close" style="text-align:left;align-items:flex-start;justify-content:center;">
-        <h2 style="font-size:clamp(1.4rem,3vw,1.9rem);">Ask it something only one person in your organization knows.</h2>
-        <p class="lede">Free for production use. The fastest way to find what your organization never wrote down is to watch where DocBrain declares a gap.</p>
-        <div class="acts">
-          <a class="btn" href="https://github.com/docbrain-ai/docbrain">Star on GitHub</a>
-          <a class="btn btn2" href="https://youtu.be/zZ7WdjmOXHU">Watch the unedited quickstart</a>
-        </div>
-        <p class="muted sm">90 seconds, recorded in one take, local models, nothing staged.</p>
-        <div class="doclinks" style="margin-top:.6rem;"><a class="doclink" href="/docs/quickstart/">Quickstart guide</a><a class="doclink" href="/docs/configuration/">Configuration</a><a class="doclink" href="/docs/kubernetes/">Deploy on Kubernetes</a></div>
-      </div>
-    </div>
+    <p class="dim sm">90 seconds, one take, local models, nothing staged.</p>
   </div>
 </section>
 
 <footer><div class="wrap foot">
-  <div class="fcol">
-    <a class="brand" href="#top">
-      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <rect x="1.5" y="2.5" width="21" height="19" rx="2" stroke="#16365C" stroke-width="1.6"/>
-        <path d="M7 8h6M7 12h10M7 16h7" stroke="#16365C" stroke-width="1.6" stroke-linecap="round"/>
-        <circle cx="18.5" cy="8" r="2.2" fill="#8C2F39"/>
-      </svg><b>DocBrain</b>
-    </a>
-    <span class="muted sm">The memory layer for humans and AI agents.</span>
-  </div>
-  <div class="fcol"><span class="fh">Product</span><a href="#memory">Memory system</a><a href="#live">Live intelligence</a><a href="#autopilot">Autopilot &amp; generate</a><a href="#agents">Coding agents</a><a href="/docs/knowledge-intelligence/">Knowledge intelligence</a></div>
-  <div class="fcol"><span class="fh">Documentation</span><a href="/docs/">All docs</a><a href="/docs/quickstart/">Quickstart</a><a href="/docs/configuration/">Configuration</a><a href="/docs/api-reference/">API reference</a><a href="/docs/connectors/">Connectors &amp; SDK</a><a href="/docs/kubernetes/">Kubernetes</a></div>
-  <div class="fcol"><span class="fh">Trust</span><a href="/docs/trust/">How we earn trust</a><a href="/docs/security/">Security</a><a href="/docs/rbac/">RBAC &amp; SSO</a><a href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md">Threat model</a><a href="#rovo">Rovo assessment</a><a href="#limits">What we haven't proven</a></div>
-  <div class="fcol"><span class="fh">Project</span><a href="https://github.com/docbrain-ai/docbrain">GitHub</a><a href="https://github.com/docbrain-ai/docbrain/tree/main/crates">Client source (MIT)</a><a href="https://github.com/docbrain-ai/docbrain/discussions">Discussions</a><a href="https://github.com/docbrain-ai/docbrain/blob/main/LICENSE">Licence</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a></div>
+  <div class="fc"><a class="brand" href="#top" style="font-size:1.05rem;">DocBrain</a><span class="dim sm">The memory layer for humans and AI agents.</span></div>
+  <div class="fc"><span class="fh">Product</span><a href="#learns">It compounds</a><a href="#writes">It writes</a><a href="#people">For your people</a><a href="#agents">For your agents</a></div>
+  <div class="fc"><span class="fh">Docs</span><a href="/docs/">All docs</a><a href="/docs/quickstart/">Quickstart</a><a href="/docs/mcp-tools/">MCP tools</a><a href="/docs/api-reference/">API</a></div>
+  <div class="fc"><span class="fh">Trust</span><a href="/docs/trust/">Trust</a><a href="/docs/security/">Security</a><a href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md">Threat model</a><a href="#honest">Known limits</a></div>
 </div></footer>
 
 <script>
 (function(){
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var body=document.body, swH=document.getElementById('sw-h'), swA=document.getElementById('sw-a');
+  swH.addEventListener('click',function(){ body.dataset.mode='human'; swH.classList.add('sel'); swA.classList.remove('sel'); });
+  swA.addEventListener('click',function(){ body.dataset.mode='agent'; swA.classList.add('sel'); swH.classList.remove('sel'); });
 
-  var S = [
-    { key:'Live + indexed', q:'is the payments outage from yesterday resolved, and what was the fix?',
-      claims:[
-        { t:'Resolved, 14h ago. PROJ-412 ("Payments 502s after deploy") moved to Done at 09:14 UTC.',
-          c:[{ n:'Jira · PROJ-412', live:true, x:'Pulled from Jira at answer time, not from an index. Status: Done, transitioned 09:14 UTC.' }] },
-        { t:'The fix was a rollback of payment-processor plus an idempotency-key guard.',
-          c:[{ n:'Payments Rollback Runbook v3', x:'Indexed knowledge — the documented rollback procedure, captured when the runbook was last updated.' },
-             { n:'PR #347', x:'Indexed knowledge — the change that introduced the idempotency-key guard.' }] }
-      ], gap:null },
-
-    { key:'Honest refusal', q:'who approves an out-of-hours production rollback?',
-      claims:[
-        { t:'The rollback procedure itself is documented and current.',
-          c:[{ n:'Payments Rollback Runbook v3', x:'Procedure steps present and marked fresh. No approval authority named anywhere in the document.' }] }
-      ],
-      gap:'no connected source records who authorises a rollback outside working hours. This is a real gap in your documentation, not a limitation of the search.' },
-
-    { key:'Agent capture', q:'docbrain_suggest_capture — cert rotation failure',
-      claims:[
-        { t:'No existing knowledge covers this failure mode. Gap confirmed.',
-          c:[{ n:'corpus + episodes', x:'Searched indexed documents and every prior Q&A. Nothing matches this error signature.' }] },
-        { t:'Draft prepared for your approval — 4 lines, no secrets included.',
-          c:[{ n:'review queue', x:'Nothing uploads automatically. The agent proposes, you approve, and the capture enters the normal review workflow.' }] }
-      ], gap:null }
-  ];
-
-  var qbar=document.getElementById('qbar'), stage=document.getElementById('stage'), replay=document.getElementById('replay');
-  var timers=[], cur=0;
-  function clr(){ timers.forEach(clearTimeout); timers=[]; }
-  function at(f,ms){ timers.push(setTimeout(f, reduce?0:ms)); }
-  function el(t,c,h){ var e=document.createElement(t); if(c)e.className=c; if(h!=null)e.innerHTML=h; return e; }
-
-  S.forEach(function(s,i){
-    var b=el('button','qchip',s.key); b.type='button';
-    b.setAttribute('aria-pressed', i===0?'true':'false');
-    b.addEventListener('click',function(){ run(i); });
-    qbar.appendChild(b);
+  document.querySelectorAll('.cite').forEach(function(b){
+    b.addEventListener('click',function(){
+      var claim=b.closest('.claim'), open=claim.querySelector('.srcbox');
+      if(open){ open.remove(); return; }
+      var d=document.createElement('div'); d.className='srcbox';
+      d.innerHTML='<b>source</b>'+b.dataset.src;
+      claim.appendChild(d);
+    });
   });
 
-  function run(idx){
-    cur=idx; clr();
-    Array.prototype.forEach.call(qbar.children,function(c,i){ c.setAttribute('aria-pressed', i===idx?'true':'false'); });
-    var s=S[idx]; stage.innerHTML='';
-    var ask=el('div','ask','<span style="color:var(--muted)">Ask &rsaquo;</span> <span id="ty"></span><span class="caret">&nbsp;</span>');
-    stage.appendChild(ask);
-    var ty=ask.querySelector('#ty'), i=0;
-    (function type(){
-      if(reduce){ ty.textContent=s.q; return two(); }
-      if(i<=s.q.length){ ty.textContent=s.q.slice(0,i++); at(type,16); } else two();
-    })();
-
-    function two(){
-      var st=el('div','status','Searching indexed memory and live systems…');
-      stage.appendChild(st);
-      at(function(){
-        st.textContent='Composing with provenance · '+(s.claims.length+(s.gap?1:0))+' grounded elements';
-        emit(0);
-      },720);
-    }
-    function emit(n){
-      if(n<s.claims.length){
-        var c=s.claims[n], box=el('div','claim');
-        box.appendChild(el('p',null,c.t));
-        var row=el('div','cites');
-        c.c.forEach(function(ct){
-          var b=el('button','cbtn'+(ct.live?' live':''), ct.n+(ct.live?' · live':'')); b.type='button';
-          b.addEventListener('click',function(){
-            var o=box.querySelector('.src'); if(o){ o.remove(); return; }
-            box.appendChild(el('div','src','<b>'+(ct.live?'Live source':'Indexed source')+'</b>'+ct.x));
-          });
-          row.appendChild(b);
-        });
-        box.appendChild(row); stage.appendChild(box);
-        at(function(){ emit(n+1); },620);
-      } else {
-        if(s.gap){
-          var g=el('div','claim isgap');
-          g.appendChild(el('p',null,'<strong style="color:var(--gap)">Needs input</strong> — '+s.gap));
-          stage.appendChild(g);
-        }
-        at(function(){
-          var bits='<span class="pill pok">'+s.claims.length+' claims cited</span>';
-          if(s.gap) bits+='<span class="pill pgap">1 gap declared</span>';
-          if(idx===0) bits+='<span class="pill plive">1 live source</span>';
-          bits+='<span class="muted" style="font-size:.75rem">Select a citation to open its source</span>';
-          stage.appendChild(el('div','verdict',bits));
-        },360);
-      }
-    }
-  }
-  replay.addEventListener('click',function(){ run(cur); });
-  run(0);
+  var nav=document.getElementById('nav');
+  function ns(){ nav.classList.toggle('on', window.scrollY>20); }
+  window.addEventListener('scroll',ns,{passive:true}); ns();
 
   var YH=1800,DAYS=230;
-  var people=document.getElementById('people'),cost=document.getElementById('cost'),
+  var people=document.getElementById('people2'),cost=document.getElementById('cost'),
       mins=document.getElementById('mins'),rem=document.getElementById('rem');
   function money(n){
     if(n>=1e6) return '$'+(n/1e6).toFixed(2).replace(/\.?0+$/,'')+'M';
@@ -779,9 +553,10 @@ values in a capture.
     document.getElementById('perp').textContent=money(per);
     document.getElementById('total').textContent=money(per*p);
     document.getElementById('fte').textContent=(frac*r*p).toFixed(1);
+    var hg=document.getElementById('heroGain');
+    if(hg) hg.textContent=money(frac*r*90000*250);
   }
-  [people,cost,mins,rem].forEach(function(e){ e.addEventListener('input',calc); });
-  calc();
+  [people,cost,mins,rem].forEach(function(e){ e.addEventListener('input',calc); }); calc();
 })();
 </script>
 </body>
