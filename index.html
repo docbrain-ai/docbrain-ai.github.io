@@ -258,6 +258,10 @@
   .bafoot{ font-size:.8rem; color:var(--dim); margin-top:.5rem; }
   .bacol.won .bafoot{ color:var(--hum); }
   .beforeafter figcaption{ font-size:.83rem; color:var(--body); margin-top:1rem; padding-top:.8rem; border-top:1px dashed var(--rule); }
+
+  .qdots{ display:inline-flex; gap:.3rem; margin-left:auto; }
+  .qdots i{ width:.42rem; height:.42rem; border-radius:50%; background:var(--rule); transition:background .3s; cursor:pointer; }
+  .qdots i.on{ background:var(--margin); }
   .cue{ font-family:var(--mono); font-size:.72rem; color:var(--dim); }
   .m-h,.m-a{ display:none; }
   body[data-mode="human"] .m-h{ display:block; } body[data-mode="agent"] .m-a{ display:block; }
@@ -408,29 +412,14 @@
 
  <div class="hgrid">
  <div class="rec">
- <span class="tab">Answering a question about its own codebase</span>
-        <div class="qline reveal">“Why does find_entities order before it limits?”</div>
+ <span class="tab">Answering questions about its own codebase</span>
+        <div class="qline reveal" id="hq">“Why does find_entities order before it limits?”</div>
         <div class="status reveal" id="heroStatus">Reading the record</div>
-        <div class="claim byh reveal">
-          <span class="who">decision</span>
-          <p>Because without it the right entity got cut. <code>%EKS%</code> matched about fifty rows, and the canonical <code>EKS</code> entity, the one carrying the dependency edges, sat at position fourteen. An arbitrary <code>LIMIT 10</code> dropped it.</p>
-          <div class="cites"><button class="cite" type="button" data-src="Recorded 1 June 2026, after the fix landed. The rule it produced: any LIMIT on a substring match must carry an ORDER BY that ranks exact matches above the cut.">decision record · 1 Jun</button></div>
-        </div>
-        <div class="claim byh reveal">
-          <span class="who">consequence</span>
-          <p>The consequence is the part worth keeping. The graph block anchored on a junk substring entity and abstained, so the question fell through to prose that invented a dependency the graph never asserted.</p>
-          <div class="cites">
-            <button class="cite" type="button" data-src="semantic.rs, find_entities. The query compiled and passed every test. It only failed at production data volume.">semantic.rs</button>
-            <button class="cite" type="button" data-src="Found by live probing, not by the suite. Small seed data meant no fragment collisions, so the happy path never reproduced it.">how it surfaced</button>
-          </div>
-        </div>
-        <div class="claim gapc reveal">
-          <span class="who" style="color:var(--margin)">gap</span>
-          <p>Whether the other substring call sites were audited afterwards is not recorded anywhere.</p>
-        </div>
-        <div class="stamp reveal">
-          <span class="pill h">3 claims, each cited</span><span class="pill g">1 gap declared</span>
+        <div id="hclaims"></div>
+        <div class="stamp reveal" id="hstamp">
+          <span class="pill h" id="hcount">3 claims, each cited</span><span class="pill g">1 gap declared</span>
           <span class="dim xs" style="font-family:var(--mono)">click a citation</span>
+          <span class="qdots" id="qdots"></span>
           <button class="replaybtn" id="heroReplay" type="button">Replay</button>
         </div>
  </div>
@@ -1074,30 +1063,94 @@
  });
  })();
 
- /* hero answer: assemble, then settle */
+ /* hero answer: two real entries from our own lessons file, rotated */
  (function(){
-   var card=document.querySelector('.hgrid .rec'); if(!card) return;
-   var steps=Array.prototype.slice.call(card.querySelectorAll('.reveal'));
-   var status=document.getElementById('heroStatus');
+   var Q=[
+     { q:'“Why does find_entities order before it limits?”',
+       status:'4 sources read, 2 claims grounded, 1 gap found',
+       claims:[
+         { k:'decision',
+           t:'Because without it the right entity got cut. <code>%EKS%</code> matched about fifty rows, and the canonical <code>EKS</code> entity, the one carrying the dependency edges, sat at position fourteen. An arbitrary <code>LIMIT 10</code> dropped it.',
+           c:[['decision record · 1 Jun','Recorded 1 June 2026, after the fix landed. The rule it produced: any LIMIT on a substring match must carry an ORDER BY that ranks exact matches above the cut.']] },
+         { k:'consequence',
+           t:'The graph block anchored on a junk substring entity and abstained, so the question fell through to prose that invented a dependency the graph never asserted.',
+           c:[['semantic.rs','semantic.rs, find_entities. The query compiled and passed every test. It only failed at production data volume.'],
+              ['how it surfaced','Found by live probing, not by the suite. Small seed data meant no fragment collisions, so the happy path never reproduced it.']] },
+         { k:'gap', gap:true,
+           t:'Whether the other substring call sites were audited afterwards is not recorded anywhere.', c:[] }
+       ] },
+     { q:'“Why does migration 136 delete from four other tables first?”',
+       status:'3 sources read, 2 claims grounded, 1 gap found',
+       claims:[
+         { k:'decision',
+           t:'Because deleting from <code>entities</code> alone panics on boot. Four tables carry a bare <code>REFERENCES entities(id)</code> with no cascade, so the foreign key blocks the delete and the server crash loops.',
+           c:[['migration 136 · 1 Jun','The fix pre-deletes the affected rows in every bare-key table from a single captured snapshot, so the sets cannot drift between statements.']] },
+         { k:'consequence',
+           t:'The throwaway database test only seeded entities and relations, so the blocking key never existed in test. It passed CI and broke on startup.',
+           c:[['why CI missed it','Classic passes-test-breaks-prod. The test fixture never contained the tables that carry the blocking reference.']] },
+         { k:'gap', gap:true,
+           t:'Whether the checklist of tables referencing entities has been kept current since is not recorded.', c:[] }
+       ] }
+   ];
+
+   var qEl=document.getElementById('hq'), stEl=document.getElementById('heroStatus'),
+       wrap=document.getElementById('hclaims'), stamp=document.getElementById('hstamp'),
+       count=document.getElementById('hcount'), dots=document.getElementById('qdots');
+   if(!qEl||!wrap) return;
    var slow=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-   var timers=[];
-   function play(){
-     timers.forEach(clearTimeout); timers=[];
-     if(slow){ steps.forEach(function(el){ el.classList.add('in'); }); if(status){ status.classList.add('done'); } return; }
-     steps.forEach(function(el){ el.classList.remove('in'); });
-     if(status){ status.classList.remove('done'); status.textContent='Reading Jira, and searching the memory'; }
-     var d=200;
-     steps.forEach(function(el,i){
-       timers.push(setTimeout(function(){ el.classList.add('in'); }, d));
-       d += (i===1 ? 800 : 540);
+   var timers=[], idx=0, autoTimer=null;
+   function clr(){ timers.forEach(clearTimeout); timers=[]; if(autoTimer){ clearTimeout(autoTimer); autoTimer=null; } }
+
+   Q.forEach(function(_,n){
+     var d=document.createElement('i'); d.title='Question '+(n+1);
+     d.addEventListener('click',function(){ show(n,true); });
+     dots.appendChild(d);
+   });
+
+   function show(n, manual){
+     clr(); idx=n;
+     var s=Q[n];
+     Array.prototype.forEach.call(dots.children,function(d,i){ d.classList.toggle('on', i===n); });
+     qEl.textContent=s.q;
+     stEl.textContent='Reading the record'; stEl.classList.remove('done');
+     count.textContent=s.claims.filter(function(c){ return !c.gap; }).length+1+' claims, each cited';
+     wrap.innerHTML='';
+     [qEl,stEl,stamp].forEach(function(el){ el.classList.remove('in'); });
+
+     var d=slow?0:180;
+     [qEl,stEl].forEach(function(el){ timers.push(setTimeout(function(){ el.classList.add('in'); }, d)); d+=slow?0:560; });
+
+     s.claims.forEach(function(c){
+       timers.push(setTimeout(function(){
+         var box=document.createElement('div');
+         box.className='claim '+(c.gap?'gapc':'byh')+' reveal';
+         var who='<span class="who"'+(c.gap?' style="color:var(--margin)"':'')+'>'+c.k+'</span>';
+         var cites=c.c.length? '<div class="cites">'+c.c.map(function(x){
+           return '<button class="cite" type="button" data-src="'+x[1].replace(/"/g,'&quot;')+'">'+x[0]+'</button>'; }).join('')+'</div>' : '';
+         box.innerHTML=who+'<p>'+c.t+'</p>'+cites;
+         wrap.appendChild(box);
+         requestAnimationFrame(function(){ box.classList.add('in'); });
+         box.querySelectorAll('.cite').forEach(function(b){
+           b.addEventListener('click',function(){
+             var open=box.querySelector('.srcbox'); if(open){ open.remove(); return; }
+             var sb=document.createElement('div'); sb.className='srcbox';
+             sb.innerHTML='<b>source</b>'+b.dataset.src; box.appendChild(sb);
+           });
+         });
+       }, d));
+       d+=slow?0:560;
      });
+
      timers.push(setTimeout(function(){
-       if(status){ status.textContent='4 sources read, 2 claims grounded, 1 gap found'; status.classList.add('done'); }
-     }, 1560));
+       stEl.textContent=s.status; stEl.classList.add('done');
+       stamp.classList.add('in');
+       if(!slow && !manual){ autoTimer=setTimeout(function(){ show((n+1)%Q.length,false); }, 5200); }
+     }, d+(slow?0:200)));
    }
+
    var b=document.getElementById('heroReplay');
-   if(b){ b.addEventListener('click', play); }
-   play();
+   if(b){ b.addEventListener('click',function(){ show(idx,true); }); }
+   show(0,false);
  })();
 
  /* sections settle in as you reach them */
