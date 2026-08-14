@@ -4,8 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<title>DocBrain — The memory layer for humans and AI agents</title>
-<meta name="description" content="DocBrain captures the knowledge your organization never writes down, cites every claim to its source, and serves it to your people and your coding agents. Self-hosted.">
+<title>DocBrain: the memory layer for humans and AI agents</title>
+<link rel="icon" href="/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://docbrainapi.com/">
+<meta property="og:title" content="DocBrain, the memory layer for humans and AI agents">
+<meta property="og:description" content="Institutional memory for engineering teams. Captures what your engineers work out, cites every claim to its source, and says so when your record has no answer. Self-hosted.">
+<meta property="og:image" content="https://docbrainapi.com/banner.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DocBrain, the memory layer for humans and AI agents">
+<meta name="twitter:description" content="Institutional memory for engineering teams. Self-hosted, read-only, every claim cited.">
+<meta name="twitter:image" content="https://docbrainapi.com/banner.png">
+<meta name="description" content="Institutional memory for engineering teams. DocBrain captures what your engineers work out, cites every claim to its source, and serves it to people and coding agents alike. Self-hosted.">
 <style>
   *,*::before,*::after{ box-sizing:border-box; }
   html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
@@ -22,7 +32,7 @@
   :root{
     /* the archive: card stock, ink, and two hands writing on it */
     --paper:#F4F2EC; --paper2:#EFEDE5; --card:#FDFCF9; --card2:#F8F6F0;
-    --ink:#1B1915; --body:#4E4A42; --dim:#8A857A;
+    --ink:#1B1915; --body:#4E4A42; --dim:#736E63;
     --rule:#DED9CC; --rule2:#EAE6DC; --blue:#C6D2DE;
     --margin:#B4483F;
     --hum:#1E6B54; --humS:#E7F1EC;
@@ -57,21 +67,21 @@
   .btn2{ background:var(--card); color:var(--ink); border-color:var(--rule); }
   .btn2:hover{ background:var(--card); color:var(--margin); border-color:var(--margin); }
 
-  nav{ position:sticky; top:0; z-index:80; background:rgba(244,242,236,.9); backdrop-filter:blur(10px); border-bottom:1px solid transparent; transition:.2s; }
-  nav.on{ border-bottom-color:var(--rule); }
-  .navin{ display:flex; align-items:center; gap:1.6rem; height:4.2rem; }
+  nav{ position:sticky; top:0; z-index:80; background:rgba(244,242,236,.92); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-bottom:1px solid var(--rule2); transition:border-color .2s, box-shadow .2s; }
+  nav.on{ border-bottom-color:var(--rule); box-shadow:0 1px 0 rgba(27,25,21,.03); }
+  .navin{ display:flex; align-items:center; gap:1.6rem; height:4rem; }
   .brand{ display:inline-flex; align-items:center; gap:.5rem; color:var(--ink); text-decoration:none; font-family:var(--serif); font-size:1.24rem; font-weight:600; letter-spacing:-.02em; }
-  .nlinks{ display:none; gap:1.5rem; margin-left:auto; }
+  .nlinks{ display:none; gap:1.45rem; margin-left:2.75rem; }
   @media (min-width:66rem){ .nlinks{ display:flex; } }
   .nlinks a{ font-size:.85rem; color:var(--body); text-decoration:none; }
   .nlinks a:hover{ color:var(--margin); }
-  .ncta{ margin-left:auto; } @media (min-width:66rem){ .ncta{ margin-left:0; } }
+  .ncta{ margin-left:auto; margin-right:-.15rem; }
 
   section{ padding-block:clamp(2.9rem,4.6vw,4.1rem); border-top:1px solid var(--rule); }
   .hero{ border-top:none; }
   .sechead{ display:flex; flex-direction:column; gap:.7rem; margin-bottom:1.75rem; }
 
-  /* ═══ the record card — the page's whole visual system ═══ */
+  /* the record card: the page's whole visual system */
   .rec{ position:relative; background:var(--card); border:1px solid var(--rule); border-radius:2px;
         box-shadow:2px 2px 0 rgba(27,25,21,.05), 0 14px 34px -28px rgba(27,25,21,.5); }
   .rec::before{ content:""; position:absolute; left:2.1rem; top:0; bottom:0; width:1px; background:var(--margin); opacity:.28; }
@@ -88,7 +98,7 @@
   .recb h3{ margin-bottom:.35rem; }
 
   .hero{ padding-block:clamp(2.6rem,5vw,3.9rem) clamp(2.4rem,4.2vw,3.3rem); }
-  .hcopy{ max-width:47rem; display:flex; flex-direction:column; gap:1.1rem; margin-bottom:2.1rem; }
+  .hcopy{ max-width:53rem; display:flex; flex-direction:column; gap:1.1rem; margin-bottom:2.1rem; }
   .swap{ display:inline-block; position:relative; font:inherit; background:none; border:none; padding:0 .06em; cursor:pointer; transition:color .2s; color:var(--dim); }
   .swap::after{ content:""; position:absolute; left:.04em; right:.04em; bottom:.08em; height:.14em; background:currentColor; opacity:.25; transition:.2s; }
   .swap:hover{ color:var(--body); }
@@ -99,7 +109,7 @@
   .gainbar{ border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding-block:1.1rem; margin-block:.3rem; }
   .gain{ display:flex; align-items:baseline; flex-wrap:wrap; gap:.2rem .9rem; }
   .gl{ font-family:var(--mono); font-size:.66rem; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); width:100%; }
-  .gain b{ font-family:var(--serif); font-size:clamp(2.4rem,5.5vw,3.4rem); font-weight:500; letter-spacing:-.032em;
+  .gain > b{ font-family:var(--serif); font-size:clamp(2.4rem,5.5vw,3.4rem); font-weight:500; letter-spacing:-.032em;
            line-height:1.05; color:var(--hum); font-variant-numeric:tabular-nums; }
   body[data-mode="agent"] .gain b{ color:var(--agt); }
   .gs{ font-size:.92rem; color:var(--body); }
@@ -158,8 +168,6 @@
   .paths{ display:grid; grid-template-columns:1fr; gap:1.3rem; margin-top:1.9rem; }
   @media (min-width:56rem){ .paths{ grid-template-columns:1fr 1fr; gap:1.5rem; } }
   .path .recb h3{ font-family:var(--serif); font-weight:500; font-size:1.35rem; letter-spacing:-.018em; margin-bottom:.5rem; }
-  .nlink2{ font-size:.85rem; color:var(--body); text-decoration:none; }
-  .nlink2:hover{ color:var(--margin); }
   .chips{ display:flex; flex-wrap:wrap; gap:.35rem; }
   .chip{ font-family:var(--mono); font-size:.73rem; padding:.3rem .55rem; border:1px solid var(--rule);
          border-radius:2px; background:var(--card2); color:var(--body); }
@@ -174,6 +182,82 @@
          font-size:.78rem!important; color:var(--ink)!important; line-height:1.7!important; }
   .sign span{ color:var(--dim); font-size:.73rem; }
   .sign a{ color:var(--margin); }
+
+  /* the hero answer assembles itself, once, the way it would in the product */
+  .reveal{ opacity:0; transform:translateY(9px); }
+  .reveal.in{ opacity:1; transform:none; transition:opacity .5s cubic-bezier(.2,.7,.3,1), transform .5s cubic-bezier(.2,.7,.3,1); }
+  .status{ font-family:var(--mono); font-size:.75rem; color:var(--dim); padding-block:.55rem; padding-right:1.3rem;
+           display:flex; align-items:center; gap:.5rem; }
+  .status::before{ content:""; width:.4rem; height:.4rem; border-radius:50%; background:var(--margin); animation:pulse 1.4s ease-in-out infinite; }
+  .status.done::before{ animation:none; background:var(--hum); }
+  .replaybtn{ font-family:var(--mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase;
+              background:transparent; border:1px solid var(--rule); border-radius:2px; padding:.24rem .55rem;
+              color:var(--dim); cursor:pointer; margin-left:auto; }
+  .replaybtn:hover{ color:var(--margin); border-color:var(--margin); }
+  @media (prefers-reduced-motion:reduce){
+    .reveal{ opacity:1; transform:none; }
+    .status::before{ animation:none; }
+  }
+  .doclinks{ display:flex; flex-wrap:wrap; gap:.5rem 1.4rem; margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--rule2); }
+  .doclink{ font-size:.83rem; color:var(--margin); text-decoration:none; }
+  .doclink::after{ content:" →"; }
+  .doclink:hover{ text-decoration:underline; }
+
+  /* the ten year span, drawn */
+  .span{ margin:0 0 1.4rem; }
+  .span svg{ width:100%; height:auto; display:block; }
+  .spanTick line{ stroke:#C6BFAE; stroke-width:1.2; }
+  .spanTick text{ font-family:var(--mono); font-size:10px; fill:var(--dim); text-anchor:middle; }
+  .spanTick text.now{ fill:var(--margin); }
+  .spanDot circle{ fill:var(--card); stroke:var(--margin); stroke-width:2.5; }
+  .spanLbl text{ font-family:var(--mono); font-size:10.5px; fill:var(--dim); }
+  .spanLbl text.strong{ fill:var(--ink); font-size:11.5px; }
+  .span figcaption{ font-size:.83rem; color:var(--body); margin-top:.3rem; }
+
+  /* failures becoming a page */
+  .funnelfig{ margin:0; display:grid; grid-template-columns:1fr; gap:.9rem; align-items:stretch; }
+  @media (min-width:60rem){ .funnelfig{ grid-template-columns:1fr auto 1fr auto 1fr; gap:1rem; align-items:center; } }
+  .fstage{ border:1px solid var(--rule); border-radius:4px; background:var(--card); padding:1rem 1.05rem; display:flex; flex-direction:column; gap:.55rem; }
+  .flab{ font-family:var(--mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); }
+  .fchips{ display:flex; flex-wrap:wrap; gap:.3rem; }
+  .fq{ font-size:.74rem; padding:.24rem .5rem; border:1px dashed var(--rule); border-radius:2px; color:var(--muted,var(--dim)); background:var(--card2); }
+  .fnote{ font-family:var(--mono); font-size:.68rem; color:var(--dim); }
+  .farrow{ justify-self:center; width:100%; height:1px; background:var(--rule); position:relative; }
+  @media (min-width:60rem){ .farrow{ width:26px; } }
+  .farrow::after{ content:""; position:absolute; right:-1px; top:-3px; border-left:6px solid var(--rule); border-top:3.5px solid transparent; border-bottom:3.5px solid transparent; }
+  .fgap{ border-left:2px solid var(--margin); padding-left:.7rem; }
+  .fgaphead{ display:flex; align-items:baseline; gap:.5rem; }
+  .fsev{ font-family:var(--mono); font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--margin); background:#F8EAE8; padding:.14rem .4rem; border-radius:2px; }
+  .fscore{ font-family:var(--mono); font-size:.78rem; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .fgap p{ font-size:.95rem; font-weight:650; margin-top:.3rem; }
+  .fbars{ display:flex; flex-direction:column; gap:.25rem; margin-top:.5rem; }
+  .fbars span{ display:grid; grid-template-columns:1fr auto; align-items:center; gap:.5rem; font-family:var(--mono); font-size:.62rem; color:var(--dim); }
+  .fbars i{ display:block; height:4px; background:var(--margin); opacity:.45; border-radius:2px; }
+  .fkind{ font-family:var(--mono); font-size:.63rem; color:var(--dim); margin-top:.5rem; display:block; }
+  .fdraft{ border-left:2px solid var(--hum); padding-left:.7rem; display:flex; flex-direction:column; gap:.22rem; }
+  .fdraft p{ font-size:.95rem; }
+  .fdraft span{ font-family:var(--mono); font-size:.68rem; color:var(--dim); }
+  .fdraft .fneeds{ color:var(--margin); }
+  .fdraft .fpend{ color:var(--hum); margin-top:.35rem; }
+
+  /* same question, two models */
+  .beforeafter{ margin:0; border:1px solid var(--rule); border-radius:4px; background:var(--card); padding:1.15rem 1.2rem 1.25rem; }
+  .baq{ font-size:.92rem; color:var(--body); padding-bottom:.85rem; border-bottom:1px dashed var(--rule); }
+  .baq b{ color:var(--ink); }
+  .bagrid{ display:grid; grid-template-columns:1fr; gap:1.1rem; padding-top:1rem; }
+  @media (min-width:52rem){ .bagrid{ grid-template-columns:1fr 1fr; gap:1.8rem; } }
+  .bacol{ display:flex; flex-direction:column; gap:.4rem; }
+  .balab{ font-family:var(--mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); margin-bottom:.25rem; }
+  .bacol.won .balab{ color:var(--hum); }
+  .barow{ display:flex; align-items:baseline; justify-content:space-between; gap:.8rem; padding:.4rem 0; border-bottom:1px solid var(--rule2); }
+  .barow.dim2 .bahit{ color:var(--dim); }
+  .bahit{ font-size:.87rem; color:var(--body); }
+  .bacol.won .bahit{ color:var(--ink); }
+  .bascore{ font-family:var(--mono); font-size:.72rem; color:var(--dim); font-variant-numeric:tabular-nums; }
+  .bacol.won .bascore{ color:var(--hum); }
+  .bafoot{ font-size:.8rem; color:var(--dim); margin-top:.5rem; }
+  .bacol.won .bafoot{ color:var(--hum); }
+  .beforeafter figcaption{ font-size:.83rem; color:var(--body); margin-top:1rem; padding-top:.8rem; border-top:1px dashed var(--rule); }
   .cue{ font-family:var(--mono); font-size:.72rem; color:var(--dim); }
   .m-h,.m-a{ display:none; }
   body[data-mode="human"] .m-h{ display:block; } body[data-mode="agent"] .m-a{ display:block; }
@@ -185,7 +269,7 @@
   .qline{ font-family:var(--mono); font-size:.79rem; color:var(--dim); padding-block:.85rem; border-bottom:1px dashed var(--rule); padding-right:1.3rem; }
   .claim{ padding-block:.85rem; border-bottom:1px solid var(--rule2); padding-right:1.3rem; position:relative; }
   .claim:last-of-type{ border-bottom:none; }
-  .claim .who{ position:absolute; left:.55rem; top:.95rem; font-family:var(--mono); font-size:.58rem; letter-spacing:.06em; text-transform:uppercase; }
+  .claim .who{ display:block; font-family:var(--mono); font-size:.58rem; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.3rem; }
   .claim.byh .who{ color:var(--hum); } .claim.bya .who{ color:var(--agt); }
   .claim p{ font-size:.96rem; line-height:1.55; color:var(--ink); }
   .claim.gapc p{ color:var(--margin); }
@@ -227,7 +311,7 @@
   .qsplit{ display:grid; grid-template-columns:1fr; }
   @media (min-width:52rem){ .qsplit{ grid-template-columns:1fr 1fr; } }
   .qs{ padding:1.3rem 1.45rem; } @media (min-width:52rem){ .qs:first-child{ border-right:1px solid var(--rule); } }
-  .qs h4{ font-family:var(--mono); font-size:.65rem; letter-spacing:.13em; text-transform:uppercase; margin-bottom:.7rem; color:var(--dim); }
+  .qs h3.qsh, .qs h4{ font-family:var(--mono); font-weight:400; font-size:.65rem; letter-spacing:.13em; text-transform:uppercase; margin-bottom:.7rem; color:var(--dim); }
   .qs li{ font-size:.87rem; color:var(--body); padding:.28rem 0 .28rem 1.1rem; position:relative; }
   .qs li::before{ content:"·"; position:absolute; left:.25rem; color:var(--dim); }
   .qs.w li::before{ content:"✓"; color:var(--hum); font-size:.8em; }
@@ -266,139 +350,182 @@
   .fh{ font-family:var(--mono); font-size:.65rem; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
 
   a:focus-visible,button:focus-visible,input:focus-visible{ outline:2px solid var(--margin); outline-offset:3px; }
+
+  /* phones: fingers are not cursors, and 9px labels are not readable at arm's length */
+  @media (max-width:30rem){
+    /* keep the chip small but give the finger a 44px target */
+    .cite{ padding:.45rem .65rem; font-size:.74rem; position:relative; }
+    .cite::after{ content:""; position:absolute; inset:-7px -5px; }
+    .tool .tk,.tool .td,.claim .who,.lanetag{ font-size:.68rem; }
+    .cites{ gap:.45rem; }
+    .tab{ font-size:.64rem; padding:.32rem .75rem; }
+    .kicker,.eye{ font-size:.72rem; }
+    .ylab,.gl,.fh,.card-num,.cap .m{ font-size:.7rem; }
+    .xs{ font-size:.82rem; }
+    .nav .btn{ padding:.7rem 1.05rem; }
+    .qline,.claim .who{ font-size:.72rem; }
+  }
   @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;} }
 </style>
 </head>
 <body data-mode="human">
 
 <nav id="nav"><div class="wrap navin">
-  <a class="brand" href="#top">DocBrain</a>
-  <div class="nlinks">
-    <a href="#learns">It compounds</a><a href="#dayone">Day one</a><a href="#experience">Experience</a><a href="#writes">It writes</a><a href="#live">Live</a><a href="#people">People</a><a href="#agents">Agents</a><a href="#roi">ROI</a><a href="/docs/">Docs</a>
-  </div>
-  <div class="ncta" style="display:flex;gap:.55rem;align-items:center;"><a class="nlink2" href="#faq">FAQ</a><a class="btn" href="https://cal.com/docbrain/15min">Book a call</a></div>
+ <a class="brand" href="#top">DocBrain</a>
+ <div class="nlinks">
+ <a href="#dayone">How it works</a><a href="#people">For engineers</a><a href="#agents">For agents</a><a href="#ops">Running it</a><a href="#pricing">Pricing</a><a href="#roi">ROI</a><a href="/docs/">Docs</a>
+ </div>
+ <div class="ncta"><a class="btn" href="https://cal.com/docbrain/30min">Book a call</a></div>
 </div></nav>
 
 <header class="hero" id="top">
-  <div class="wrap">
-    <div class="hcopy">
-      <div class="eye">The institutional memory category</div>
-      <h1>The memory layer for
-        <button class="swap sel" id="sw-h" type="button">humans</button> and
-        <button class="swap" id="sw-a" type="button">AI agents</button>.
-      </h1>
-      <p class="prod">Your organization stops re-solving what it already solved.<br><strong>Every answer arrives cited, and nothing walks out the door when people do.</strong></p>
-      <div class="m-h"><p class="lede">New joiners answer themselves from week one. Your senior engineers stop being a search engine. And when someone leaves, the reasoning stays behind them.</p></div>
-      <div class="m-a"><p class="lede">Every session starts warm. What one agent works out is available to all of them, so they stop paying to re-derive what your organization settled months ago.</p></div>
+ <div class="wrap">
+ <div class="hcopy">
+ <div class="eye">Institutional memory, built for engineering teams</div>
+ <h1>The memory layer for
+ <button class="swap sel" id="sw-h" type="button">humans</button> and
+ <button class="swap" id="sw-a" type="button">AI agents</button>.
+ </h1>
+ <p class="prod">Your engineers stop re-solving what someone already solved.<br><strong>Every answer arrives cited, and the reasoning stays when the person leaves.</strong></p>
+ <div class="m-h"><p class="lede">New engineers answer themselves from week one. Your seniors stop being a search engine. And when someone leaves, the architecture decisions, the incident fixes and the caveats stay behind them.</p></div>
+ <div class="m-a"><p class="lede">Every session starts warm. What one agent works out is available to all of them, so they stop paying to re-derive what your organization settled months ago.</p></div>
 
-      <div class="gainbar">
-        <div class="gain">
-          <span class="gl">What a 250-person organization gets back</span>
-          <b id="heroGain">$718,750</b>
-          <span class="gs">a year — <a href="#roi">run it on your own numbers →</a></span>
-        </div>
-        <p class="gnote">Our model, arithmetic shown and sources cited. Not a customer average — we don't have one yet, and we won't borrow someone else's.</p>
-      </div>
-      <p class="cue">↑ two words, two readers. Pick one.</p>
-      <div class="acts">
-        <a class="btn" href="#start">Self-host in 5 minutes</a>
-        <a class="btn btn2" href="#roi">Calculate the return</a>
-      </div>
-      <div class="trust"><span>Read-only by design</span><span>Zero data egress</span><span>Free for production use</span></div>
-    </div>
+ <div class="gainbar">
+ <div class="gain">
+ <span class="gl">What a team of <span id="heroN">250</span> engineers gets back</span>
+ <b id="heroGain">$798,611</b>
+ <span class="gs">a year, <a href="#roi">run it on your own numbers →</a></span>
+ </div>
+ <p class="gnote">Our model, arithmetic shown and sources cited. This is not a customer average, because we do not have one yet, and we will not borrow somebody else's.</p>
+ </div>
+ <p class="cue">↑ two words, two readers. Pick one.</p>
+ <div class="acts">
+ <a class="btn" href="#start">Self-host in 5 minutes</a>
+ <a class="btn btn2" href="#roi">Calculate the return</a>
+ </div>
+ <div class="trust"><span>Read-only by design</span><span>Zero egress with a local model</span><span>Free for production use</span></div>
+ </div>
 
-    <div class="hgrid">
-      <div class="rec">
-        <span class="tab">One answer · two hands</span>
-        <div class="qline">“Is the payments outage from yesterday resolved, and what was the fix?”</div>
-        <div class="claim byh">
-          <span class="who">human</span>
-          <p>Resolved 14 hours ago. PROJ-412 moved to Done at 09:14 UTC — pulled from Jira the moment you asked.</p>
-          <div class="cites"><button class="cite" type="button" data-src="Read live at answer time, not from an index. Status Done, transitioned 09:14 UTC.">Jira · PROJ-412</button></div>
+ <div class="hgrid">
+ <div class="rec">
+ <span class="tab">Answering a question about its own codebase</span>
+        <div class="qline reveal">“Why does find_entities order before it limits?”</div>
+        <div class="status reveal" id="heroStatus">Reading the record</div>
+        <div class="claim byh reveal">
+          <span class="who">decision</span>
+          <p>Because without it the right entity got cut. <code>%EKS%</code> matched about fifty rows, and the canonical <code>EKS</code> entity, the one carrying the dependency edges, sat at position fourteen. An arbitrary <code>LIMIT 10</code> dropped it.</p>
+          <div class="cites"><button class="cite" type="button" data-src="Recorded 1 June 2026, after the fix landed. The rule it produced: any LIMIT on a substring match must carry an ORDER BY that ranks exact matches above the cut.">decision record · 1 Jun</button></div>
         </div>
-        <div class="claim bya">
-          <span class="who">agent</span>
-          <p>The fix was a rollback of payment-processor plus an idempotency-key guard. Captured from an agent session at 02:14, approved by a human before it entered the record.</p>
+        <div class="claim byh reveal">
+          <span class="who">consequence</span>
+          <p>The consequence is the part worth keeping. The graph block anchored on a junk substring entity and abstained, so the question fell through to prose that invented a dependency the graph never asserted.</p>
           <div class="cites">
-            <button class="cite" type="button" data-src="The documented rollback path, written by the on-call engineer after the incident.">Runbook v3</button>
-            <button class="cite" type="button" data-src="The change that introduced the idempotency-key guard.">PR #347</button>
+            <button class="cite" type="button" data-src="semantic.rs, find_entities. The query compiled and passed every test. It only failed at production data volume.">semantic.rs</button>
+            <button class="cite" type="button" data-src="Found by live probing, not by the suite. Small seed data meant no fragment collisions, so the happy path never reproduced it.">how it surfaced</button>
           </div>
         </div>
-        <div class="claim gapc">
+        <div class="claim gapc reveal">
           <span class="who" style="color:var(--margin)">gap</span>
-          <p>Who approves an out-of-hours rollback — <strong style="color:inherit">nobody ever wrote this down</strong>.</p>
+          <p>Whether the other substring call sites were audited afterwards is not recorded anywhere.</p>
         </div>
-        <div class="stamp">
-          <span class="pill h">1 human source</span><span class="pill a">2 from an agent</span><span class="pill g">1 gap declared</span>
+        <div class="stamp reveal">
+          <span class="pill h">3 claims, each cited</span><span class="pill g">1 gap declared</span>
           <span class="dim xs" style="font-family:var(--mono)">click a citation</span>
+          <button class="replaybtn" id="heroReplay" type="button">Replay</button>
         </div>
-      </div>
+ </div>
 
-      <div class="stack">
-        <div class="rec plain">
-          <span class="tab h">Written by people</span>
-          <div class="recb"><p>Threads, tickets, incident reviews, the answer someone typed at 2am. Captured where it happened — nobody has to remember to file it.</p></div>
-        </div>
-        <div class="rec plain">
-          <span class="tab a">Written by agents</span>
-          <div class="recb"><p>Your coding agents check what the organization already knows, then propose what's missing. A human approves before anything is recorded.</p></div>
-        </div>
-        <div class="rec plain">
-          <span class="tab">Read by both</span>
-          <div class="recb"><p>One memory. People ask in the web app, Slack or the CLI. Agents read and write over MCP. The same cited record serves both.</p></div>
-        </div>
-      </div>
-    </div>
-  </div>
+ <div class="stack">
+ <div class="rec plain">
+ <span class="tab h">When a person asks</span>
+ <div class="recb"><p>DocBrain answers from what it has indexed, and where the answer depends on state that changes minute to minute it queries your live systems at answer time over MCP. A runbook comes from the record. A ticket status is read now. Both are cited.</p></div>
+ </div>
+ <div class="rec plain">
+ <span class="tab a">When an agent asks</span>
+ <div class="recb"><p>Claude Code and Cursor connect to the <code>docbrain-mcp</code> server and call <code>docbrain_ask</code>. Your agent gets the same cited memory a person does, without anyone re-explaining the codebase in a prompt.</p></div>
+ </div>
+ <div class="rec plain">
+ <span class="tab a">When an agent learns something</span>
+ <div class="recb"><p>The same server gives it a write path. <code>docbrain_suggest_capture</code> checks whether a gap exists for the files in play, and <code>docbrain_capture</code> files the fragment against a file and line range once you approve it.</p></div>
+ </div>
+ </div>
+ </div>
+ </div>
 </header>
 
 <div class="drawer">
-  <div class="dcell"><b>13+</b><span>Sources read — Confluence, Slack, Jira, GitHub, PagerDuty, Zendesk and more</span></div>
-  <div class="dcell"><b>14</b><span>LLM providers, including fully local for zero egress</span></div>
-  <div class="dcell"><b>0</b><span>Write operations. Any tool that could change a system is dropped at discovery</span></div>
-  <div class="dcell"><b>MIT</b><span>Client source, auditable. Full threat model published</span></div>
+ <div class="dcell"><b>13+</b><span>Sources read, Confluence, Slack, Jira, GitHub, PagerDuty, Zendesk and more</span></div>
+ <div class="dcell"><b>14</b><span>LLM providers, including fully local for zero egress</span></div>
+ <div class="dcell"><b>0</b><span>Write operations. Any tool that could change a system is dropped at discovery</span></div>
+ <div class="dcell"><b>MIT</b><span>Client source, auditable. Full threat model published</span></div>
 </div>
 
 <section id="changes">
-  <div class="wrap">
-    <div class="sechead narrow">
-      <div class="eye">What changes</div>
-      <h2>Three things are true by the end of the first quarter.</h2>
-    </div>
-    <div class="grid3">
-      <div class="rec plain"><span class="tab">01</span><div class="recb">
-        <h3>Nobody is the bottleneck anymore</h3>
-        <p>The question that used to route to one senior engineer gets answered by the record instead — with the thread, the ticket and the change it came from attached. They get their week back.</p></div></div>
-      <div class="rec plain"><span class="tab">02</span><div class="recb">
-        <h3>Leaving stops being a loss event</h3>
-        <p>Notice periods turn into handovers instead of archaeology. The decisions, the caveats and the reasoning are already recorded, because they were captured the day they happened.</p></div></div>
-      <div class="rec plain"><span class="tab">03</span><div class="recb">
-        <h3>Your agents compound instead of repeating</h3>
-        <p>Every debugging session leaves something behind. The next agent — and the next engineer — starts from what was already learned rather than from nothing.</p></div></div>
-    </div>
-  </div>
+ <div class="wrap">
+ <div class="sechead narrow">
+ <div class="eye">What changes</div>
+ <h2>Three things are true in your engineering org by the end of the first quarter.</h2>
+ </div>
+ <div class="grid3">
+ <div class="rec plain"><span class="tab">01</span><div class="recb">
+ <h3>Nobody is the bottleneck anymore</h3>
+ <p>The question that used to route to one senior engineer gets answered by the record instead, with the thread, the ticket and the change it came from attached. They get their week back.</p></div></div>
+ <div class="rec plain"><span class="tab">02</span><div class="recb">
+ <h3>Leaving stops being a loss event</h3>
+ <p>Notice periods turn into handovers instead of archaeology. The decisions, the caveats and the reasoning are already recorded, because they were captured the day they happened.</p></div></div>
+ <div class="rec plain"><span class="tab">03</span><div class="recb">
+ <h3>Your agents compound instead of repeating</h3>
+ <p>Every debugging session leaves something behind. The next agent, and the next engineer, starts from what was already learned rather than from nothing.</p></div></div>
+ </div>
+ </div>
 </section>
 
 <section id="dayone">
   <div class="wrap">
     <div class="sechead narrow">
       <div class="eye">Day one</div>
-      <h2>It starts by reading everything you already have.</h2>
-      <p class="lede">Not a migration and not a blank page. Point it at the systems you've been using for years and it reads them in place, read-only — then connects what it finds into one memory you can question. <strong>Your first answer can come from a thread nobody remembers writing.</strong></p>
+      <h2>Point it at ten years of mess and ask it a question.</h2>
+      <p class="lede">Nothing to migrate, nobody to retrain, no blank page to fill. It reads the systems you have been using for years, in place and read-only, and connects what it finds into one memory you can interrogate. <strong>Your first answer can come from a thread nobody remembers writing.</strong></p>
     </div>
 
+    <figure class="span">
+      <svg viewBox="0 0 720 132" role="img" aria-label="A timeline from 2019 to today. An archived Slack thread from 2019 and a ticket comment from 2021 both feed the same answer today.">
+        <line x1="24" y1="86" x2="696" y2="86" stroke="#DED9CC" stroke-width="1.5"/>
+        <g class="spanTick">
+          <line x1="24"  y1="80" x2="24"  y2="92"/><text x="24"  y="112">2019</text>
+          <line x1="136" y1="82" x2="136" y2="90"/><text x="136" y="112">2020</text>
+          <line x1="248" y1="80" x2="248" y2="92"/><text x="248" y="112">2021</text>
+          <line x1="360" y1="82" x2="360" y2="90"/><text x="360" y="112">2022</text>
+          <line x1="472" y1="82" x2="472" y2="90"/><text x="472" y="112">2023</text>
+          <line x1="584" y1="82" x2="584" y2="90"/><text x="584" y="112">…</text>
+          <line x1="696" y1="76" x2="696" y2="96" stroke="#B4483F"/><text x="696" y="112" class="now">today</text>
+        </g>
+        <path d="M24 86 C 300 86, 520 60, 690 44" fill="none" stroke="#B4483F" stroke-width="1.6" opacity=".55"/>
+        <path d="M248 86 C 420 86, 570 62, 690 48" fill="none" stroke="#B4483F" stroke-width="1.6" opacity=".55"/>
+        <g class="spanDot"><circle cx="24" cy="86" r="5"/><circle cx="248" cy="86" r="5"/></g>
+        <g class="spanLbl">
+          <text x="24" y="60">archived Slack channel</text>
+          <text x="24" y="44" class="strong">the decision</text>
+          <text x="248" y="60">comment on a closed ticket</text>
+          <text x="248" y="44" class="strong">the revisit</text>
+          <text x="696" y="30" text-anchor="end" class="strong">one answer, cited to both</text>
+        </g>
+      </svg>
+      <figcaption>Seven years apart, in two systems, neither of them a document. The question below is answered from both.</figcaption>
+    </figure>
+
     <div class="rec">
-      <span class="tab">Backfill · read-only, in place</span>
+      <span class="tab">A question no living employee can answer</span>
       <div class="qline">“Why did we move payments off the shared database?”</div>
       <div class="claim byh">
         <span class="who">2019</span>
-        <p>Contention during month-end close. The decision was taken in a thread that ran for two days and was never written up anywhere else.</p>
-        <div class="cites"><button class="cite" type="button" data-src="A Slack thread from six years ago, in a channel that was archived in 2021. Ingested with the rest of the history.">#eng-payments · Mar 2019</button></div>
+        <p>Contention during month end close. The decision was argued out over two days in a thread and was never written up anywhere else.</p>
+        <div class="cites"><button class="cite" type="button" data-src="A Slack channel archived in 2021. Ingested with the rest of the history, and searchable from the first sync.">#eng-payments · Mar 2019</button></div>
       </div>
       <div class="claim byh">
         <span class="who">2021</span>
-        <p>Revisited when the shared instance was upgraded, and deliberately not reversed — the isolation had become load-bearing for the close process.</p>
-        <div class="cites"><button class="cite" type="button" data-src="A comment on the migration ticket, two years after the original decision. Connected to the 2019 thread because they concern the same entity.">PROJ-118 · comment</button></div>
+        <p>Revisited when the shared instance was upgraded, and deliberately not reversed. The isolation had become load bearing for the close process.</p>
+        <div class="cites"><button class="cite" type="button" data-src="A comment on the migration ticket two years after the original decision. Linked to the 2019 thread because both concern the same entity.">PROJ-118 · comment</button></div>
       </div>
       <div class="stamp">
         <span class="pill h">answered from history</span>
@@ -406,466 +533,611 @@
       </div>
     </div>
 
-    <div class="two" style="margin-top:1.7rem;">
-      <div class="rec plain"><span class="tab">What it reads</span><div class="recb">
-        <h3>Everything, wherever it already lives</h3>
-        <div class="chips" style="margin-block:.8rem;">
+    <div class="grid3" style="margin-top:1.6rem;">
+      <div class="rec plain"><span class="tab">Breadth</span><div class="recb">
+        <h3>Thirteen sources, one memory</h3>
+        <div class="chips" style="margin-block:.7rem;">
           <span class="chip">Confluence</span><span class="chip">Slack</span><span class="chip">Teams</span><span class="chip">Jira</span>
           <span class="chip">GitHub</span><span class="chip">GitLab</span><span class="chip">PagerDuty</span><span class="chip">OpsGenie</span>
           <span class="chip">Rootly</span><span class="chip">Linear</span><span class="chip">Zendesk</span><span class="chip">Intercom</span>
           <span class="chip">Local files</span><span class="chip">Connector SDK</span>
         </div>
-        <p>Archived channels, closed tickets, merged pull requests, resolved incidents, the wiki nobody has opened since 2022. Old is not the same as worthless — it's usually where the reasoning is.</p>
+        <p>Archived channels, closed tickets, merged pull requests, resolved incidents, the wiki nobody has opened since 2022. The oldest material is usually where the reasoning lives.</p>
       </div></div>
-      <div class="rec plain"><span class="tab">What it doesn't touch</span><div class="recb">
-        <h3>Nothing moves, nothing changes</h3>
-        <p style="margin-bottom:.8rem;">Your documents stay exactly where they are. Nobody is asked to adopt a new tool, refile anything, or clean up first. DocBrain reads, and the only thing that changes is that the knowledge becomes answerable.</p>
-        <p>Source permissions come with it — if someone couldn't open a page in Confluence, they can't reach it through an answer either.</p>
+      <div class="rec plain"><span class="tab">Connected, not just collected</span><div class="recb">
+        <h3>It links what it reads</h3>
+        <p style="margin-bottom:.8rem;">Links inside a captured thread are resolved and classified as they are ingested, so a Jira reference in a pull request comment becomes an edge in a reference graph rather than dead text.</p>
+        <p>That is why a 2019 argument and a 2021 ticket can answer one question together.</p>
+      </div></div>
+      <div class="rec plain"><span class="tab">Untouched</span><div class="recb">
+        <h3>Nothing moves and nothing changes</h3>
+        <p style="margin-bottom:.8rem;">Your documents stay where they are. Nobody is asked to adopt a tool, refile anything or clean up first.</p>
+        <p>Source permissions are enforced at query time, so if someone cannot open a page in Confluence they cannot reach it through an answer either.</p>
       </div></div>
     </div>
+    <p class="dim sm" style="margin-top:1.2rem;max-width:41rem;"><strong style="color:var(--body)">We built this for engineering first, on purpose.</strong> It is the hardest version of the problem: the knowledge is technical, it decays fastest, and the cost of a wrong answer is highest. The same connectors already read Zendesk, Intercom and Confluence, so support and operations follow.</p>
+    <div class="doclinks"><a class="doclink" href="/docs/ingestion/">Ingestion guide</a><a class="doclink" href="/docs/connectors/">Build a connector</a><a class="doclink" href="/docs/access-control/">Access control</a></div>
   </div>
 </section>
+
+<section id="mech"><div class="wrap">
+    <div class="sechead narrow">
+      <div class="eye">The fair question</div>
+      <h2>"Captured what was never written down" is a big claim.</h2>
+      <p class="lede">Most tools that say it mean they indexed your wiki. Here is what we actually mean, mechanism by mechanism.</p>
+    </div>
+    <div class="rec plain" style="margin-top:1.6rem;">
+      <span class="tab">How the capture actually happens</span>
+      <div class="recb">
+        <p style="margin-bottom:.9rem;">Fair question, because most tools that say this mean "we indexed your wiki". Three concrete paths, none of which ask anyone to write a document:</p>
+        <div class="gen">
+          <div class="genrow"><span class="gk">One</span><span class="gv">Someone says so</span><span class="gp">Comment <code>@docbrain capture</code> on a merge request. A webhook fires, DocBrain pulls the description and every human comment, extracts the Jira, Confluence and PR links inside them, and files the argument as a permanent cross-referenced record. That thread was never going to become a document.</span></div>
+          <div class="genrow"><span class="gk">Two</span><span class="gv">An agent proposes</span><span class="gp">Over MCP, a coding agent checks whether the organization already knows something, drafts what is missing, and asks a human to approve before it is recorded. This is the path that creates knowledge that existed nowhere.</span></div>
+          <div class="genrow"><span class="gk">Three</span><span class="gv">The gaps write themselves</span><span class="gp">Questions nobody could answer are clustered, the gap behind them identified, and a draft written from what the record does hold. Routed to review, never published on its own.</span></div>
+        </div>
+        <p class="dim xs" style="margin-top:.9rem;">Captured content is indexed through the same pipeline as everything else, so it is answerable and citable from the moment it lands.</p>
+      </div>
+    </div>
+</div></section>
 
 <section id="learns">
   <div class="wrap">
     <div class="sechead narrow">
       <div class="eye">What happens after month one</div>
       <h2>It is the only one that gets better at you.</h2>
-      <p class="lede">Capture, citations and answers work from the first day. Then there's a second thing, which you switch on when you're ready: <strong>DocBrain can learn from what your team marks useful, and tune its own retrieval to your organization.</strong> Everyone else's understanding is identical on your first day and your five-hundredth.</p>
+      <p class="lede">Every other tool ships you a model that understands language in general. It is identical on your first day and your five hundredth. DocBrain can learn what words mean <em>here</em>, from what your team marks useful, and it does that inside your infrastructure on your own data.</p>
     </div>
-    <div class="two">
-      <div class="rec plain"><span class="tab">Everyone else</span><div class="recb">
-        <h3>A model frozen on the day it shipped</h3>
-        <p>Your acronyms, your systems, the way your people actually phrase a question — permanently foreign to it. Feedback might nudge a ranking weight. The understanding underneath never moves.</p>
-      </div></div>
-      <div class="rec plain" style="border-color:var(--margin);"><span class="tab" style="color:var(--margin);border-color:var(--margin);background:#F9EDEB;">DocBrain</span><div class="recb">
-        <h3>Understanding that becomes yours</h3>
-        <p>What your team marks useful shapes what “relevant” means here. Each version is proved against held-back questions before it ever reaches your users, and refuses to learn from a corpus one loud voice dominates.</p>
-      </div></div>
+
+    <figure class="beforeafter">
+      <div class="baq">Same question, six months apart: <b>“cert rotation keeps failing”</b></div>
+      <div class="bagrid">
+        <div class="bacol">
+          <span class="balab">A general model</span>
+          <div class="barow"><span class="bahit">TLS Best Practices 2021</span><span class="bascore">0.71</span></div>
+          <div class="barow"><span class="bahit">Certificate Overview</span><span class="bascore">0.68</span></div>
+          <div class="barow dim2"><span class="bahit">Onboarding: Security Basics</span><span class="bascore">0.64</span></div>
+          <p class="bafoot">Matches the words. Returns the encyclopedia.</p>
+        </div>
+        <div class="bacol won">
+          <span class="balab">Trained on your corpus</span>
+          <div class="barow"><span class="bahit">Cert rotation runbook, v4</span><span class="bascore">0.93</span></div>
+          <div class="barow"><span class="bahit">#inc-tls-expiry, the night it broke</span><span class="bascore">0.89</span></div>
+          <div class="barow"><span class="bahit">PR #412, staggered swap fix</span><span class="bascore">0.84</span></div>
+          <p class="bafoot">Learned that in your org, this phrase means that incident.</p>
+        </div>
+      </div>
+      <figcaption>Nobody wrote a rule. Your team marked answers useful and unuseful, and the retrieval learned your vocabulary from it.</figcaption>
+    </figure>
+
+    <div class="grid3" style="margin-top:1.7rem;">
+      <div class="rec plain"><span class="tab">Per team, not one blob</span><div class="recb">
+        <h3>Each space builds its own memory</h3>
+        <p>Search behaviour is learned per space, so what platform engineering finds useful shapes platform answers, and support shapes support. One installation, several domains, each getting sharper on its own terms.</p></div></div>
+      <div class="rec plain"><span class="tab">It cannot ship you worse</span><div class="recb">
+        <h3>Proved before it reaches anyone</h3>
+        <p>Every candidate is evaluated against held back questions and only promoted if it beats what you are running. If quality drops it is rolled back rather than left in place. That gate is not optional.</p></div></div>
+      <div class="rec plain"><span class="tab">It cannot be gamed</span><div class="recb">
+        <h3>One loud voice changes nothing</h3>
+        <p>Training data is screened for anomalies, including coordinated downvoting aimed at burying a particular document. Your memory reflects your organization, not whoever clicks the most.</p></div></div>
     </div>
-    <p class="dim xs" style="margin-top:1.1rem;"><strong style="color:var(--body)">Optional, and off until you ask for it.</strong> It needs real feedback volume before it earns its keep — most teams run without it first, and everything above works either way. It stays inside your infrastructure. <a href="/docs/learning/" style="color:var(--margin)">How it works →</a></p>
+
+    <p class="dim xs" style="margin-top:1.2rem;"><strong style="color:var(--body)">Optional, and off until you ask for it.</strong> It needs real feedback volume and some compute before it earns its keep, and everything else on this page works without it. Nothing leaves your infrastructure at any point. <a href="/docs/learning/" style="color:var(--margin)">How it works</a></p>
   </div>
 </section>
 
 <section id="writes">
   <div class="wrap">
     <div class="sechead narrow">
-      <div class="eye">It does the writing</div>
-      <h2>The documentation nobody had time to write.</h2>
-      <p class="lede">Capture is passive — it happens whether anyone remembers or not. This is the part that acts: DocBrain finds what's missing, drafts it from your own record, and puts it in front of a human to approve. <strong>Nothing publishes on its own.</strong></p>
+      <div class="eye">Autopilot and generate</div>
+      <h2>It finds the holes in your documentation, then writes into them.</h2>
+      <p class="lede">Every question your record could not answer is evidence. Autopilot treats it that way: it clusters the failures, scores which ones actually matter, and drafts the missing page from what you do have. <strong>Nothing publishes without a human.</strong></p>
     </div>
 
-    <div class="two">
-      <div class="rec">
-        <span class="tab">Autopilot · unprompted</span>
-        <div class="recb">
-          <h3>It notices what you couldn't answer</h3>
-          <p style="margin-bottom:.8rem;">Every question your memory failed is a signal. Autopilot clusters them, works out the gap sitting behind the cluster, drafts the missing document from what your organization already knows — and routes it to review.</p>
-          <p>You wake up to a queue of drafts for the exact things people kept asking about, instead of a documentation backlog nobody will ever get to.</p>
+    <figure class="funnelfig">
+      <div class="fstage">
+        <span class="flab">Questions that failed</span>
+        <div class="fchips">
+          <span class="fq">how do I rotate the certs</span><span class="fq">cert renewal steps?</span>
+          <span class="fq">who owns TLS renewal</span><span class="fq">cert rotation runbook</span>
+          <span class="fq">renewal keeps failing</span><span class="fq">tls cert expiry process</span>
+        </div>
+        <span class="fnote">six phrasings, eleven people, three weeks</span>
+      </div>
+      <div class="farrow" aria-hidden="true"></div>
+      <div class="fstage">
+        <span class="flab">One gap, scored</span>
+        <div class="fgap">
+          <div class="fgaphead"><span class="fsev">critical</span><span class="fscore">0.81</span></div>
+          <p>Certificate rotation</p>
+          <div class="fbars">
+            <span><i style="width:88%"></i>breadth</span>
+            <span><i style="width:74%"></i>volume</span>
+            <span><i style="width:69%"></i>recency</span>
+          </div>
+          <span class="fkind">no documentation exists, so this creates a page</span>
         </div>
       </div>
-      <div class="rec">
-        <span class="tab">On demand · <code>docbrain generate</code></span>
-        <div class="recb">
-          <h3>A runbook, from what actually happened</h3>
-          <p style="margin-bottom:.8rem;">Ask for a runbook, a postmortem, an onboarding guide. It's written from your incidents, tickets, decisions and changes — not from a model's general idea of what a runbook looks like.</p>
-          <p>Every claim carries the source it came from. Where your record can't answer, it says so in the document rather than inventing a plausible paragraph.</p>
+      <div class="farrow" aria-hidden="true"></div>
+      <div class="fstage">
+        <span class="flab">A draft, for review</span>
+        <div class="fdraft">
+          <p><b>Certificate rotation</b></p>
+          <span>Overview ← incident thread</span>
+          <span>Steps ← PR #347, runbook v3</span>
+          <span class="fneeds">Approver ← needs input</span>
+          <span class="fpend">waiting on a human</span>
         </div>
       </div>
-    </div>
+    </figure>
 
-    <div class="rec plain" style="margin-top:1.7rem;">
-      <span class="tab">Draft output</span>
-      <div class="recb" style="padding-right:1.3rem;">
-        <div class="gen">
-          <div class="genrow"><span class="gk">Section</span><span class="gv">Overview</span><span class="gp">← Deploy Runbook v3</span></div>
-          <div class="genrow"><span class="gk">Section</span><span class="gv">Steps</span><span class="gp">← PROJ-412 · PR #347</span></div>
-          <div class="genrow"><span class="gk">Section</span><span class="gv">Verification</span><span class="gp">← #inc-eu-canary, 14 Jul</span></div>
-          <div class="genrow gapline"><span class="gk">Section</span><span class="gv">Rollback approval</span><span class="gp">← nothing in the record. Flagged, not invented.</span></div>
-        </div>
-        <p class="dim xs" style="margin-top:.9rem;">Every section traced to where it came from, and one honest hole. That hole is the most useful line in the document — it's a question your organization has never answered, now written down.</p>
-      </div>
+    <div class="two" style="margin-top:1.6rem;">
+      <div class="rec plain"><span class="tab">Health of what you already have</span><div class="recb">
+        <h3>The wiki tells you nothing. This does.</h3>
+        <p style="margin-bottom:.8rem;">A page that exists is not a page that works. DocBrain scores every document on structure, on your own style rules, and on semantic quality, and it watches which pages keep producing low-confidence answers in practice.</p>
+        <p>That is the difference between "we have a runbook for that" and "the runbook for that is failing people twice a week."</p>
+      </div></div>
+      <div class="rec plain"><span class="tab"><code>docbrain generate</code></span><div class="recb">
+        <h3>Write a document on demand, in your shape</h3>
+        <p style="margin-bottom:.8rem;">Runbook, guide, troubleshooting, FAQ or reference. Point it at a Slack incident thread or a pull request and it drafts from the real thing, with every claim carrying its source and honest placeholders where the record cannot answer.</p>
+        <p><strong>Point <code>--template</code> at a markdown file your team already uses</strong> and the draft comes back in your structure, with your sections, tables and checklists, rather than in ours.</p>
+      </div></div>
     </div>
-
-    <div class="grid3" style="margin-top:1.7rem;">
-      <div class="rec plain"><span class="tab">Repair</span><div class="recb"><h3>Contradictions</h3><p>Two documents disagree. It drafts the resolution, showing both versions and a suggested merge, with a confidence score.</p></div></div>
-      <div class="rec plain"><span class="tab">Repair</span><div class="recb"><h3>Broken references</h3><p>Links pointing at moved or deleted documents are found, with a replacement proposed from the record.</p></div></div>
-      <div class="rec plain"><span class="tab">Repair</span><div class="recb"><h3>Stale versions</h3><p>Documents citing outdated dependency or API versions are flagged, with replacements sourced from your repositories.</p></div></div>
-    </div>
-
-    <p class="dim xs" style="margin-top:1.2rem;">Approve or reject — both are recorded, and a rejection teaches it what not to propose next time. <a href="/docs/autopilot/" style="color:var(--margin)">Autopilot →</a> &nbsp; <a href="/docs/generate/" style="color:var(--margin)">generate →</a></p>
+    <div class="doclinks"><a class="doclink" href="/docs/autopilot/">Autopilot guide</a><a class="doclink" href="/docs/generate/">generate reference</a><a class="doclink" href="/docs/style-policy/">Quality and style gates</a></div>
   </div>
 </section>
 
 <section id="live">
-  <div class="wrap">
-    <div class="sechead narrow">
-      <div class="eye">Live intelligence</div>
-      <h2>Most tools answer from a snapshot. Yours reads the system.</h2>
-      <p class="lede">An index tells you what was true the last time it crawled. DocBrain reaches into your live systems <strong>at the moment you ask</strong>, and reconciles that with everything it already knows — in one answer, with both halves marked.</p>
-    </div>
+ <div class="wrap">
+ <div class="sechead narrow">
+ <div class="eye">Live intelligence</div>
+ <h2>Most tools answer from a snapshot. Yours reads the system.</h2>
+ <p class="lede">An index tells you what was true the last time it crawled. DocBrain reaches into your live systems <strong>at the moment you ask</strong>, and reconciles that with everything it already knows, in one answer, with both halves marked.</p>
+ </div>
 
-    <div class="rec" id="liveCard">
-      <span class="tab">One answer · two time horizons</span>
-      <div class="qline" style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;">
-        <span>“Is the payments outage resolved, and what was the fix?”</span>
-        <button class="askagain" id="askAgain" type="button">Ask again</button>
-      </div>
+ <div class="rec" id="liveCard">
+ <span class="tab">One answer · two time horizons</span>
+ <div class="qline" style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;">
+ <span>“Is the payments outage resolved, and what was the fix?”</span>
+ <button class="askagain" id="askAgain" type="button">Ask again</button>
+ </div>
 
-      <div class="lane">
-        <div class="lanetag now">Live</div>
-        <div class="lanebody">
-          <p><strong>Resolved.</strong> PROJ-412 moved to Done at 09:14 UTC.</p>
-          <div class="lanemeta">
-            <span class="dotlive"></span>
-            <span>Jira · read <b id="ago">0s</b> ago, at answer time</span>
-          </div>
-        </div>
-      </div>
+ <div class="lane">
+ <div class="lanetag now">Live</div>
+ <div class="lanebody">
+ <p><strong>Resolved.</strong> PROJ-412 moved to Done at 09:14 UTC.</p>
+ <div class="lanemeta">
+ <span class="dotlive"></span>
+ <span>Jira · read <b id="ago">0s</b> ago, at answer time</span>
+ </div>
+ </div>
+ </div>
 
-      <div class="lane">
-        <div class="lanetag was">Indexed</div>
-        <div class="lanebody">
-          <p>The fix was a rollback of payment-processor plus an idempotency-key guard, and the canary must be drained first or the rollback silently no-ops.</p>
-          <div class="lanemeta"><span>Runbook v3 · captured 11 Jul &nbsp;·&nbsp; #inc-eu-canary · 14 Jul &nbsp;·&nbsp; PR #347</span></div>
-        </div>
-      </div>
+ <div class="lane">
+ <div class="lanetag was">Indexed</div>
+ <div class="lanebody">
+ <p>The fix was a rollback of payment-processor plus an idempotency-key guard, and the canary must be drained first or the rollback silently no-ops.</p>
+ <div class="lanemeta"><span>Runbook v3 · captured 11 Jul &nbsp;·&nbsp; #inc-eu-canary · 14 Jul &nbsp;·&nbsp; PR #347</span></div>
+ </div>
+ </div>
 
-      <p class="lanefoot">An index alone would have told you this was still open. A live tool alone would have told you it was Done, and nothing about why. <strong>The answer needs both, and you can see which half is which.</strong></p>
-    </div>
+ <p class="lanefoot">An index alone would have told you this was still open. A live tool alone would have told you it was Done, and nothing about why. <strong>The answer needs both, and you can see which half is which.</strong></p>
+ </div>
 
-    <div class="two" style="margin-top:1.8rem;">
-      <div class="rec plain">
-        <span class="tab">Read-only, enforced</span>
-        <div class="recb">
-          <h3>It cannot change your systems — by construction</h3>
-          <p style="margin-bottom:.9rem;">When DocBrain connects to a live tool, it enumerates what that tool can do and <strong>drops anything capable of writing</strong> before a single call is made. Not policy. Not a prompt instruction. It never holds the capability.</p>
-          <div class="tools">
-            <div class="tool keep"><span class="tk">kept</span> getIssue</div>
-            <div class="tool keep"><span class="tk">kept</span> searchIssues</div>
-            <div class="tool keep"><span class="tk">kept</span> getComments</div>
-            <div class="tool drop"><span class="td">dropped</span> createIssue</div>
-            <div class="tool drop"><span class="td">dropped</span> updateStatus</div>
-            <div class="tool drop"><span class="td">dropped</span> deleteComment</div>
-            <div class="tool drop"><span class="td">dropped</span> assignUser</div>
-            <div class="tool drop"><span class="td">dropped</span> transitionIssue</div>
-          </div>
-          <p class="dim xs" style="margin-top:.9rem;">Discovery-time filtering. The write half of your tools is never in the room.</p>
-        </div>
-      </div>
-      <div class="rec plain">
-        <span class="tab">Scoped per person</span>
-        <div class="recb">
-          <h3>Your answer, your permissions</h3>
-          <p style="margin-bottom:.9rem;">Live tools connect per user over OAuth, so a live result is scoped to what <em>you</em> can already see in the source. Two people asking the same question can correctly get different answers — and neither sees anything they couldn't open themselves.</p>
-          <div class="scope">
-            <div class="srow"><span class="sname">Engineer</span><span class="sres">sees the ticket, the thread, the PR</span></div>
-            <div class="srow"><span class="sname">Contractor</span><span class="sres">sees the runbook only — the rest isn't theirs</span></div>
-          </div>
-          <p class="dim xs" style="margin-top:.9rem;">Tokens refresh on their own. Restricted stays restricted, at answer time rather than at index time.</p>
-        </div>
-      </div>
-    </div>
+ <div class="two" style="margin-top:1.8rem;">
+ <div class="rec plain">
+ <span class="tab">Read-only, enforced</span>
+ <div class="recb">
+ <h3>It cannot change your systems, by construction</h3>
+ <p style="margin-bottom:.9rem;">Two gates, not a promise. A discovered tool is only registered if the upstream marks it read-only, and every static tool must declare the same. Then the dispatch layer refuses write operations regardless of what was registered, as a platform invariant.</p>
+          <p style="margin-bottom:.9rem;">So a write tool has to pass a registration gate it cannot pass, and then a dispatch gate that would reject it anyway. The OAuth scopes we ask for contain no <code>write:</code>, <code>delete:</code>, <code>manage:</code> or <code>admin:</code> at all.</p>
+ <div class="tools">
+ <div class="tool keep"><span class="tk">kept</span> getIssue</div>
+ <div class="tool keep"><span class="tk">kept</span> searchIssues</div>
+ <div class="tool keep"><span class="tk">kept</span> getComments</div>
+ <div class="tool drop"><span class="td">dropped</span> createIssue</div>
+ <div class="tool drop"><span class="td">dropped</span> updateStatus</div>
+ <div class="tool drop"><span class="td">dropped</span> deleteComment</div>
+ <div class="tool drop"><span class="td">dropped</span> assignUser</div>
+ <div class="tool drop"><span class="td">dropped</span> transitionIssue</div>
+ </div>
+ <p class="dim xs" style="margin-top:.9rem;">Discovery-time filtering. The write half of your tools is never in the room.</p>
+ </div>
+ </div>
+ <div class="rec plain">
+ <span class="tab">Scoped per person</span>
+ <div class="recb">
+ <h3>Your answer, your permissions</h3>
+ <p style="margin-bottom:.9rem;">Live tools connect per user over OAuth, so a live result is scoped to what <em>you</em> can already see in the source. Two people asking the same question can correctly get different answers, and neither sees anything they couldn't open themselves.</p>
+ <div class="scope">
+ <div class="srow"><span class="sname">Engineer</span><span class="sres">sees the ticket, the thread, the PR</span></div>
+ <div class="srow"><span class="sname">Contractor</span><span class="sres">sees the runbook only, the rest isn't theirs</span></div>
+ </div>
+ <p class="dim xs" style="margin-top:.9rem;">Tokens refresh on their own. Restricted stays restricted, at answer time rather than at index time.</p>
+ </div>
+ </div>
+ </div>
 
-    <p class="dim xs" style="margin-top:1.2rem;">Jira, Confluence and Slack out of the box, plus anything that speaks the Model Context Protocol — add a tool and it starts answering from it. <a href="/docs/mcp-tools/" style="color:var(--margin)">MCP tools →</a> &nbsp; <a href="/docs/access-control/" style="color:var(--margin)">Access control →</a></p>
-  </div>
+ <p class="dim xs" style="margin-top:1.2rem;">Jira, Confluence and Slack out of the box, plus anything that speaks the Model Context Protocol, add a tool and it starts answering from it. <a href="/docs/mcp-tools/" style="color:var(--margin)">MCP tools →</a> &nbsp; <a href="/docs/access-control/" style="color:var(--margin)">Access control →</a></p>
+ </div>
 </section>
 
 <section id="people">
-  <div class="wrap">
-    <div class="sechead narrow">
-      <div class="eye" style="color:var(--hum)">For your people</div>
-      <h2>Your best engineer stops being the search engine.</h2>
-    </div>
-    <div class="grid3">
-      <div class="rec plain"><span class="tab h">Onboarding</span><div class="recb"><h3>New joiners answer themselves</h3><p>From day one, drawing on everything the team already worked out — without taking a senior engineer off their sprint.</p></div></div>
-      <div class="rec plain"><span class="tab h">Continuity</span><div class="recb"><h3>The expert leaves, the reasoning stays</h3><p>Decisions keep the context that shaped them. “Why did we do it this way” has an answer after the person is gone.</p></div></div>
-      <div class="rec plain"><span class="tab h">Trust</span><div class="recb"><h3>Cited, or it says it doesn't know</h3><p>Every claim carries its source, so nobody takes an answer on faith. A declared gap is a real question your organization never answered.</p></div></div>
-      <div class="rec plain"><span class="tab h">Blind spots</span><div class="recb"><h3>It sees what veterans can't</h3><p>It watches what people ask in their first thirty days — the gaps your experienced engineers stopped noticing years ago.</p></div></div>
-      <div class="rec plain"><span class="tab h">Ahead of demand</span><div class="recb"><h3>It knows January is coming</h3><p>If your auth docs take ten times the traffic every onboarding season, you hear about it while there's still time to fix them.</p></div></div>
-      <div class="rec plain"><span class="tab h">Repair</span><div class="recb"><h3>It drafts the fix, you approve it</h3><p>Contradictions between documents, broken cross-references, outdated versions — proposed with a confidence score, never applied on its own.</p></div></div>
-    </div>
-  </div>
+ <div class="wrap">
+ <div class="sechead narrow">
+ <div class="eye" style="color:var(--hum)">For your engineers</div>
+ <h2>Your best engineer stops being the search engine.</h2>
+ </div>
+ <div class="grid3">
+ <div class="rec plain"><span class="tab h">Onboarding</span><div class="recb"><h3>New joiners answer themselves</h3><p>From day one, drawing on everything the team already worked out, without taking a senior engineer off their sprint.</p></div></div>
+ <div class="rec plain"><span class="tab h">Continuity</span><div class="recb"><h3>The expert leaves, the reasoning stays</h3><p>Decisions keep the context that shaped them. “Why did we do it this way” has an answer after the person is gone.</p></div></div>
+ <div class="rec plain"><span class="tab h">Trust</span><div class="recb"><h3>Cited, or it says it doesn't know</h3><p>Every claim carries its source, so nobody takes an answer on faith. A declared gap is a real question your organization never answered.</p></div></div>
+ <div class="rec plain"><span class="tab h">Blind spots</span><div class="recb"><h3>It sees what veterans can't</h3><p>It watches what people ask in their first thirty days, the gaps your experienced engineers stopped noticing years ago.</p></div></div>
+ <div class="rec plain"><span class="tab h">Ahead of demand</span><div class="recb"><h3>It knows January is coming</h3><p>If your auth docs take ten times the traffic every onboarding season, you hear about it while there's still time to fix them.</p></div></div>
+ <div class="rec plain"><span class="tab h">Repair</span><div class="recb"><h3>It drafts the fix, you approve it</h3><p>Contradictions between documents, broken cross-references, outdated versions, proposed with a confidence score, never applied on its own.</p></div></div>
+ </div>
+ </div>
 </section>
 
 <section id="agents">
   <div class="wrap">
     <div class="sechead narrow">
-      <div class="eye" style="color:var(--agt)">For your agents</div>
+      <div class="eye" style="color:var(--agt)">Teach your agent</div>
       <h2>Every session makes the next one cheaper.</h2>
+      <p class="lede">If your team uses Claude Code or Cursor, the <code>docbrain-mcp</code> server already gives your agent both a read path and a capture path. Most teams simply never tell the agent to use them. <strong>Three lines in your CLAUDE.md turn every debugging session into documentation.</strong></p>
     </div>
-    <div class="grid3">
-      <div class="rec plain"><span class="tab a">Write path</span><div class="recb"><h3>Agents file what they learn</h3><p>Over MCP, an agent checks whether the organization already knows something, drafts what's missing, and asks a human before recording it.</p></div></div>
-      <div class="rec plain"><span class="tab a">Cold starts</span><div class="recb"><h3>No session starts from zero</h3><p>What one agent learned is available to every other, instead of the same context being re-sent and re-derived forever.</p></div></div>
-      <div class="rec plain"><span class="tab a">Grounding</span><div class="recb"><h3>Agents read stale docs too</h3><p>A wrong page doesn't just mislead a person now — it propagates into code at machine speed. Freshness and contradictions are surfaced before that happens.</p></div></div>
-      <div class="rec plain"><span class="tab a">CI</span><div class="recb"><h3>Ship a change, learn what it breaks</h3><p>Hand it a diff and get back the documentation that probably just went wrong, ranked. Stale docs stop being something your customers discover.</p></div></div>
-      <div class="rec plain"><span class="tab a">Any client</span><div class="recb"><h3>Claude Code, Cursor, anything MCP</h3><p>No lock-in and no new runtime. Three lines in your project instructions is the whole integration.</p></div></div>
-      <div class="rec plain"><span class="tab a">Always free</span><div class="recb"><h3>Agents never count as seats</h3><p>Every competitor has to decide whether a bot is a licence. We don't — agents make the memory better, so charging for them would be backwards.</p></div></div>
+
+    <div class="rec" style="max-width:52rem;">
+      <span class="tab a">CLAUDE.md</span>
+      <div class="recb">
+        <p style="font-family:var(--mono); font-size:.85rem; line-height:1.7; color:var(--ink);">When we resolve an error or discover non-obvious behavior, call<br>
+        <code>docbrain_suggest_capture</code> for the files involved. If a gap exists, draft a<br>
+        3 to 5 line capture and ask me to approve it before calling <code>docbrain_capture</code>.</p>
+      </div>
     </div>
+
+    <p class="lede narrow" style="margin-top:1.4rem;max-width:44rem;">Your agent fixes something, checks whether the organization already knows it, and with your approval files what is missing into the review queue. <strong>The knowledge gets captured at the only moment it is free: seconds after the fix.</strong></p>
+
+    <div class="grid3" style="margin-top:1.7rem;">
+      <div class="rec plain"><span class="tab a">Read</span><div class="recb"><h3>The same memory a person gets</h3><p><code>docbrain_ask</code> returns cited answers over MCP, so a session starts warm instead of re-deriving what the organization settled months ago.</p></div></div>
+      <div class="rec plain"><span class="tab a">Write</span><div class="recb"><h3>Nothing lands without you</h3><p>The agent proposes, you approve, and the fragment enters the normal review queue tied to a file and line range. Nothing uploads on its own and the session never leaves your machine.</p></div></div>
+      <div class="rec plain"><span class="tab a">Cost</span><div class="recb"><h3>Agents are never seats</h3><p>Every competitor has to decide whether a bot counts as a licence. We do not, because agents make the memory better and inference is billed by your own provider, not resold by us.</p></div></div>
+    </div>
+    <div class="doclinks"><a class="doclink" href="https://github.com/docbrain-ai/docbrain/blob/main/docs/agents.md">Full guide, including Cursor setup and the privacy model</a><a class="doclink" href="/docs/mcp-tools/">MCP tool reference</a></div>
   </div>
 </section>
 
 <section id="experience">
-  <div class="wrap">
-    <div class="sechead narrow">
-      <div class="eye">The category, and where it goes next</div>
-      <h2>Knowing what's true is the easy half.</h2>
-      <p class="lede">Enterprise search is converging on the same idea: connect everything, answer from it. That's table stakes now. The half nobody puts at the centre is <strong>how your organization came to believe something — and whether it still should.</strong></p>
-    </div>
-    <div class="grid3">
-      <div class="rec plain"><span class="tab">01</span><div class="recb">
-        <h3>How you learned it</h3>
-        <p>Not which document it's in — which conversation, ticket or change it came from, on every individual claim. The reasoning is the artefact, not the paragraph.</p></div></div>
-      <div class="rec plain"><span class="tab">02</span><div class="recb">
-        <h3>Why it's believed</h3>
-        <p>Confidence, quality scoring and grounding on every answer, so a claim you can act on is visibly different from one you can't.</p></div></div>
-      <div class="rec plain"><span class="tab">03</span><div class="recb">
-        <h3>What failed before</h3>
-        <p>Past incidents, prior attempts and corrections are part of the record. The thing you tried in 2023 that didn't work is knowledge too — usually the expensive kind.</p></div></div>
-      <div class="rec plain"><span class="tab">04</span><div class="recb">
-        <h3>Whether it's still valid</h3>
-        <p>Freshness tracked continuously, contradictions surfaced with both origins, staleness cascaded to everything downstream. Old answers don't quietly stay wrong.</p></div></div>
-    </div>
-    <p class="lede narrow" style="margin-top:1.6rem;max-width:44rem;">A search tool knows what your documents say. <strong>This knows what your organization has been through.</strong></p>
-  </div>
-</section>
-
-<section id="proof">
-  <div class="wrap">
-    <div class="sechead narrow"><div class="eye">Independent assessment</div><h2>We asked a competitor's AI to judge us. Unedited.</h2></div>
-    <div class="quote">
-      <div class="qb">
-        <blockquote>“DocBrain's ‘capture knowledge that was never written down' is solving a problem I fundamentally can't.”</blockquote>
-        <cite>Rovo — Atlassian's AI assistant, answering a direct comparison prompt</cite>
-      </div>
-      <div class="qsplit">
-        <div class="qs w"><h4>Where DocBrain wins</h4><ul>
-          <li>Captures knowledge that was never written down</li><li>Document quality scoring, 0–100</li>
-          <li>Self-hosted — data never leaves your infrastructure</li><li>14 providers, including local for air-gap</li></ul></div>
-        <div class="qs"><h4>Where Rovo wins</h4><ul>
-          <li>Native Atlassian integration</li><li>Zero setup for Atlassian Cloud teams</li>
-          <li>Broad work execution and orchestration</li><li>3M+ users, Fortune 500 reach</li></ul></div>
-      </div>
-    </div>
-    <p class="sm" style="margin-top:1rem;"><a href="/rovo-comparison.html" style="color:var(--margin);text-decoration:none;">Read the full transcript →</a></p>
-  </div>
+ <div class="wrap">
+ <div class="sechead narrow">
+ <div class="eye">The category, and where it goes next</div>
+ <h2>Knowing what's true is the easy half.</h2>
+ <p class="lede">Enterprise search is converging on the same idea: connect everything, answer from it. Everyone will have that. The half nobody puts at the centre is <strong>how your organization came to believe something, and whether it still should.</strong></p>
+ </div>
+ <div class="grid3">
+ <div class="rec plain"><span class="tab">01</span><div class="recb">
+ <h3>How you learned it</h3>
+ <p>Not which document it sits in, but which conversation, ticket or change it came from, on every individual claim. You can open the thread someone actually argued it out in.</p></div></div>
+ <div class="rec plain"><span class="tab">02</span><div class="recb">
+ <h3>Why it's believed</h3>
+ <p>Confidence, quality scoring and grounding on every answer, so a claim you can act on is visibly different from one you can't.</p></div></div>
+ <div class="rec plain"><span class="tab">03</span><div class="recb">
+ <h3>What failed before</h3>
+ <p>Past incidents, prior attempts and corrections are part of the record. The thing you tried in 2023 that didn't work is knowledge too, usually the expensive kind.</p></div></div>
+ <div class="rec plain"><span class="tab">04</span><div class="recb">
+ <h3>Whether it's still valid</h3>
+ <p>Freshness tracked continuously, contradictions surfaced with both origins, staleness cascaded to everything downstream. Old answers don't quietly stay wrong.</p></div></div>
+ </div>
+ <p class="lede narrow" style="margin-top:1.6rem;max-width:44rem;">A search tool knows what your documents say. <strong>This knows what your organization has been through.</strong></p>
+ </div>
 </section>
 
 <section id="compare">
-  <div class="wrap">
-    <div class="sechead narrow">
-      <div class="eye">Honest comparison</div>
-      <h2>Including the rows where we lose.</h2>
-      <p class="lede">If you're evaluating three tools, you deserve this from all of them. Two of these rows go against us and they're still here.</p>
-    </div>
-    <div class="rec plain"><span class="tab">Side by side</span>
-      <div class="recb" style="overflow-x:auto;">
-        <table class="cmp">
-          <thead><tr>
-            <th scope="col">Capability</th><th scope="col" class="us">DocBrain</th>
-            <th scope="col">Open-source search</th><th scope="col">Enterprise AI search</th>
-          </tr></thead>
-          <tbody>
-            <tr><th scope="row">Captures what was never written down</th><td class="us y">Yes — at the source</td><td>No — retrieval only</td><td>No — indexes what exists</td></tr>
-            <tr><th scope="row">Citation granularity</th><td class="us y">Per claim</td><td>Per document</td><td>Per document</td></tr>
-            <tr><th scope="row">Declares what it cannot answer</th><td class="us y">Refuses, and logs the gap</td><td>Confidence score</td><td>Confidence score</td></tr>
-            <tr><th scope="row">Reads live systems at answer time</th><td class="us y">Yes</td><td>Index only</td><td>Index only</td></tr>
-            <tr><th scope="row">Retrieval tuned to your corpus</th><td class="us y">Optional, on your infra</td><td>Fixed model</td><td>Fixed model</td></tr>
-            <tr><th scope="row">Writes documentation unprompted</th><td class="us y">Autopilot, human-approved</td><td>No</td><td>No</td></tr>
-            <tr><th scope="row">Runs on your own AI provider</th><td class="us y">14, local included</td><td>Yes</td><td>Vendor-hosted</td></tr>
-            <tr class="loss"><th scope="row">Licence</th><td class="us n">BSL — free to run; client MIT</td><td class="n">MIT — more permissive than ours</td><td>Proprietary</td></tr>
-            <tr class="loss"><th scope="row">Published accuracy benchmark</th><td class="us n">Not yet</td><td class="n">Yes, with methodology</td><td>Varies</td></tr>
-            <tr class="loss"><th scope="row">Named public customers</th><td class="us n">None yet</td><td class="n">Yes</td><td>Yes</td></tr>
-          </tbody>
-        </table>
-        <p class="dim xs" style="margin-top:.9rem;">If a permissive licence and a published benchmark matter more to you than capturing knowledge nobody recorded, an open-source search tool is the better buy — and we'd rather you learned that here than three months into a pilot.</p>
-      </div>
-    </div>
-  </div>
+ <div class="wrap">
+ <div class="sechead narrow">
+ <div class="eye">Honest comparison</div>
+ <h2>Including the rows where we lose.</h2>
+ <p class="lede">If you're evaluating three tools, you deserve this from all of them. Two of these rows go against us and they're still here.</p>
+ </div>
+ <div class="rec plain"><span class="tab">Side by side</span>
+ <div class="recb" style="overflow-x:auto;">
+ <table class="cmp">
+ <thead><tr>
+ <th scope="col">Capability</th><th scope="col" class="us">DocBrain</th>
+ <th scope="col">Open-source search</th><th scope="col">Enterprise AI search</th>
+ </tr></thead>
+ <tbody>
+ <tr><th scope="row">Captures what was never written down</th><td class="us y">Yes, at the source</td><td>No, retrieval only</td><td>No, indexes what exists</td></tr>
+ <tr><th scope="row">Citation granularity</th><td class="us y">Per claim</td><td>Per document</td><td>Per document</td></tr>
+ <tr><th scope="row">Declares what it cannot answer</th><td class="us y">Refuses, and logs the gap</td><td>Confidence score</td><td>Confidence score</td></tr>
+ <tr><th scope="row">Reads live systems at answer time</th><td class="us y">Yes</td><td>Index only</td><td>Index only</td></tr>
+ <tr><th scope="row">Retrieval tuned to your corpus</th><td class="us y">Optional, on your infra</td><td>Fixed model</td><td>Fixed model</td></tr>
+ <tr><th scope="row">Writes documentation unprompted</th><td class="us y">Autopilot, human-approved</td><td>No</td><td>No</td></tr>
+ <tr><th scope="row">Runs on your own AI provider</th><td class="us y">14, local included</td><td>Yes</td><td>Vendor-hosted</td></tr>
+ <tr class="loss"><th scope="row">Licence</th><td class="us n">BSL, free to run; client MIT</td><td class="n">MIT, more permissive than ours</td><td>Proprietary</td></tr>
+ <tr class="loss"><th scope="row">Published accuracy benchmark</th><td class="us n">Not yet</td><td class="n">Yes, with methodology</td><td>Varies</td></tr>
+ <tr class="loss"><th scope="row">Named public customers</th><td class="us n">None yet</td><td class="n">Yes</td><td>Yes</td></tr>
+ </tbody>
+ </table>
+ <p class="dim xs" style="margin-top:.9rem;">If a permissive licence and a published benchmark matter more to you than capturing knowledge nobody recorded, an open-source search tool is the better buy, and we'd rather you learned that here than three months into a pilot.</p>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section id="honest">
+ <div class="wrap">
+ <div class="note">
+ <div class="notehead">
+ <span class="tab">A note from the team building this</span>
+ </div>
+ <div class="notebody">
+ <p class="notelede">A product built on refusing to overclaim shouldn't overclaim about itself. So before you spend a week on a pilot, here is what we'd want to know if we were you.</p>
+ <p><strong>The server is closed source.</strong> Everything runs inside your network, server included. The client is MIT and auditable. The server ships as a container you run but cannot read the source of, and it is the component that touches your data. We targeted the first half of 2026, missed it, and we're not naming a new date until we're certain we'll hit it. If that's disqualifying, we'd rather you knew now than in week three.</p>
+ <p><strong>We have no accuracy benchmark to show you.</strong> Grounding is measured internally and every model version is gated on it, but we won't put a percentage on a marketing page until it has been measured across real customer corpora and we can publish how we measured it.</p>
+ <p><strong>Learning is optional, and off until you turn it on.</strong> It needs real feedback volume and some compute before it earns its keep. Everything else works without it, and most teams should run that way first.</p>
+ <p><strong>Self-hosting isn't unique to us.</strong> There are open-source alternatives and several are genuinely good at retrieval. One of them is more permissively licensed than we are. What they don't do is capture what was never written down. Judge us on that, not on deployment.</p>
+ <p class="sign">The DocBrain team<br><span>Bring us the version of this you disagree with: <a href="mailto:hello@docbrainapi.com?subject=Pushing%20back%20on%20DocBrain">hello@docbrainapi.com</a></span></p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<section id="ops">
   <div class="wrap">
-    <div class="note">
-      <div class="notehead">
-        <span class="tab">A note from the team building this</span>
-      </div>
-      <div class="notebody">
-        <p class="notelede">A product built on refusing to overclaim shouldn't overclaim about itself. So before you spend a week on a pilot, here is what we'd want to know if we were you.</p>
-        <p><strong>The server is closed source.</strong> The client that runs inside your network is MIT and auditable, so you can read exactly what touches your data. The server isn't published. We targeted the first half of 2026, missed it, and we're not naming a new date until we're certain we'll hit it. If that's disqualifying, we'd rather you knew now than in week three.</p>
-        <p><strong>We have no accuracy benchmark to show you.</strong> Grounding is measured internally and every model version is gated on it, but we won't put a percentage on a marketing page until it's measured across real customer corpora and we can publish the methodology alongside it. A number without a method is just decoration.</p>
-        <p><strong>Learning is optional, and off until you turn it on.</strong> It needs real feedback volume and some compute before it earns its keep. Everything else works without it, and most teams should run that way first.</p>
-        <p><strong>Self-hosting isn't unique to us.</strong> There are open-source alternatives and several are genuinely good at retrieval — one of them is more permissively licensed than we are. What they don't do is capture what was never written down. Judge us on that, not on deployment.</p>
-        <p class="sign">— The DocBrain team<br><span>Bring us the version of this you disagree with: <a href="mailto:hello@docbrainapi.com?subject=Pushing%20back%20on%20DocBrain">hello@docbrainapi.com</a></span></p>
-      </div>
+    <div class="sechead narrow">
+      <div class="eye">Before you ask your platform team</div>
+      <h2>What it costs to run, and who has to look at it.</h2>
+      <p class="lede">"Self-host in 5 minutes" and "run this for 400 engineers" are not the same sentence. Here is the second one.</p>
+    </div>
+    <div class="grid3">
+      <div class="rec plain"><span class="tab">Topology</span><div class="recb">
+        <h3>Four services, one origin</h3>
+        <p>PostgreSQL, OpenSearch, Redis and the server, behind a single origin. Docker Compose for a trial, a Helm chart for production. No message broker, no separate vector database to operate.</p></div></div>
+      <div class="rec plain"><span class="tab">Footprint</span><div class="recb">
+        <h3>Modest until you train</h3>
+        <p>The chart requests 500m CPU and 2Gi for Postgres, and a few hundred megabytes each for the server and web. The only heavy component is the optional trainer, which asks for 2Gi and is capped at 8Gi. Leave learning off and you never deploy it.</p></div></div>
+      <div class="rec plain"><span class="tab">Your model bill</span><div class="recb">
+        <h3>You choose, so you control it</h3>
+        <p>Inference runs on your provider or fully locally through Ollama. We never sit between you and the model, which is why agents can be unlimited: the marginal query is your cost, not a seat we resell.</p></div></div>
+      <div class="rec plain"><span class="tab">Identity</span><div class="recb">
+        <h3>SSO on day one</h3>
+        <p>Generic OIDC, GitHub, GitLab, Azure AD and ADFS, with role mapping from your directory groups. Four-tier RBAC and per-space isolation.</p></div></div>
+      <div class="rec plain"><span class="tab">Records</span><div class="recb">
+        <h3>Audit and retention</h3>
+        <p>Admin actions and access decisions are written to audit tables. Retention policies are set per source, with scheduled purges, so Slack can expire in 30 days while Confluence is kept indefinitely.</p></div></div>
+      <div class="rec plain"><span class="tab">The queue</span><div class="recb">
+        <h3>Somebody does have to review</h3>
+        <p>Drafts, agent captures and repair proposals all land in a review queue, and that is real work. It is bounded by your own activity rather than by us, it batches into a digest, and rejecting a proposal teaches it not to make that one again. We would rather say this plainly than pretend the queue is free.</p></div></div>
+    </div>
+    <p class="dim xs" style="margin-top:1.1rem;">No SOC 2 or ISO certification yet, and we will not imply otherwise. The threat model is published in full instead. <a href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md" style="color:var(--margin)">Read it</a>.</p>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="sechead narrow">
+      <div class="eye">Pricing</div>
+      <h2>Free to run. Paid only when you need us on the hook.</h2>
+    </div>
+    <div class="two">
+      <div class="rec plain"><span class="tab h">Available now</span><div class="recb">
+        <h3>Run the whole thing for nothing</h3>
+        <p style="margin-bottom:.8rem;">Every capability on this page is in the product you can self-host today, in production, at any size. No seat count, no feature gates, no trial clock. The client is MIT and the server is free to run under our licence.</p>
+        <p>Bring your own model and your infrastructure cost is the only bill you pay.</p>
+        <div class="acts" style="margin-top:1rem;"><a class="btn btn2" href="https://github.com/docbrain-ai/docbrain">Self-host in 5 minutes</a></div>
+      </div></div>
+      <div class="rec plain"><span class="tab a">Coming soon</span><div class="recb">
+        <h3>Commercial licence and support</h3>
+        <p style="margin-bottom:.8rem;">For teams that need a warranty, indemnity, a support SLA and someone contractually accountable, we are finalising commercial terms now.</p>
+        <p>We would rather publish a price we will honour than a number we revise in a month. If you need one before we post it, ask and we will quote you directly.</p>
+        <div class="acts" style="margin-top:1rem;"><a class="btn" href="https://cal.com/docbrain/30min">Get a quote</a></div>
+      </div></div>
     </div>
   </div>
 </section>
 
 <section id="roi">
-  <div class="wrap">
-    <div class="sechead narrow"><div class="eye">Return</div><h2>What it's worth, with the arithmetic shown.</h2>
-      <p class="lede">Your numbers, not ours. Where evidence exists we cite it. Where it doesn't, we say so.</p></div>
-    <div class="roi"><div class="roig">
-      <div class="rin">
-        <div class="f"><label for="people2">People in scope</label><input type="number" id="people2" value="250" min="1" max="100000" step="10"></div>
-        <div class="f"><label for="cost">Fully loaded cost per person</label><input type="number" id="cost" value="90000" min="10000" max="600000" step="5000"></div>
-        <div class="f"><div class="frow"><label for="mins">Minutes a day seeking or re-explaining</label><span class="fv" id="minsv">50 min</span></div>
-          <input type="range" id="mins" value="50" min="10" max="180" step="5">
-          <span class="h">Seeded from software-team survey data.<sup>1</sup> If your sector differs, change it — we won't invent a figure nobody has measured.</span></div>
-        <div class="f"><div class="frow"><label for="rem">Proportion DocBrain removes</label><span class="fv" id="remv">30%</span></div>
-          <input type="range" id="rem" value="30" min="5" max="70" step="5">
-          <span class="h">Suggest 20–30% for year one, measured in a pilot rather than assumed.</span></div>
-      </div>
-      <div class="rout">
-        <div class="big"><span class="n" id="total">$718,750</span><span class="l">recovered per year across the organization</span></div>
-        <div>
-          <div class="rl"><span>Hours lost per person, per year</span><span id="hrs">192 h</span></div>
-          <div class="rl"><span>Proportion of the working year</span><span id="pct">10.6%</span></div>
-          <div class="rl"><span>Value per person, per year</span><span id="perp">$2,875</span></div>
-          <div class="rl"><span>Equivalent full-time people</span><span id="fte">8.0</span></div>
-        </div>
-        <p class="rnote"><strong>What this model doesn't know:</strong> your actual removal rate. No vendor's does, including those quoting one. Both inputs are hypotheses to test in a pilot.</p>
-      </div>
-    </div></div>
-    <ul class="refs">
-      <li><b>1</b>Stack Overflow Developer Survey 2022 — 61% spend 30+ minutes a day searching for answers; 47% spend 30+ minutes answering, three in four re-answer questions they've answered before. <a href="https://survey.stackoverflow.co/2022/">survey.stackoverflow.co/2022</a>. They sell a competing product, so only raw responses are used, and this is software-team data.</li>
-      <li><b>2</b>DORA — documentation quality amplifies the impact of every technical capability studied. <a href="https://dora.dev/capabilities/documentation-quality/">dora.dev</a>. Directional only; DORA publishes no cost figure and we don't invent one for them.</li>
-    </ul>
-  </div>
+ <div class="wrap">
+ <div class="sechead narrow"><div class="eye">Return</div><h2>What it's worth, with the arithmetic shown.</h2>
+ <p class="lede">Your numbers, not ours. Where evidence exists we cite it. Where it doesn't, we say so.</p></div>
+ <div class="roi"><div class="roig">
+ <div class="rin">
+ <div class="f"><label for="people2">Engineers in scope</label><input type="number" id="people2" value="250" min="1" max="100000" step="10"></div>
+ <div class="f"><label for="cost">Fully loaded cost per engineer</label><input type="number" id="cost" value="120000" min="10000" max="600000" step="5000"><span class="h">Salary plus employer taxes, benefits, equipment and overhead. Set it to yours.</span></div>
+ <div class="f"><div class="frow"><label for="mins">Minutes a day seeking or re-explaining</label><span class="fv" id="minsv">50 min</span></div>
+ <input type="range" id="mins" value="50" min="10" max="180" step="5">
+ <span class="h">Seeded from software-team survey data.<sup>1</sup> If your sector differs, change it. We won't invent a figure nobody has measured.</span></div>
+ <div class="f"><div class="frow"><label for="rem">Proportion DocBrain removes</label><span class="fv" id="remv">25%</span></div>
+ <input type="range" id="rem" value="25" min="5" max="70" step="5">
+ <span class="h">Suggest 20–30% for year one, measured in a pilot rather than assumed.</span></div>
+ </div>
+ <div class="rout">
+ <div class="big"><span class="n" id="total">$718,750</span><span class="l">recovered per year across the team</span></div>
+ <div>
+ <div class="rl"><span>Hours lost per engineer, per year</span><span id="hrs">192 h</span></div>
+ <div class="rl"><span>Proportion of the working year</span><span id="pct">10.6%</span></div>
+ <div class="rl"><span>Value per engineer, per year</span><span id="perp">$2,875</span></div>
+ <div class="rl"><span>Engineer-weeks returned per year</span><span id="fte">400</span></div>
+ </div>
+ <p class="rnote"><strong>What this model doesn't know:</strong> your actual removal rate. No vendor's does, including those quoting one. Both inputs are hypotheses to test in a pilot.</p>
+ </div>
+ </div></div>
+ <ul class="refs">
+ <li><b>1</b>Stack Overflow Developer Survey 2022, 61% spend 30+ minutes a day searching for answers; 47% spend 30+ minutes answering, three in four re-answer questions they've answered before. <a href="https://survey.stackoverflow.co/2022/">survey.stackoverflow.co/2022</a>. They sell a competing product, so only raw responses are used, and this is software-team data.</li>
+ <li><b>2</b>DORA, documentation quality amplifies the impact of every technical capability studied. <a href="https://dora.dev/capabilities/documentation-quality/">dora.dev</a>. Directional only; DORA publishes no cost figure and we don't invent one for them.</li>
+ </ul>
+ </div>
 </section>
 
 <section id="faq">
-  <div class="wrap">
-    <div class="sechead narrow">
-      <div class="eye">The questions you're about to ask</div>
-      <h2>Answered before you have to send the email.</h2>
-    </div>
-    <div class="grid3">
-      <div class="rec plain"><span class="tab">Q</span><div class="recb">
-        <h3>We already have Confluence, Notion, Slack and GitHub. Why this?</h3>
-        <p>Those are places to store knowledge somebody remembered to write down. DocBrain captures what never gets stored — the reasoning in a ticket, the fix in an incident thread, the decision made in a meeting — connects it across all of them and keeps it accurate. You're not replacing Confluence. You're capturing what Confluence never sees.</p></div></div>
-      <div class="rec plain"><span class="tab">Q</span><div class="recb">
-        <h3>Does anything leave our network? Do you train on our data?</h3>
-        <p>No, and no. DocBrain runs entirely in your infrastructure and reads your systems without ever writing to them. Point it at a local model and nothing crosses your boundary at all. If you switch on learning, that happens inside your infrastructure too — on your hardware, on your data. We never see it, because there is no “we” in the path.</p></div></div>
-      <div class="rec plain"><span class="tab">Q</span><div class="recb">
-        <h3>What happens if we stop paying?</h3>
-        <p>You keep running the version you have, in production, for as long as you like. You stop receiving updates, patches and support. Nothing is switched off, nothing phones home, and no data is held hostage — because it was never ours to hold.</p></div></div>
-      <div class="rec plain"><span class="tab">Q</span><div class="recb">
-        <h3>How is this different from enterprise AI search?</h3>
-        <p>Search retrieves documents that already exist. If the answer was never written down, better search returns nothing, faster. DocBrain's job starts one step earlier — capturing the answer at the moment someone works it out, so there's something to retrieve at all.</p></div></div>
-      <div class="rec plain"><span class="tab">Q</span><div class="recb">
-        <h3>How long before it's useful?</h3>
-        <p>It answers from your existing sources the day you connect them. Capture starts compounding immediately, and the value curve is the opposite of a wiki's — it gets better as your organization works, rather than decaying the moment someone stops maintaining it.</p></div></div>
-      <div class="rec plain"><span class="tab">Q</span><div class="recb">
-        <h3>Who shouldn't buy this?</h3>
-        <p>If your documentation problem is that nobody reads a wiki that's actually accurate, you have a distribution problem and search will fix it more cheaply. If a closed-source server is disqualifying for you, that's a rational position and we'd rather say so now. And if you need a published accuracy benchmark to sign, we don't have one yet.</p></div></div>
-    </div>
-  </div>
+ <div class="wrap">
+ <div class="sechead narrow">
+ <div class="eye">The questions you're about to ask</div>
+ <h2>Answered before you have to send the email.</h2>
+ </div>
+ <div class="grid3">
+ <div class="rec plain"><span class="tab">Q</span><div class="recb">
+ <h3>We already have Confluence, Slack, Jira and GitHub. Why this?</h3>
+ <p>Those are places to store knowledge somebody remembered to write down. DocBrain captures what never gets stored, the reasoning in a ticket, the fix in an incident thread, the decision made in a meeting, connects it across all of them and keeps it accurate. You're not replacing Confluence. You're capturing what Confluence never sees.</p></div></div>
+ <div class="rec plain"><span class="tab">Q</span><div class="recb">
+ <h3>Does anything leave our network? Do you train on our data?</h3>
+ <p>No, and no. DocBrain runs entirely in your infrastructure and reads your systems without ever writing to them. Point it at a local model and nothing crosses your boundary at all. If you switch on learning, that happens inside your infrastructure too, on your hardware, on your data. We never see it, because there is no “we” in the path.</p></div></div>
+ <div class="rec plain"><span class="tab">Q</span><div class="recb">
+ <h3>What happens if we stop paying?</h3>
+ <p>You keep running the version you have, in production, for as long as you like. You stop receiving updates, patches and support. Nothing is switched off, nothing phones home, and no data is held hostage, because it was never ours to hold.</p></div></div>
+ <div class="rec plain"><span class="tab">Q</span><div class="recb">
+ <h3>How is this different from enterprise AI search?</h3>
+ <p>Search retrieves documents that already exist. If the answer was never written down, better search returns nothing, faster. DocBrain's job starts one step earlier, capturing the answer at the moment someone works it out, so there's something to retrieve at all.</p></div></div>
+ <div class="rec plain"><span class="tab">Q</span><div class="recb">
+ <h3>How long before it's useful?</h3>
+ <p>It answers from your existing sources the day you connect them. Capture starts compounding immediately, and the value curve is the opposite of a wiki's. It gets better as your organization works, rather than decaying the moment someone stops maintaining it.</p></div></div>
+ <div class="rec plain"><span class="tab">Q</span><div class="recb">
+ <h3>Who shouldn't buy this?</h3>
+ <p>If your documentation problem is that nobody reads a wiki that's actually accurate, you have a distribution problem and search will fix it more cheaply. If a closed-source server is disqualifying for you, that's a rational position and we'd rather say so now. And if you need a published accuracy benchmark to sign, we don't have one yet.</p></div></div>
+ </div>
+ </div>
 </section>
 
 <section id="start">
-  <div class="wrap">
-    <div class="rec" style="max-width:52rem;margin-inline:auto;">
-      <span class="tab">The part that doesn't wait</span>
-      <div class="recb">
-        <h2 style="font-size:clamp(1.6rem,3.4vw,2.3rem);margin-bottom:.8rem;">Everything already written down, it can still recover.<br>What was never written down is on a clock.</h2>
-        <p class="lede">Point it at your history and years of it become answerable in an afternoon — that part waits for you. What doesn't wait is the reasoning that only ever lived in a conversation, a head, a decision nobody minuted. <strong>Capture starts the day you switch it on, and not one day earlier.</strong> Every week before that is knowledge with no copy of it anywhere.</p>
-      </div>
-    </div>
+ <div class="wrap">
+ <div class="rec" style="max-width:52rem;margin-inline:auto;">
+ <span class="tab">The part that doesn't wait</span>
+ <div class="recb">
+ <h2 style="font-size:clamp(1.6rem,3.4vw,2.3rem);margin-bottom:.8rem;">Everything already written down is still recoverable.<br>What was never written down is on a clock.</h2>
+ <p class="lede">Point it at your history and years of it become answerable in an afternoon. That part waits for you. What doesn't wait is the reasoning that only ever lived in a conversation, a head, a decision nobody minuted. <strong>Capture starts the day you switch it on, and not one day earlier.</strong> Every week before that is knowledge with no copy of it anywhere.</p>
+ </div>
+ </div>
 
-    <div class="paths">
-      <div class="rec plain path"><span class="tab h">If you want to try it</span><div class="recb">
-        <h3>Run it against your own knowledge tonight</h3>
-        <p style="margin-bottom:1rem;">Free for production use, self-hosted in minutes, nothing leaves your network. The fastest way to find what your organization never wrote down is to watch where it declares a gap.</p>
-        <div class="acts">
-          <a class="btn" href="https://github.com/docbrain-ai/docbrain">Self-host in 5 minutes</a>
-          <a class="btn btn2" href="https://youtu.be/zZ7WdjmOXHU">Watch the quickstart</a>
-        </div>
-        <p class="dim xs" style="margin-top:.8rem;">90 seconds, one take, local models, nothing staged.</p>
-      </div></div>
+ <div class="paths">
+ <div class="rec plain path"><span class="tab h">If you want to try it</span><div class="recb">
+ <h3>Run it against your own knowledge tonight</h3>
+ <p style="margin-bottom:1rem;">Free for production use, self-hosted in minutes, nothing leaves your network. The fastest way to find what your organization never wrote down is to watch where it declares a gap.</p>
+ <div class="acts">
+ <a class="btn" href="https://github.com/docbrain-ai/docbrain">Self-host in 5 minutes</a>
+ <a class="btn btn2" href="https://youtu.be/zZ7WdjmOXHU">Watch the quickstart</a>
+ </div>
+ <p class="dim xs" style="margin-top:.8rem;">90 seconds, one take, local models, nothing staged.</p>
+ </div></div>
 
-      <div class="rec plain path"><span class="tab a">If you want to talk</span><div class="recb">
-        <h3>Bring us your hardest question</h3>
-        <p style="margin-bottom:1rem;">Tell us the thing only one person at your company knows, and we'll show you what DocBrain does with it — <strong>including where it refuses to answer</strong>. We'll cover deployment, your security review, and what a commercial licence includes.</p>
-        <div class="acts">
-          <a class="btn" href="https://cal.com/docbrain/30min">Book 30 minutes</a>
-          <a class="btn btn2" href="https://cal.com/docbrain/15min">Or 15, just to scope it</a>
-        </div>
-        <p class="dim xs" style="margin-top:.9rem;">A real conversation with the people who build it — not a qualification call. Prefer email? <a href="mailto:hello@docbrainapi.com?subject=DocBrain%20%E2%80%94%20talk%20to%20us&amp;body=Roughly%20how%20many%20people%20would%20be%20in%20scope%3A%0ATools%20we%27d%20connect%20first%3A%0AThe%20question%20we%27d%20test%20it%20with%3A%0A" style="color:var(--margin)">hello@docbrainapi.com</a> &nbsp;·&nbsp; licensing: <a href="mailto:licensing@docbrainapi.com?subject=DocBrain%20licensing" style="color:var(--margin)">licensing@docbrainapi.com</a></p>
-      </div></div>
-    </div>
-  </div>
+ <div class="rec plain path"><span class="tab a">If you want to talk</span><div class="recb">
+ <h3>Bring us your hardest question</h3>
+ <p style="margin-bottom:1rem;">Tell us the thing only one person at your company knows, and we'll show you what DocBrain does with it, <strong>including where it refuses to answer</strong>. We'll cover deployment, your security review, and what a commercial licence includes.</p>
+ <div class="acts">
+ <a class="btn" href="https://cal.com/docbrain/30min">Book 30 minutes</a>
+ 
+ </div>
+ <p class="dim xs" style="margin-top:.9rem;">A real conversation with the people who build it, not a qualification call.</p>
+ </div></div>
+ </div>
+ </div>
 </section>
 
 <footer><div class="wrap foot">
-  <div class="fc"><a class="brand" href="#top" style="font-size:1.05rem;">DocBrain</a><span class="dim sm">The memory layer for humans and AI agents.</span></div>
-  <div class="fc"><span class="fh">Product</span><a href="#learns">It compounds</a><a href="#dayone">Day one</a><a href="#experience">Experience</a><a href="#writes">It writes</a><a href="#live">Live</a><a href="#people">For your people</a><a href="#agents">For your agents</a></div>
-  <div class="fc"><span class="fh">Docs</span><a href="/docs/">All docs</a><a href="/docs/quickstart/">Quickstart</a><a href="/docs/mcp-tools/">MCP tools</a><a href="/docs/api-reference/">API</a></div>
-  <div class="fc"><span class="fh">Talk to us</span><a href="https://cal.com/docbrain/30min">Book 30 minutes</a><a href="https://cal.com/docbrain/15min">Book 15 minutes</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a><a href="mailto:licensing@docbrainapi.com">Licensing</a></div>
-  <div class="fc"><span class="fh">Trust</span><a href="/docs/trust/">Trust</a><a href="/docs/security/">Security</a><a href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md">Threat model</a><a href="#honest">Known limits</a></div>
+ <div class="fc"><a class="brand" href="#top" style="font-size:1.05rem;">DocBrain</a><span class="dim sm">The memory layer for humans and AI agents.</span></div>
+ <div class="fc"><span class="fh">Product</span><a href="#learns">It compounds</a><a href="#dayone">Day one</a><a href="#experience">Experience</a><a href="#writes">It writes</a><a href="#live">Live</a><a href="#people">For your engineers</a><a href="#agents">For your agents</a></div>
+ <div class="fc"><span class="fh">Docs</span><a href="/docs/">All docs</a><a href="/docs/quickstart/">Quickstart</a><a href="/docs/mcp-tools/">MCP tools</a><a href="/docs/api-reference/">API</a></div>
+ <div class="fc"><span class="fh">Talk to us</span><a href="https://cal.com/docbrain/30min">Book 30 minutes</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a><a href="mailto:licensing@docbrainapi.com">Licensing</a></div>
+ <div class="fc"><span class="fh">Trust</span><a href="/docs/trust/">Trust</a><a href="/docs/security/">Security</a><a href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md">Threat model</a><a href="#honest">Known limits</a></div>
 </div></footer>
 
 <script>
 (function(){
-  var body=document.body, swH=document.getElementById('sw-h'), swA=document.getElementById('sw-a');
-  swH.addEventListener('click',function(){ body.dataset.mode='human'; swH.classList.add('sel'); swA.classList.remove('sel'); });
-  swA.addEventListener('click',function(){ body.dataset.mode='agent'; swA.classList.add('sel'); swH.classList.remove('sel'); });
+ var body=document.body, swH=document.getElementById('sw-h'), swA=document.getElementById('sw-a');
+ swH.addEventListener('click',function(){ body.dataset.mode='human'; swH.classList.add('sel'); swA.classList.remove('sel'); });
+ swA.addEventListener('click',function(){ body.dataset.mode='agent'; swA.classList.add('sel'); swH.classList.remove('sel'); });
 
-  document.querySelectorAll('.cite').forEach(function(b){
-    b.addEventListener('click',function(){
-      var claim=b.closest('.claim'), open=claim.querySelector('.srcbox');
-      if(open){ open.remove(); return; }
-      var d=document.createElement('div'); d.className='srcbox';
-      d.innerHTML='<b>source</b>'+b.dataset.src;
-      claim.appendChild(d);
-    });
-  });
+ document.querySelectorAll('.cite').forEach(function(b){
+ b.addEventListener('click',function(){
+ var claim=b.closest('.claim'), open=claim.querySelector('.srcbox');
+ if(open){ open.remove(); return; }
+ var d=document.createElement('div'); d.className='srcbox';
+ d.innerHTML='<b>source</b>'+b.dataset.src;
+ claim.appendChild(d);
+ });
+ });
 
 
-  /* live intelligence — the read really is "just now" */
-  (function(){
-    var ago=document.getElementById('ago'), btn=document.getElementById('askAgain');
-    if(!ago) return;
-    var t0=Date.now();
-    function tick(){
-      var s=Math.floor((Date.now()-t0)/1000);
-      ago.textContent = s<60 ? s+'s' : Math.floor(s/60)+'m '+(s%60)+'s';
-    }
-    setInterval(tick,1000); tick();
-    if(btn) btn.addEventListener('click',function(){
-      t0=Date.now(); tick();
-      var lane=ago.closest('.lane');
-      lane.classList.remove('flash'); void lane.offsetWidth; lane.classList.add('flash');
-    });
-  })();
+ /* live intelligence, the read really is "just now" */
+ (function(){
+ var ago=document.getElementById('ago'), btn=document.getElementById('askAgain');
+ if(!ago) return;
+ var t0=Date.now();
+ function tick(){
+ var s=Math.floor((Date.now()-t0)/1000);
+ ago.textContent = s<60 ? s+'s' : Math.floor(s/60)+'m '+(s%60)+'s';
+ }
+ setInterval(tick,1000); tick();
+ if(btn) btn.addEventListener('click',function(){
+ t0=Date.now(); tick();
+ var lane=ago.closest('.lane');
+ lane.classList.remove('flash'); void lane.offsetWidth; lane.classList.add('flash');
+ });
+ })();
 
-  var nav=document.getElementById('nav');
-  function ns(){ nav.classList.toggle('on', window.scrollY>20); }
-  window.addEventListener('scroll',ns,{passive:true}); ns();
+ /* hero answer: assemble, then settle */
+ (function(){
+   var card=document.querySelector('.hgrid .rec'); if(!card) return;
+   var steps=Array.prototype.slice.call(card.querySelectorAll('.reveal'));
+   var status=document.getElementById('heroStatus');
+   var slow=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+   var timers=[];
+   function play(){
+     timers.forEach(clearTimeout); timers=[];
+     if(slow){ steps.forEach(function(el){ el.classList.add('in'); }); if(status){ status.classList.add('done'); } return; }
+     steps.forEach(function(el){ el.classList.remove('in'); });
+     if(status){ status.classList.remove('done'); status.textContent='Reading Jira, and searching the memory'; }
+     var d=200;
+     steps.forEach(function(el,i){
+       timers.push(setTimeout(function(){ el.classList.add('in'); }, d));
+       d += (i===1 ? 800 : 540);
+     });
+     timers.push(setTimeout(function(){
+       if(status){ status.textContent='4 sources read, 2 claims grounded, 1 gap found'; status.classList.add('done'); }
+     }, 1560));
+   }
+   var b=document.getElementById('heroReplay');
+   if(b){ b.addEventListener('click', play); }
+   play();
+ })();
 
-  var YH=1800,DAYS=230;
-  var people=document.getElementById('people2'),cost=document.getElementById('cost'),
-      mins=document.getElementById('mins'),rem=document.getElementById('rem');
-  function money(n){
-    if(n>=1e6) return '$'+(n/1e6).toFixed(2).replace(/\.?0+$/,'')+'M';
-    if(n>=1e3) return '$'+Math.round(n).toLocaleString('en-US');
-    return '$'+Math.round(n);
-  }
-  function calc(){
-    var p=Math.max(1,Number(people.value)||1),c=Math.max(0,Number(cost.value)||0),
-        m=Number(mins.value),r=Number(rem.value)/100,h=(m/60)*DAYS,frac=h/YH,per=frac*r*c;
-    document.getElementById('minsv').textContent=m+' min';
-    document.getElementById('remv').textContent=Math.round(r*100)+'%';
-    document.getElementById('hrs').textContent=Math.round(h)+' h';
-    document.getElementById('pct').textContent=(frac*100).toFixed(1)+'%';
-    document.getElementById('perp').textContent=money(per);
-    document.getElementById('total').textContent=money(per*p);
-    document.getElementById('fte').textContent=(frac*r*p).toFixed(1);
+ /* sections settle in as you reach them */
+ (function(){
+   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ return; }
+   if(!('IntersectionObserver' in window)){ return; }
+   var io=new IntersectionObserver(function(es){
+     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+   },{ rootMargin:'0px 0px -6% 0px', threshold:0.05 });
+   document.querySelectorAll('section .sechead, section .two, section .grid3, section .roi, section .note')
+     .forEach(function(el){ el.classList.add('reveal'); io.observe(el); });
+ })();
+
+ var nav=document.getElementById('nav');
+ function ns(){ nav.classList.toggle('on', window.scrollY>20); }
+ window.addEventListener('scroll',ns,{passive:true}); ns();
+
+ var YH=1800,DAYS=230;
+ var people=document.getElementById('people2'),cost=document.getElementById('cost'),
+ mins=document.getElementById('mins'),rem=document.getElementById('rem');
+ function money(n){
+ if(n>=1e6) return '$'+(n/1e6).toFixed(2).replace(/\.?0+$/,'')+'M';
+ if(n>=1e3) return '$'+Math.round(n).toLocaleString('en-US');
+ return '$'+Math.round(n);
+ }
+ function calc(){
+ var p=Math.max(1,Number(people.value)||1),c=Math.max(0,Number(cost.value)||0),
+ m=Number(mins.value),r=Number(rem.value)/100,h=(m/60)*DAYS,frac=h/YH,per=frac*r*c;
+ document.getElementById('minsv').textContent=m+' min';
+ document.getElementById('remv').textContent=Math.round(r*100)+'%';
+ document.getElementById('hrs').textContent=Math.round(h)+' h';
+ document.getElementById('pct').textContent=(frac*100).toFixed(1)+'%';
+ document.getElementById('perp').textContent=money(per);
+ document.getElementById('total').textContent=money(per*p);
+ document.getElementById('fte').textContent=Math.round(frac*r*p*46).toLocaleString('en-US');
+ var hn=document.getElementById('heroN'); if(hn) hn.textContent=p.toLocaleString('en-US');
     var hg=document.getElementById('heroGain');
-    if(hg) hg.textContent=money(frac*r*90000*250);
-  }
-  [people,cost,mins,rem].forEach(function(e){ e.addEventListener('input',calc); }); calc();
+ if(hg) hg.textContent=money(per*p);
+ }
+ [people,cost,mins,rem].forEach(function(e){ e.addEventListener('input',calc); }); calc();
 })();
 </script>
 </body>
