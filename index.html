@@ -446,7 +446,7 @@
  <div class="dcell"><b>13+</b><span>Sources read, Confluence, Slack, Jira, GitHub, PagerDuty, Zendesk and more</span></div>
  <div class="dcell"><b>14</b><span>LLM providers, including fully local for zero egress</span></div>
  <div class="dcell"><b>0</b><span>Write operations. Any tool that could change a system is dropped at discovery</span></div>
- <div class="dcell"><b>MIT</b><span>Client source, auditable. Full threat model published</span></div>
+ <div class="dcell"><b>MIT</b><span>All repository source, auditable. Full threat model published</span></div>
 </div>
 
 <section id="changes">
@@ -842,7 +842,7 @@
  <tr><th scope="row">Retrieval tuned to your corpus</th><td class="us y">Optional, on your infra</td><td>Fixed model</td><td>Fixed model</td></tr>
  <tr><th scope="row">Writes documentation unprompted</th><td class="us y">Autopilot, human-approved</td><td>No</td><td>No</td></tr>
  <tr><th scope="row">Runs on your own AI provider</th><td class="us y">14, local included</td><td>Yes</td><td>Vendor-hosted</td></tr>
- <tr class="loss"><th scope="row">Licence</th><td class="us n">BSL, free to run; client MIT</td><td class="n">MIT, more permissive than ours</td><td>Proprietary</td></tr>
+ <tr class="loss"><th scope="row">Licence</th><td class="us n">Source MIT; server images BSL, free to run</td><td class="n">MIT, more permissive than ours</td><td>Proprietary</td></tr>
  <tr class="loss"><th scope="row">Published accuracy benchmark</th><td class="us n">Not yet</td><td class="n">Yes, with methodology</td><td>Varies</td></tr>
  <tr class="loss"><th scope="row">Named public customers</th><td class="us n">None yet</td><td class="n">Yes</td><td>Yes</td></tr>
  </tbody>
@@ -861,7 +861,7 @@
  </div>
  <div class="notebody">
  <p class="notelede">A product built on refusing to overclaim shouldn't overclaim about itself. So before you spend a week on a pilot, here is what we'd want to know if we were you.</p>
- <p><strong>The server is closed source.</strong> Everything runs inside your network, server included. The client is MIT and auditable. The server ships as a container you run but cannot read the source of, and it is the component that touches your data. We targeted the first half of 2026, missed it, and we're not naming a new date until we're certain we'll hit it. If that's disqualifying, we'd rather you knew now than in week three.</p>
+ <p><strong>The server is closed source.</strong> Everything runs inside your network, server included. Everything in our public repository is MIT and auditable — the CLI, the MCP server, the Helm charts, the configuration and the docs. The server ships as a container you run but cannot read the source of, and it is the component that touches your data. We targeted the first half of 2026, missed it, and we're not naming a new date until we're certain we'll hit it. If that's disqualifying, we'd rather you knew now than in week three.</p>
  <p><strong>We have no accuracy benchmark to show you.</strong> Grounding is measured internally and every model version is gated on it, but we won't put a percentage on a marketing page until it has been measured across real customer corpora and we can publish how we measured it.</p>
  <p><strong>Learning is optional, and off until you turn it on.</strong> It needs real feedback volume and some compute before it earns its keep. Everything else works without it, and most teams should run that way first.</p>
  <p><strong>Self-hosting isn't unique to us.</strong> There are open-source alternatives and several are genuinely good at retrieval. One of them is more permissively licensed than we are. What they don't do is capture what was never written down. Judge us on that, not on deployment.</p>
@@ -911,7 +911,7 @@
     <div class="two">
       <div class="rec plain"><span class="tab h">Available now</span><div class="recb">
         <h3>Run the whole thing for nothing</h3>
-        <p style="margin-bottom:.8rem;">Every capability on this page is in the product you can self-host today, in production, at any size. No seat count, no feature gates, no trial clock. The client is MIT and the server is free to run under our licence.</p>
+        <p style="margin-bottom:.8rem;">Every capability on this page is in the product you can self-host today, in production, at any size. No seat count, no feature gates, no trial clock. Our repository is MIT and the server images are free to run in production under BSL 1.1.</p>
         <p>Bring your own model and your infrastructure cost is the only bill you pay.</p>
         <div class="acts" style="margin-top:1rem;"><a class="btn btn2" href="https://github.com/docbrain-ai/docbrain">Self-host in 5 minutes</a></div>
       </div></div>
