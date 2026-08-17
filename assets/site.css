@@ -260,7 +260,7 @@
   /* the mark sits in the brand lockup. flat glyph, currentColor, so it inherits
      the wordmark's ink and stays crisp at nav size — the lit render is a
      large-format asset and turns to mush below ~32px. */
-  .brand svg{ width:1.16em; height:1.16em; fill:currentColor; flex:none; }
+  .brand svg{ width:1.6em; height:1.6em; fill:currentColor; flex:none; }
 
   .qdots{ display:inline-flex; gap:.3rem; margin-left:auto; }
   .qdots i{ width:.42rem; height:.42rem; border-radius:50%; background:var(--rule); transition:background .3s; cursor:pointer; }
