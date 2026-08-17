@@ -266,7 +266,11 @@
      luminance is 89/255, so it is a dark object and holds against cream.
      the negative inset cancels the glow padding baked into the asset so the
      mark optically aligns with the text below it. */
-  .heromark{ display:block; width:auto; height:clamp(4.2rem,7vw,5.6rem);
+  /* align-self is load-bearing: .hcopy is a flex column, so the default
+     align-items:stretch blows the image's width out to the full column and
+     squashes it flat against the clamped height. */
+  .heromark{ display:block; align-self:flex-start; flex:none;
+             width:auto; height:clamp(4.2rem,7vw,5.6rem); aspect-ratio:1;
              margin:0 0 .55rem -.48rem; }
 
   .qdots{ display:inline-flex; gap:.3rem; margin-left:auto; }
