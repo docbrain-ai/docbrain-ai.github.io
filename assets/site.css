@@ -5,9 +5,12 @@
   ul,ol{ margin:0; padding:0; list-style:none; }
   button,input{ font:inherit; color:inherit; }
 
-  @font-face{ font-family:"Newsreader"; src:url("fonts/newsreader-var.woff2") format("woff2-variations"); font-weight:200 800; font-display:swap; }
-  @font-face{ font-family:"Plex"; src:url("fonts/ibm-plex-sans-400.woff2") format("woff2"); font-weight:400; font-display:swap; }
-  @font-face{ font-family:"Plex"; src:url("fonts/ibm-plex-sans-600.woff2") format("woff2"); font-weight:600 700; font-display:swap; }
+  /* latin subsets. the previous files were the VIETNAMESE subsets and carried
+     no ASCII cmap, so every face silently fell back to ui-serif / system sans.
+     format("woff2") not woff2-variations: the latter is legacy syntax that some
+     browsers reject outright, which would have masked the fix. */
+  @font-face{ font-family:"Newsreader"; src:url("fonts/newsreader-var.woff2") format("woff2"); font-weight:200 800; font-display:swap; }
+  @font-face{ font-family:"Plex"; src:url("fonts/ibm-plex-sans-var.woff2") format("woff2"); font-weight:100 700; font-display:swap; }
   @font-face{ font-family:"PlexMono"; src:url("fonts/ibm-plex-mono-400.woff2") format("woff2"); font-weight:400 600; font-display:swap; }
 
   :root{
