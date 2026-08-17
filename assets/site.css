@@ -262,6 +262,13 @@
      large-format asset and turns to mush below ~32px. */
   .brand svg{ width:1.6em; height:1.6em; fill:currentColor; flex:none; }
 
+  /* the lit render, transparent, straight on the paper — no plate. its mean
+     luminance is 89/255, so it is a dark object and holds against cream.
+     the negative inset cancels the glow padding baked into the asset so the
+     mark optically aligns with the text below it. */
+  .heromark{ display:block; width:auto; height:clamp(4.2rem,7vw,5.6rem);
+             margin:0 0 .55rem -.48rem; }
+
   .qdots{ display:inline-flex; gap:.3rem; margin-left:auto; }
   .qdots i{ width:.42rem; height:.42rem; border-radius:50%; background:var(--rule); transition:background .3s; cursor:pointer; }
   .qdots i.on{ background:var(--margin); }
