@@ -109,9 +109,14 @@
   .gs a{ color:var(--margin); text-decoration:none; border-bottom:1px solid currentColor; }
   .gnote{ font-size:.75rem; color:var(--dim); line-height:1.5; margin-top:.5rem; max-width:38rem; }
   .gen{ display:flex; flex-direction:column; }
-  .genrow{ display:grid; grid-template-columns:auto 1fr; gap:.2rem .8rem; align-items:baseline;
-           padding:.55rem 0; border-bottom:1px solid var(--rule2); font-size:.88rem; }
-  @media (min-width:44rem){ .genrow{ grid-template-columns:5rem 11rem 1fr; } }
+  /* stack on narrow screens. a genrow holds three children, so the old
+     two-track "auto 1fr" pushed the third back into the auto column, which
+     then sized to that long paragraph and crushed the middle child to one
+     word per line. */
+  .genrow{ display:grid; grid-template-columns:1fr; gap:.28rem; align-items:start;
+           padding:.7rem 0; border-bottom:1px solid var(--rule2); font-size:.88rem; }
+  @media (min-width:44rem){ .genrow{ grid-template-columns:5rem 11rem 1fr; gap:.2rem .8rem;
+           align-items:baseline; padding:.55rem 0; } }
   .genrow:last-child{ border-bottom:none; }
   .gk{ font-family:var(--mono); font-size:.6rem; letter-spacing:.11em; text-transform:uppercase; color:var(--dim); }
   .gv{ font-weight:650; color:var(--ink); }
@@ -252,13 +257,10 @@
   .bacol.won .bafoot{ color:var(--hum); }
   .beforeafter figcaption{ font-size:.83rem; color:var(--body); margin-top:1rem; padding-top:.8rem; border-top:1px dashed var(--rule); }
 
-  /* a plate mounted on the page: the artwork is transparent and lit for a dark
-     ground, so the ground is our own ink rather than the render's black */
-  .plate{ margin:1.7rem 0 0; border-radius:4px; background:var(--ink);
-          padding:clamp(1.1rem,3vw,2rem) clamp(1.1rem,3vw,2.4rem) clamp(1rem,2.4vw,1.5rem); }
-  .plate img{ display:block; width:100%; max-width:33rem; height:auto; margin-inline:auto; }
-  .plate figcaption{ font-size:.83rem; color:#A79F92; margin-top:1rem; padding-top:.8rem;
-                     border-top:1px dashed rgba(222,217,204,.2); max-width:38rem; margin-inline:auto; }
+  /* the mark sits in the brand lockup. flat glyph, currentColor, so it inherits
+     the wordmark's ink and stays crisp at nav size — the lit render is a
+     large-format asset and turns to mush below ~32px. */
+  .brand svg{ width:1.16em; height:1.16em; fill:currentColor; flex:none; }
 
   .qdots{ display:inline-flex; gap:.3rem; margin-left:auto; }
   .qdots i{ width:.42rem; height:.42rem; border-radius:50%; background:var(--rule); transition:background .3s; cursor:pointer; }
