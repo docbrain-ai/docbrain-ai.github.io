@@ -6,6 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>DocBrain: the memory layer for humans and AI agents</title>
 <link rel="icon" href="/logo.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://docbrainapi.com/">
 <meta property="og:title" content="DocBrain, the memory layer for humans and AI agents">
@@ -473,6 +474,11 @@
  <h2>Knowing what's true is the easy half.</h2>
  <p class="lede">Enterprise search is converging on the same idea: connect everything, answer from it. Everyone will have that. The half nobody puts at the centre is <strong>how your organization came to believe something, and whether it still should.</strong></p>
  </div>
+ <figure class="plate">
+  <img src="/assets/memory-layer.webp" width="1280" height="853" loading="lazy" decoding="async"
+       alt="Three stacked translucent layers, the topmost carrying a connected graph of glowing nodes.">
+  <figcaption>Your sources at the base. The decisions, caveats and procedures distilled out of them above that. On top, the graph that connects what your organization knows, and surfaces where it has started to disagree with itself.</figcaption>
+ </figure>
  <div class="grid3">
  <div class="rec plain"><span class="tab">01</span><div class="recb">
  <h3>How you learned it</h3>
@@ -532,7 +538,7 @@
  </div>
  <div class="notebody">
  <p class="notelede">A product built on refusing to overclaim shouldn't overclaim about itself. So before you spend a week on a pilot, here is what we'd want to know if we were you.</p>
- <p><strong>The server is closed source.</strong> Everything runs inside your network, server included. Everything in our public repository is MIT and auditable: the CLI, the MCP server, the Helm charts, the configuration and the docs. The server ships as a container you run but cannot read the source of, and it is the component that touches your data. We targeted the first half of 2026, missed it, and we're not naming a new date until we're certain we'll hit it. If that's disqualifying, we'd rather you knew now than in week three.</p>
+ <p><strong>The server is closed source.</strong> Everything runs inside your network, server included. Everything in our public repository is MIT and auditable: the CLI, the MCP server, the Helm charts, the configuration and the docs. The server ships as a container you run but cannot read the source of, and it is the component that touches your data. We're not naming a date for opening it until we're certain we'll hit it. If that's disqualifying, we'd rather you knew now than in week three.</p>
  <p><strong>We have no accuracy benchmark to show you.</strong> Grounding is measured internally and every model version is gated on it, but we won't put a percentage on a marketing page until it has been measured across real customer corpora and we can publish how we measured it.</p>
  <p><strong>Learning is optional, and off until you turn it on.</strong> It needs real feedback volume and some compute before it earns its keep. Everything else works without it, and most teams should run that way first.</p>
  <p><strong>Self-hosting isn't unique to us.</strong> There are open-source alternatives and several are genuinely good at retrieval. One of them is more permissively licensed than we are. What they don't do is capture what was never written down. Judge us on that, not on deployment.</p>
@@ -670,11 +676,13 @@
 </section>
 
 <footer><div class="wrap foot">
- <div class="fc"><a class="brand" href="#top" style="font-size:1.05rem;">DocBrain</a><span class="dim sm">The memory layer for humans and AI agents.</span></div>
- <div class="fc"><span class="fh">Product</span><a href="#decisions">Decision memory</a><a href="#learns">It compounds</a><a href="#dayone">Day one</a><a href="#experience">Experience</a><a href="#writes">It writes</a><a href="#live">Live</a><a href="#people">For your engineers</a><a href="#agents">For your agents</a></div>
- <div class="fc"><span class="fh">Docs</span><a href="/docs/">All docs</a><a href="/docs/quickstart/">Quickstart</a><a href="/docs/mcp-tools/">MCP tools</a><a href="/docs/api-reference/">API</a></div>
- <div class="fc"><span class="fh">Talk to us</span><a href="https://cal.com/docbrain/30min">Book 30 minutes</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a><a href="mailto:licensing@docbrainapi.com">Licensing</a></div>
- <div class="fc"><span class="fh">Trust</span><a href="/docs/trust/">Trust</a><a href="/docs/security/">Security</a><a href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md">Threat model</a><a href="#honest">Known limits</a></div>
+ <div class="fc fbrand"><a class="brand" href="#top" style="font-size:1.05rem;">DocBrain</a><span class="dim sm">The memory layer for humans and AI agents.</span>
+  <span class="fsoc"><a href="https://github.com/docbrain-ai/docbrain" aria-label="DocBrain on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a></span>
+  <span class="dim xs fcopy">© 2026 DocBrain</span></div>
+ <div class="fc"><span class="fh">Product</span><a href="#decisions">Decision memory</a><a href="#learns">It compounds</a><a href="#dayone">Day one</a><a href="#experience">Experience</a><a href="#writes">It writes</a><a href="#live">Live intelligence</a><a href="#people">For your engineers</a><a href="#agents">For your agents</a></div>
+ <div class="fc"><span class="fh">Resources</span><a href="/docs/">All docs</a><a href="/docs/quickstart/">Quickstart</a><a href="/docs/mcp-tools/">MCP tools</a><a href="/docs/api-reference/">API</a></div>
+ <div class="fc"><span class="fh">Trust</span><a href="/docs/trust/">Security overview</a><a href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md">Threat model</a><a href="#honest">Known limits</a><a href="mailto:licensing@docbrainapi.com">Licensing</a></div>
+ <div class="fc"><span class="fh">Company / Contact</span><a href="https://cal.com/docbrain/30min">Book 30 minutes</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a></div>
 </div></footer>
 
 <script>
