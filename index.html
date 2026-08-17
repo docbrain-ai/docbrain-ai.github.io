@@ -115,6 +115,31 @@
  </div>
 </section>
 
+<section id="decisions">
+ <div class="wrap">
+  <div class="sechead narrow">
+   <div class="eye">What documentation can't tell you</div>
+   <h2>Ask the questions your documentation can't answer.</h2>
+   <p class="lede">A wiki records what the system is. It almost never records why it became that, what the team tried first, or whether the reasoning behind it still holds. <span class="km">Decision</span> is a first-class fragment type here, alongside facts, caveats, procedures and context.</p>
+  </div>
+  <div class="rec plain" style="margin-top:1.6rem;">
+   <span class="tab">The question, and the thing that answers it</span>
+   <div class="recb">
+    <div class="gen">
+     <div class="genrow"><span class="gk">Origin</span><span class="gv">Why was this built this way?</span><span class="gp">Comment <code>@docbrain capture</code> on a merge request and the description and every human comment are filed together, with the Jira, Confluence and PR links inside them cross-referenced. The reasoning is kept, not just the outcome.</span></div>
+     <div class="genrow"><span class="gk">Alternatives</span><span class="gv">Why was this approach rejected?</span><span class="gp">Because the capture takes the whole argument rather than the conclusion, the options someone talked the team out of sit in the record next to the one that shipped.</span></div>
+     <div class="genrow"><span class="gk">Prior art</span><span class="gv">Have we tried this before?</span><span class="gp">Ask, and the answer comes back cited to the thread, the ticket and the change it came from. Where nobody captured it, DocBrain declares the gap instead of filling it in.</span></div>
+     <div class="genrow"><span class="gk">Incidents</span><span class="gv">What did we learn when it broke?</span><span class="gp">Caveats and context captured from the incident thread while it is still happening, attached to the files and runbooks they concern.</span></div>
+     <div class="genrow"><span class="gk">Validity</span><span class="gv">Is this still true today?</span><span class="gp">A freshness critic segments a document into atomic claims and retrieves evidence for each one. A claim is flagged only when retrieved evidence actively contradicts it.</span></div>
+     <div class="genrow"><span class="gk">Drift</span><span class="gv">Has something changed that invalidates it?</span><span class="gp">When a newer decision contradicts an older runbook, the two are surfaced as a pair and the contradicting text is kept, so you read what disagrees rather than a score that says something does.</span></div>
+    </div>
+    <p class="dim xs" style="margin-top:.9rem;"><strong style="color:var(--body)">Where this stops.</strong> DocBrain flags a claim when it finds evidence against it. It does not certify that anything is still correct, and it never treats absence of evidence as staleness — silence means nobody wrote it down, not that it is fine. Interrupting you before you repeat a mistake needs an ambient surface in your PRs and alerts that we have not built.</p>
+   </div>
+  </div>
+  <p class="lede narrow" style="margin-top:1.4rem;">Documentation tells you what exists. DocBrain tells you <span class="km">why it exists</span>, what the organization learned getting there, and when something newer contradicts it.</p>
+ </div>
+</section>
+
 <section id="dayone">
   <div class="wrap">
     <div class="sechead narrow">
@@ -646,7 +671,7 @@
 
 <footer><div class="wrap foot">
  <div class="fc"><a class="brand" href="#top" style="font-size:1.05rem;">DocBrain</a><span class="dim sm">The memory layer for humans and AI agents.</span></div>
- <div class="fc"><span class="fh">Product</span><a href="#learns">It compounds</a><a href="#dayone">Day one</a><a href="#experience">Experience</a><a href="#writes">It writes</a><a href="#live">Live</a><a href="#people">For your engineers</a><a href="#agents">For your agents</a></div>
+ <div class="fc"><span class="fh">Product</span><a href="#decisions">Decision memory</a><a href="#learns">It compounds</a><a href="#dayone">Day one</a><a href="#experience">Experience</a><a href="#writes">It writes</a><a href="#live">Live</a><a href="#people">For your engineers</a><a href="#agents">For your agents</a></div>
  <div class="fc"><span class="fh">Docs</span><a href="/docs/">All docs</a><a href="/docs/quickstart/">Quickstart</a><a href="/docs/mcp-tools/">MCP tools</a><a href="/docs/api-reference/">API</a></div>
  <div class="fc"><span class="fh">Talk to us</span><a href="https://cal.com/docbrain/30min">Book 30 minutes</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a><a href="mailto:licensing@docbrainapi.com">Licensing</a></div>
  <div class="fc"><span class="fh">Trust</span><a href="/docs/trust/">Trust</a><a href="/docs/security/">Security</a><a href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md">Threat model</a><a href="#honest">Known limits</a></div>
