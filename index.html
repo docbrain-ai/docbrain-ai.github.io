@@ -749,17 +749,20 @@
        wrap=document.getElementById('hclaims'), stamp=document.getElementById('hstamp'),
        count=document.getElementById('hcount'), dots=document.getElementById('qdots');
    if(!qEl||!wrap) return;
-   var slow=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-   var timers=[], idx=0, autoTimer=null;
-   function clr(){ timers.forEach(clearTimeout); timers=[]; if(autoTimer){ clearTimeout(autoTimer); autoTimer=null; } }
+   /* below the .hgrid two-column breakpoint this panel sits in the single-column
+      flow, so a staggered build displaces the whole page under the reader */
+   var narrow=window.matchMedia('(max-width:63.99rem)').matches;
+   var slow=narrow||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+   var timers=[], idx=0;
+   function clr(){ timers.forEach(clearTimeout); timers=[]; }
 
    Q.forEach(function(_,n){
      var d=document.createElement('i'); d.title='Question '+(n+1);
-     d.addEventListener('click',function(){ show(n,true); });
+     d.addEventListener('click',function(){ show(n); });
      dots.appendChild(d);
    });
 
-   function show(n, manual){
+   function show(n){
      clr(); idx=n;
      var s=Q[n];
      Array.prototype.forEach.call(dots.children,function(d,i){ d.classList.toggle('on', i===n); });
@@ -796,13 +799,12 @@
      timers.push(setTimeout(function(){
        stEl.textContent=s.status; stEl.classList.add('done');
        stamp.classList.add('in');
-       if(!slow && !manual){ autoTimer=setTimeout(function(){ show((n+1)%Q.length,false); }, 5200); }
      }, d+(slow?0:200)));
    }
 
    var b=document.getElementById('heroReplay');
-   if(b){ b.addEventListener('click',function(){ show(idx,true); }); }
-   show(0,false);
+   if(b){ b.addEventListener('click',function(){ show(idx); }); }
+   show(0);
  })();
 
  /* sections settle in as you reach them */
