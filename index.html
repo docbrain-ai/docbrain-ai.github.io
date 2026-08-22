@@ -423,6 +423,56 @@
  </div>
 </section>
 
+<section id="premises">
+ <div class="wrap">
+ <div class="sechead narrow">
+ <div class="eye">Living claims</div>
+ <h2>Your knowledge knows the fact that would falsify it. And watches for it.</h2>
+ <p class="lede">Every wiki on earth stores claims and lets the facts underneath them rot invisibly. DocBrain attaches the checkable fact to the claim at capture — v1: the file paths it names — and a standing monitor re-verifies them against your connected sources, on a cycle, deterministically. <strong>No model in the loop.</strong> A regex and a file listing either agree or they don't.</p>
+ </div>
+
+ <div class="rec">
+ <span class="tab">A claim, its premise, and the moment the premise died</span>
+ <div class="lane">
+ <div class="lanetag was">Captured</div>
+ <div class="lanebody">
+ <p>"Regenerate the metrics docs with <code>test/instrumentation/update-documentation.sh</code> before every release."</p>
+ <div class="lanemeta"><span>Premise verified at capture: the script exists · state: <b>holds</b></span></div>
+ </div>
+ </div>
+ <div class="lane">
+ <div class="lanetag now">Monitor, one sweep later</div>
+ <div class="lanebody">
+ <p>⚠ Corrected: the documentation says <code>test/instrumentation/update-documentation.sh</code>, which no longer exists. Verified location: <code>hack/tools/instrumentation/update-documentation.sh</code>.</p>
+ <div class="lanemeta"><span>basis: the connected repo at its captured commit, dated — never an undated absolute</span></div>
+ </div>
+ </div>
+ <p class="lanefoot">The directory moved in one repository; the claim lived in another. Nothing that scores freshness by edit-recency can see that. <strong>A premise check can, because it doesn't score the document — it checks the fact.</strong></p>
+ </div>
+
+ <div class="two" style="margin-top:1.8rem;">
+ <div class="rec plain">
+ <span class="tab">Built not to cry wolf</span>
+ <div class="recb">
+ <h3>Three honesty rules, enforced by construction</h3>
+ <p style="margin-bottom:.9rem;">Only a claim <em>proven true at capture</em> can ever alert — a placeholder path in an example can't page anyone. A disconnected source makes its premises <code>uncheckable</code>, never <em>broken</em>: "I can't check" and "it's gone" are different facts and are never conflated. And a correction with several candidate locations names the count, never a guess.</p>
+ <p class="dim xs">One false "your runbook is wrong" costs more than ten missed ones. The whole pipeline is built around that asymmetry.</p>
+ </div>
+ </div>
+ <div class="rec plain">
+ <span class="tab">Wired into everything else</span>
+ <div class="recb">
+ <h3>Deaths are events, not a dashboard you remember to open</h3>
+ <p style="margin-bottom:.9rem;">A premise death emits <code>premise.broken</code> — webhook-subscribable, kept in the audit log; restoration emits <code>premise.restored</code>. Agents attach premises when they capture over MCP, one optional field on the same call. A review page shows what's broken, what's uncheckable, and when the monitor last swept.</p>
+ <p class="dim xs">Deterministic end to end: identical on a laptop and in production, because there is nothing stochastic to vary.</p>
+ </div>
+ </div>
+ </div>
+
+ <p class="dim xs" style="margin-top:1.2rem;">Ships with the standing monitor on by default; one flag turns it off. <a href="/docs/configuration/" style="color:var(--margin)">Configuration →</a> &nbsp; <a href="/docs/agents/" style="color:var(--margin)">Capturing premises from agents →</a></p>
+ </div>
+</section>
+
 <section id="people">
  <div class="wrap">
  <div class="sechead narrow">
@@ -675,7 +725,7 @@
  <div class="fc fbrand"><a class="brand" href="#top" style="font-size:1.05rem;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><mask id="dbMark2"><rect width="24" height="24" fill="#fff"/><g fill="#000"><circle cx="12" cy="7.5" r=".85"/><circle cx="12" cy="4.9" r=".85"/><circle cx="12" cy="10.1" r=".85"/><circle cx="6.2" cy="7.5" r=".85"/><circle cx="17.8" cy="7.5" r=".85"/></g></mask><path d="M12 12.3 3 16.5l9 4.2 9-4.2z" opacity=".45"/><path d="M12 7.8 3 12l9 4.2L21 12z" opacity=".7"/><path d="M12 3.3 3 7.5l9 4.2 9-4.2z" mask="url(#dbMark2)"/></svg>DocBrain</a><span class="dim sm">The memory layer for humans and AI agents.</span>
   <span class="fsoc"><a href="https://github.com/docbrain-ai/docbrain" aria-label="DocBrain on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a></span>
   <span class="dim xs fcopy">© 2026 DocBrain</span></div>
- <div class="fc"><span class="fh">Product</span><a href="#decisions">Decision memory</a><a href="#learns">It compounds</a><a href="#dayone">Day one</a><a href="#experience">Experience</a><a href="#writes">It writes</a><a href="#live">Live intelligence</a><a href="#people">For your engineers</a><a href="#agents">For your agents</a></div>
+ <div class="fc"><span class="fh">Product</span><a href="#decisions">Decision memory</a><a href="#learns">It compounds</a><a href="#dayone">Day one</a><a href="#experience">Experience</a><a href="#writes">It writes</a><a href="#live">Live intelligence</a><a href="#premises">Living claims</a><a href="#people">For your engineers</a><a href="#agents">For your agents</a></div>
  <div class="fc"><span class="fh">Resources</span><a href="/docs/">All docs</a><a href="/docs/quickstart/">Quickstart</a><a href="/docs/mcp-tools/">MCP tools</a><a href="/docs/api-reference/">API</a></div>
  <div class="fc"><span class="fh">Trust</span><a href="/docs/trust/">Security overview</a><a href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md">Threat model</a><a href="#honest">Known limits</a><a href="mailto:licensing@docbrainapi.com">Licensing</a></div>
  <div class="fc"><span class="fh">Company / Contact</span><a href="https://cal.com/docbrain/30min">Book 30 minutes</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a></div>
