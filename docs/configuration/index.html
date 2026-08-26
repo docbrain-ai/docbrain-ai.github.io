@@ -987,6 +987,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#evidence-bundles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence Bundles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ollama-specific-notes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1489,6 +1500,34 @@
     
   
     How DocBrain Earns Trust
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evidence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Offline Evidence Bundles
   
 
     
@@ -2775,6 +2814,17 @@
     <span class="md-ellipsis">
       
         Knowledge Stream
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidence-bundles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence Bundles
       
     </span>
   </a>
@@ -5039,6 +5089,51 @@ Response:
 </span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">  </span><span class="nt">alert_channel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">~</span>
 </span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">  </span><span class="nt">expertise_gap_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">90</span>
 </span></code></pre></div>
+<h2 id="evidence-bundles">Evidence Bundles<a class="headerlink" href="#evidence-bundles" title="Permanent link">&para;</a></h2>
+<p>See <a href="../evidence/"><code>docs/evidence.md</code></a> for what a bundle is, the verdict taxonomy, and how to verify one offline. These settings control the server-side journal that bundles are exported from.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EVIDENCE_ENABLED</code></td>
+<td><code>true</code></td>
+<td>Master switch for the evidence journal. When <code>false</code>, no records are written and <code>docbrain evidence export</code> has nothing to export.</td>
+</tr>
+<tr>
+<td><code>EVIDENCE_CHECKPOINT_EVERY_N</code></td>
+<td><code>256</code></td>
+<td>Emit a signed checkpoint after this many journal records. Clamped to <code>16..=65536</code>.</td>
+</tr>
+<tr>
+<td><code>EVIDENCE_CHECKPOINT_EVERY_SECS</code></td>
+<td><code>3600</code></td>
+<td>Emit a signed checkpoint after this many seconds even if the record count hasn't reached <code>EVIDENCE_CHECKPOINT_EVERY_N</code> yet. Not clamped — the writer floors a zero value to 1 second internally rather than rejecting it, so a sub-minute value is valid for testing.</td>
+</tr>
+<tr>
+<td><code>EVIDENCE_RECOVERY_PUBKEY</code></td>
+<td>—</td>
+<td>Hex-encoded Ed25519 public key for the cold recovery key, declared at genesis. <strong>Set this before the journal's first boot</strong> — genesis is created automatically on first write and is immutable afterward; without a recovery key declared at genesis, no compromise can ever be declared in-band. Optional but strongly recommended.</td>
+</tr>
+<tr>
+<td><code>EVIDENCE_TSA_URL</code></td>
+<td>—</td>
+<td>RFC 3161 timestamp authority endpoint. Must be an absolute <code>http</code>/<code>https</code> URL. Optional, off by default. A down or slow TSA never blocks a checkpoint — anchoring is best-effort. v1 stores the returned token but does not cryptographically validate it (a future release adds validation); an anchor is honestly reported as present-but-unvalidated, never granted a trust tier on that basis alone.</td>
+</tr>
+<tr>
+<td><code>EVIDENCE_WITNESS_DIR</code></td>
+<td>—</td>
+<td>Directory for append-only, dated witness files (<code>witness-YYYY-MM-DD.jsonl</code>) your organization publishes independently. Must be an existing, writable directory — validated at startup with a create+delete probe, not just an existence check. Optional, off by default.</td>
+</tr>
+</tbody>
+</table>
+<p>The set of event classes journaled (<code>fragments</code>, <code>reviews</code>, <code>decisions</code>, <code>premises</code>, <code>governance</code> — all on by default) is YAML-only, matching this codebase's convention for other list-shaped config; there is no env override. <code>governance</code> (GDPR erasure records) is written unconditionally regardless of this list.</p>
+<p>The <strong>default compliance profile</strong> is <code>eu-ai-act</code> — a compiled default (there is no env var to change it), selectable per export via <code>docbrain evidence export --profile &lt;id&gt;</code>. It is the only profile v1 ships; see <a href="../evidence/#regulation-agnostic-engine-pluggable-compliance-profiles"><code>docs/evidence.md</code></a>.</p>
 <h2 id="ollama-specific-notes">Ollama-specific Notes<a class="headerlink" href="#ollama-specific-notes" title="Permanent link">&para;</a></h2>
 <p>When using Ollama as both LLM and embedding provider:</p>
 <ul>
