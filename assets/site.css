@@ -131,6 +131,11 @@
             border-radius:2px; justify-self:start; margin-top:.15rem; }
   .lanetag.now{ color:var(--margin); background:#F8EAE8; }
   .lanetag.was{ color:var(--body); background:var(--card2); border:1px solid var(--rule); }
+  /* #evidence lanes are a terminal transcript (command -> output), not a was/now
+     pill compare: the tag holds a full command, too wide for the 5.4rem tag track.
+     Stack it above the output full-width and let it read as a real command line. */
+  #evidence .lane{ grid-template-columns:1fr; gap:.4rem; }
+  #evidence .lanetag{ max-width:100%; text-transform:none; letter-spacing:0; font-size:.72rem; overflow-wrap:anywhere; }
   .lanebody p{ font-size:.95rem; line-height:1.55; color:var(--ink); }
   .lanemeta{ display:flex; align-items:center; gap:.45rem; margin-top:.4rem; font-family:var(--mono); font-size:.71rem; color:var(--dim); flex-wrap:wrap; }
   .lanemeta b{ color:var(--margin); font-weight:400; }
