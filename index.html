@@ -473,6 +473,56 @@
  </div>
 </section>
 
+<section id="evidence">
+ <div class="wrap">
+ <div class="sechead narrow">
+ <div class="eye">Offline evidence</div>
+ <h2>Proof your knowledge is authentic — checkable by someone who has no reason to trust you.</h2>
+ <p class="lede">Answers, decisions, approvals and premise verdicts export as a sealed <code>.dbev</code> bundle: a signed, hash-chained record of what your knowledge said and when. Anyone verifies it <strong>offline</strong> — no DocBrain, no server, no network — with an open-source verifier that returns <b>VALID</b>, <b>TAMPERED</b>, or <b>CANNOT_VERIFY</b>. The trust doesn't come from us. It comes from the math, which they run themselves.</p>
+ </div>
+
+ <div class="rec">
+ <span class="tab">The same bundle, honest and tampered — verified on a bare laptop</span>
+ <div class="lane">
+ <div class="lanetag was">python3 verify_dbev.py evidence.dbev</div>
+ <div class="lanebody">
+ <p><b>VALID</b> — all checks passed · 5 records, signed and chain-linked · exit 0</p>
+ <div class="lanemeta"><span>Stdlib Python, nothing to install. No network. No DocBrain. The trust root is a genesis key you confirm out-of-band — not our word.</span></div>
+ </div>
+ </div>
+ <div class="lane">
+ <div class="lanetag now">one content byte flipped</div>
+ <div class="lanebody">
+ <p>⚠ <b>TAMPERED</b> — <code>content/2</code> hash does not match the signed manifest · exit 1</p>
+ <div class="lanemeta"><span>It names the record and the exact check that failed. A single altered byte anywhere in the bundle is caught.</span></div>
+ </div>
+ </div>
+ <p class="lanefoot">A verifier that says "trust me" is worthless to an auditor. This one ships as source — a Rust binary and a dependency-free Python script — <strong>so the party who distrusts you can read it, run it, and get the same verdict we do.</strong></p>
+ </div>
+
+ <div class="two" style="margin-top:1.8rem;">
+ <div class="rec plain">
+ <span class="tab">Two implementations, one answer</span>
+ <div class="recb">
+ <h3>Independent by design, identical by proof</h3>
+ <p style="margin-bottom:.9rem;">The bundle is checked by two codebases that share no code — a Rust binary and a stdlib Python script. They return the byte-identical verdict on every input, honest or hostile. We proved it the hard way: exhaustive differential testing — every byte of a bundle flipped, thousands of adversarial numbers, the full container and signature surface — with zero disagreement.</p>
+ <p class="dim xs">When a second, independent implementation agrees on a bundle, the verdict isn't our opinion. It's a fact about the bytes.</p>
+ </div>
+ </div>
+ <div class="rec plain">
+ <span class="tab">Regulation-agnostic engine</span>
+ <div class="recb">
+ <h3>The crypto proves integrity. A profile speaks the regime.</h3>
+ <p style="margin-bottom:.9rem;">Integrity, continuity and provenance are universal — the cryptographic core proves them for any regime. A compliance profile — presets, a report mapping, all data — adapts the edges. The EU AI Act ships as profile #1; adding SOC 2, ISO 42001 or SEC is a new profile, not a new engine. An amendment is a profile edit.</p>
+ <p class="dim xs">A VALID verdict proves the evidence is intact and provenance-continuous — not that you are "compliant," and only for what actually flowed through DocBrain. That limit is printed on the bundle itself.</p>
+ </div>
+ </div>
+ </div>
+
+ <p class="dim xs" style="margin-top:1.2rem;">Off until you export; the journal is one flag. <a href="/docs/evidence/" style="color:var(--margin)">Evidence bundles →</a> &nbsp; <a href="https://github.com/docbrain-ai/docbrain/blob/main/tools/verify_dbev.py" style="color:var(--margin)">Read the verifier →</a></p>
+ </div>
+</section>
+
 <section id="people">
  <div class="wrap">
  <div class="sechead narrow">
