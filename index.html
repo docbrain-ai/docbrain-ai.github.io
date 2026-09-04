@@ -20,10 +20,18 @@
 <link rel="stylesheet" href="/assets/site.css?v=6dcf81debe">
 <style>
   /* rotating headline: grid-stacked, so height is the tallest line and nothing shifts */
-  #rh1{ display:grid; }
-  #rh1 .rh{ grid-area:1/1; opacity:0; transform:translateY(.28rem);
-            transition:opacity .5s ease, transform .5s ease; }
-  #rh1 .rh.on{ opacity:1; transform:none; }
+  #rh1{ display:grid; align-items:start; }
+  /* narrow screens: a smaller headline keeps every line to the same row count,
+     so the grid cell has no dead space under the shorter ones */
+  @media (max-width:30rem){ #rh1{ font-size:2.15rem; } }
+  @media (max-width:23.5rem){ #rh1{ font-size:1.92rem; } }
+  /* .kh is an inline-block, so a line can break between it and the comma that
+     follows and strand the comma at the start of a row */
+  .nbg{ white-space:nowrap; }
+  /* the outgoing line clears before the incoming one starts, otherwise the two
+     are painted over each other, which is very visible once they wrap */
+  #rh1 .rh{ grid-area:1/1; opacity:0; transition:opacity .2s ease; }
+  #rh1 .rh.on{ opacity:1; transition:opacity .38s ease .22s; }
   #rh1p{ font-family:var(--mono); font-size:.58rem; line-height:1; color:var(--dim);
          background:none; border:1px solid var(--rule); border-radius:4px;
          padding:.22rem .3rem; margin-left:.55rem; cursor:pointer; opacity:.45; transition:opacity .2s; }
@@ -157,9 +165,30 @@
     .run,.cr{ display:none; }
   }
 
+  /* grid and flex items default to min-width:auto, which stops the panel
+     shrinking below the terminal's content width and forces the whole stage
+     wider than a phone viewport. Zero lets it shrink. */
+  .hgrid,.surfwrap,#stage,#stage .pane{ min-width:0; }
+  .sc{ max-width:100%; }
+  .sc .bd{ min-width:0; }
+
   @media (max-width:52rem){
-    .sc.term .bd{ font-size:.63rem; }
+    .sc.term .bd{ font-size:.6rem; padding:.7rem .65rem; }
     .sc.term .l{ white-space:pre-wrap; overflow-wrap:anywhere; }
+    .sc.cur .bd,.sc.gh .bd,.sc.sl .bd{ padding:.65rem .6rem; }
+    .ghbody,.slmsg p,.sc.cur .bd{ font-size:.76rem; }
+    .st{ white-space:normal; }
+    .slmsg{ gap:.45rem; }
+    .surf button{ font-size:.6rem; padding:.28rem .45rem; }
+  }
+  @media (max-width:24rem){
+    .sc.term .bd{ font-size:.55rem; }
+  }
+  /* long unbreakable paths in inline code force the page wider than a narrow
+     phone; let them break rather than pushing the whole layout sideways */
+  @media (max-width:52rem){
+    code{ overflow-wrap:anywhere; }
+    .lanebody p,.lanemeta span,.lanefoot{ overflow-wrap:anywhere; }
   }
 </style>
 </head>
@@ -183,7 +212,7 @@
  <h1 id="rh1" aria-live="off">
   <span class="rh on">The memory layer for <span class="kh">humans</span> and <span class="ka">AI agents</span>.</span>
   <span class="rh">Knowledge that can be <span class="km">proven wrong</span>.</span>
-  <span class="rh">What your organization <span class="kh">already solved</span>, and forgot.</span>
+  <span class="rh">What you <span class="nbg"><span class="kh">already solved</span>,</span> and forgot.</span>
   <span class="rh">The <span class="kh">reasoning</span> that left when they did.</span>
  </h1>
  <p class="prod">Your engineers stop re-solving what someone already solved.<br><strong>Every answer arrives cited, and the reasoning stays when the person leaves.</strong></p>
