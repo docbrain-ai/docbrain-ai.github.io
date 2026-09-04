@@ -18,7 +18,153 @@
 <meta name="twitter:image" content="https://docbrainapi.com/banner.png">
 <meta name="description" content="Institutional memory for engineering teams. DocBrain captures what your engineers work out, cites every claim to its source, and serves it to people and coding agents alike. Self-hosted.">
 <link rel="stylesheet" href="/assets/site.css?v=6dcf81debe">
+<style>
+  /* rotating headline: grid-stacked, so height is the tallest line and nothing shifts */
+  #rh1{ display:grid; }
+  #rh1 .rh{ grid-area:1/1; opacity:0; transform:translateY(.28rem);
+            transition:opacity .5s ease, transform .5s ease; }
+  #rh1 .rh.on{ opacity:1; transform:none; }
+  #rh1p{ font-family:var(--mono); font-size:.58rem; line-height:1; color:var(--dim);
+         background:none; border:1px solid var(--rule); border-radius:4px;
+         padding:.22rem .3rem; margin-left:.55rem; cursor:pointer; opacity:.45; transition:opacity .2s; }
+  #rh1p:hover,#rh1p:focus-visible{ opacity:1; color:var(--ink); }
+  @media (prefers-reduced-motion: reduce){ #rh1 .rh{ transition:none; } }
+
+  .surf{ display:flex; gap:.3rem; margin-bottom:.75rem; flex-wrap:wrap; }
+  .surf button{ font-family:var(--mono); font-size:.64rem; letter-spacing:.06em; text-transform:uppercase;
+                padding:.3rem .58rem; border:1px solid var(--rule); background:var(--card2); color:var(--dim);
+                border-radius:5px; cursor:pointer; transition:.15s; }
+  .surf button.on{ background:var(--ink); color:var(--card); border-color:var(--ink); }
+  .surf button:hover:not(.on){ color:var(--ink); }
+
+  /* every pane occupies the same grid cell, so the stage is always as tall as the
+     tallest one and switching tabs can never move the page underneath it */
+  #stage{ display:grid; }
+  #stage .pane{ grid-area:1/1; visibility:hidden; opacity:0; transition:opacity .18s ease; }
+  #stage .pane.on{ visibility:visible; opacity:1; }
+  .sfoot{ font-family:var(--mono); font-size:.7rem; color:var(--dim); margin-top:.7rem; }
+  .sc{ border-radius:9px; overflow:hidden; }
+
+  /* ---------- terminal (Claude Code) ---------- */
+  .sc.term{ background:#16140F; border:1px solid #2C2924; }
+  .tbar{ display:flex; align-items:center; gap:.4rem; padding:.5rem .7rem; background:#211E1A; border-bottom:1px solid #2C2924; }
+  .td{ width:.62rem; height:.62rem; border-radius:50%; }
+  .td.r{ background:#E06C60; } .td.y{ background:#E0B441; } .td.g{ background:#63C167; }
+  .tt{ margin-left:auto; margin-right:auto; font-family:var(--mono); font-size:.63rem; color:#7C7669; }
+  .sc.term .bd{ padding:.8rem .9rem; font-family:var(--mono); font-size:.72rem; line-height:1.72; color:#CFC8BA; }
+  .sc.term .l{ display:block; white-space:pre-wrap; }
+  .sc.term .pr{ color:#7FA98D; } .sc.term .q{ color:#FDFCF9; font-weight:400; }
+  .sc.term .tk{ color:#D8B25C; } .sc.term .ct{ color:#93B4CE; }
+  .sc.term .dim2{ color:#6F6960; } .sc.term .gp{ color:#E39184; }
+
+  /* ---------- Cursor ---------- */
+  .sc.cur{ background:#1A1A1C; border:1px solid #2E2E31; }
+  .ctabs{ display:flex; align-items:center; gap:.15rem; background:#151517; border-bottom:1px solid #2E2E31; padding:.3rem .4rem; }
+  .ctab{ font-family:var(--mono); font-size:.63rem; color:#8A8A90; padding:.32rem .55rem; border-radius:4px; }
+  .ctab.on{ background:#1A1A1C; color:#E6E6EA; }
+  .ctab i{ font-style:normal; color:#7FA98D; margin-left:.3rem; font-size:.7em; vertical-align:.15em; }
+  .cright{ margin-left:auto; font-family:var(--mono); font-size:.58rem; letter-spacing:.12em; color:#6E6E74; padding-right:.3rem; }
+  .sc.cur .bd{ padding:.75rem .8rem; font-size:.78rem; line-height:1.55; color:#C9C9CF; }
+  .cmsg{ margin-bottom:.7rem; }
+  .cwho{ display:block; font-family:var(--mono); font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:#7E7E86; margin-bottom:.25rem; }
+  .cwho em{ font-style:normal; background:#2A2A2E; color:#A8A8B0; border-radius:3px; padding:.05rem .28rem; margin-left:.35rem; font-size:.9em; }
+  .cmsg.you p{ color:#F0F0F4; }
+  .cmsg.bot{ border-left:2px solid #3A3A40; padding-left:.7rem; }
+  .cmsg.bot p{ margin-bottom:.4rem; }
+  .cmsg.bot b{ color:#F0F0F4; font-weight:500; }
+  .crun{ font-family:var(--mono); font-size:.64rem; color:#D8B25C; margin-bottom:.45rem; }
+  .csrc{ font-family:var(--mono); font-size:.64rem; color:#93B4CE; margin-bottom:.55rem !important; }
+  .cgap{ color:#E39184; } .cgap b{ font-family:var(--mono); font-size:.64rem; text-transform:uppercase; letter-spacing:.08em; color:#E39184 !important; margin-right:.3rem; }
+  .cinput{ display:flex; align-items:center; margin-top:.6rem; padding:.45rem .6rem; border:1px solid #2E2E31; border-radius:6px; font-size:.74rem; color:#6E6E74; }
+  .cinput i{ margin-left:auto; font-style:normal; font-family:var(--mono); font-size:.62rem; }
+
+  /* ---------- GitHub ---------- */
+  .sc.gh{ background:#fff; border:1px solid #D8DEE4; }
+  .ghhead{ display:flex; align-items:center; gap:.5rem; padding:.55rem .8rem; background:#F6F8FA; border-bottom:1px solid #D8DEE4;
+           font-size:.74rem; color:#59636E; }
+  .ghrepo{ color:#0969DA; } .ghpr{ color:#59636E; }
+  .ghstate{ margin-left:auto; background:#1F883D; color:#fff; border-radius:2em; padding:.1rem .55rem; font-size:.66rem; }
+  .sc.gh .bd{ padding:.8rem; background:#fff; }
+  .ghc{ border:1px solid #D8DEE4; border-radius:6px; margin-bottom:.7rem; overflow:hidden; }
+  .ghc:last-child{ margin-bottom:0; }
+  .ghtop{ display:flex; align-items:center; gap:.4rem; padding:.45rem .7rem; background:#F6F8FA; border-bottom:1px solid #D8DEE4; font-size:.73rem; color:#1F2328; }
+  .ghav{ width:1.25rem; height:1.25rem; border-radius:50%; background:#1F2328; color:#fff; display:grid; place-items:center; font-size:.53rem; font-family:var(--mono); }
+  .ghav.bot{ background:#0969DA; }
+  .ghbot{ border:1px solid #D8DEE4; border-radius:2em; padding:0 .38rem; font-size:.62rem; color:#59636E; }
+  .ghdim{ color:#59636E; margin-left:.1rem; }
+  .ghbody{ padding:.65rem .75rem; font-size:.79rem; line-height:1.55; color:#1F2328; }
+  .ghbody p{ margin-bottom:.45rem; } .ghbody p:last-child{ margin-bottom:0; }
+  .ghmention,.ghsrc a{ color:#0969DA; }
+  .ghmeta{ font-family:var(--mono); font-size:.65rem; color:#59636E; }
+  .ghsrc{ font-family:var(--mono); font-size:.67rem; color:#59636E; }
+  .ghgap{ background:#FFF8C5; border:1px solid #F0E68C; border-radius:5px; padding:.4rem .5rem; font-size:.75rem; }
+  .ghgap b{ font-family:var(--mono); font-size:.63rem; text-transform:uppercase; letter-spacing:.07em; margin-right:.3rem; color:#9A6700; }
+
+  /* ---------- Slack ---------- */
+  .sc.sl{ background:#fff; border:1px solid #DDDDDD; }
+  .slhead{ display:flex; align-items:center; gap:.55rem; padding:.6rem .85rem; border-bottom:1px solid #E8E8E8; font-size:.82rem; color:#1D1C1D; }
+  .sldim{ color:#616061; font-size:.72rem; }
+  .sc.sl .bd{ padding:.75rem .85rem; }
+  .slmsg{ display:flex; gap:.55rem; margin-bottom:.85rem; }
+  .slmsg:last-child{ margin-bottom:0; }
+  .slav{ width:1.6rem; height:1.6rem; border-radius:5px; flex:none; background:#4A154B; color:#fff;
+         display:grid; place-items:center; font-size:.6rem; font-family:var(--mono); }
+  .slav.bot{ background:#007A5A; }
+  .slwho{ display:block; font-weight:700; font-size:.79rem; color:#1D1C1D; margin-bottom:.15rem; }
+  .slwho em{ font-style:normal; font-weight:400; background:#E8E8E8; color:#616061; border-radius:3px;
+             padding:.02rem .25rem; margin-left:.3rem; font-size:.62rem; text-transform:uppercase; letter-spacing:.04em; }
+  .sltime{ font-weight:400; color:#616061; font-size:.68rem; margin-left:.4rem; }
+  .slmsg p{ font-size:.79rem; line-height:1.52; color:#1D1C1D; margin-bottom:.35rem; }
+  .slmention{ color:#1264A3; background:#E8F5FA; border-radius:3px; padding:0 .15rem; }
+  .slmeta{ font-family:var(--mono); font-size:.65rem; color:#616061 !important; }
+  .slsrc{ font-family:var(--mono); font-size:.66rem; color:#1264A3 !important; margin-bottom:.5rem !important; }
+  .sllive{ color:#007A5A; } .slidx{ color:#616061; }
+  .slgap{ border-left:3px solid #E01E5A; padding-left:.5rem; color:#616061 !important; }
+  .slgap b{ font-family:var(--mono); font-size:.63rem; text-transform:uppercase; letter-spacing:.07em; color:#E01E5A; margin-right:.3rem; }
+
+  /* Ask -> running -> answer. Every stage reserves its space and only opacity
+     changes, so the panel height is constant and nothing below it can move. */
+  .st,.an,.an2,.an3{ opacity:0; transition:opacity .34s ease; }
+  .st.vis,.an.vis,.an2.vis,.an3.vis{ opacity:1; }
+  .st{ white-space:nowrap; overflow:hidden; }
+  /* .fin is the sizer and stays in flow; .run is overlaid on top of it, so the
+     animated dots cannot change any width and nothing slides sideways */
+  .metabox{ position:relative; display:inline-block; }
+  .fin{ opacity:0; transition:opacity .3s ease; }
+  .metabox .run{ position:absolute; left:0; top:0; white-space:nowrap;
+                 transition:opacity .2s ease; }
+  .st.done .fin{ opacity:1; }
+  .st.done .run{ opacity:0; animation:none; }
+  .st.done .run::after{ animation:none; content:""; }
+  .run::after{ content:""; display:inline-block; width:1.1em; text-align:left;
+               animation:dots 1.1s steps(4,end) infinite; }
+  @keyframes dots{ 0%{content:""} 25%{content:"."} 50%{content:".."} 75%{content:"..."} }
+  .cr{ display:inline-block; width:.5em; height:1em; vertical-align:-.14em;
+       background:currentColor; opacity:0; }
+  .cr.on{ opacity:1; animation:cbl 1s steps(1) infinite; }
+  @keyframes cbl{ 50%{ opacity:0; } }
+  /* the audience paragraphs share one grid cell, so switching cannot move the page */
+  .audpair{ display:grid; }
+  /* both paragraphs stay in the grid cell so it is always as tall as the longer
+     one; site.css toggles them with display, which would drop one out and shift
+     the page, so visibility does the switching here instead */
+  .audpair .m-h,.audpair .m-a{ grid-area:1/1; display:block !important;
+                               visibility:hidden; opacity:0; transition:opacity .25s ease; }
+  body[data-mode="human"] .audpair .m-h,
+  body[data-mode="agent"] .audpair .m-a{ visibility:visible; opacity:1; }
+  @media (prefers-reduced-motion: reduce){
+    .st,.an,.an2,.an3,.fin{ opacity:1 !important; transition:none; }
+    .run,.cr{ display:none; }
+  }
+
+  @media (max-width:52rem){
+    .sc.term .bd{ font-size:.63rem; }
+    .sc.term .l{ white-space:pre-wrap; overflow-wrap:anywhere; }
+  }
+</style>
 </head>
+
+
 <body data-mode="human">
 
 <nav id="nav"><div class="wrap navin">
@@ -34,13 +180,18 @@
  <div class="hcopy">
  <img class="heromark" src="/assets/mark.webp" width="320" height="320" alt="" decoding="async" fetchpriority="high">
  <div class="eye">Institutional memory, built for engineering teams</div>
- <h1>The memory layer for
- <button class="swap sel" id="sw-h" type="button">humans</button> and
- <button class="swap" id="sw-a" type="button">AI agents</button>.
+ <h1 id="rh1" aria-live="off">
+  <span class="rh on">The memory layer for <span class="kh">humans</span> and <span class="ka">AI agents</span>.</span>
+  <span class="rh">Knowledge that can be <span class="km">proven wrong</span>.</span>
+  <span class="rh">What your organization <span class="kh">already solved</span>, and forgot.</span>
+  <span class="rh">The <span class="kh">reasoning</span> that left when they did.</span>
  </h1>
  <p class="prod">Your engineers stop re-solving what someone already solved.<br><strong>Every answer arrives cited, and the reasoning stays when the person leaves.</strong></p>
+ <p class="cue" id="audsw">Read the next line for <button class="swap sel" id="sw-h" type="button">your engineers</button> or for <button class="swap" id="sw-a" type="button">your AI agents</button><button id="rh1p" type="button" aria-label="Pause the rotating headline">❚❚</button></p>
+ <div class="audpair">
  <div class="m-h"><p class="lede">New engineers answer themselves from week one. Your seniors stop being a search engine. And when someone leaves, the architecture decisions, the incident fixes and the caveats stay behind them.</p></div>
  <div class="m-a"><p class="lede">Every session starts warm. What one agent works out is available to all of them, so they stop paying to re-derive what your organization settled months ago.</p></div>
+ </div>
 
  <div class="gainbar">
  <div class="gain">
@@ -50,7 +201,6 @@
  </div>
  <p class="gnote">Our model, arithmetic shown and sources cited. This is not a customer average, because we do not have one yet, and we will not borrow somebody else's.</p>
  </div>
- <p class="cue">↑ two words, two readers. Pick one.</p>
  <div class="acts">
  <a class="btn" href="#start">Self-host in 5 minutes</a>
  <a class="btn btn2" href="#roi">Calculate the return</a>
@@ -59,31 +209,112 @@
  </div>
 
  <div class="hgrid">
- <div class="rec">
- <span class="tab">Answering questions about its own codebase</span>
-        <div class="qline reveal" id="hq">“Why does find_entities order before it limits?”</div>
-        <div class="status reveal" id="heroStatus">Reading the record</div>
-        <div id="hclaims"></div>
-        <div class="stamp reveal" id="hstamp">
-          <span class="pill h" id="hcount">3 claims, each cited</span><span class="pill g">1 gap declared</span>
-          <span class="dim xs" style="font-family:var(--mono)">click a citation</span>
-          <span class="qdots" id="qdots"></span>
-          <button class="replaybtn" id="heroReplay" type="button">Replay</button>
-        </div>
+ <div class="surfwrap">
+ <div class="surf" role="tablist">
+  <button class="on" data-s="0" type="button">Claude Code</button>
+  <button data-s="1" type="button">Cursor</button>
+  <button data-s="2" type="button">GitHub</button>
+  <button data-s="3" type="button">Slack</button>
+  <button class="replaybtn" id="sReplay" type="button">Replay</button>
  </div>
+ <div id="stage">
 
- <div class="stack">
- <div class="rec plain">
- <span class="tab h">When a person asks</span>
- <div class="recb"><p>DocBrain answers from what it has indexed, and where the answer depends on state that changes minute to minute it queries your live systems at answer time over MCP. A runbook comes from the record. A ticket status is read now. Both are cited.</p></div>
- </div>
- <div class="rec plain">
- <span class="tab a">When an agent asks</span>
- <div class="recb"><p>Claude Code and Cursor connect to the <code>docbrain-mcp</code> server and call <code>docbrain_ask</code>. Your agent gets the same cited memory a person does, without anyone re-explaining the codebase in a prompt.</p></div>
- </div>
- <div class="rec plain">
- <span class="tab a">When an agent learns something</span>
- <div class="recb"><p>The same server gives it a write path. <code>docbrain_suggest_capture</code> checks whether a gap exists for the files in play, and <code>docbrain_annotate</code> files the fragment against a file and line range once you approve it.</p></div>
+  <div class="pane on" data-p="0">
+   <div class="sc term">
+    <div class="tbar"><span class="td r"></span><span class="td y"></span><span class="td g"></span><span class="tt">payments · claude</span></div>
+    <div class="bd">
+<span class="l dim2">✻ Welcome to Claude Code</span>
+<span class="l"></span>
+<span class="l ask"><b class="pr">&gt;</b> <b class="q qt" data-t="why must the canary drain before we roll back payment-processor?"></b><b class="cr"></b></span>
+<span class="l"></span>
+<span class="l st"><b class="tk">⏺</b> docbrain <span class="dim2">-</span> ask <span class="dim2">(MCP)</span></span>
+<span class="l st">  <span class="dim2">⎿</span>  <span class="run">running…</span><span class="fin">4 sources read · 3 claims grounded · 1 gap found</span></span>
+<span class="l"></span>
+<span class="l an"><b class="tk">⏺</b> The rollback silently no-ops unless the canary is drained</span>
+<span class="l an">  first. The guard is an idempotency key added after the July</span>
+<span class="l an">  incident.</span>
+<span class="l an">  <span class="dim2">⎿</span>  <span class="ct">runbook v3 · captured 11 Jul</span></span>
+<span class="l"></span>
+<span class="l an2"><b class="tk">⏺</b> A rollback that looks successful leaves the old build serving</span>
+<span class="l an2">  half of EU traffic.</span>
+<span class="l an2">  <span class="dim2">⎿</span>  <span class="ct">#inc-eu-canary · 14 Jul · PR #347</span></span>
+<span class="l"></span>
+<span class="l an3"><b class="gp">⚠</b> <span class="gp">gap</span> Who owns the drain step since the Q1 reorg is not</span>
+<span class="l an3">  recorded.</span>
+    </div>
+   </div>
+   <p class="sfoot">Cited in the terminal. Nobody re-explained the codebase in a prompt.</p>
+  </div>
+
+  <div class="pane" data-p="1">
+   <div class="sc cur">
+    <div class="ctabs"><span class="ctab on">rollback.rs <i>●</i></span><span class="ctab">pool.rs</span><span class="cright">CHAT</span></div>
+    <div class="bd">
+     <div class="cmsg you ask"><span class="cwho">You</span><p><span class="qt" data-t="has anyone tried pinning the connector pool?"></span><b class="cr"></b></p></div>
+     <div class="cmsg bot">
+      <span class="cwho st">docbrain <em>MCP</em></span>
+      <div class="crun st"><span class="run">running…</span><span class="fin">ask · 3 sources read, 2 claims grounded, 1 gap found</span></div>
+      <p class="an"><b>Twice, and rejected both times.</b> The pool is shared with the batch importer, so pinning starves the nightly run.</p>
+      <p class="csrc an">PROJ-884 · closed won’t fix</p>
+      <p class="an2">The second attempt reached staging and the nightly import missed its window for four days.</p>
+      <p class="csrc an2">#eng-data · Nov 2023</p>
+      <p class="cgap an3"><b>gap</b> Whether the importer still shares that pool after the 2025 split is not recorded. It will not guess.</p>
+     </div>
+     <div class="cinput"><span>Ask about rollback.rs</span><i>⌘K</i></div>
+    </div>
+   </div>
+   <p class="sfoot">Prior art, before you spend the sprint rediscovering it.</p>
+  </div>
+
+  <div class="pane" data-p="2">
+   <div class="sc gh">
+    <div class="ghhead"><span class="ghrepo">docbrain-ai/payments</span><span class="ghpr">#412</span><span class="ghstate">Open</span></div>
+    <div class="bd">
+     <div class="ghc ask">
+      <div class="ghtop"><span class="ghav">AR</span><b>alex-r</b><span class="ghdim">commented on 3 Mar</span></div>
+      <div class="ghbody"><p><a class="ghmention">@docbrain</a> <span class="qt" data-t="has this been decided before?"></span><b class="cr"></b></p></div>
+     </div>
+     <div class="ghc st">
+      <div class="ghtop"><span class="ghav bot">DB</span><b>docbrain</b><span class="ghbot">bot</span><span class="ghdim">commented on 3 Mar</span></div>
+      <div class="ghbody">
+       <p class="ghmeta"><span class="run">running…</span><span class="fin">3 sources read · 2 claims grounded · 1 gap found</span></p>
+       <p class="an"><b>Yes, in March 2019.</b> Payments moved off the shared database because of contention during month end close.</p>
+       <p class="ghsrc an">↳ <a>#eng-payments</a> · Mar 2019</p>
+       <p class="an2">Revisited in 2021 when the shared instance was upgraded, and deliberately not reversed. The isolation had become load bearing for the close.</p>
+       <p class="ghsrc an2">↳ <a>PROJ-118</a> · comment</p>
+       <p class="ghgap an3"><b>gap</b> Nobody involved in either decision still works here, and no owner has been recorded since.</p>
+      </div>
+     </div>
+    </div>
+   </div>
+   <p class="sfoot">Answers in review, where the decision is actually being made.</p>
+  </div>
+
+  <div class="pane" data-p="3">
+   <div class="sc sl">
+    <div class="slhead"><b># eng-platform</b><span class="sldim">142 members</span></div>
+    <div class="bd">
+     <div class="slmsg ask">
+      <span class="slav">RK</span>
+      <div><span class="slwho">Ravi K<span class="sltime">9:41 AM</span></span>
+       <p><a class="slmention">@docbrain</a> <span class="qt" data-t="is the payments outage resolved, and what was the fix?"></span><b class="cr"></b></p></div>
+     </div>
+     <div class="slmsg st">
+      <span class="slav bot">DB</span>
+      <div><span class="slwho">docbrain<em>APP</em><span class="sltime">9:41 AM</span></span>
+       <p class="slmeta"><span class="run">typing…</span><span class="fin">live read plus indexed record</span></p>
+       <p class="an"><b class="sllive">Live</b> Resolved. PROJ-412 moved to Done at 09:14 UTC.</p>
+       <p class="slsrc an">Jira, read 0s ago at answer time</p>
+       <p class="an2"><b class="slidx">Indexed</b> The fix was a rollback of payment-processor plus an idempotency key guard, and the canary must be drained first or the rollback silently no-ops.</p>
+       <p class="slsrc an2">runbook v3 · #inc-eu-canary · PR #347</p>
+       <p class="slgap an3"><b>gap</b> Whether the guard was backported to the EU region is not recorded.</p>
+      </div>
+     </div>
+    </div>
+   </div>
+   <p class="sfoot">An index alone would say still open. A live tool alone would not say why.</p>
+  </div>
+
  </div>
  </div>
  </div>
@@ -135,7 +366,7 @@
      <div class="genrow"><span class="gk">Validity</span><span class="gv">Is this still true today?</span><span class="gp">A freshness critic segments a document into atomic claims and retrieves evidence for each one. A claim is flagged only when retrieved evidence actively contradicts it.</span></div>
      <div class="genrow"><span class="gk">Drift</span><span class="gv">Has something changed that invalidates it?</span><span class="gp">When a newer decision contradicts an older runbook, the two are surfaced as a pair and the contradicting text is kept, so you read what disagrees rather than a score that says something does.</span></div>
     </div>
-    <p class="dim xs" style="margin-top:.9rem;"><strong style="color:var(--body)">Where this stops.</strong> DocBrain flags a claim when it finds evidence against it. It does not certify that anything is still correct, and it never treats absence of evidence as staleness — silence means nobody wrote it down, not that it is fine. Interrupting you before you repeat a mistake needs an ambient surface in your PRs and alerts that we have not built.</p>
+    <p class="dim xs" style="margin-top:.9rem;"><strong style="color:var(--body)">Where this stops.</strong> DocBrain flags a claim when it finds evidence against it. It does not certify that anything is still correct, and it never treats absence of evidence as staleness, silence means nobody wrote it down, not that it is fine. Interrupting you before you repeat a mistake needs an ambient surface in your PRs and alerts that we have not built.</p>
    </div>
   </div>
   <p class="lede narrow" style="margin-top:1.4rem;">Documentation tells you what exists. DocBrain tells you <span class="km">why it exists</span>, what the organization learned getting there, and when something newer contradicts it.</p>
@@ -428,7 +659,7 @@
  <div class="sechead narrow">
  <div class="eye">Living claims</div>
  <h2>Your knowledge knows the fact that would falsify it. And watches for it.</h2>
- <p class="lede">Every wiki on earth stores claims and lets the facts underneath them rot invisibly. DocBrain attaches the checkable fact to the claim at capture — v1: the file paths it names — and a standing monitor re-verifies them against your connected sources, on a cycle, deterministically. <strong>No model in the loop.</strong> A regex and a file listing either agree or they don't.</p>
+ <p class="lede">Every wiki on earth stores claims and lets the facts underneath them rot invisibly. DocBrain attaches the checkable fact to the claim at capture, v1: the file paths it names and a standing monitor re-verifies them against your connected sources, on a cycle, deterministically. <strong>No model in the loop.</strong> A regex and a file listing either agree or they don't.</p>
  </div>
 
  <div class="rec">
@@ -444,10 +675,10 @@
  <div class="lanetag now">Monitor, one sweep later</div>
  <div class="lanebody">
  <p>⚠ Corrected: the documentation says <code>test/instrumentation/update-documentation.sh</code>, which no longer exists. Verified location: <code>hack/tools/instrumentation/update-documentation.sh</code>.</p>
- <div class="lanemeta"><span>basis: the connected repo at its captured commit, dated — never an undated absolute</span></div>
+ <div class="lanemeta"><span>basis: the connected repo at its captured commit, dated, never an undated absolute</span></div>
  </div>
  </div>
- <p class="lanefoot">The directory moved in one repository; the claim lived in another. Nothing that scores freshness by edit-recency can see that. <strong>A premise check can, because it doesn't score the document — it checks the fact.</strong></p>
+ <p class="lanefoot">The directory moved in one repository; the claim lived in another. Nothing that scores freshness by edit-recency can see that. <strong>A premise check can, because it doesn't score the document, it checks the fact.</strong></p>
  </div>
 
  <div class="two" style="margin-top:1.8rem;">
@@ -455,7 +686,7 @@
  <span class="tab">Built not to cry wolf</span>
  <div class="recb">
  <h3>Three honesty rules, enforced by construction</h3>
- <p style="margin-bottom:.9rem;">Only a claim <em>proven true at capture</em> can ever alert — a placeholder path in an example can't page anyone. A disconnected source makes its premises <code>uncheckable</code>, never <em>broken</em>: "I can't check" and "it's gone" are different facts and are never conflated. And a correction with several candidate locations names the count, never a guess.</p>
+ <p style="margin-bottom:.9rem;">Only a claim <em>proven true at capture</em> can ever alert, a placeholder path in an example can't page anyone. A disconnected source makes its premises <code>uncheckable</code>, never <em>broken</em>: "I can't check" and "it's gone" are different facts and are never conflated. And a correction with several candidate locations names the count, never a guess.</p>
  <p class="dim xs">One false "your runbook is wrong" costs more than ten missed ones. The whole pipeline is built around that asymmetry.</p>
  </div>
  </div>
@@ -463,7 +694,7 @@
  <span class="tab">Wired into everything else</span>
  <div class="recb">
  <h3>Deaths are events, not a dashboard you remember to open</h3>
- <p style="margin-bottom:.9rem;">A premise death emits <code>premise.broken</code> — webhook-subscribable, kept in the audit log; restoration emits <code>premise.restored</code>. Agents attach premises when they capture over MCP, one optional field on the same call. A review page shows what's broken, what's uncheckable, and when the monitor last swept.</p>
+ <p style="margin-bottom:.9rem;">A premise death emits <code>premise.broken</code>: webhook-subscribable, kept in the audit log; restoration emits <code>premise.restored</code>. Agents attach premises when they capture over MCP, one optional field on the same call. A review page shows what's broken, what's uncheckable, and when the monitor last swept.</p>
  <p class="dim xs">Deterministic end to end: identical on a laptop and in production, because there is nothing stochastic to vary.</p>
  </div>
  </div>
@@ -477,27 +708,27 @@
  <div class="wrap">
  <div class="sechead narrow">
  <div class="eye">Offline evidence</div>
- <h2>Proof your knowledge is authentic — checkable by someone who has no reason to trust you.</h2>
- <p class="lede">Answers, decisions, approvals and premise verdicts export as a sealed <code>.dbev</code> bundle: a signed, hash-chained record of what your knowledge said and when. Anyone verifies it <strong>offline</strong> — no DocBrain, no server, no network — with an open-source verifier that returns <b>VALID</b>, <b>TAMPERED</b>, or <b>CANNOT_VERIFY</b>. The trust doesn't come from us. It comes from the math, which they run themselves.</p>
+ <h2>Proof your knowledge is authentic, checkable by someone who has no reason to trust you.</h2>
+ <p class="lede">Answers, decisions, approvals and premise verdicts export as a sealed <code>.dbev</code> bundle: a signed, hash-chained record of what your knowledge said and when. Anyone verifies it <strong>offline</strong>: no DocBrain, no server, no network, with an open-source verifier that returns <b>VALID</b>, <b>TAMPERED</b>, or <b>CANNOT_VERIFY</b>. The trust doesn't come from us. It comes from the math, which they run themselves.</p>
  </div>
 
  <div class="rec">
- <span class="tab">The same bundle, honest and tampered — verified on a bare laptop</span>
+ <span class="tab">The same bundle, honest and tampered, verified on a bare laptop</span>
  <div class="lane">
  <div class="lanetag was">python3 verify_dbev.py evidence.dbev</div>
  <div class="lanebody">
- <p><b>VALID</b> — all checks passed · 5 records, signed and chain-linked · exit 0</p>
- <div class="lanemeta"><span>Stdlib Python, nothing to install. No network. No DocBrain. The trust root is a genesis key you confirm out-of-band — not our word.</span></div>
+ <p><b>VALID</b>: all checks passed · 5 records, signed and chain-linked · exit 0</p>
+ <div class="lanemeta"><span>Stdlib Python, nothing to install. No network. No DocBrain. The trust root is a genesis key you confirm out-of-band, not our word.</span></div>
  </div>
  </div>
  <div class="lane">
  <div class="lanetag now">one content byte flipped</div>
  <div class="lanebody">
- <p>⚠ <b>TAMPERED</b> — <code>content/2</code> hash does not match the signed manifest · exit 1</p>
+ <p>⚠ <b>TAMPERED</b>: <code>content/2</code> hash does not match the signed manifest · exit 1</p>
  <div class="lanemeta"><span>It names the record and the exact check that failed. A single altered byte anywhere in the bundle is caught.</span></div>
  </div>
  </div>
- <p class="lanefoot">A verifier that says "trust me" is worthless to an auditor. This one ships as source — a Rust binary and a dependency-free Python script — <strong>so the party who distrusts you can read it, run it, and get the same verdict we do.</strong></p>
+ <p class="lanefoot">A verifier that says "trust me" is worthless to an auditor. This one ships as source, a Rust binary and a dependency-free Python script, <strong>so the party who distrusts you can read it, run it, and get the same verdict we do.</strong></p>
  </div>
 
  <div class="two" style="margin-top:1.8rem;">
@@ -505,7 +736,7 @@
  <span class="tab">Two implementations, one answer</span>
  <div class="recb">
  <h3>Independent by design, identical by proof</h3>
- <p style="margin-bottom:.9rem;">The bundle is checked by two codebases that share no code — a Rust binary and a stdlib Python script. They return the byte-identical verdict on every input, honest or hostile. We proved it the hard way: exhaustive differential testing — every byte of a bundle flipped, thousands of adversarial numbers, the full container and signature surface — with zero disagreement.</p>
+ <p style="margin-bottom:.9rem;">The bundle is checked by two codebases that share no code, a Rust binary and a stdlib Python script. They return the byte-identical verdict on every input, honest or hostile. We proved it the hard way: exhaustive differential testing, every byte of a bundle flipped, thousands of adversarial numbers, the full container and signature surface, with zero disagreement.</p>
  <p class="dim xs">When a second, independent implementation agrees on a bundle, the verdict isn't our opinion. It's a fact about the bytes.</p>
  </div>
  </div>
@@ -513,8 +744,8 @@
  <span class="tab">Regulation-agnostic engine</span>
  <div class="recb">
  <h3>The crypto proves integrity. A profile speaks the regime.</h3>
- <p style="margin-bottom:.9rem;">Integrity, continuity and provenance are universal — the cryptographic core proves them for any regime. A compliance profile — presets, a report mapping, all data — adapts the edges. The EU AI Act ships as profile #1; adding SOC 2, ISO 42001 or SEC is a new profile, not a new engine. An amendment is a profile edit.</p>
- <p class="dim xs">A VALID verdict proves the evidence is intact and provenance-continuous — not that you are "compliant," and only for what actually flowed through DocBrain. That limit is printed on the bundle itself.</p>
+ <p style="margin-bottom:.9rem;">Integrity, continuity and provenance are universal, the cryptographic core proves them for any regime. A compliance profile, presets, a report mapping, all data, adapts the edges. The EU AI Act ships as profile #1; adding SOC 2, ISO 42001 or SEC is a new profile, not a new engine. An amendment is a profile edit.</p>
+ <p class="dim xs">A VALID verdict proves the evidence is intact and provenance-continuous, not that you are "compliant," and only for what actually flowed through DocBrain. That limit is printed on the bundle itself.</p>
  </div>
  </div>
  </div>
@@ -740,10 +971,10 @@
 <section id="start">
  <div class="wrap">
  <div class="rec" style="max-width:52rem;margin-inline:auto;">
- <span class="tab">The part that doesn't wait</span>
+ <span class="tab">The whole idea, in one line</span>
  <div class="recb">
- <h2 style="font-size:clamp(1.6rem,3.4vw,2.3rem);margin-bottom:.8rem;">Everything already written down is still recoverable.<br>What was never written down is on a clock.</h2>
- <p class="lede">Point it at your history and years of it become answerable in an afternoon. That part waits for you. What doesn't wait is the reasoning that only ever lived in a conversation, a head, a decision nobody minuted. <strong>Capture starts the day you switch it on, and not one day earlier.</strong> Every week before that is knowledge with no copy of it anywhere.</p>
+ <h2 style="font-size:clamp(1.6rem,3.4vw,2.3rem);margin-bottom:.8rem;">Knowledge that can be <span class="km">proven wrong</span>.</h2>
+ <p class="lede">Every other tool scores how confident it is. DocBrain attaches the checkable fact that would falsify a claim, then re-verifies it against your sources on a cycle, deterministically, with no model in the loop. <strong>When the premise dies, you hear about it.</strong> And the record it produces can be verified offline by someone who has no reason to trust either of us.</p>
  </div>
  </div>
 
@@ -815,97 +1046,121 @@
  });
  })();
 
- /* hero answer: two real entries from our own lessons file, rotated */
- (function(){
-   var Q=[
-     { q:'“Why does find_entities order before it limits?”',
-       status:'4 sources read, 2 claims grounded, 1 gap found',
-       claims:[
-         { k:'decision',
-           t:'Because without it the right entity got cut. <code>%EKS%</code> matched about fifty rows, and the canonical <code>EKS</code> entity, the one carrying the dependency edges, sat at position fourteen. An arbitrary <code>LIMIT 10</code> dropped it.',
-           c:[['decision record · 1 Jun','Recorded 1 June 2026, after the fix landed. The rule it produced: any LIMIT on a substring match must carry an ORDER BY that ranks exact matches above the cut.']] },
-         { k:'consequence',
-           t:'The graph block anchored on a junk substring entity and abstained, so the question fell through to prose that invented a dependency the graph never asserted.',
-           c:[['semantic.rs','semantic.rs, find_entities. The query compiled and passed every test. It only failed at production data volume.'],
-              ['how it surfaced','Found by live probing, not by the suite. Small seed data meant no fragment collisions, so the happy path never reproduced it.']] },
-         { k:'gap', gap:true,
-           t:'Whether the other substring call sites were audited afterwards is not recorded anywhere.', c:[] }
-       ] },
-     { q:'“Why does migration 136 delete from four other tables first?”',
-       status:'3 sources read, 2 claims grounded, 1 gap found',
-       claims:[
-         { k:'decision',
-           t:'Because deleting from <code>entities</code> alone panics on boot. Four tables carry a bare <code>REFERENCES entities(id)</code> with no cascade, so the foreign key blocks the delete and the server crash loops.',
-           c:[['migration 136 · 1 Jun','The fix pre-deletes the affected rows in every bare-key table from a single captured snapshot, so the sets cannot drift between statements.']] },
-         { k:'consequence',
-           t:'The throwaway database test only seeded entities and relations, so the blocking key never existed in test. It passed CI and broke on startup.',
-           c:[['why CI missed it','Classic passes-test-breaks-prod. The test fixture never contained the tables that carry the blocking reference.']] },
-         { k:'gap', gap:true,
-           t:'Whether the checklist of tables referencing entities has been kept current since is not recorded.', c:[] }
-       ] }
-   ];
+   /* Rotating headline: plays ONCE on load, cycles the facets, settles back on the
+      brand line and stops. A refresh replays it. Static under prefers-reduced-motion. */
+   (function(){
+     var h1=document.getElementById('rh1'); if(!h1) return;
+     var lines=h1.querySelectorAll('.rh'), btn=document.getElementById('rh1p'),
+         step=0, t=null, done=false,
+         still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+     function show(n){ lines.forEach(function(l,x){ l.classList.toggle('on',x===n); }); }
+     function finish(){ clearInterval(t); t=null; done=true; show(0); if(btn) btn.hidden=true; }
+     function start(){
+       if(still||done||t) return;
+       t=setInterval(function(){
+         step++;
+         if(step>=lines.length){ finish(); return; }
+         show(step);
+       },3400);
+     }
+     function halt(){ clearInterval(t); t=null; }
+     if(still){ if(btn) btn.hidden=true; return; }
+     if(btn){
+       btn.addEventListener('click',function(){
+         if(t){ halt(); btn.textContent='▶'; btn.setAttribute('aria-label','Resume the rotating headline'); }
+         else { start(); btn.textContent='❚❚'; btn.setAttribute('aria-label','Pause the rotating headline'); }
+       });
+     }
+     h1.addEventListener('mouseenter',halt);
+     h1.addEventListener('mouseleave',start);
+     start();
+   })();
 
-   var qEl=document.getElementById('hq'), stEl=document.getElementById('heroStatus'),
-       wrap=document.getElementById('hclaims'), stamp=document.getElementById('hstamp'),
-       count=document.getElementById('hcount'), dots=document.getElementById('qdots');
-   if(!qEl||!wrap) return;
-   /* below the .hgrid two-column breakpoint this panel sits in the single-column
-      flow, so a staggered build displaces the whole page under the reader */
-   var narrow=window.matchMedia('(max-width:63.99rem)').matches;
-   var slow=narrow||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-   var timers=[], idx=0;
-   function clr(){ timers.forEach(clearTimeout); timers=[]; }
+   /* Surface tabs. Panels are static markup stacked in one grid cell, so the stage
+      height never changes. The ask -> running -> answer beat is opacity only. */
+   (function(){
+     var tabs=document.querySelectorAll('.surf button[data-s]'),
+         panes=document.querySelectorAll('#stage .pane'),
+         replay=document.getElementById('sReplay');
+     if(!tabs.length) return;
+     var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+         timers=[];
 
-   Q.forEach(function(_,n){
-     var d=document.createElement('i'); d.title='Question '+(n+1);
-     d.addEventListener('click',function(){ show(n); });
-     dots.appendChild(d);
-   });
+     /* .run must overlay .fin rather than precede it, or the ticking dots
+        reflow the line on every frame */
+     document.querySelectorAll('#stage .st').forEach(function(st){
+       var run=st.querySelector('.run'), fin=st.querySelector('.fin');
+       if(!run||!fin||run.parentNode.classList.contains('metabox')) return;
+       var box=document.createElement('span'); box.className='metabox';
+       fin.parentNode.insertBefore(box, run);
+       box.appendChild(run); box.appendChild(fin);
+     });
+     function clr(){ timers.forEach(clearTimeout); timers=[]; }
+     function at(fn,ms){ timers.push(setTimeout(fn,ms)); }
 
-   function show(n){
-     clr(); idx=n;
-     var s=Q[n];
-     Array.prototype.forEach.call(dots.children,function(d,i){ d.classList.toggle('on', i===n); });
-     qEl.textContent=s.q;
-     stEl.textContent='Reading the record'; stEl.classList.remove('done');
-     count.textContent=s.claims.filter(function(c){ return !c.gap; }).length+1+' claims, each cited';
-     wrap.innerHTML='';
-     [qEl,stEl,stamp].forEach(function(el){ el.classList.remove('in'); });
+     function play(pane){
+       clr();
+       var qt=pane.querySelector('.qt'), cr=pane.querySelector('.cr'),
+           st=pane.querySelector('.st'),
+           stages=['.an','.an2','.an3'].map(function(c){ return pane.querySelectorAll(c); });
+       var full=qt?(qt.dataset.t||''):'';
 
-     var d=slow?0:180;
-     [qEl,stEl].forEach(function(el){ timers.push(setTimeout(function(){ el.classList.add('in'); }, d)); d+=slow?0:560; });
+       // reset
+       if(qt) qt.textContent = still?full:'';
+       if(cr) cr.classList.remove('on');
+       pane.querySelectorAll('.st').forEach(function(e){ e.classList.remove('vis','done'); });
+       stages.forEach(function(g){ g.forEach(function(e){ e.classList.remove('vis'); }); });
 
-     s.claims.forEach(function(c){
-       timers.push(setTimeout(function(){
-         var box=document.createElement('div');
-         box.className='claim '+(c.gap?'gapc':'byh')+' reveal';
-         var who='<span class="who"'+(c.gap?' style="color:var(--margin)"':'')+'>'+c.k+'</span>';
-         var cites=c.c.length? '<div class="cites">'+c.c.map(function(x){
-           return '<button class="cite" type="button" data-src="'+x[1].replace(/"/g,'&quot;')+'">'+x[0]+'</button>'; }).join('')+'</div>' : '';
-         box.innerHTML=who+'<p>'+c.t+'</p>'+cites;
-         wrap.appendChild(box);
-         requestAnimationFrame(function(){ box.classList.add('in'); });
-         box.querySelectorAll('.cite').forEach(function(b){
-           b.addEventListener('click',function(){
-             var open=box.querySelector('.srcbox'); if(open){ open.remove(); return; }
-             var sb=document.createElement('div'); sb.className='srcbox';
-             sb.innerHTML='<b>source</b>'+b.dataset.src; box.appendChild(sb);
+       if(still){
+         pane.querySelectorAll('.st').forEach(function(e){ e.classList.add('vis','done'); });
+         stages.forEach(function(g){ g.forEach(function(e){ e.classList.add('vis'); }); });
+         return;
+       }
+
+       function answer(){
+         pane.querySelectorAll('.st').forEach(function(e){ e.classList.add('vis'); });
+         at(function(){
+           pane.querySelectorAll('.st').forEach(function(e){ e.classList.add('done'); });
+           var d=0;
+           stages.forEach(function(g){
+             at(function(){ g.forEach(function(e){ e.classList.add('vis'); }); }, d);
+             d+=520;
            });
-         });
-       }, d));
-       d+=slow?0:560;
+         }, 900);
+       }
+
+       if(!qt){ answer(); return; }
+       cr && cr.classList.add('on');
+       var i=0;
+       (function type(){
+         qt.textContent=full.slice(0,++i);
+         if(i<full.length){ at(type,26); }
+         else { at(function(){ cr && cr.classList.remove('on'); answer(); },300); }
+       })();
+     }
+
+     function select(n){
+       tabs.forEach(function(x){ x.classList.toggle('on', x.dataset.s===n); });
+       panes.forEach(function(p){ p.classList.toggle('on', p.dataset.p===n); });
+       var live=document.querySelector('#stage .pane.on');
+       if(live) play(live);
+     }
+     tabs.forEach(function(b){ b.addEventListener('click',function(){ select(b.dataset.s); }); });
+     if(replay) replay.addEventListener('click',function(){
+       var live=document.querySelector('#stage .pane.on'); if(live) play(live);
      });
 
-     timers.push(setTimeout(function(){
-       stEl.textContent=s.status; stEl.classList.add('done');
-       stamp.classList.add('in');
-     }, d+(slow?0:200)));
-   }
-
-   var b=document.getElementById('heroReplay');
-   if(b){ b.addEventListener('click',function(){ show(idx); }); }
-   show(0);
- })();
+     /* hold the first run until the panel is actually on screen */
+     var first=document.querySelector('#stage .pane.on');
+     if(first){
+       if('IntersectionObserver' in window){
+         var io=new IntersectionObserver(function(es){
+           es.forEach(function(e){ if(e.isIntersecting){ io.disconnect(); play(first); } });
+         },{ threshold:0.25 });
+         io.observe(first);
+       } else { play(first); }
+     }
+   })();
 
  /* sections settle in as you reach them */
  (function(){
