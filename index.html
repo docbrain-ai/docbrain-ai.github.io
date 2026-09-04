@@ -28,6 +28,20 @@
   /* .kh is an inline-block, so a line can break between it and the comma that
      follows and strand the comma at the start of a row */
   .nbg{ white-space:nowrap; }
+
+  /* real captures. The whole section removes itself unless at least one image
+     actually loads, so shipping it before the files exist shows nothing. */
+  #real{ display:none; }
+  #real.has{ display:block; }
+  .shots{ display:grid; gap:1.5rem; grid-template-columns:1fr; }
+  @media(min-width:46rem){ .shots{ grid-template-columns:1fr 1fr; gap:1.8rem; } }
+  .shot[hidden]{ display:none; }
+  .shotbox{ border:1px solid var(--rule); border-radius:9px; overflow:hidden;
+            background:var(--card2); aspect-ratio:16/10; }
+  .shotbox img{ display:block; width:100%; height:100%; object-fit:cover; object-position:top left; }
+  .shot figcaption{ margin-top:.6rem; font-size:.85rem; line-height:1.5; color:var(--body); }
+  .shot figcaption b{ display:block; font-family:var(--mono); font-size:.66rem; letter-spacing:.1em;
+                      text-transform:uppercase; color:var(--ink); margin-bottom:.2rem; font-weight:400; }
   /* the outgoing line clears before the incoming one starts, otherwise the two
      are painted over each other, which is very visible once they wrap */
   #rh1 .rh{ grid-area:1/1; opacity:0; transition:opacity .2s ease; }
@@ -356,6 +370,37 @@
  <div class="dcell"><b>0</b><span>Write operations. Any tool that could change a system is dropped at discovery</span></div>
  <div class="dcell"><b>MIT</b><span>All public repo source, auditable. Full threat model published</span></div>
 </div>
+
+<section id="real">
+ <div class="wrap">
+  <div class="sechead narrow">
+   <div class="eye">Not a mockup</div>
+   <h2>The same thing, photographed rather than drawn.</h2>
+   <p class="lede">The panels at the top of this page are built in HTML, because the tools they show keep changing and a drawing never goes stale. These are unretouched captures of DocBrain answering in the places the work actually happens. <strong>Nothing is staged and nothing is retouched.</strong></p>
+  </div>
+
+  <div class="shots" id="shots">
+   <figure class="shot" data-k="claude-code">
+    <div class="shotbox"><img src="/assets/shots/claude-code.png" alt="DocBrain answering in a Claude Code session, with each claim cited to its source" loading="lazy" decoding="async"></div>
+    <figcaption><b>Claude Code</b> A cited answer over MCP, gap declared, in the terminal.</figcaption>
+   </figure>
+   <figure class="shot" data-k="cursor">
+    <div class="shotbox"><img src="/assets/shots/cursor.png" alt="DocBrain answering inside the Cursor chat panel with citations" loading="lazy" decoding="async"></div>
+    <figcaption><b>Cursor</b> Prior art surfaced before the sprint repeats it.</figcaption>
+   </figure>
+   <figure class="shot" data-k="github">
+    <div class="shotbox"><img src="/assets/shots/github.png" alt="DocBrain replying to a mention inside a GitHub pull request review" loading="lazy" decoding="async"></div>
+    <figcaption><b>GitHub</b> Answering in review, where the decision is being made.</figcaption>
+   </figure>
+   <figure class="shot" data-k="slack">
+    <div class="shotbox"><img src="/assets/shots/slack.png" alt="DocBrain answering a mention in a Slack thread, marking the live half and the indexed half" loading="lazy" decoding="async"></div>
+    <figcaption><b>Slack</b> A live read and the indexed record, both marked.</figcaption>
+   </figure>
+  </div>
+
+  <p class="dim xs" id="shotsnote" style="margin-top:1.1rem;">Captured against a self-hosted instance running local models. Source names in these images are from our own record, not a customer's.</p>
+ </div>
+</section>
 
 <section id="changes">
  <div class="wrap">
@@ -1103,6 +1148,28 @@
      h1.addEventListener('mouseenter',halt);
      h1.addEventListener('mouseleave',start);
      start();
+   })();
+
+   /* Real captures. The images are lazy and sit far below the fold, so their
+      load/error events never fire on page load and cannot gate anything. A HEAD
+      probe checks existence without downloading, and the section stays hidden
+      until at least one capture actually exists. */
+   (function(){
+     var sec=document.getElementById('real'); if(!sec) return;
+     var figs=[].slice.call(sec.querySelectorAll('.shot'));
+     if(!figs.length || !window.fetch){ return; }
+     var left=figs.length, ok=0;
+     function settle(){
+       if(--left>0) return;
+       if(ok){ sec.classList.add('has'); }
+       else { var n=document.getElementById('shotsnote'); if(n) n.hidden=true; }
+     }
+     figs.forEach(function(f){
+       var src=f.querySelector('img').getAttribute('src');
+       fetch(src,{method:'HEAD'}).then(function(r){
+         if(r.ok){ ok++; } else { f.hidden=true; }
+       }).catch(function(){ f.hidden=true; }).then(settle);
+     });
    })();
 
    /* Surface tabs. Panels are static markup stacked in one grid cell, so the stage
