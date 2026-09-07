@@ -848,7 +848,7 @@
 <section id="agents">
   <div class="wrap">
     <div class="sechead narrow">
-      <div class="eye" style="color:var(--agt)">Teach your agent</div>
+      <div class="eye" style="color:var(--agt)">Sessions that compound</div>
       <h2>An agent&rsquo;s memory dies when the session does.</h2>
       <p class="lede">Everything it worked out goes with it. The approach that failed and why, the root cause behind the symptom, the caveat that will bite whoever touches that file next &mdash; all of it in a context window that is discarded when the tab closes. Tomorrow the same agent starts from nothing, and so does a teammate&rsquo;s agent on the same file next week, and neither can know the other ever tried. <strong>You are paying for the same discovery over and over, and the only record is a terminal buffer somebody already scrolled past.</strong></p>
       <p class="lede">Two instructions in your <code>CLAUDE.md</code> close the loop.</p>
@@ -872,7 +872,7 @@
     <div class="grid3" style="margin-top:1.7rem;">
       <div class="rec plain"><span class="tab a">Read</span><div class="recb"><h3>The same memory a person gets</h3><p><code>docbrain_context</code> hands the agent what is already known about the exact files it is about to change, with a warning first if any of it has gone stale. <code>docbrain_ask</code> returns cited answers over MCP. Either way a session starts warm instead of re-deriving what the organization settled months ago.</p></div></div>
       <div class="rec plain"><span class="tab a">Write</span><div class="recb"><h3>Nothing lands without you</h3><p>The agent proposes, you approve, and the fragment enters the normal review queue tied to a file and line range. Nothing uploads on its own and the session never leaves your machine.</p></div></div>
-      <div class="rec plain"><span class="tab a">Cost</span><div class="recb"><h3>Agents are never seats</h3><p>Every competitor has to decide whether a bot counts as a licence. We do not, because agents make the memory better and inference is billed by your own provider, not resold by us.</p></div></div>
+      <div class="rec plain"><span class="tab a">Compound</span><div class="recb"><h3>Session two starts where one ended</h3><p>Monday, an agent works out that the pooler is load-bearing and files a three line capture with your approval. Thursday, a different engineer and a different agent open the same file, and <code>docbrain_context</code> hands back Monday&rsquo;s caveat before the first edit. Nobody wrote it up and nobody was asked twice.</p></div></div>
     </div>
     <div class="doclinks"><a class="doclink" href="https://github.com/docbrain-ai/docbrain/blob/main/docs/agents.md">Full guide, including Cursor setup and the privacy model</a><a class="doclink" href="/docs/mcp-tools/">MCP tool reference</a></div>
   </div>
