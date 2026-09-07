@@ -848,10 +848,10 @@
 <section id="agents">
   <div class="wrap">
     <div class="sechead narrow">
-      <div class="eye" style="color:var(--agt)">Sessions that compound</div>
-      <h2>An agent&rsquo;s memory dies when the session does.</h2>
-      <p class="lede">Everything it worked out goes with it. The approach that failed and why, the root cause behind the symptom, the caveat that will bite whoever touches that file next &mdash; all of it in a context window that is discarded when the tab closes. Tomorrow the same agent starts from nothing, and so does a teammate&rsquo;s agent on the same file next week, and neither can know the other ever tried. <strong>You are paying for the same discovery over and over, and the only record is a terminal buffer somebody already scrolled past.</strong></p>
-      <p class="lede">Two instructions in your <code>CLAUDE.md</code> close the loop.</p>
+      <div class="eye" style="color:var(--agt)">Knowledge that compounds</div>
+      <h2>What one engineer works out, the whole company keeps.</h2>
+      <p class="lede">Someone solves it on a Tuesday. Two teams over, in November, a person who has never met them hits the same wall &mdash; and has no way to know it was ever solved. Neither does their agent. <strong>That is not a session-memory problem, and a rules file does not fix it.</strong> A <code>CLAUDE.md</code> holds what you remembered to write, in your repo, for your agent: it does not cross people, it does not expire when the system changes, and it carries no source you can check.</p>
+      <p class="lede">DocBrain is where one person&rsquo;s discovery becomes the team&rsquo;s, and the team&rsquo;s becomes the company&rsquo;s. Your coding agent is the best instrument for both halves of that &mdash; it is present at the second the knowledge is created, and it is the thing asking for it at the moment of the next change. Two instructions put it on both sides:</p>
     </div>
 
     <div class="rec" style="max-width:52rem;">
@@ -867,12 +867,12 @@
 
     <p class="lede narrow" style="margin-top:1.4rem;max-width:44rem;">Your agent fixes something, checks whether the organization already knows it, and with your approval files what is missing into the review queue. <strong>The knowledge gets captured at the only moment it is free: seconds after the fix, while the reasoning is still in context.</strong> Nobody writes this up on Friday afternoon. An agent will, in the same breath as the fix, if you ask it to.</p>
 
-    <p class="lede narrow" style="margin-top:1rem;max-width:44rem;">The compounding is the point. One session leaves a caveat behind, the next starts from it and adds the thing <em>it</em> learned. Ten engineers and their agents working this way for a month is a record nobody sat down to write &mdash; and the reason the eleventh person does not repeat any of it.</p>
+    <p class="lede narrow" style="margin-top:1rem;max-width:44rem;">The compounding is the point, and it compounds <em>outward</em>. One engineer&rsquo;s caveat becomes the team&rsquo;s, the team&rsquo;s becomes the company&rsquo;s, and none of it depended on anyone finding time to write a document. <strong>The new joiner in month three asks a question and gets an answer that four people contributed to without ever being in a room together.</strong></p>
 
     <div class="grid3" style="margin-top:1.7rem;">
       <div class="rec plain"><span class="tab a">Read</span><div class="recb"><h3>The same memory a person gets</h3><p><code>docbrain_context</code> hands the agent what is already known about the exact files it is about to change, with a warning first if any of it has gone stale. <code>docbrain_ask</code> returns cited answers over MCP. Either way a session starts warm instead of re-deriving what the organization settled months ago.</p></div></div>
       <div class="rec plain"><span class="tab a">Write</span><div class="recb"><h3>Nothing lands without you</h3><p>The agent proposes, you approve, and the fragment enters the normal review queue tied to a file and line range. Nothing uploads on its own and the session never leaves your machine.</p></div></div>
-      <div class="rec plain"><span class="tab a">Compound</span><div class="recb"><h3>Session two starts where one ended</h3><p>Monday, an agent works out that the pooler is load-bearing and files a three line capture with your approval. Thursday, a different engineer and a different agent open the same file, and <code>docbrain_context</code> hands back Monday&rsquo;s caveat before the first edit. Nobody wrote it up and nobody was asked twice.</p></div></div>
+      <div class="rec plain"><span class="tab a">Compound</span><div class="recb"><h3>It crosses people, not just sessions</h3><p>An engineer on one team works out why the pooler is load-bearing and files a three line capture with your approval. Six weeks later somebody on another team, who has never met them, opens that file &mdash; and their agent hands them the reasoning before the first edit. Nobody wrote a document and nobody was asked twice.</p></div></div>
     </div>
     <div class="doclinks"><a class="doclink" href="https://github.com/docbrain-ai/docbrain/blob/main/docs/agents.md">Full guide, including Cursor setup and the privacy model</a><a class="doclink" href="/docs/mcp-tools/">MCP tool reference</a></div>
   </div>
