@@ -224,7 +224,7 @@
  <img class="heromark" src="/assets/mark.webp" width="320" height="320" alt="" decoding="async" fetchpriority="high">
  <div class="eye">Institutional memory, built for engineering teams</div>
  <h1 id="rh1" aria-live="off">
-  <span class="rh on">The memory layer for <span class="kh">humans</span> and <span class="ka">AI agents</span>.</span>
+  <span class="rh on">The context your <span class="kh">engineers</span> and <span class="ka">AI agents</span> keep re-deriving.</span>
   <span class="rh">Knowledge that can be <span class="km">proven wrong</span>.</span>
   <span class="rh">What you <span class="nbg"><span class="kh">already solved</span>,</span> and forgot.</span>
   <span class="rh">The <span class="kh">reasoning</span> that left when they did.</span>
@@ -856,7 +856,9 @@
     <div class="rec" style="max-width:52rem;">
       <span class="tab a">CLAUDE.md</span>
       <div class="recb">
-        <p style="font-family:var(--mono); font-size:.85rem; line-height:1.7; color:var(--ink);">When we resolve an error or discover non-obvious behavior, call<br>
+        <p style="font-family:var(--mono); font-size:.85rem; line-height:1.7; color:var(--ink);">Before editing files you have not worked in before, call<br>
+        <code>docbrain_context</code> with their paths and read what comes back first.<br><br>
+        When we resolve an error or discover non-obvious behavior, call<br>
         <code>docbrain_suggest_capture</code> for the files involved. If a gap exists, draft a<br>
         3 to 5 line capture and ask me to approve it before calling <code>docbrain_annotate</code>.</p>
       </div>
@@ -865,7 +867,7 @@
     <p class="lede narrow" style="margin-top:1.4rem;max-width:44rem;">Your agent fixes something, checks whether the organization already knows it, and with your approval files what is missing into the review queue. <strong>The knowledge gets captured at the only moment it is free: seconds after the fix.</strong></p>
 
     <div class="grid3" style="margin-top:1.7rem;">
-      <div class="rec plain"><span class="tab a">Read</span><div class="recb"><h3>The same memory a person gets</h3><p><code>docbrain_ask</code> returns cited answers over MCP, so a session starts warm instead of re-deriving what the organization settled months ago.</p></div></div>
+      <div class="rec plain"><span class="tab a">Read</span><div class="recb"><h3>The same memory a person gets</h3><p><code>docbrain_context</code> hands the agent what is already known about the exact files it is about to change, with a warning first if any of it has gone stale. <code>docbrain_ask</code> returns cited answers over MCP. Either way a session starts warm instead of re-deriving what the organization settled months ago.</p></div></div>
       <div class="rec plain"><span class="tab a">Write</span><div class="recb"><h3>Nothing lands without you</h3><p>The agent proposes, you approve, and the fragment enters the normal review queue tied to a file and line range. Nothing uploads on its own and the session never leaves your machine.</p></div></div>
       <div class="rec plain"><span class="tab a">Cost</span><div class="recb"><h3>Agents are never seats</h3><p>Every competitor has to decide whether a bot counts as a licence. We do not, because agents make the memory better and inference is billed by your own provider, not resold by us.</p></div></div>
     </div>
