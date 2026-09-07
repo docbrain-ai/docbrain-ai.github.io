@@ -849,8 +849,9 @@
   <div class="wrap">
     <div class="sechead narrow">
       <div class="eye" style="color:var(--agt)">Teach your agent</div>
-      <h2>Every session makes the next one cheaper.</h2>
-      <p class="lede">If your team uses Claude Code or Cursor, the <code>docbrain-mcp</code> server already gives your agent both a read path and a capture path. Most teams simply never tell the agent to use them. <strong>Three lines in your CLAUDE.md turn every debugging session into documentation.</strong></p>
+      <h2>An agent&rsquo;s memory dies when the session does.</h2>
+      <p class="lede">Everything it worked out goes with it. The approach that failed and why, the root cause behind the symptom, the caveat that will bite whoever touches that file next &mdash; all of it in a context window that is discarded when the tab closes. Tomorrow the same agent starts from nothing, and so does a teammate&rsquo;s agent on the same file next week, and neither can know the other ever tried. <strong>You are paying for the same discovery over and over, and the only record is a terminal buffer somebody already scrolled past.</strong></p>
+      <p class="lede">Two instructions in your <code>CLAUDE.md</code> close the loop.</p>
     </div>
 
     <div class="rec" style="max-width:52rem;">
@@ -864,7 +865,9 @@
       </div>
     </div>
 
-    <p class="lede narrow" style="margin-top:1.4rem;max-width:44rem;">Your agent fixes something, checks whether the organization already knows it, and with your approval files what is missing into the review queue. <strong>The knowledge gets captured at the only moment it is free: seconds after the fix.</strong></p>
+    <p class="lede narrow" style="margin-top:1.4rem;max-width:44rem;">Your agent fixes something, checks whether the organization already knows it, and with your approval files what is missing into the review queue. <strong>The knowledge gets captured at the only moment it is free: seconds after the fix, while the reasoning is still in context.</strong> Nobody writes this up on Friday afternoon. An agent will, in the same breath as the fix, if you ask it to.</p>
+
+    <p class="lede narrow" style="margin-top:1rem;max-width:44rem;">The compounding is the point. One session leaves a caveat behind, the next starts from it and adds the thing <em>it</em> learned. Ten engineers and their agents working this way for a month is a record nobody sat down to write &mdash; and the reason the eleventh person does not repeat any of it.</p>
 
     <div class="grid3" style="margin-top:1.7rem;">
       <div class="rec plain"><span class="tab a">Read</span><div class="recb"><h3>The same memory a person gets</h3><p><code>docbrain_context</code> hands the agent what is already known about the exact files it is about to change, with a warning first if any of it has gone stale. <code>docbrain_ask</code> returns cited answers over MCP. Either way a session starts warm instead of re-deriving what the organization settled months ago.</p></div></div>
