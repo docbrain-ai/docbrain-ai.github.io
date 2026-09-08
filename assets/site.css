@@ -407,7 +407,6 @@
 .clip{margin:1.4rem 0 0}
 .clip video{display:block;width:100%;height:auto;border-radius:10px;
   background:#0d0f14;border:1px solid var(--line,#23262e)}
-.clip.portrait video{max-width:22rem;margin-inline:auto}
 .clipfoot{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:baseline;
   margin-top:.6rem}
 .clipfoot a{white-space:nowrap}
