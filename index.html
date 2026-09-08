@@ -20,7 +20,8 @@
 <link rel="stylesheet" href="/assets/site.css?v=6dcf81debe">
 <style>
   /* rotating headline: grid-stacked, so height is the tallest line and nothing shifts */
-  #rh1{ display:grid; align-items:start; }
+  #rh1{ display:grid; align-items:start; transition:height .38s ease .22s; }
+  @media (prefers-reduced-motion: reduce){ #rh1{ transition:none; } }
   /* narrow screens: a smaller headline keeps every line to the same row count,
      so the grid cell has no dead space under the shorter ones */
   @media (max-width:30rem){ #rh1{ font-size:2.15rem; } }
@@ -1168,7 +1169,15 @@
      var lines=h1.querySelectorAll('.rh'), btn=document.getElementById('rh1p'),
          step=0, t=null, done=false,
          still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-     function show(n){ lines.forEach(function(l,x){ l.classList.toggle('on',x===n); }); }
+     var at=0;
+     /* All four lines share grid-area 1/1, so the row reserves the height of the
+        TALLEST headline. Only line 1 wraps to two lines at desktop width, so the
+        three shorter ones left a blank row above .prod. Track the visible line
+        instead; the CSS transition keeps the swap from janking. */
+     function fit(){ var el=lines[at]; if(el) h1.style.height=el.getBoundingClientRect().height+'px'; }
+     function show(n){ at=n; lines.forEach(function(l,x){ l.classList.toggle('on',x===n); }); fit(); }
+     window.addEventListener('resize',fit);
+     if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(fit); }
      function finish(){ clearInterval(t); t=null; done=true; show(0); if(btn) btn.hidden=true; }
      function start(){
        if(still||done||t) return;
@@ -1179,7 +1188,7 @@
        },3400);
      }
      function halt(){ clearInterval(t); t=null; }
-     if(still){ if(btn) btn.hidden=true; return; }
+     if(still){ if(btn) btn.hidden=true; fit(); return; }
      if(btn){
        btn.addEventListener('click',function(){
          if(t){ halt(); btn.textContent='▶'; btn.setAttribute('aria-label','Resume the rotating headline'); }
