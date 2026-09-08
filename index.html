@@ -774,6 +774,24 @@
  </div>
  </div>
 
+
+ <div class="rec clip portrait" style="margin-top:1.4rem;">
+ <span class="tab">The same question, asked twice</span>
+ <div class="recb">
+ <p style="margin-bottom:1rem;">Six weeks apart, the identical command. Nothing was re-indexed by hand and nothing about the question changed &mdash; but somebody bumped a chart in between, and the second answer opens with the fact that died: the note asserts <code>redis.version=6.2.1</code>, and the source now says <code>7.2.4</code>. It then gives both readings and says it cannot tell which is true from what it has.</p>
+ <video controls preload="none" playsinline muted
+        poster="/assets/reason-expired.jpg"
+        width="1474" height="2050"
+        aria-label="The same docbrain ask command run twice; the second answer carries a dated stale-claim warning above the prose.">
+   <source src="/assets/reason-expired.mp4" type="video/mp4">
+   <a href="https://youtube.com/shorts/sq0zkHxWIaA">Watch the clip on YouTube</a>
+ </video>
+ <div class="clipfoot">
+ <p class="dim xs" style="margin:0;flex:1 1 18rem;">One take, no edits to the output. Idle waits compressed; the elapsed milliseconds the CLI prints are its true latency. Sweep set to 10s for the recording &mdash; the shipped default is 300s.</p>
+ <a class="dim xs" href="https://youtube.com/shorts/sq0zkHxWIaA">Watch on YouTube &rarr;</a>
+ </div>
+ </div>
+ </div>
  <p class="dim xs" style="margin-top:1.2rem;">Ships with the standing monitor on by default; one flag turns it off. <a href="/docs/configuration/" style="color:var(--margin)">Configuration →</a> &nbsp; <a href="/docs/agents/" style="color:var(--margin)">Capturing premises from agents →</a></p>
  </div>
 </section>
@@ -864,6 +882,24 @@
         3 to 5 line capture and ask me to approve it before calling <code>docbrain_annotate</code>.</p>
       </div>
     </div>
+
+      <div class="rec clip" style="max-width:52rem;">
+        <span class="tab a">A commit the agent refused</span>
+        <div class="recb">
+          <p style="margin-bottom:1rem;">One line, in a values file: a Redis chart from 6.2.1 to 7.2.4. It looks routine, and it takes checkout down &mdash; the session lock is a Lua script that declares a global, and Redis&nbsp;7.0 rejects those outright rather than degrading. Somebody worked that out once and wrote it down. It was not in the repository.</p>
+          <video controls preload="none" playsinline muted
+                 poster="/assets/agent-in-the-editor.jpg"
+                 width="1920" height="1208"
+                 aria-label="A coding agent calls docbrain_context before a commit, reads a captured decision, and refuses the change.">
+            <source src="/assets/agent-in-the-editor.mp4" type="video/mp4">
+            <a href="https://youtu.be/DeiP74HuVDc">Watch the clip on YouTube</a>
+          </video>
+          <div class="clipfoot">
+            <p class="dim xs" style="margin:0;flex:1 1 18rem;">Real session, real MCP server. Waits between steps removed; nothing sped up &mdash; the agent&rsquo;s own &ldquo;Thought for 14s&rdquo; is on screen.</p>
+            <a class="dim xs" href="https://youtu.be/DeiP74HuVDc">Watch on YouTube &rarr;</a>
+          </div>
+        </div>
+      </div>
 
     <p class="lede narrow" style="margin-top:1.4rem;max-width:44rem;">Your agent fixes something, checks whether the organization already knows it, and with your approval files what is missing, anchored to the code it came from. <strong>The knowledge gets captured at the only moment it is free: seconds after the fix, while the reasoning is still in context.</strong> Nobody writes this up on Friday afternoon. An agent will, in the same breath as the fix, if you ask it to.</p>
 
