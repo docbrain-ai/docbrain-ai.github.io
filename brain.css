@@ -1,0 +1,183 @@
+/* ============ THE GUY WITH THE PROBLEM ============
+   Comedy is timing and exaggeration. Stillness is a joke too — see .pose-blank. */
+.brain{position:relative;display:inline-block;color:var(--rtx,#EDE8DC);line-height:0}
+.bx{width:100%;height:auto;overflow:visible}
+.bx *{transform-box:view-box}
+
+.b-legL{transform-origin:61px 136px}  .b-legR{transform-origin:79px 136px}
+.b-footL{transform-origin:57px 166px} .b-footR{transform-origin:83px 166px}
+.b-armL{transform-origin:55px 112px}  .b-armR{transform-origin:85px 112px}
+.b-head{transform-origin:70px 74px}   .b-all{transform-origin:70px 166px}
+.b-eyes{transform-origin:70px 74px}
+
+.b-all{animation:b-breathe 3.6s ease-in-out infinite}
+@keyframes b-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.4px)}}
+
+/* ---------- 1. drowning in his own notes ---------- */
+50%{translate:0 -3px}}
+/* the weight IS the rope: seven systems, and he is towing all of them */
+.pose-swamped .b-head{transform:translateY(5px) rotate(-5deg)}
+.pose-swamped .b-armL{transform:rotate(34deg)} .pose-swamped .b-armR{transform:rotate(-16deg)}
+.pose-swamped .b-mouth{d:path("M63 88c4 -2 10 -2 14 0")}
+.pose-swamped .b-all{transform:rotate(-3deg);animation:b-strain 4.2s ease-in-out infinite}
+@keyframes b-strain{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(-3.6deg) translateY(1.6px)}}
+.pose-swamped .b-lids{opacity:.55}
+.pose-swamped .b-brows{opacity:1;transform:translateY(2px)}
+
+/* ---------- 2. asked the same thing again ---------- */
+.pose-asked .b-lids{opacity:1}                    /* dead eyes */
+.pose-asked .b-eyes{opacity:.25}
+.pose-asked .b-qmark{opacity:1;animation:b-float 2.6s ease-in-out infinite}
+.pose-asked .b-mouth{d:path("M62 87h16")}
+.pose-asked .b-head{transform:translateY(2px)}
+.pose-asked .b-all{animation:b-breathe 5.5s ease-in-out infinite}
+@keyframes b-float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-5px) rotate(4deg)}}
+
+/* ---------- 3. it is RIGHT THERE ---------- */
+.pose-straining .b-armL{transform:rotate(-104deg)}   /* both hands on his own head */
+.pose-straining .b-armR{transform:rotate(104deg)}
+.pose-straining .b-head{animation:b-squeeze .9s ease-in-out infinite}
+@keyframes b-squeeze{0%,100%{transform:scale(1)}50%{transform:scale(1.07,.94)}}
+.pose-straining .b-sweat{opacity:1}
+.pose-straining .s1{animation:b-drip 1.5s ease-in infinite}
+.pose-straining .s2{animation:b-drip 1.5s .5s ease-in infinite}
+@keyframes b-drip{0%{transform:translateY(-4px);opacity:0}30%{opacity:1}100%{transform:translateY(16px);opacity:0}}
+.pose-straining .b-eyeR{transform:scaleY(.25)}
+.pose-straining .b-brows{opacity:1;transform:translateY(3px)}
+.pose-straining .b-mouth{d:path("M63 88c4 -3 10 -3 14 0")}
+.pose-straining .b-folds{opacity:.9;animation:b-fizz .35s steps(2) infinite}
+@keyframes b-fizz{0%{opacity:.9}100%{opacity:.4}}
+
+/* ---------- 4. nothing. total stillness is the joke ---------- */
+.pose-blank *{animation:none!important}
+.pose-blank .b-eyeL,.pose-blank .b-eyeR{r:1.4}
+.pose-blank .b-mouth{d:path("M64 88h12")}
+.pose-blank .b-bulb{opacity:.4}
+.pose-blank .b-folds{opacity:.12}
+
+/* ---------- 5. and production is down ---------- */
+.pose-panic .b-armL{animation:b-flail .19s ease-in-out infinite}
+.pose-panic .b-armR{animation:b-flail .19s .1s ease-in-out infinite}
+@keyframes b-flail{0%{transform:rotate(-125deg)}100%{transform:rotate(-55deg)}}
+.pose-panic .b-all{animation:b-shake .09s infinite}
+@keyframes b-shake{0%{transform:translate(-1.5px,0)}50%{transform:translate(1.5px,-1px)}100%{transform:translate(-1.5px,0)}}
+.pose-panic .b-eyeL,.pose-panic .b-eyeR{transform:scale(1.7)}
+.pose-panic .b-mouth{d:path("M62 84c5 8 11 8 16 0c-5 -4 -11 -4 -16 0Z");fill:currentColor}
+.pose-panic .b-sweat{opacity:1}
+.pose-panic .s1{animation:b-fly .6s linear infinite}
+.pose-panic .s2{animation:b-fly .6s .3s linear infinite}
+@keyframes b-fly{0%{transform:translate(0,0);opacity:1}100%{transform:translate(14px,-18px);opacity:0}}
+}
+
+/* ---------- 6. it was written down the whole time ---------- */
+.pose-found .b-bulb{opacity:1}
+.pose-found .b-rays{opacity:1;animation:b-ping .55s ease-out}
+.pose-found .b-glass{fill:var(--warnS,#F5EEDD);animation:b-ping .55s ease-out}
+@keyframes b-ping{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+.pose-found .b-eyeL,.pose-found .b-eyeR{transform:scale(1.3)}
+.pose-found .b-armL{transform:rotate(-58deg)} .pose-found .b-armR{transform:rotate(58deg)}
+.pose-found .b-mouth{d:path("M61 84c5 7 13 7 18 0")}
+.pose-found .b-all{animation:b-hop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes b-hop{0%{transform:translateY(0)}45%{transform:translateY(-13px)}100%{transform:translateY(0)}}
+
+/* ---------- 7. he remembers nothing now, and loves it ---------- */
+.pose-smug .b-armL{transform:rotate(58deg) translateX(6px)}   /* arms folded */
+.pose-smug .b-armR{transform:rotate(-58deg) translateX(-6px)}
+.pose-smug .b-shades{opacity:1;animation:b-drop .45s cubic-bezier(.3,1.5,.5,1)}
+@keyframes b-drop{0%{transform:translateY(-24px);opacity:0}100%{transform:none;opacity:1}}
+.pose-smug .b-eyes{opacity:0}
+.pose-smug .b-head{transform:rotate(-6deg)}
+.pose-smug .b-mouth{d:path("M62 86c5 4 12 3 16 -1")}
+
+/* ---------- 8. the thread was a cape all along ---------- */
+.pose-hero .b-shades{opacity:1}
+.pose-hero .b-eyes{opacity:0}
+.pose-hero .b-armL{transform:rotate(46deg) translate(7px,-3px)}   /* hands on hips */
+.pose-hero .b-armR{transform:rotate(-46deg) translate(-7px,-3px)}
+.pose-hero .b-head{transform:translateY(-3px)}
+.pose-hero .b-mouth{d:path("M61 84c5 7 13 7 18 0")}
+  filter:drop-shadow(0 0 14px rgba(207,96,85,.55))}
+.pose-hero .b-all{animation:b-stand .6s cubic-bezier(.2,1.4,.4,1)}
+@keyframes b-stand{0%{transform:translateY(10px) scale(.94)}100%{transform:none}}
+
+/* he speaks */
+/* He speaks ABOVE himself. At left:100% the bubble sat straight on top of the
+   headline — legible nowhere, and it read as broken. */
+.bubble{position:absolute;left:-6%;bottom:calc(100% - 8px);width:max-content;
+  min-width:8rem;max-width:15rem;background:var(--card,#FDFCF9);color:var(--ink,#1B1915);
+  border-radius:12px 12px 12px 3px;padding:.6rem .8rem;font-family:var(--sans);font-size:.86rem;
+  line-height:1.42;box-shadow:0 16px 36px -18px rgba(0,0,0,.85);opacity:0;
+  transform:translateY(8px) scale(.96);transition:opacity .28s cubic-bezier(.2,1.4,.4,1),
+  transform .28s cubic-bezier(.2,1.4,.4,1);transform-origin:0 100%;pointer-events:none;z-index:6}
+.bubble.on{opacity:1;transform:none}
+.bubble::after{content:"";position:absolute;left:14px;top:100%;width:0;height:0;
+  border:7px solid transparent;border-top-color:var(--card,#FDFCF9);border-bottom:0}
+  border-right-color:var(--card,#FDFCF9);border-left:0}
+
+@media(prefers-reduced-motion:reduce){ .brain *{animation:none!important} }
+
+/* ============ THE ROPE AND ITS CHARMS ============
+   A thin line, long, with a bead per system hanging off it — everywhere his
+   knowledge actually lives. When the product wins, they all light up as one. */
+  filter:drop-shadow(0 0 6px rgba(207,96,85,.4))}
+
+/* ---------- he walks, and the whole string of systems comes with him ---------- */
+.pose-walk .b-legL{animation:b-stepA .62s ease-in-out infinite}
+.pose-walk .b-legR{animation:b-stepB .62s ease-in-out infinite}
+.pose-walk .b-footL{animation:b-stepA .62s ease-in-out infinite}
+.pose-walk .b-footR{animation:b-stepB .62s ease-in-out infinite}
+.pose-walk .b-armL{animation:b-swingB .62s ease-in-out infinite}
+.pose-walk .b-armR{animation:b-swingA .62s ease-in-out infinite}
+.pose-walk .b-all{animation:b-bob .31s ease-in-out infinite}
+.pose-walk .b-head{animation:b-nod .62s ease-in-out infinite}
+@keyframes b-stepA{0%,100%{transform:rotate(19deg)}50%{transform:rotate(-19deg)}}
+@keyframes b-stepB{0%,100%{transform:rotate(-19deg)}50%{transform:rotate(19deg)}}
+@keyframes b-swingA{0%,100%{transform:rotate(16deg)}50%{transform:rotate(-22deg)}}
+@keyframes b-swingB{0%,100%{transform:rotate(-22deg)}50%{transform:rotate(16deg)}}
+@keyframes b-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.6px)}}
+@keyframes b-nod{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+
+/* the track he walks across, and the line he leaves behind */
+.track{position:relative;height:210px;margin-top:1rem;border-top:1px dashed var(--rline);
+  border-bottom:1px dashed var(--rline);overflow:hidden}
+.track .brain{position:absolute;bottom:16px;width:120px;animation:cross 13s linear infinite;z-index:1}
+@keyframes cross{0%{left:-14%}100%{left:106%}}
+.threadline{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.threadline path{fill:none;stroke:var(--marginL,#CF6055);stroke-width:2.2;stroke-linecap:round;
+  opacity:.7;filter:drop-shadow(0 0 8px rgba(207,96,85,.3))}
+
+/* the rope, simulated in page space so his walking actually drags it */
+.ropelayer{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:0}
+.ropelayer path{fill:none;stroke:var(--marginL,#CF6055);stroke-width:2.8;stroke-linecap:round;
+  filter:drop-shadow(0 0 7px rgba(207,96,85,.35))}
+.ropehost{position:relative}
+
+.cell{position:relative;overflow:hidden}
+.stagey{position:relative}
+
+/* and give him headroom for it */
+.stagey{padding-top:4.5rem}
+
+.b-hand{pointer-events:none}
+
+/* the ending: hands open, carrying nothing */
+.pose-hero .b-armL{transform:rotate(38deg) translate(6px,-2px)}
+.pose-hero .b-armR{transform:rotate(-38deg) translate(-6px,-2px)}
+
+/* the knot at his wrist: it only exists while there is a rope to tie */
+.b-thread{transform-origin:41px 130px;transition:opacity .6s}
+.pose-hero .b-thread,.pose-smug .b-thread{opacity:0}
+.pose-alert .b-thread{transform:rotate(-22deg)}
+.pose-block .b-thread{transform:rotate(-40deg)}
+.pose-weary .b-thread{opacity:.5}
+
+/* ---------- the last beat: he stops, turns, and looks at you ---------- */
+.pose-wave .b-armR{transform-origin:85px 112px;animation:b-wave .82s ease-in-out infinite}
+@keyframes b-wave{0%,100%{transform:rotate(-128deg)}50%{transform:rotate(-158deg)}}
+.pose-wave .b-armL{transform:rotate(26deg)}
+.pose-wave .b-mouth{d:path("M61 84c5 7 13 7 18 0")}
+.pose-wave .b-eyeL,.pose-wave .b-eyeR{transform:scale(1.12)}
+.pose-wave .b-head{animation:b-tilt 2.6s ease-in-out infinite}
+@keyframes b-tilt{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(3deg)}}
+/* he faces you, whichever way he was walking */
+.guide.facing .brain,.guide.facing{transform:scaleX(1)!important}

@@ -1,0 +1,28 @@
+{
+  "_provenance": {
+    "status": "PROVISIONAL — transcribed from docbrain-film/SHOTLIST.md, not yet captured from a live instance",
+    "capture_command": "./capture.sh <instance-url> <api-key>"
+  },
+  "channel": "#inc-payments",
+  "when": "02:41, a Tuesday",
+  "messages": [
+    { "at": 0,    "who": "PagerDuty", "bot": true, "text": "[FIRING] payments-api p99 latency > 5s (prod-eu)" },
+    { "at": 1400, "who": "priya.raman", "text": "checking — pods healthy, DB fine… connections to pgbouncer pinned at 200" },
+    { "at": 3200, "who": "priya.raman", "text": "found it. yesterday's pgbouncer upgrade reset max_client_conn to default" },
+    { "at": 5000, "who": "priya.raman", "text": "bumping max_client_conn 100 → 400, rolling restart" },
+    { "at": 6600, "who": "priya.raman", "text": "recovering, p99 back under 300ms" },
+    { "at": 8200, "who": "priya.raman", "key": true,
+      "text": "root cause: upgrade wiped our custom pool config. careful — the helm value is IGNORED unless pgbouncer.customIni is set. that's the trap" },
+    { "at": 10600, "who": "marco.velten", "text": "nice catch. we hit this in 2023 too… nobody wrote it down 😅" },
+    { "at": 12600, "who": "priya.raman", "cmd": true, "text": "@DocBrain capture" }
+  ],
+  "captured": {
+    "at": 14200,
+    "headline": "The pool value is IGNORED unless pgbouncer.customIni is set",
+    "detail": "The pgbouncer upgrade resets the pool config to defaults. Setting the helm value alone does nothing — it is silently discarded unless pgbouncer.customIni is also set.",
+    "source": "#inc-payments, captured 02:47",
+    "author": "priya.raman",
+    "premise": "deploy/checkout-api/values.yaml#pgbouncer.customIni is set",
+    "spans": 3
+  }
+}

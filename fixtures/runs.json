@@ -1,0 +1,71 @@
+{
+  "_provenance": {
+    "status": "PROVISIONAL — authored from docbrain-film/SHOTLIST.md, not yet captured from a live instance",
+    "capture_command": "./capture.sh <instance-url> <api-key>",
+    "note": "Replace with real captured runs before this goes anywhere public. The page renders this field."
+  },
+  "repo": "acme-platform",
+  "file": "deploy/checkout-api/values.yaml",
+  "runs": [
+    {
+      "id": "poolsize",
+      "match": { "key": "poolSize", "from": "40" },
+      "label": "raise the connection pool",
+      "steps": [
+        { "at": 0,    "kind": "think", "text": "Reading the staged diff." },
+        { "at": 500,  "kind": "diff",  "text": "deploy/checkout-api/values.yaml\n-  poolSize: 40\n+  poolSize: {{new}}" },
+        { "at": 1100, "kind": "think", "text": "Raising the pool on a checkout service under load. Looks routine — the chart takes the value and it goes through pgbouncer." },
+        { "at": 2000, "kind": "about", "text": "About to approve this change." },
+        { "at": 2600, "kind": "tool",  "tool": "docbrain_context", "args": "{ file_paths: [\"deploy/checkout-api/values.yaml\"] }" },
+        { "at": 3400, "kind": "result", "found": 2, "read": "4 sources", "ms": 310 },
+        { "at": 3800, "kind": "claim",
+          "headline": "The pool value is IGNORED unless pgbouncer.customIni is set",
+          "detail": "The pgbouncer upgrade resets the pool config to defaults. Setting the helm value alone does nothing — it is silently discarded unless pgbouncer.customIni is also set. This is what took checkout down.",
+          "source": "#inc-payments, captured 02:47",
+          "author": "priya.raman",
+          "when": "8 months ago",
+          "second": { "headline": "We hit this same trap in 2023", "source": "PR #3310 review thread", "author": "marco.velten" } },
+        { "at": 5200, "kind": "stop", "text": "Stopping. This change does not do what it looks like it does." },
+        { "at": 6000, "kind": "verdict",
+          "text": "Your edit raises poolSize to {{new}}, but that value is discarded on this chart unless <code>pgbouncer.customIni</code> is set. You would ship a change that appears to work, and the pool would stay at the default — which is exactly how checkout went down 8 months ago.",
+          "fix": "Set pgbouncer.customIni alongside it, or the edit is a no-op.",
+          "cite": "priya.raman · #inc-payments · captured 02:47" }
+      ]
+    },
+    {
+      "id": "connectvia",
+      "match": { "key": "connectVia", "from": "pgbouncer" },
+      "label": "bypass the pooler",
+      "steps": [
+        { "at": 0,    "kind": "think", "text": "Reading the staged diff." },
+        { "at": 500,  "kind": "diff",  "text": "deploy/checkout-api/values.yaml\n-  connectVia: pgbouncer\n+  connectVia: {{new}}" },
+        { "at": 1100, "kind": "think", "text": "Pointing checkout straight at the primary. That removes a hop, so latency should improve." },
+        { "at": 2000, "kind": "about", "text": "About to approve this change." },
+        { "at": 2600, "kind": "tool",  "tool": "docbrain_context", "args": "{ file_paths: [\"deploy/checkout-api/values.yaml\"] }" },
+        { "at": 3400, "kind": "result", "found": 1, "read": "4 sources", "ms": 290 },
+        { "at": 3800, "kind": "claim",
+          "headline": "Checkout must not connect straight to the primary",
+          "detail": "At 6 replicas the primary runs out of connection slots before the pooler does. The comment in this file — 'See the deploy review note before changing this' — points at the review where that was decided.",
+          "source": "deploy review note, PR #4102",
+          "author": "marco.velten",
+          "when": "1 year ago" },
+        { "at": 5200, "kind": "stop", "text": "Stopping. There is a decision on this line." },
+        { "at": 6000, "kind": "verdict",
+          "text": "That line carries a decision, not a default. At <code>replicas: 6</code> the primary exhausts its connection slots before the pooler does, which is why checkout goes through pgbouncer at all.",
+          "fix": "Leave connectVia as pgbouncer, or reopen the decision in PR #4102 first.",
+          "cite": "marco.velten · deploy review note · PR #4102" }
+      ]
+    }
+  ],
+  "fallback": {
+    "steps": [
+      { "at": 0,    "kind": "think", "text": "Reading the staged diff." },
+      { "at": 900,  "kind": "tool",  "tool": "docbrain_context", "args": "{ file_paths: [\"deploy/checkout-api/values.yaml\"] }" },
+      { "at": 1700, "kind": "result", "found": 0, "read": "4 sources", "ms": 280 },
+      { "at": 2300, "kind": "verdict", "nofind": true,
+        "text": "Nothing captured covers that line, so there is nothing to warn you about. That is the honest answer — DocBrain says when it has no knowledge rather than inventing some.",
+        "fix": "Try the pool size or the connectVia line: those two carry real captured decisions.",
+        "cite": "no matching claim" }
+    ]
+  }
+}

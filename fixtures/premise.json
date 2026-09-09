@@ -1,0 +1,25 @@
+{
+  "_provenance": {
+    "status": "PROVISIONAL — authored to the premise-monitor behaviour described in docs/premises",
+    "capture_command": "./capture.sh <instance-url> <api-key>"
+  },
+  "premise": "deploy/checkout-api/values.yaml#pgbouncer.customIni is set",
+  "watching": "charts/payment-processor · values.yaml",
+  "holds": {
+    "state": "holds",
+    "line": "  customIni: |",
+    "answer": "The pool value is IGNORED unless pgbouncer.customIni is set.",
+    "note": "Checked against the source 4 minutes ago. The claim stands."
+  },
+  "broken": {
+    "state": "falsified",
+    "line": "  # customIni removed in the 5.0 chart migration",
+    "answer": "The pool value is IGNORED unless pgbouncer.customIni is set.",
+    "note": "The source stopped supporting this claim. Every answer that leaned on it now says so, with the date it changed.",
+    "changed": "changed today · chart migration 5.0",
+    "downstream": [
+      { "what": "runbook: payments pool tuning", "state": "3 claims marked stale" },
+      { "what": "answer given to an agent 2 hours ago", "state": "flagged, owner notified" }
+    ]
+  }
+}

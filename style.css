@@ -1,0 +1,789 @@
+@font-face{font-family:"Newsreader";src:url("assets/fonts/newsreader-var.woff2") format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Plex";src:url("assets/fonts/ibm-plex-sans-var.woff2") format("woff2");font-weight:100 700;font-display:swap}
+@font-face{font-family:"PlexMono";src:url("assets/fonts/ibm-plex-mono-400.woff2") format("woff2");font-weight:400 600;font-display:swap}
+:root{
+  /* the room */
+  --room:#090908;--room2:#100F0D;--rtx:#EDE8DC;--rdim:#9A9384;--rfaint:#857E6F;--rline:#3A342C;--rline2:#4A4339;
+  /* the screen (unchanged palette, now lit) */
+  --paper:#F4F2EC;--card:#FDFCF9;--card2:#F8F6F0;
+  --ink:#1B1915;--body:#4E4A42;--dim:#736E63;
+  --rule:#DED9CC;--rule2:#EAE6DC;--margin:#B4483F;--marginL:#CF6055;
+  --hum:#1E6B54;--humL:#35A182;--humS:#E7F1EC;--humB:#CFE0D8;
+  --agt:#26588F;--agtS:#E6EDF6;--agtB:#CFDCEB;
+  --bad:#A32B21;--badS:#F7E9E7;--badB:#EBCFCB;
+  --warn:#8A6A1F;--warnS:#F5EEDD;--warnB:#E4D8B8;
+  /* TEXT scales gently — body copy must not balloon on a big monitor. */
+  --t1:clamp(1.02rem,.96rem + .3vw,1.2rem);      /* lede           */
+  --t2:clamp(1.14rem,1.05rem + .4vw,1.38rem);    /* card headings  */
+
+  /* Section headings need their own floor — a phone h2 cannot be derived from
+     a size meant to fill a 4K screen. */
+  --t3:clamp(1.32rem,1.1rem + 1.1vw,1.95rem);     /* scene captions */
+  --t4:clamp(1.85rem,1.45rem + 1.9vw,2.9rem);     /* section h2     */
+
+  /* The DISPLAY register: the hero and the cuts are one system, locked at a
+     constant 0.64 ratio, so they read as the same voice at every window size.
+     Capped by viewport HEIGHT as well, so neither can ever clip. */
+  --display:clamp(3rem,2rem + 5.4vw,9.3rem);
+  --t5:calc(var(--display) * .64);                /* hero h1        */
+  --t6:var(--display);                            /* the cuts       */
+  --serif:"Newsreader",ui-serif,Georgia,serif;
+  --sans:"Plex",ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"PlexMono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--room);color:var(--rtx);font-family:var(--sans);font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4,h5,p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* the memory graph, behind everything */
+#graph{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+.above{position:relative;z-index:1}
+/* .above is a class and would outrank an element rule like nav{position:fixed};
+   anything that positions itself keeps its own rule and must NOT carry .above. */
+nav,.rail,.trav{position:fixed}
+
+.wrap{width:100%;max-width:74rem;margin:0 auto;padding-inline:clamp(1.2rem,4vw,3rem)}
+.narrow{max-width:43rem}
+.eye{font-family:var(--mono);font-size:.67rem;letter-spacing:.18em;text-transform:uppercase;color:var(--rdim)}
+h1{font-family:var(--serif);font-weight:400;font-size:var(--t5);line-height:1.04;letter-spacing:-.034em;text-wrap:balance}
+h2{font-family:var(--serif);font-weight:400;font-size:var(--t4);line-height:1.1;letter-spacing:-.028em;text-wrap:balance}
+.lede{font-size:var(--t1);line-height:1.62;color:var(--rdim)}
+.lede strong,strong{color:var(--rtx);font-weight:600}
+.sm{font-size:.88rem}.xs{font-size:.79rem}
+code,.mono{font-family:var(--mono)}
+
+/* ===== display type, shared by the hero and the cuts ===== */
+.big{font-family:var(--serif);font-weight:400;letter-spacing:-.04em;line-height:1.02;
+  padding-block:.07em;                 /* ascenders and descenders need room */
+  color:var(--rtx);text-wrap:balance}
+.big em{font-style:normal;color:var(--rfaint)}
+.sub{font-family:var(--mono);font-size:clamp(.66rem,1vw,.8rem);letter-spacing:.22em;
+  text-transform:uppercase;color:var(--marginL);margin-bottom:clamp(.8rem,2vh,1.5rem)}
+
+/* ===== the cuts: full-bleed, pinned, hard transitions ===== */
+.cut{position:relative;height:210vh}
+.cut .pin{position:sticky;top:0;height:100vh;display:flex;align-items:center;padding-block:4.6rem 2.2rem}
+/* capped by viewport HEIGHT so two lines can never outgrow the pin */
+.cut .big{font-size:min(var(--t6), 17vh);will-change:transform,opacity}
+
+/* ===== the hero: NOT pinned. Pinning forced 100vh centring, which clipped
+   short windows and left 40% dead space on tall ones. It flows instead. ===== */
+#top{padding-block:clamp(5.5rem,13vh,8.5rem) clamp(3rem,7vh,5rem)}
+#heroBig{font-size:var(--t5);line-height:1.04}
+
+/* ===== the lit screen ===== */
+.scene{position:relative}
+.scene .pin{position:sticky;top:0;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-block:clamp(4rem,9vh,6rem) 2.4rem}
+@supports(min-height:100svh){.scene .pin,.cut .pin{min-height:100svh}.cut .pin{height:100svh}}
+.screen{max-height:70vh;overflow:hidden;transform-style:preserve-3d;will-change:transform;transition:box-shadow .5s;background:var(--paper);color:var(--ink);border-radius:5px;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(255,255,255,.07),0 46px 130px -46px rgba(255,232,190,.20),0 0 120px -40px rgba(255,226,180,.11)}
+.screen .lede,.screen p{color:var(--body)}
+.screen strong{color:var(--ink)}
+
+.beatno{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.66rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--marginL)}
+.sechead{margin-bottom:1.5rem}.sechead h2{margin:.55rem 0 .7rem}
+
+/* panes inside a screen */
+.stage{display:grid;grid-template-columns:1fr;gap:1px;background:var(--rule)}
+@media(min-width:64rem){.stage.two{grid-template-columns:1fr 1fr}}
+.pane{background:var(--card);display:flex;flex-direction:column;min-height:20rem;max-height:70vh;overflow:hidden}
+.phead{display:flex;align-items:center;gap:.55rem;padding:.62rem .95rem;border-bottom:1px solid var(--rule);
+  background:var(--card2);font-family:var(--mono);font-size:.69rem;color:var(--dim);letter-spacing:.05em}
+.phead .d{width:7px;height:7px;border-radius:50%;background:var(--rule)}
+.phead .d.live{background:var(--hum);box-shadow:0 0 0 3px var(--humS)}
+.phead .r{margin-left:auto}
+
+/* slack thread */
+.thread{flex:1;padding:1rem;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:.8rem;justify-content:flex-end}
+.msg{display:flex;gap:.65rem;opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s}
+.msg.in{opacity:1;transform:none}
+.av{flex:none;width:1.9rem;height:1.9rem;border-radius:3px;background:var(--card2);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:.68rem;display:flex;align-items:center;justify-content:center;color:var(--dim);font-weight:600}
+.av.p{background:var(--humS);border-color:var(--humB);color:var(--hum)}
+.av.m{background:var(--agtS);border-color:var(--agtB);color:var(--agt)}
+.av.b{background:var(--badS);border-color:var(--badB);color:var(--bad)}
+.mb .who{font-size:.79rem;font-weight:650;color:var(--ink)}
+.mb .who span{font-family:var(--mono);font-size:.62rem;color:var(--dim);font-weight:400;margin-left:.4rem}
+.mb .t{font-size:.88rem;color:var(--body);line-height:1.5}
+.msg.key .t{background:var(--warnS);border-left:2px solid var(--warn);padding:.4rem .6rem;color:var(--ink)}
+.msg.cmd .t{font-family:var(--mono);font-size:.82rem;color:var(--hum);font-weight:600}
+
+/* editor */
+.code{flex:1;font-family:var(--mono);font-size:.81rem;line-height:1.9;padding:.9rem 0;overflow:auto;background:var(--card2)}
+.ln{display:flex;padding-inline:.95rem;white-space:pre}
+.ln .n{width:2rem;color:#B9B2A3;flex:none;text-align:right;padding-right:.9rem;user-select:none}
+.ln.hot{background:rgba(138,106,31,.07)}
+.ln.changed{background:rgba(163,43,33,.09)}
+.cm{color:var(--dim)}.ky{color:var(--agt)}
+.edit{background:var(--warnS);border:1px solid var(--warn);color:#6B5117;font:inherit;text-align:center;
+  padding:0 .15rem;border-radius:2px;font-weight:600;cursor:text}
+.edit:not(:disabled){box-shadow:0 0 0 2px rgba(138,106,31,.16)}
+.edit:not(:disabled):hover{border-color:var(--margin);color:var(--margin)}
+.edit:focus{outline:none;border-color:var(--margin);color:var(--margin)}
+.edit:disabled{opacity:.75;cursor:not-allowed}
+select.edit{padding-right:1.1rem}
+.cfoot{border-top:1px solid var(--rule);padding:.75rem .95rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.cfoot .st2{font-family:var(--mono);font-size:.69rem;color:var(--dim);margin-left:auto}
+
+/* agent stream */
+.agent{flex:1;padding:.95rem;min-height:0;overflow:hidden;font-size:.87rem;display:flex;flex-direction:column;gap:.65rem;justify-content:flex-end}
+.idle{color:var(--dim);font-family:var(--mono);font-size:.75rem;margin:auto;text-align:center;line-height:1.95;padding:1.4rem}
+.ln2{display:flex;gap:.55rem;align-items:flex-start;animation:fade .3s both}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}}
+.gl{flex:none;font-family:var(--mono);font-size:.8rem;color:var(--dim);width:1rem;text-align:center}
+.tx{color:var(--body);flex:1}.tx.warn{color:var(--warn);font-weight:500}
+.diffb{font-family:var(--mono);font-size:.75rem;background:var(--card2);border:1px solid var(--rule);
+  padding:.55rem .75rem;white-space:pre;overflow-x:auto;color:var(--dim);line-height:1.7}
+.diffb .add{color:var(--hum)}.diffb .del{color:var(--bad)}
+.toolb{font-family:var(--mono);font-size:.77rem;background:var(--agtS);border:1px solid var(--agtB);
+  padding:.55rem .75rem;color:var(--agt);overflow-x:auto}
+.toolb .a{color:var(--dim);display:block;margin-top:.18rem;font-size:.72rem}
+.resb{font-family:var(--mono);font-size:.74rem;color:var(--dim)}.resb b{color:var(--hum);font-weight:600}
+.claim{background:var(--humS);border:1px solid var(--humB);border-left:3px solid var(--hum);padding:.78rem .95rem;
+  opacity:0;transform:translateX(-8px);transition:opacity .45s,transform .45s}
+.claim.in{opacity:1;transform:none}
+.claim .tag{font-family:var(--mono);font-size:.59rem;letter-spacing:.14em;text-transform:uppercase;color:var(--hum);font-weight:600}
+.claim .h{font-family:var(--serif);font-size:1.05rem;line-height:1.34;margin:.26rem 0 .3rem;font-weight:600;color:var(--ink)}
+.claim .d{font-size:.84rem;color:var(--body);line-height:1.55}
+.claim .m{font-family:var(--mono);font-size:.67rem;color:var(--dim);margin-top:.42rem;display:flex;gap:.2rem 1rem;flex-wrap:wrap}
+.claim .m b{color:var(--hum);font-weight:600}
+.claim.second{background:var(--card2);border-color:var(--rule);border-left-color:var(--rule)}
+.claim.second .tag,.claim.second .m b{color:var(--dim)}.claim.second .h{font-size:.93rem}
+.verd{background:var(--badS);border:1px solid var(--badB);border-left:3px solid var(--bad);padding:.9rem;animation:fade .4s both}
+.verd.none{background:var(--card2);border-color:var(--rule);border-left-color:var(--dim)}
+.verd .tag{font-family:var(--mono);font-size:.61rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bad);font-weight:600}
+.verd.none .tag{color:var(--dim)}
+.verd .t{margin-top:.32rem;line-height:1.55;font-size:.9rem;color:var(--ink)}
+.verd .t code{background:rgba(27,25,21,.07);padding:.05rem .3rem;font-size:.85em}
+.verd .f{margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(27,25,21,.09);font-size:.85rem;color:var(--body)}
+.verd .c{font-family:var(--mono);font-size:.67rem;color:var(--dim);margin-top:.4rem}
+.cursor{display:inline-block;width:.5em;height:1em;background:var(--dim);vertical-align:-.12em;animation:bl 1s steps(2) infinite}
+@keyframes bl{50%{opacity:0}}
+
+/* the caption under each scene — on the room, not the screen */
+.beat{margin-top:1.3rem;display:grid;gap:.4rem 1.8rem;grid-template-columns:1fr}
+@media(min-width:56rem){.beat{grid-template-columns:auto 1fr;align-items:baseline}}
+.beat .lbl{font-family:var(--mono);font-size:.64rem;letter-spacing:.17em;text-transform:uppercase;color:var(--marginL);white-space:nowrap}
+.beat .say{font-family:var(--serif);font-size:var(--t3);line-height:1.34;letter-spacing:-.02em;color:var(--rtx)}
+.beat .say code{font-family:var(--mono);font-size:.78em;background:rgba(255,255,255,.09);padding:.06rem .3rem;border-radius:2px}
+.beat .say strong{color:var(--marginL)}
+
+/* decay cards */
+.age{display:grid;gap:1px;background:var(--rule);grid-template-columns:1fr}
+@media(min-width:50rem){.age{grid-template-columns:repeat(3,1fr)}}
+.agec{background:var(--card);padding:1.05rem;transition:opacity .9s,filter .9s}
+.agec .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.agec .v{font-family:var(--serif);font-size:1.1rem;line-height:1.3;margin-top:.28rem;color:var(--ink)}
+.agec .s{font-size:.8rem;color:var(--dim);margin-top:.28rem}
+.agec.gone{opacity:.2;filter:grayscale(1)}
+.agec.kept{grid-column:1/-1;box-shadow:inset 3px 0 0 var(--hum);opacity:0;transition:opacity .6s}
+.agec.kept.in{opacity:1}
+
+/* premise */
+.prem{display:grid;gap:1px;background:var(--rule);grid-template-columns:1fr}
+@media(min-width:58rem){.prem{grid-template-columns:1fr 1fr}}
+.premc{background:var(--card);padding:1.05rem}
+.premc .eye{color:var(--dim)}
+.srcline{font-family:var(--mono);font-size:.8rem;background:var(--card2);border:1px solid var(--rule);
+  padding:.55rem .7rem;margin-top:.55rem;color:var(--body)}
+.srcline.gone{color:var(--bad);text-decoration:line-through;text-decoration-color:rgba(163,43,33,.5)}
+.ansbox{border:1px solid var(--humB);border-left:3px solid var(--hum);background:var(--humS);padding:.75rem .9rem;margin-top:.6rem}
+.ansbox.stale{border-color:var(--warnB);border-left-color:var(--warn);background:var(--warnS)}
+.ansbox .a{font-family:var(--serif);font-size:1rem;line-height:1.4;color:var(--ink)}
+.ansbox.stale .a{text-decoration:line-through;text-decoration-color:rgba(138,106,31,.55);color:var(--dim)}
+.ansbox .n{font-size:.82rem;color:var(--body);margin-top:.45rem}
+.ansbox .chg{font-family:var(--mono);font-size:.67rem;color:var(--warn);font-weight:600;margin-top:.35rem}
+.dstream{margin-top:.6rem;font-size:.82rem;color:var(--dim)}
+.dstream li{display:flex;gap:.5rem;padding:.26rem 0;border-top:1px solid var(--rule2)}
+.dstream b{color:var(--warn);font-family:var(--mono);font-size:.7rem;margin-left:auto;white-space:nowrap}
+
+/* verification */
+.steps{font-family:var(--mono);font-size:.78rem;line-height:1.95;color:var(--body)}
+.step{opacity:0;transform:translateY(3px);animation:in .28s forwards}
+@keyframes in{to{opacity:1;transform:none}}
+.step .ck{color:var(--hum);font-weight:600}.step .xk{color:var(--bad);font-weight:600}
+.step .lbl2{color:var(--dim)}
+.vout{margin-top:1.1rem;border-top:1px dashed var(--rule);padding-top:1rem;display:none}
+.vout.on{display:block}
+.verdictbar{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;margin-top:1.1rem}
+.stamp{font-family:var(--mono);font-weight:600;font-size:1.35rem;letter-spacing:.15em;padding:.42rem .95rem;
+  border:3px solid currentColor;border-radius:4px;transform:rotate(-3.5deg);opacity:0;
+  animation:stamp .34s cubic-bezier(.2,1.6,.4,1) forwards}
+@keyframes stamp{0%{opacity:0;transform:rotate(-3.5deg) scale(2.4)}60%{opacity:.95}100%{opacity:1;transform:rotate(-3.5deg) scale(1)}}
+.stamp.ok{color:var(--hum);background:var(--humS)}.stamp.bad{color:var(--bad);background:var(--badS)}.stamp.warn{color:var(--warn);background:var(--warnS)}
+.vsum{font-size:.88rem;color:var(--body);flex:1;min-width:15rem}
+.vsum strong{color:var(--ink)}
+.vsum .code2{font-family:var(--mono);font-size:.78rem;color:var(--ink);font-weight:600}
+.offlineflag{font-family:var(--mono);font-size:.71rem;color:var(--bad);margin-top:.35rem;font-weight:600}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr));gap:.8rem;margin-top:1rem;border-top:1px solid var(--rule2);padding-top:.9rem}
+.fact .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.fact .v{font-family:var(--mono);font-size:.9rem;font-weight:600;margin-top:.1rem;color:var(--ink)}
+/* the same tiles on the dark room need the room's ink, not the screen's */
+.cardx .facts{border-top-color:var(--rline)}
+.cardx .fact .k{color:var(--rfaint)}
+.cardx .fact .v{color:var(--rtx)}
+.atk{display:grid;gap:.7rem;grid-template-columns:1fr;margin-top:1.2rem}
+@media(min-width:52rem){.atk{grid-template-columns:repeat(3,1fr)}}
+.atkc{text-align:left;background:transparent;border:1px solid var(--rline);border-radius:3px;padding:.85rem .95rem;
+  cursor:pointer;transition:.15s;font-family:var(--sans);color:var(--rtx)}
+.atkc:hover,.atkc.on{border-color:var(--margin);background:rgba(180,72,63,.09)}
+.atkc .t2{font-family:var(--serif);font-size:1.02rem;font-weight:500}
+.atkc .d2{font-size:.82rem;color:var(--rdim);line-height:1.5;margin-top:.2rem}
+
+/* nav / rail / chip */
+nav{position:fixed;top:0;left:0;right:0;z-index:80;background:linear-gradient(var(--room),rgba(9,9,8,.86) 62%,transparent);
+  border:none;backdrop-filter:blur(6px)}
+.navin{display:flex;align-items:center;gap:1rem;height:3.6rem}
+.brand{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--serif);font-size:1.2rem;font-weight:500;color:var(--rtx);text-decoration:none}
+.brand svg{width:20px;height:20px}
+.nlinks{display:none;gap:1.25rem;margin-left:2rem}
+@media(min-width:72rem){.nlinks{display:flex}}
+.nlinks a{font-size:.83rem;color:var(--rdim);text-decoration:none}
+.nlinks a:hover{color:var(--rtx)}
+.ncta{margin-left:auto;display:flex;gap:.6rem;align-items:center}
+.net{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;
+  text-transform:uppercase;padding:.28rem .62rem;border:1px solid var(--rline);border-radius:2px;color:var(--rdim)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--hum)}
+.net.off{border-color:var(--margin);color:var(--margin)}.net.off .dot{background:var(--margin)}
+.rail{position:fixed;top:50%;left:clamp(.7rem,1.8vw,1.4rem);transform:translateY(-50%);z-index:60;display:none;flex-direction:column;gap:.15rem}
+@media(min-width:82rem){.rail{display:flex}}
+.rail a{display:flex;align-items:center;gap:.6rem;text-decoration:none;padding:.28rem 0}
+.rail .bar{width:1.4rem;height:2px;background:var(--rline);transition:.25s}
+.rail .lb{font-family:var(--mono);font-size:.59rem;letter-spacing:.11em;text-transform:uppercase;opacity:0;transition:.25s;white-space:nowrap;color:var(--rdim)}
+.rail a.on .bar{width:2.6rem;background:var(--margin)}
+.rail a.on .lb{opacity:1;color:var(--marginL)}
+.rail a.done .bar{background:var(--rfaint)}
+.rail a:hover .lb{opacity:1}
+
+/* buttons */
+.btn{font-family:var(--sans);font-size:.84rem;font-weight:600;padding:.6rem 1.05rem;border-radius:3px;cursor:pointer;
+  background:var(--rtx);color:var(--room);border:1px solid var(--rtx);transition:.14s;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem}
+.btn:hover:not(:disabled){background:var(--margin);border-color:var(--margin);color:#fff}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn2{background:transparent;color:var(--rtx);border-color:var(--rline)}
+.btn2:hover:not(:disabled){background:transparent;color:var(--margin);border-color:var(--margin)}
+.btn3{padding:.45rem .8rem;font-size:.78rem}
+/* buttons that sit ON a screen */
+.screen .btn{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.screen .btn2{background:var(--card);color:var(--ink);border-color:var(--rule)}
+.cta{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1.3rem}
+
+/* ===== the site below ===== */
+section.doc{padding-block:clamp(3rem,6vw,5rem);border-top:1px solid var(--rline)}
+.grid2{display:grid;gap:1.2rem;grid-template-columns:1fr}
+@media(min-width:56rem){.grid2{grid-template-columns:1fr 1fr;gap:1.6rem}}
+.grid3{display:grid;gap:1.1rem;grid-template-columns:1fr}
+@media(min-width:56rem){.grid3{grid-template-columns:repeat(3,1fr)}}
+.cardx{background:rgba(255,252,246,.035);border:1px solid var(--rline);border-radius:3px;padding:1.05rem 1.15rem}
+.cardx .k{font-family:var(--mono);font-size:.61rem;letter-spacing:.13em;text-transform:uppercase;color:var(--marginL)}
+.cardx h4{font-family:var(--serif);font-size:var(--t2);font-weight:500;margin:.22rem 0 .38rem;color:var(--rtx)}
+.cardx p{font-size:.87rem;color:var(--rdim);line-height:1.56}
+.tblwrap{overflow-x:auto;border:1px solid var(--rline);border-radius:3px;margin-top:1.1rem}
+table{width:100%;border-collapse:collapse;font-size:.87rem}
+th,td{text-align:left;padding:.58rem .7rem;border-bottom:1px solid var(--rline);vertical-align:top;color:var(--rdim)}
+th{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--rdim);font-weight:400}
+td.num{font-family:var(--mono);font-weight:600;white-space:nowrap;color:var(--rtx)}
+tr.free td{color:var(--humL)}
+.lose{color:var(--marginL);font-weight:600}.win{color:var(--humL);font-weight:600}
+details.faq{border-bottom:1px solid var(--rline);padding:.8rem 0}
+details.faq summary{cursor:pointer;font-family:var(--serif);font-size:var(--t2);font-weight:500;color:var(--rtx);list-style:none}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::before{content:"+ ";color:var(--marginL);font-family:var(--mono)}
+details.faq[open] summary::before{content:"– "}
+details.faq p{margin-top:.55rem;font-size:.89rem;color:var(--rdim)}
+.calc{display:grid;gap:1.2rem;grid-template-columns:1fr}
+@media(min-width:56rem){.calc{grid-template-columns:1fr 1fr;gap:2rem}}
+.fld{margin-bottom:.85rem}
+.fld label{display:flex;justify-content:space-between;font-size:.84rem;color:var(--rdim);margin-bottom:.28rem}
+.fld label b{font-family:var(--mono);color:var(--rtx)}
+.fld input[type=range]{width:100%;accent-color:var(--margin)}
+.big2{font-family:var(--serif);font-size:var(--t4);letter-spacing:-.03em;line-height:1;color:var(--rtx)}
+.note{font-size:.81rem;color:var(--rfaint);line-height:1.6;margin-top:.9rem;border-left:2px solid var(--rline);padding-left:.85rem}
+.screen .note{color:var(--dim);border-color:var(--rule)}
+footer{border-top:1px solid var(--rline);padding-block:2.4rem;font-size:.81rem;color:var(--rfaint)}
+.foot{display:grid;gap:1.3rem;grid-template-columns:1fr}
+@media(min-width:56rem){.foot{grid-template-columns:repeat(4,1fr)}}
+.foot h5{font-family:var(--mono);font-size:.61rem;letter-spacing:.13em;text-transform:uppercase;color:var(--rfaint);margin-bottom:.45rem}
+.foot a{display:block;color:var(--rdim);text-decoration:none;font-size:.85rem;padding:.13rem 0}
+.foot a:hover{color:var(--marginL)}
+.prov{margin-top:1.6rem;font-family:var(--mono);font-size:.68rem;color:var(--rfaint);line-height:1.85;border-top:1px solid var(--rline);padding-top:.85rem}
+.prov b{color:var(--marginL)}
+
+@media(prefers-reduced-motion:reduce){
+  .screen{transform:none!important}
+  html{scroll-behavior:auto}
+  .cut{height:auto}.cut .pin{position:static;height:auto;padding-block:4rem}
+  .scene{height:auto!important}.scene .pin{position:static;min-height:0;padding-block:3rem}
+  .msg,.claim,.agec.kept{opacity:1;transform:none;transition:none}
+  .trav{transition:none}
+}
+
+/* ============ tension: the room closes on the thing you are watching ============
+   The vignette alone was invisible, because nobody is looking at the backdrop.
+   These act on the panel itself. */
+:root{--tension:0}
+body{transition:background-color .6s}
+body[data-tense="1"]{background-color:#070706}
+body[data-tense="2"]{background-color:#050504}
+body[data-tense="3"]{background-color:#030303}
+
+.pane{transition:filter .55s cubic-bezier(.3,0,.2,1),opacity .55s}
+.screen{transition:box-shadow .55s,filter .35s}   /* NOT transform: camera() rewrites it every
+  frame, so a 350ms transition here re-targets 60x a second and never lands —
+  the camera ends up permanently ~350ms behind the scroll. */
+
+/* the editor recedes while the agent thinks — a spotlight, not a dimmer */
+body[data-tense="1"] .stage.two .pane:first-child{filter:brightness(.80) saturate(.75)}
+body[data-tense="2"] .stage.two .pane:first-child{filter:brightness(.62) saturate(.45)}
+body[data-tense="3"] .stage.two .pane:first-child{filter:brightness(.48) saturate(.25)}
+body[data-tense="2"] #b3 .screen,body[data-tense="3"] #b3 .screen{
+  box-shadow:0 0 0 1px rgba(255,255,255,.10),0 60px 150px -40px rgba(255,226,170,.30),0 0 190px -30px rgba(255,214,150,.20)}
+/* everything that is not the scene you are in falls away */
+body[data-tense="3"] .rail,body[data-tense="3"] nav{opacity:.25;transition:opacity .4s}
+body[data-tense="3"] .beat .say{color:var(--marginL)}
+
+/* the held breath, then the hit */
+@keyframes jolt{
+  0%{transform:perspective(1700px) translate3d(0,0,0) scale(1)}
+  14%{transform:perspective(1700px) translate3d(-3px,2px,0) scale(1.008)}
+  30%{transform:perspective(1700px) translate3d(3px,-2px,0) scale(1.008)}
+  48%{transform:perspective(1700px) translate3d(-2px,1px,0) scale(1.004)}
+  100%{transform:perspective(1700px) translate3d(0,0,0) scale(1)}
+}
+.screen.jolt{animation:jolt .42s cubic-bezier(.36,.07,.19,.97)}
+/* the line the agent stops on */
+.tx.warn{position:relative}
+body[data-tense="3"] .tx.warn{color:var(--bad);font-weight:600}
+.agent .ln2:last-child .gl{color:var(--bad)}
+@media(prefers-reduced-motion:reduce){
+  .screen.jolt{animation:none}
+  body[data-tense]{background-color:var(--room)}
+  .pane{filter:none!important}
+}
+
+/* ============ mobile ============
+   Below 64rem the two panes stack. Each was capped at 70vh inside a 70vh
+   screen, so the agent — the whole point of the beat — was pushed out of view. */
+@media (max-width:64rem){
+  .scene .pin{padding-block:clamp(3.2rem,7vh,4.2rem) 1.2rem}
+  .screen{max-height:64vh}
+  .pane{min-height:0;max-height:64vh}
+  /* two stacked panes must SHARE the screen, not each claim all of it */
+  .stage.two .pane{max-height:31vh;min-height:14rem}
+  .stage.two .pane:first-child .code{font-size:.74rem;line-height:1.75}
+  .agent{font-size:.82rem;gap:.5rem;padding:.7rem}
+  .thread{gap:.6rem;padding:.75rem}
+  .mb .t{font-size:.83rem}
+  .claim .h{font-size:.95rem}
+  .claim .d{font-size:.79rem}
+  .beat{margin-top:.9rem}
+
+  .cut{height:130vh}
+  .cut .big{line-height:.98}
+  .prem{grid-template-columns:1fr}
+  .premc{padding:.85rem}
+  .verd .t,.verd .f{font-size:.84rem}
+  .phead{font-size:.64rem;padding:.5rem .7rem}
+  .cfoot{padding:.6rem .7rem;gap:.45rem}
+  .cfoot .st2{margin-left:0;width:100%;order:3}
+}
+@media (max-width:34rem){
+  .trav .th{font-size:.85rem}
+  .stage.two .pane{max-height:29vh;min-height:12.5rem}
+  .screen{max-height:62vh}
+  .cut{height:120vh}
+  .facts{grid-template-columns:repeat(2,1fr)}
+}
+/* iOS: 100vh counts the collapsing browser chrome, so a pin can overflow */
+@supports (height:100dvh){
+  .cut .pin{height:100dvh}
+  .scene .pin{min-height:100dvh}
+}
+
+/* ============ focus and skip ============ */
+.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--rtx);color:var(--room);
+  padding:.7rem 1.1rem;border-radius:0 0 3px 0;font-weight:600;text-decoration:none}
+.skip:focus{left:0}
+:focus-visible{outline:2px solid var(--marginL);outline-offset:3px;border-radius:2px}
+.screen :focus-visible{outline-color:var(--margin)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--marginL);outline-offset:3px}
+
+/* an unfilled note still painted its border and left-rule */
+.note:empty,.prov:empty{display:none}
+
+/* the hero's three-line explainer — it fills the width the headline leaves */
+.what{display:grid;gap:1.1rem;grid-template-columns:1fr;margin-top:clamp(1.4rem,3.4vh,2.6rem);
+  padding-top:clamp(1.1rem,2.6vh,1.8rem);border-top:1px solid var(--rline)}
+@media(min-width:56rem){.what{grid-template-columns:repeat(3,1fr);gap:2rem}}
+.what .n{font-family:var(--mono);font-size:.63rem;letter-spacing:.14em;color:var(--marginL);text-transform:uppercase}
+.what h4{font-family:var(--serif);font-size:var(--t2);font-weight:500;letter-spacing:-.015em;margin:.28rem 0 .34rem;color:var(--rtx)}
+.what p{font-size:.88rem;color:var(--rdim);line-height:1.55}
+.cue{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rfaint);
+  display:flex;align-items:center;gap:.5rem;margin-top:clamp(1rem,2.4vh,1.8rem)}
+.cue .ar{animation:nudge 1.8s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@media(max-width:56rem){.what{gap:.9rem}.what p{font-size:.84rem}}
+@media(prefers-reduced-motion:reduce){.cue .ar{animation:none}}
+
+/* the one line that tells a stranger what they are about to watch */
+.cutlede{margin-top:clamp(1rem,2.4vh,1.8rem);max-width:34ch;font-size:var(--t1);
+  line-height:1.55;color:var(--rdim)}
+@media(max-width:64rem){.cutlede{max-width:30ch;font-size:.95rem}}
+
+/* ============================================================
+   THE PROJECTION BOOTH
+   ============================================================ */
+
+/* letterbox — the strongest single signal that this is film */
+.lb{position:fixed;left:0;right:0;height:0;background:#000;z-index:120;pointer-events:none;
+  transition:height .55s cubic-bezier(.4,0,.2,1)}
+.lb-t{top:0;box-shadow:0 6px 22px -6px rgba(0,0,0,.9)}
+.lb-b{bottom:0;box-shadow:0 -6px 22px -6px rgba(0,0,0,.9)}
+
+/* the gate flash: a real cut has a frame of light in it */
+.gate{position:fixed;inset:0;background:#FFF6E4;opacity:0;z-index:118;pointer-events:none;mix-blend-mode:screen}
+
+/* film grain */
+.grain{position:fixed;inset:-60px;z-index:110;pointer-events:none;opacity:.06;
+  mix-blend-mode:overlay;background-repeat:repeat;will-change:background-position}
+@keyframes grainshift{
+  0%{background-position:0 0}      16%{background-position:-31px 17px}
+  33%{background-position:23px -29px} 50%{background-position:-19px -13px}
+  66%{background-position:37px 27px}  83%{background-position:-27px 31px}
+  100%{background-position:0 0}}
+
+/* timecode */
+.tc{position:fixed;top:calc(7.2vh + .9rem);right:clamp(.9rem,2vw,1.6rem);z-index:122;
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.14em;color:var(--rdim);
+  display:flex;align-items:center;gap:.45rem;opacity:0;transition:opacity .5s,top .55s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;text-shadow:0 1px 6px rgba(0,0,0,.9)}
+.tc.on{opacity:.85}
+.tc .rec{width:6px;height:6px;border-radius:50%;background:var(--marginL);animation:rec 1.6s ease-in-out infinite}
+@keyframes rec{0%,100%{opacity:1}50%{opacity:.15}}
+body:not(.boxed) .tc{top:4.4rem}
+
+/* sound */
+.sndbtn{position:fixed;left:clamp(.9rem,2vw,1.6rem);bottom:clamp(.9rem,2vw,1.6rem);z-index:122;
+  display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .8rem;cursor:pointer;
+  background:rgba(20,18,16,.82);border:1px solid var(--rline);border-radius:2px;color:var(--rdim);
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;
+  backdrop-filter:blur(8px);transition:.2s}
+.sndbtn:hover{color:var(--rtx);border-color:var(--rdim)}
+.sndbtn.on{color:var(--marginL);border-color:var(--marginL)}
+.sndbtn .ico{font-size:.85rem;line-height:1}
+.sndbtn.on .ico{animation:pulse 1.1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* While the frame is boxed the nav does not disappear — a visitor still needs
+   the mark and a way to book a call. It reduces to a title-card credit and sits
+   BELOW the letterbox bar, then returns in full when the frame opens. */
+nav{transition:opacity .45s,top .85s cubic-bezier(.7,0,.2,1),background .5s,border-color .5s}
+/* The full nav is present from the first frame — brand, every link, and the
+   call to action. While the frame is boxed it simply sits below the top bar
+   and loses its chrome so it does not read as browser furniture over the film. */
+body.boxed nav{top:7.2vh;background:linear-gradient(rgba(9,9,8,.72),transparent);
+  backdrop-filter:none;border-bottom-color:transparent}
+body.boxed .net{opacity:0;pointer-events:none}
+body.boxed .rail{opacity:.55}
+.net{transition:opacity .4s}
+/* the links matter more than the breakpoint did — show them far sooner */
+.nlinks{display:none}
+@media(min-width:60rem){.nlinks{display:flex;gap:1.15rem;margin-left:1.6rem}}
+@media(min-width:76rem){.nlinks{gap:1.35rem;margin-left:2.2rem}}
+
+/* ============ kinetic titles: lines ARRIVE, they do not fade ============ */
+.big .lnm{display:block;overflow:hidden;padding-block:.02em}
+.big .lni{display:block;will-change:transform,opacity;transform-origin:0 100%}
+#heroBig .lni{transform:translateY(108%);opacity:0;animation:arrive .95s cubic-bezier(.16,1,.3,1) forwards}
+#heroBig .lnm:nth-child(2) .lni{animation-delay:.13s}
+#heroBig .lnm:nth-child(3) .lni{animation-delay:.26s}
+@keyframes arrive{to{transform:translateY(0);opacity:1}}
+
+@media(prefers-reduced-motion:reduce){
+  .lb{display:none}.grain{display:none}.gate{display:none}
+  .tc{display:none}
+  .big .lni,#heroBig .lni{transform:none!important;opacity:1!important;animation:none!important}
+  .grain{animation:none}
+  body.boxed nav{opacity:1;pointer-events:auto}
+}
+
+/* grain must SCREEN onto a black frame — overlay collapses to nothing there */
+.grain{mix-blend-mode:screen;opacity:.10}
+
+/* ============ opening titles ============ */
+.opening{position:fixed;inset:0;z-index:130;background:#000;display:grid;place-items:center;
+  transition:opacity .5s ease-out}
+.opening.out{opacity:0;pointer-events:none}
+.ocards{position:relative;display:grid;place-items:center;width:100%;padding-inline:2rem}
+.ocard{grid-area:1/1;display:flex;flex-direction:column;align-items:center;gap:1.1rem;
+  font-family:var(--serif);font-weight:400;letter-spacing:-.03em;line-height:1.06;text-align:center;
+  font-size:min(var(--t5),11vh);color:var(--rtx);opacity:0;
+  animation:ocard 1.15s cubic-bezier(.16,1,.3,1) forwards}
+.ocard svg{width:min(9vh,72px);height:min(9vh,72px);opacity:0;animation:omark 1.1s .1s cubic-bezier(.16,1,.3,1) forwards}
+.ocard.omark span{font-family:var(--mono);font-size:min(1.5vh + .6rem,1.05rem);letter-spacing:.42em;
+  text-transform:uppercase;text-indent:.42em}
+/* title cards CUT. A blurred crossfade is the opposite of an edit. */
+@keyframes ocard{0%{opacity:0}2%{opacity:1}88%{opacity:1}89%{opacity:0}100%{opacity:0}}
+@keyframes omark{0%{opacity:0;transform:scale(.86) rotate(-6deg)}100%{opacity:.92;transform:none}}
+.oskip{position:absolute;right:clamp(1rem,3vw,2rem);bottom:clamp(1rem,3vw,2rem);
+  background:transparent;border:1px solid var(--rline);color:var(--rfaint);cursor:pointer;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+  padding:.45rem .8rem;border-radius:2px;transition:.2s}
+.oskip:hover{color:var(--rtx);border-color:var(--rdim)}
+body.opening-on{overflow:hidden}
+@media(prefers-reduced-motion:reduce){.opening{display:none}}
+
+/* the film ends: the frame opens, and it should be felt */
+.grain{transition:opacity .9s ease}
+.lb{transition:height .85s cubic-bezier(.7,0,.2,1)}
+body.boxed .sndbtn{opacity:1}
+.sndbtn{transition:.2s,opacity .6s}
+body:not(.boxed) .sndbtn{opacity:.35}
+body:not(.boxed) .sndbtn:hover{opacity:1}
+
+/* ============ latched titles ============
+   Driving the arrival from scroll POSITION meant a single wheel notch (100px)
+   overshot the 92px window and the animation never played. It is time-based now. */
+.cut .lni{transform:translateY(112%);opacity:0}
+.cut.playing .lni{animation:arrive .9s cubic-bezier(.16,1,.3,1) forwards}
+.cut.playing .lnm:nth-child(2) .lni{animation-delay:.11s}
+.cut.playing .lnm:nth-child(3) .lni{animation-delay:.22s}
+.cut .big,.cut .sub,.cut .cutlede{opacity:var(--outA,1)}
+.cut .sub,.cut .cutlede{transition:opacity .45s}
+.cut.playing .sub{animation:fadein .7s .18s both}
+.cut.playing .cutlede{animation:fadein .8s .42s both}
+@keyframes fadein{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+
+/* ============ scroll weight ============
+   Fast movement smears the titles, the way a whip pan does. */
+.cut .big{filter:blur(calc(var(--vel,0) * 2.4px));will-change:filter,transform}
+/* merged with the stage drop-shadow below — one filter property, one winner */
+
+@media(prefers-reduced-motion:reduce){
+  .cut .lni{transform:none;opacity:1;animation:none!important}
+  .cut .big{filter:none}.scene .screen{filter:none}
+  .cut.playing .sub,.cut.playing .cutlede{animation:none}
+}
+
+/* ============ THE MATCH CUT ============
+   One object crosses every cut. It is captured at 02:41, survives the eight
+   months, is cited by the agent, goes stale, and is finally sealed — and it is
+   the SAME element the whole way down, flying between its landing slots. */
+.trav{position:fixed;top:0;left:0;z-index:100;pointer-events:none;
+  background:rgba(18,22,20,.94);border:1px solid var(--humB);border-left:3px solid var(--hum);
+  border-radius:3px;padding:.7rem .85rem;backdrop-filter:blur(10px);
+  box-shadow:0 22px 50px -26px rgba(0,0,0,.95),0 0 44px -18px rgba(95,191,149,.35);
+  opacity:0;transform:translate3d(0,0,0);will-change:transform,opacity,width;
+  transition:opacity .5s,background .6s,border-color .6s,box-shadow .6s}
+.trav.on{opacity:1}
+.trav .tt{font-family:var(--mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--humL);font-weight:600;transition:color .6s}
+.trav .th{font-family:var(--serif);font-size:.98rem;line-height:1.32;margin-top:.24rem;color:var(--rtx)}
+.trav .th code{font-family:var(--mono);font-size:.82em;color:var(--humL)}
+.trav .ts{font-family:var(--mono);font-size:.6rem;color:var(--rfaint);margin-top:.34rem}
+/* it changes state as it travels */
+.trav.stale{border-color:var(--warnB);border-left-color:var(--warn);
+  box-shadow:0 22px 50px -26px rgba(0,0,0,.95),0 0 46px -16px rgba(212,164,76,.4)}
+.trav.stale .tt{color:var(--amb,#D4A44C)}
+.trav.stale .th{text-decoration:line-through;text-decoration-color:rgba(212,164,76,.5);color:var(--rdim)}
+.trav.sealed{border-color:var(--rdim);border-left-color:var(--rtx);
+  box-shadow:0 22px 50px -26px rgba(0,0,0,.95),0 0 40px -14px rgba(237,232,220,.3)}
+.trav.sealed .tt{color:var(--rtx)}
+.trav.cited{border-left-color:var(--agt);box-shadow:0 22px 50px -26px rgba(0,0,0,.95),0 0 46px -16px rgba(111,168,220,.4)}
+.trav.cited .tt{color:#6FA8DC}
+/* the slots it lands in are invisible — the traveller IS the card */
+.cslot{min-height:5.4rem}
+#kept[data-slot]{background:transparent;box-shadow:none;min-height:5.4rem}
+@media(max-width:64rem){.trav .th{font-size:.88rem}.trav{padding:.55rem .7rem}}
+@media(prefers-reduced-motion:reduce){.trav{transition:none}}
+
+/* ============ write the lie ============ */
+.lie{background:var(--card);color:var(--ink);border:1px solid var(--rule);border-radius:3px;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(255,255,255,.05),0 30px 80px -40px rgba(255,232,190,.16)}
+.lieh{display:flex;align-items:center;gap:.55rem;padding:.6rem .9rem;border-bottom:1px solid var(--rule);
+  background:var(--card2);font-family:var(--mono);font-size:.68rem;color:var(--dim)}
+.lieh .d{width:7px;height:7px;border-radius:50%;background:var(--hum)}
+.lieh .r{margin-left:auto}
+.lielabel{display:block;padding:.8rem .9rem .35rem;font-family:var(--mono);font-size:.62rem;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+#lieText{display:block;width:100%;border:none;outline:none;resize:vertical;background:transparent;
+  color:var(--ink);font-family:var(--serif);font-size:1.12rem;line-height:1.5;padding:0 .9rem .9rem;
+  caret-color:var(--margin)}
+#lieText:focus{background:rgba(180,72,63,.035)}
+.liefoot{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;padding:.75rem .9rem;
+  border-top:1px solid var(--rule);background:var(--card2)}
+.liefoot .st2{font-family:var(--mono);font-size:.69rem;color:var(--dim);margin-left:auto}
+.liefoot .st2.changed{color:var(--margin);font-weight:600}
+.lie .vout{margin:0;border-top:1px dashed var(--rule);padding:1rem .9rem}
+.lie .btn{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.lie .btn2{background:var(--card);color:var(--ink);border-color:var(--rule)}
+#forge .atk{margin-top:1rem}
+
+/* ============ the storyteller, walking the film with you ============ */
+.guide{position:fixed!important;left:3%;top:auto;
+  bottom:clamp(4.5rem,9vh,6rem);            /* clear of the letterbox bar and the sound button */
+  width:clamp(84px,8vw,124px);z-index:74;pointer-events:none;
+  opacity:0;transition:opacity .55s,left .55s cubic-bezier(.3,1.1,.4,1),top .55s cubic-bezier(.3,1.1,.4,1)}
+.guide.on{opacity:1}
+body:not(.boxed) .guide{bottom:clamp(1.2rem,4vh,3rem)}
+/* the bubble must not flip with him */
+.guide .bubble{transform-origin:0 100%}
+.guide[style*="scaleX(-1)"] .bubble{transform:scaleX(-1) translateY(0);left:auto;right:calc(100% + 10px)}
+.guide[style*="scaleX(-1)"] .bubble.on{transform:scaleX(-1)}
+.guide.on{opacity:1;transform:none}
+.guide .bubble{left:calc(100% + 10px);bottom:auto;top:6%;border-radius:12px 12px 3px 12px;
+  max-width:min(14rem,var(--bubmax,14rem))}
+.guide .bubble::after{left:-7px;top:16px;border:7px solid transparent;
+  border-right-color:var(--card,#FDFCF9);border-left:0;border-top-width:7px}
+@media(max-width:64rem){
+  .guide{width:88px}
+  /* He still speaks on a phone. There is no room beside him, so the bubble goes
+     ABOVE his head and takes the width of the screen instead of hiding. */
+  .guide .bubble{left:0;right:auto;top:auto;bottom:calc(100% + 8px);
+    max-width:min(19rem,var(--bubmaxm,19rem),calc(100vw - 1.6rem));font-size:.82rem;
+    border-radius:12px 12px 12px 3px}
+  .guide .bubble::after{left:14px;top:100%;border:7px solid transparent;
+    border-top-color:var(--card);border-bottom:0}
+  .guide[style*="scaleX(-1)"] .bubble{transform:scaleX(-1);left:0;right:auto}}
+@media(prefers-reduced-motion:reduce){.guide{transition:none}}
+
+/* ============ the floor he walks on ============
+   He was crossing the copy. This is a soft ground plane at the bottom of the
+   frame: it separates him from the page and gives the walk somewhere to happen. */
+.floor{position:fixed;left:0;right:0;bottom:0;height:clamp(5.5rem,11vh,8rem);z-index:72;
+  pointer-events:none;opacity:0;transition:opacity .7s;
+  background:linear-gradient(to top,var(--room) 32%,rgba(9,9,8,.72) 62%,transparent)}
+.floor.on{opacity:1}
+.floor svg{position:absolute;left:0;right:0;bottom:clamp(1rem,3.4vh,2.4rem);width:100%;height:24px;overflow:visible}
+.floor path{fill:none;stroke:var(--marginL,#CF6055);stroke-width:2;stroke-linecap:round;opacity:.5;
+  filter:drop-shadow(0 0 7px rgba(207,96,85,.3))}
+body.boxed .floor{bottom:7.2vh}
+/* his bottom is owned by stageGuide now — an !important bottom here fought the
+   inline top and STRETCHED his box to 2-3x his drawing, which made every floor
+   and overlap calculation wrong. The letterbox clearance lives in guideFloor(). */
+
+@media(max-width:64rem){.floor{height:4.5rem}}
+
+/* he arrives beside a panel rather than trudging past it */
+.guide{will-change:left,top}
+.floor{display:none}          /* no floor: he is not walking a line any more */
+
+/* a change of expression has to be SEEN, or it may as well not have happened */
+.guide.shift{animation:guide-shift .6s cubic-bezier(.28,1.5,.4,1)}
+@keyframes guide-shift{
+  0%{transform:scaleX(var(--gf,1)) translateY(6px) scale(.9)}
+  55%{transform:scaleX(var(--gf,1)) translateY(-5px) scale(1.06)}
+  100%{transform:scaleX(var(--gf,1)) translateY(0) scale(1)}
+}
+/* and he is big enough to read — he is the storyteller, not a watermark */
+.guide{width:clamp(104px,10vw,158px)}
+@media(max-width:64rem){.guide{width:92px}}
+
+/* ==================== THE TRAILER STAGE ====================
+   No title cards, no paper page. A dark room with two marks: he stands stage
+   left, the artifact plays stage right. The composition is FIXED, which is what
+   guarantees he is never standing on the lit thing he is holding — the previous
+   fix hunted for a gap every frame; this one reserves him one. */
+:root{--actor:clamp(132px,14.5vw,244px)}
+.scene .pin .wrap{display:grid;grid-template-columns:var(--actor) 1fr;
+  align-items:center;gap:clamp(.8rem,2.6vw,2.8rem)}
+.scene .screen{grid-column:2;min-width:0}
+
+/* The page is gone. What is left is the device itself, lit, floating in a dark
+   room — its own panes already carry the light, so the carrier just gets out of
+   the way and spills a little of that light onto the floor around it. */
+.scene .screen{background:transparent;border-radius:0;max-height:74vh;
+  filter:brightness(calc(1 - var(--vel,0) * .12)) drop-shadow(0 30px 60px rgba(0,0,0,.55))}
+.scene .screen::before{content:"";position:absolute;inset:-14% -10%;z-index:-1;
+  background:radial-gradient(60% 55% at 50% 52%,rgba(237,232,220,.075),transparent 70%);
+  pointer-events:none}
+.scene .screen{position:relative}
+.scene .stage,.scene .age,.scene .prem{border-radius:4px;overflow:hidden}
+
+/* The running commentary is not cut — it becomes what it always wanted to be,
+   a subtitle. Bottom of the frame, centred, one act's worth on screen at a time.
+   His BUBBLE carries the two big lines of each act; the subtitle carries the
+   detail underneath, so nothing that was written is lost. */
+.scene .beat{position:fixed;left:0;right:0;bottom:clamp(4.4rem,8.5vh,6.4rem);
+  z-index:72;margin:0;padding:0 clamp(1rem,5vw,3rem);pointer-events:none;
+  display:block;text-align:center;opacity:0;transform:translateY(9px);
+  transition:opacity .5s,transform .5s cubic-bezier(.16,1,.3,1)}
+.scene .beat.on{opacity:1;transform:none}
+/* A FIXED height, so the subtitle's top edge never moves. A one-line act and a
+   two-line act used to give different tops, which moved his floor and made him
+   drift vertically in the middle of an act. */
+.scene .beat{min-height:5.4rem;display:flex;flex-direction:column;justify-content:flex-end}
+.scene .beat .lbl{display:block;margin-bottom:.42rem;opacity:.72}
+.scene .beat .say{display:inline-block;max-width:46ch;font-size:clamp(1rem,1.62vw,1.42rem);
+  line-height:1.4;text-shadow:0 2px 14px rgba(9,9,8,.92),0 0 30px rgba(9,9,8,.75)}
+body:not(.boxed) .scene .beat{bottom:clamp(1.6rem,5vh,3.4rem)}
+@media (max-width:900px){ .scene .beat .say{font-size:1rem;max-width:34ch} }
+
+/* Narrow: one column, artifact full width, and stageGuide drops him below it. */
+@media (max-width:900px){
+  .scene .pin .wrap{grid-template-columns:1fr}
+  /* On a phone there is no lane beside the artifact, so the artifact gives up
+     the bottom of the frame instead: it sits higher and shorter, and the strip
+     it vacates belongs to him and his subtitle. Without this he simply stands
+     on top of the thing he is presenting. */
+  /* The cap is whichever is smaller: a share of the frame, or whatever is left
+     after the chrome, HIM and his subtitle have taken theirs. On a short phone
+     the second term wins, which is the case that was putting him on the panel. */
+  .scene .screen{grid-column:1;max-height:min(46vh,calc(100vh - 28rem))}
+  .scene .pin{justify-content:flex-start;padding-block:4.6rem 1rem}
+  .scene .pin .wrap{margin-top:1.5vh}
+}
+
+/* The push-in grows the artifact. With a centred origin it would grow LEFT into
+   his mark and stand on him — exactly the problem the fixed composition exists
+   to prevent. Anchored to its left edge, the zoom bleeds off the right of frame
+   instead, which is what a camera pushing past its subject actually looks like. */
+.scene .screen{transform-origin:0% 50%}
+
+/* ============ the two keyword colours ============
+   Not decoration — a system. Red is the problem and the margin note; green is
+   the thing DocBrain actually does. The same two colours carry all the way down
+   the page, so a reader learns them in the first sentence. */
+.kw{color:var(--marginL);font-weight:inherit}
+.kg{color:var(--humL);font-weight:inherit}
+#heroBig em{color:var(--marginL);font-style:normal}
+#heroBig .kg{color:var(--humL)}
+.lede .kw,.lede .kg{font-weight:600}
+
+/* ============ the title-card buddy ============ */
+/* The logo stays EXACTLY where it was — dead centre over the wordmark. Putting
+   him in the flow beside it pushed the mark off that centre, which is what made
+   the icon look wrong. He is out of flow, standing on the logo's own baseline. */
+.orow{position:relative;display:inline-flex;align-items:flex-end;justify-content:center}
+.ocard .obuddy{position:absolute;right:calc(100% + clamp(.7rem,2.2vw,1.6rem));
+  bottom:calc(-1 * clamp(.5rem,1.4vh,1rem));
+  width:min(32vh,244px);opacity:0;line-height:0;   /* brain.html size, beside the mark */
+  animation:obuddy-in .75s .18s cubic-bezier(.16,1,.3,1) forwards}
+@media(max-width:44rem){.ocard .obuddy{width:min(22vh,150px)}}
+/* beats .ocard svg{width:min(9vh,72px);opacity:0} — he is not the logo */
+.ocard .obuddy svg{width:100%;height:auto;opacity:1;transform-origin:50% 92%;
+  animation:obuddy-dance 1.25s .85s ease-in-out infinite}
+@keyframes obuddy-in{from{opacity:0;transform:translateY(16px) scale(.62)}to{opacity:1;transform:none}}
+@keyframes obuddy-dance{
+  0%,100%{transform:translateY(0) rotate(-4.5deg)}
+  25%{transform:translateY(-8px) rotate(3.5deg)}
+  50%{transform:translateY(0) rotate(4.5deg)}
+  75%{transform:translateY(-6px) rotate(-3.5deg)}
+}
+@media(prefers-reduced-motion:reduce){.ocard .obuddy svg{animation:none}}
+
+/* The rope hangs in the whole frame, behind him (he is z-74). brain.html gives
+   it a 340px host so it can actually swing; here it gets the viewport. */
+#ropestage{position:fixed;inset:0;z-index:73;pointer-events:none}
+#ropestage .ropelayer{position:absolute;inset:0;width:100%;height:100%}
+/* and he is the size brain.html draws him at, not a thumbnail */
+.guide{width:clamp(150px,16vw,230px)}
+@media(max-width:64rem){.guide{width:112px}}
+/* his rope on the title card sits behind the cards */
+.ocards>.ropelayer{z-index:0}
+.ocard{position:relative;z-index:1}
+
+.guide{transition:opacity .55s,color .4s}
