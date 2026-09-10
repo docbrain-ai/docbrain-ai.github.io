@@ -884,7 +884,11 @@ const eout = t => 1 - Math.pow(1 - t, 3);
 // 0 = he is not on the phone frame, 1 = he has stepped fully in. Eased so the
 // picture glides out of his way instead of jumping.
 let talkAmt = 0, guideTalking = false;
-const PHONE = () => innerWidth <= 900;
+// A real phone, not merely a narrow window. Keying this to width alone gave a
+// 900px Chrome window the full phone treatment — the character vanished and the
+// film was shortened on an ordinary laptop.
+const PHONE_MQ = matchMedia('(max-width:48rem), (max-height:32rem)');
+const PHONE = () => PHONE_MQ.matches;
 
 function camera(){
   punch *= .86; W.step();

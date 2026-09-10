@@ -645,7 +645,7 @@ body:not(.boxed) .guide{bottom:clamp(1.2rem,4vh,3rem)}
   max-width:min(14rem,var(--bubmax,14rem))}
 .guide .bubble::after{left:-7px;top:16px;border:7px solid transparent;
   border-right-color:var(--card,#FDFCF9);border-left:0;border-top-width:7px}
-@media(max-width:64rem){
+@media (max-width:48rem), (max-height:32rem){
   .guide{width:88px}
   /* He still speaks on a phone. There is no room beside him, so the bubble goes
      ABOVE his head and takes the width of the screen instead of hiding. */
@@ -687,7 +687,7 @@ body.boxed .floor{bottom:var(--bar)}
 }
 /* and he is big enough to read — he is the storyteller, not a watermark */
 .guide{width:clamp(104px,10vw,158px)}
-@media(max-width:64rem){.guide{width:92px}}
+@media (max-width:48rem), (max-height:32rem){.guide{width:92px}}
 
 /* ==================== THE TRAILER STAGE ====================
    No title cards, no paper page. A dark room with two marks: he stands stage
@@ -730,7 +730,7 @@ body:not(.boxed) .scene .beat{bottom:clamp(1.6rem,5vh,3.4rem)}
 @media (max-width:900px){ .scene .beat .say{font-size:1rem;max-width:34ch} }
 
 /* Narrow: one column, artifact full width, and stageGuide drops him below it. */
-@media (max-width:900px){
+@media (max-width:48rem), (max-height:32rem){
   .scene .pin .wrap{grid-template-columns:1fr}
   /* On a phone there is no lane beside the artifact, so the artifact gives up
      the bottom of the frame instead: it sits higher and shorter, and the strip
@@ -790,7 +790,7 @@ body:not(.boxed) .scene .beat{bottom:clamp(1.6rem,5vh,3.4rem)}
 #ropestage .ropelayer{position:absolute;inset:0;width:100%;height:100%}
 /* and he is the size brain.html draws him at, not a thumbnail */
 .guide{width:clamp(150px,16vw,230px)}
-@media(max-width:64rem){.guide{width:112px}}
+@media (max-width:48rem), (max-height:32rem){.guide{width:112px}}
 /* his rope on the title card sits behind the cards */
 .ocards>.ropelayer{z-index:0}
 .ocard{position:relative;z-index:1}
@@ -802,7 +802,7 @@ body:not(.boxed) .scene .beat{bottom:clamp(1.6rem,5vh,3.4rem)}
    A phone is already letterboxed by the browser chrome. Stealing another 14.4vh
    for film bars, then covering the CTA with a timecode, then running 2030vh of
    scroll, is a worse experience than the desktop it was designed for. */
-@media (max-width:64rem){
+@media (max-width:48rem), (max-height:32rem){
   :root{--barvh:3.4}
   /* the timecode sat on top of "Book a call" */
   .tc{display:none}
@@ -818,9 +818,9 @@ body:not(.boxed) .scene .beat{bottom:clamp(1.6rem,5vh,3.4rem)}
 }
 @media (max-width:26rem){ .nlinks{display:none} }
 
-/* Roughly 55% of the desktop scroll. Every beat still scrubs, it just does not
-   take twenty screens of thumb to get through one of them. */
-@media (max-width:64rem){
+/* Roughly 55% of the scroll. A laptop window must NOT get a shortened film —
+   this is for thumbs, not for a small window. */
+@media (max-width:48rem), (max-height:32rem){
   #b1{height:250vh!important} #b2{height:190vh!important} #b3{height:290vh!important}
   #b5{height:210vh!important} #b6{height:185vh!important}
 }
@@ -836,7 +836,7 @@ body.guide-on #ropestage{opacity:1}
    a full-viewport animated overlay and the rail is a progress ornament; neither
    carries meaning, and both cost a composited layer on every frame. Desktop is
    untouched — this whole block is behind the phone breakpoint. */
-@media (max-width:64rem){
+@media (max-width:48rem), (max-height:32rem){
   .grain{display:none}
   .rail{display:none}
 }
@@ -845,7 +845,7 @@ body.guide-on #ropestage{opacity:1}
 /* ---- phone: he steps in to speak, and steps out again ----
    No layout change while he does it: the artifact is lifted and eased down by
    the camera transform, so nothing has to be re-measured mid-act. */
-@media (max-width:64rem){
+@media (max-width:48rem), (max-height:32rem){
   .guide{width:104px}
   /* the subtitle overlays the picture, the way a film subtitle actually does */
   /* an honest reserve: his floor is computed from this, so 0 would let him
