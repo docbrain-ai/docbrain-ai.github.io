@@ -138,8 +138,18 @@ const BRAIN_ASPECT = 190 / 140;
 // column. Measured once, so the hero, every act and every doc section leave him
 // the same strip — and he can never land on any of them.
 let LANE = 0;
-let GW_NATURAL = 0;
+let GW_NATURAL = 0, BARVH = 7.2, SUBRES = 150;
 function measureLane(){
+  const bv = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--barvh'));
+  if (bv > 0) BARVH = bv;                    // one read per measure, not per frame
+  // The subtitle's DECLARED footprint — its bottom offset plus its min-height —
+  // not its live box. Beat 3 rewrites its own subtitle as the agent thinks, so
+  // the box grew, its top rose, and his floor moved 10px mid-act.
+  const anyBeat = document.querySelector('.scene .beat');
+  if (anyBeat) {
+    const cs = getComputedStyle(anyBeat);
+    SUBRES = (parseFloat(cs.bottom) || 0) + (parseFloat(cs.minHeight) || 86) + 12;
+  }
   const wr = document.querySelector('main .wrap');
   LANE = wr ? wr.getBoundingClientRect().left : innerWidth * .16;
   // His intended width is whatever the stylesheet says at this viewport. Read it
@@ -160,10 +170,12 @@ const MARK_Y = { 0:.17, 1:.54, 2:.64, 3:.48, 4:.58, 5:.50, doc:.56 };
 function guideFloor(){
   // The letterbox bar is a real object at the bottom of the frame, and the
   // subtitle sits above it. His floor was innerHeight — which is UNDER the bar.
-  const bar = document.body.classList.contains('boxed') ? innerHeight * .072 : 0;
-  const sub = document.querySelector('.scene .beat.on');
-  const st = sub ? sub.getBoundingClientRect().top - 10 : Infinity;
-  return Math.min(innerHeight - bar - 14, st);
+  // The bar's TARGET height, not its animating one. Measuring the live element
+  // meant his floor moved for the 850ms the bars take to open, so his mark
+  // recomputed mid-act and he drifted 33px while you were scrolling.
+  const bar = document.body.classList.contains('boxed') ? innerHeight * BARVH / 100 : 0;
+  const subOn = !!document.querySelector('.scene .beat.on');
+  return innerHeight - bar - (subOn ? SUBRES : 14);
 }
 
 let markKey = '', markDbg = {}, markHidden = false;
@@ -308,6 +320,7 @@ function driveGuide(beat, on, pp){
   if (!on) {                                    // past the film, in the document
     const sec = dsec;
     el.classList.toggle('on', !!sec);
+    document.body.classList.toggle('guide-on', !!sec);
     ropeFor(0);                                 // by now he carries nothing
     if (sec && sec !== guideKey) {
       guideKey = sec; guideBeat = -1;
@@ -324,6 +337,7 @@ function driveGuide(beat, on, pp){
 
   guideKey = ''; guideFacing = false;
   el.classList.toggle('on', on && !markHidden);
+  document.body.classList.toggle('guide-on', on && !markHidden);   // the rope goes with him
   // He is already carrying everything on the hero, but at full length the rope
   // falls out of the headline's void and across the third card. It reaches its
   // longest at act 1 — which is where the problem actually starts anyway.

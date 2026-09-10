@@ -9,6 +9,16 @@ export function initCinema({ reduced = false } = {}) {
 
   // ---- letterbox: the single strongest "this is film" signal ----
   const barT = el('div', 'lb lb-t'), barB = el('div', 'lb lb-b');
+  // One source of truth for the bar height, so the phone can shrink it without
+  // every consumer (nav offset, timecode, his floor) drifting out of agreement.
+  let _bar = 7.2;
+  const readBar = () => {
+    const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--barvh'));
+    if (v > 0) _bar = v;
+  };
+  readBar();
+  addEventListener('resize', readBar, { passive: true });
+  const barVH = () => _bar;
 
   // ---- gate flash: a real cut has a frame of light, not a crossfade ----
   const flash = el('div', 'gate');
@@ -253,7 +263,7 @@ export function initCinema({ reduced = false } = {}) {
       at += c.hold;
       holder.appendChild(d);
     });
-    barT.style.height = barB.style.height = '7.2vh';
+    barT.style.height = barB.style.height = barVH() + 'vh';
     document.body.classList.add('opening-on');
     // The rope hangs on the CARD HOLDER, not on him -- same as brain.html and
     // same as the page: a rope hosted on a 78px box cannot hang.
@@ -292,7 +302,7 @@ export function initCinema({ reduced = false } = {}) {
   return {
     // 0 = open frame, 1 = full letterbox
     box(v) {
-      const h = (v * 7.2).toFixed(2) + 'vh';
+      const h = (v * barVH()).toFixed(2) + 'vh';
       barT.style.height = h; barB.style.height = h;
       const nb = v > .5;
       if (nb !== boxed) { boxed = nb; document.body.classList.toggle('boxed', nb); }

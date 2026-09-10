@@ -32,7 +32,11 @@
   --mono:"PlexMono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth}
+/* clip, not hidden: `hidden` on the root makes it a scroll container and breaks
+   position:sticky, which every pinned act depends on. `clip` clips without
+   creating one. body's overflow-x:hidden was not actually reaching the viewport
+   — the page could be dragged 300px sideways to see the artifact's bleed. */
+html{scroll-behavior:smooth;overflow-x:clip}
 body{margin:0;background:var(--room);color:var(--rtx);font-family:var(--sans);font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 h1,h2,h3,h4,h5,p{margin:0}
 ul{margin:0;padding:0;list-style:none}
@@ -438,6 +442,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,su
    ============================================================ */
 
 /* letterbox — the strongest single signal that this is film */
+:root{--barvh:7.2;--bar:calc(var(--barvh) * 1vh)}
 .lb{position:fixed;left:0;right:0;height:0;background:#000;z-index:120;pointer-events:none;
   transition:height .55s cubic-bezier(.4,0,.2,1)}
 .lb-t{top:0;box-shadow:0 6px 22px -6px rgba(0,0,0,.9)}
@@ -456,14 +461,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,su
   100%{background-position:0 0}}
 
 /* timecode */
-.tc{position:fixed;top:calc(7.2vh + .9rem);right:clamp(.9rem,2vw,1.6rem);z-index:122;
+.tc{position:fixed;top:auto;bottom:calc(var(--bar) + .9rem);right:clamp(.9rem,2vw,1.6rem);z-index:122;
   font-family:var(--mono);font-size:.63rem;letter-spacing:.14em;color:var(--rdim);
   display:flex;align-items:center;gap:.45rem;opacity:0;transition:opacity .5s,top .55s cubic-bezier(.4,0,.2,1);
   pointer-events:none;text-shadow:0 1px 6px rgba(0,0,0,.9)}
 .tc.on{opacity:.85}
 .tc .rec{width:6px;height:6px;border-radius:50%;background:var(--marginL);animation:rec 1.6s ease-in-out infinite}
 @keyframes rec{0%,100%{opacity:1}50%{opacity:.15}}
-body:not(.boxed) .tc{top:4.4rem}
+body:not(.boxed) .tc{top:auto;bottom:1.4rem}
 
 /* sound */
 .sndbtn{position:fixed;left:clamp(.9rem,2vw,1.6rem);bottom:clamp(.9rem,2vw,1.6rem);z-index:122;
@@ -484,7 +489,7 @@ nav{transition:opacity .45s,top .85s cubic-bezier(.7,0,.2,1),background .5s,bord
 /* The full nav is present from the first frame — brand, every link, and the
    call to action. While the frame is boxed it simply sits below the top bar
    and loses its chrome so it does not read as browser furniture over the film. */
-body.boxed nav{top:7.2vh;background:linear-gradient(rgba(9,9,8,.72),transparent);
+body.boxed nav{top:var(--bar);background:linear-gradient(rgba(9,9,8,.72),transparent);
   backdrop-filter:none;border-bottom-color:transparent}
 body.boxed .net{opacity:0;pointer-events:none}
 body.boxed .rail{opacity:.55}
@@ -660,7 +665,7 @@ body:not(.boxed) .guide{bottom:clamp(1.2rem,4vh,3rem)}
 .floor svg{position:absolute;left:0;right:0;bottom:clamp(1rem,3.4vh,2.4rem);width:100%;height:24px;overflow:visible}
 .floor path{fill:none;stroke:var(--marginL,#CF6055);stroke-width:2;stroke-linecap:round;opacity:.5;
   filter:drop-shadow(0 0 7px rgba(207,96,85,.3))}
-body.boxed .floor{bottom:7.2vh}
+body.boxed .floor{bottom:var(--bar)}
 /* his bottom is owned by stageGuide now — an !important bottom here fought the
    inline top and STRETCHED his box to 2-3x his drawing, which made every floor
    and overlap calculation wrong. The letterbox clearance lives in guideFloor(). */
@@ -787,3 +792,47 @@ body:not(.boxed) .scene .beat{bottom:clamp(1.6rem,5vh,3.4rem)}
 .ocard{position:relative;z-index:1}
 
 .guide{transition:opacity .55s,color .4s}
+
+
+/* ============ MOBILE ============
+   A phone is already letterboxed by the browser chrome. Stealing another 14.4vh
+   for film bars, then covering the CTA with a timecode, then running 2030vh of
+   scroll, is a worse experience than the desktop it was designed for. */
+@media (max-width:64rem){
+  :root{--barvh:3.4}
+  /* the timecode sat on top of "Book a call" */
+  .tc{display:none}
+  /* brand + six links + a status dot + a CTA do not fit in 3.6rem of phone.
+     The status dot goes, the links become one scrollable line. */
+  .navin{gap:.6rem}
+  .net{display:none}
+  .nlinks{display:flex;gap:.9rem;overflow-x:auto;white-space:nowrap;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;min-width:0;flex:1}
+  .nlinks::-webkit-scrollbar{display:none}
+  .nlinks a{font-size:.82rem;flex:none}
+  .ncta .btn{padding:.42rem .7rem;font-size:.78rem}
+}
+@media (max-width:26rem){ .nlinks{display:none} }
+
+/* Roughly 55% of the desktop scroll. Every beat still scrubs, it just does not
+   take twenty screens of thumb to get through one of them. */
+@media (max-width:64rem){
+  #b1{height:250vh!important} #b2{height:190vh!important} #b3{height:290vh!important}
+  #b5{height:210vh!important} #b6{height:185vh!important}
+}
+
+/* His rope must not be on screen when he is not. On a narrow hero he stays
+   offstage, and the rope was still being drawn — a red line through the copy. */
+#ropestage{opacity:0;transition:opacity .35s}
+body.guide-on #ropestage{opacity:1}
+
+
+/* ---- phone: fewer always-composited layers ----
+   Mobile Safari repaints every fixed layer during momentum scroll. The grain is
+   a full-viewport animated overlay and the rail is a progress ornament; neither
+   carries meaning, and both cost a composited layer on every frame. Desktop is
+   untouched — this whole block is behind the phone breakpoint. */
+@media (max-width:64rem){
+  .grain{display:none}
+  .rail{display:none}
+}

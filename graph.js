@@ -10,7 +10,10 @@ export function initGraph(canvas, { reduced = false } = {}) {
   const ctx = canvas.getContext('2d');
   const R = rnd(20260909);
   const SMALL = innerWidth < 780;
-  const N = reduced ? 40 : SMALL ? 70 : 150;
+  // The link pass is O(N^2) and each link is its own stroke call. 70 nodes is
+  // ~2400 pair tests a frame on a phone that is already compositing a dozen
+  // fixed layers; 46 is ~1000. Desktop is unchanged at 150.
+  const N = reduced ? 40 : SMALL ? 46 : 150;
   const FAR = 4.6, NEAR = .5;
 
   const field = [];
