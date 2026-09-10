@@ -32,11 +32,13 @@
   --mono:"PlexMono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 *,*::before,*::after{box-sizing:border-box}
-/* clip, not hidden: `hidden` on the root makes it a scroll container and breaks
-   position:sticky, which every pinned act depends on. `clip` clips without
-   creating one. body's overflow-x:hidden was not actually reaching the viewport
-   — the page could be dragged 300px sideways to see the artifact's bleed. */
-html{scroll-behavior:smooth;overflow-x:clip}
+html{scroll-behavior:smooth}
+/* NOTE: do not put overflow-x on the ROOT to contain the artifact's bleed.
+   Root-level overflow propagates to the viewport and browsers disagree about
+   `clip` there — it can leave the page unable to scroll at all. The bleed is
+   clipped on the pinned stage instead, which is contained and cannot affect
+   the viewport's own scrolling. */
+.scene .pin{overflow-x:clip}
 body{margin:0;background:var(--room);color:var(--rtx);font-family:var(--sans);font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 h1,h2,h3,h4,h5,p{margin:0}
 ul{margin:0;padding:0;list-style:none}
@@ -737,9 +739,11 @@ body:not(.boxed) .scene .beat{bottom:clamp(1.6rem,5vh,3.4rem)}
   /* The cap is whichever is smaller: a share of the frame, or whatever is left
      after the chrome, HIM and his subtitle have taken theirs. On a short phone
      the second term wins, which is the case that was putting him on the panel. */
-  .scene .screen{grid-column:1;max-height:min(46vh,calc(100vh - 28rem))}
-  .scene .pin{justify-content:flex-start;padding-block:4.6rem 1rem}
-  .scene .pin .wrap{margin-top:1.5vh}
+  /* The demo owns the frame. It was 46% of a phone screen, pinned to the top,
+     with a third of the display reserved for a narrator — so the push-in had
+     nothing to push into. He now steps in only to speak (see .talking below). */
+  .scene .screen{grid-column:1;max-height:min(70vh,calc(100vh - 11rem))}
+  .scene .pin{justify-content:center;padding-block:4.4rem 1rem}
 }
 
 /* The push-in grows the artifact. With a centred origin it would grow LEFT into
@@ -835,4 +839,18 @@ body.guide-on #ropestage{opacity:1}
 @media (max-width:64rem){
   .grain{display:none}
   .rail{display:none}
+}
+
+
+/* ---- phone: he steps in to speak, and steps out again ----
+   No layout change while he does it: the artifact is lifted and eased down by
+   the camera transform, so nothing has to be re-measured mid-act. */
+@media (max-width:64rem){
+  .guide{width:104px}
+  /* the subtitle overlays the picture, the way a film subtitle actually does */
+  /* an honest reserve: his floor is computed from this, so 0 would let him
+     stand on the subtitle he is standing above */
+  .scene .beat{bottom:calc(var(--bar) + .7rem);min-height:3.2rem}
+  .scene .beat .say{font-size:.94rem;max-width:30ch}
+  .scene .beat .lbl{display:none}
 }

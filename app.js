@@ -104,7 +104,8 @@ function docSection(){
 function speak(text){
   clearTimeout(sayTimer);
   GUIDE.say(text);
-  sayTimer = setTimeout(() => GUIDE.say(''), 5200);
+  guideTalking = true;
+  sayTimer = setTimeout(() => { GUIDE.say(''); guideTalking = false; }, 5200);
 }
 
 // He WALKS the page: his position tracks how far down you are, so he travels
@@ -183,7 +184,7 @@ function stageGuide(key){
   const el = $('guide');
   const CEIL = guideCeiling(el), FLR = guideFloor();
   const band = FLR - CEIL;
-  const k = `${key}|${innerWidth}x${innerHeight}|${Math.round(band / 8)}`;
+  const k = `${key}|${innerWidth}x${innerHeight}|${Math.round(band / 8)}|${PHONE() && guideTalking ? 1 : 0}`;
   markDbg = { key, CEIL, FLR, band: Math.round(band), k };
   if (k !== markKey) {                       // he moves when the ACT moves, not when you scroll
     markKey = k;
@@ -235,6 +236,12 @@ function stageGuide(key){
       if (laneW >= 96) {                     // his lane: beside the story, never on it
         nw = Math.min(W0, laneW);
         x = 12 + Math.max(0, (laneW - nw) / 2);
+      } else if (PHONE()) {
+        // He owns the strip under the lifted picture, and only while speaking.
+        // Never on the hero though: a phone hero is wall-to-wall type, and his
+        // rope came down across the three cards.
+        markHidden = !guideTalking || key === 0;
+        nw = W0; x = 12;
       } else if (key === 0) {
         // The hero is dense and full-width on a smaller screen: no crook beside
         // the headline and no margin either. Rather than stand him on the copy,
@@ -874,6 +881,10 @@ const BIRTH = { b1: 'hand', b2: 'hand', b3: 'rise', b5: 'strike', b6: 'hand' };
 // pushes past the camera at you — the one object in the film he gives away.
 const OUT = { b6: 'toyou' };
 const eout = t => 1 - Math.pow(1 - t, 3);
+// 0 = he is not on the phone frame, 1 = he has stepped fully in. Eased so the
+// picture glides out of his way instead of jumping.
+let talkAmt = 0, guideTalking = false;
+const PHONE = () => innerWidth <= 900;
 
 function camera(){
   punch *= .86; W.step();
@@ -889,7 +900,9 @@ function camera(){
     // On a phone the artifact already fills the frame, so the push-in has to stay
     // at or under 1x — a 1.18 zoom grows it 27px past its own max-height and back
     // over the strip he is standing in.
-    const zcap = innerWidth <= 900 ? 1 : 1.18;
+    // The phone cap existed only to stop the artifact reaching the strip he was
+    // standing in. He no longer stands there, so the push-in is the same move.
+    const zcap = 1.18;
     const z = Math.min(zcap, W.fit(natW, natH, innerWidth, innerHeight, raw * (1 + punch * .07)));
 
     // frame the subject: as you close, drift so the beat's subject holds centre
@@ -922,6 +935,8 @@ function camera(){
       else                     { tx += hx * born; ty += hy * born; az *= 1 - born * .88; rz += born * -15; }
       aop *= 1 - born * .55;
     }
+    // he steps in to speak: the picture lifts and eases back, no layout change
+    if (talkAmt > .002) { ty -= innerHeight * .15 * talkAmt; az *= 1 - .20 * talkAmt; }
     if (away > .001) {
       if (OUT[sc.id] === 'toyou') { az *= 1 + away * .55; aop *= 1 - away; }   // he gives it to you
       else { tx += hx * away; ty += hy * away; az *= 1 - away * .88; rz += away * 13; aop *= 1 - away * .7; }
@@ -943,6 +958,11 @@ function camera(){
 let lastY = 0, velS = 0, lastBeat = -1;
 function tick(){
   measureRects();                       // ---- read phase: every rect, once ----
+  // he steps onto the phone frame only while he has a line, and the picture
+  // eases out of his way rather than cutting
+  const wantTalk = PHONE() && guideTalking ? 1 : 0;
+  talkAmt += (wantTalk - talkAmt) * .16;
+  if (Math.abs(wantTalk - talkAmt) < .004) talkAmt = wantTalk;
   const raw = Math.min(1, Math.abs(scrollY - lastY) / 150); lastY = scrollY;
   velS = velS * .82 + raw * .18;        // eased, so movement decays with weight
   document.documentElement.style.setProperty('--vel', velS.toFixed(3));
