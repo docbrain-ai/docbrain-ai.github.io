@@ -1838,6 +1838,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coding Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../slack/" class="md-nav__link">
         
   
@@ -3862,10 +3890,13 @@ non-empty — an empty list is a startup error.</p>
 <p>Unlike incident records (Jira, PagerDuty, Zendesk), which are permanent historical events, <strong>captured content decays with age</strong>. A GitHub PR discussing an architecture from 5 years ago, or a Slack thread about a since-replaced system, should score low in freshness — not be treated as always-current.</p>
 <ul>
 <li>The freshness scorer uses the <strong>original content creation date</strong> (when the PR/MR was opened, when the Slack thread started) as the age baseline — not the time DocBrain captured it.</li>
-<li>Captures age through the standard time-decay curve: a 2-year-old architectural discussion will score significantly lower freshness than a recent one, which reduces its weight in RAG retrieval and Autopilot gap analysis.</li>
+<li>Captures age through the standard time-decay curve: a 2-year-old architectural discussion will score significantly lower freshness than a recent one. What that score does depends on whether a reranker is configured:</li>
+<li><strong>No reranker</strong> (<code>RAG_RERANK_PROVIDER=none</code>, the default): freshness also scales each result's retrieval score, so an older capture ranks below a newer one of similar relevance.</li>
+<li><strong>With a reranker</strong> (any other provider): retrieval ranks on relevance alone, so an old capture that answers the question is still picked. Its age is not hidden: a source whose freshness has fallen into the stale or needs-review band is labelled that way to the model writing the answer.</li>
+<li>Autopilot reads the same score: it looks at the stalest documents first when it searches for pages to fix, and breaks a tie between two candidate pages in favour of the fresher one.</li>
 <li><strong>Re-capturing the same thread</strong> (via message shortcut, <code>@DocBrain capture</code>, or <code>@docbrain capture</code> on a PR) updates the content but preserves the original creation date as the age baseline.</li>
 </ul>
-<p>This ensures that outdated design decisions, replaced architectures, or deprecated processes are progressively de-emphasized in answers as they age — without ever being deleted (the historical record is preserved for explicit search).</p>
+<p>Either way, outdated design decisions, replaced architectures and deprecated processes are never deleted — the historical record stays available to explicit search — and the model writing an answer from a stale one is told that it is stale.</p>
 <hr />
 <h2 id="re-ingestion-and-updates">Re-Ingestion and Updates<a class="headerlink" href="#re-ingestion-and-updates" title="Permanent link">&para;</a></h2>
 <h3 id="updating-documents">Updating Documents<a class="headerlink" href="#updating-documents" title="Permanent link">&para;</a></h3>

@@ -1805,6 +1805,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coding Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../slack/" class="md-nav__link">
         
   
@@ -4174,7 +4202,12 @@ This captures the architectural "why" that lives in code review threads.</p>
 <tr>
 <td><code>PREMISE_MONITOR_ENABLED</code></td>
 <td><code>true</code></td>
-<td>Enable a standing monitor that re-verifies file-path premises in captured knowledge fragments against your connected sources' file listings every 300 seconds. Fragment-index events trigger extraction and initial verification of the new fragment's premises immediately, rather than waiting for the next sweep; re-verification of existing premises happens on the 300-second sweep. The monitor is fully deterministic — no LLM calls, no extra network requests in the check path. A premise verified at capture that later disappears fires a <code>premise.broken</code> event (webhook-subscribable, event-log persisted); restoration fires <code>premise.restored</code>. Premises never verified at capture remain <code>dormant</code> and never alert. Note: <code>uncheckable</code> means "no connected source can currently speak to this premise", not "broken" — it never triggers an alert.</td>
+<td>Enable a standing monitor that re-verifies file-path premises in captured knowledge fragments against your connected sources' file listings every <code>PREMISE_SWEEP_INTERVAL_SECS</code> seconds (default 300). Fragment-index events trigger extraction and initial verification of the new fragment's premises immediately, rather than waiting for the next sweep; re-verification of existing premises happens on the next sweep. The monitor is fully deterministic — no LLM calls, no extra network requests in the check path. A premise verified at capture that later disappears fires a <code>premise.broken</code> event (webhook-subscribable, event-log persisted); restoration fires <code>premise.restored</code>. Premises never verified at capture remain <code>dormant</code> and never alert. Note: <code>uncheckable</code> means "no connected source can currently speak to this premise", not "broken" — it never triggers an alert.</td>
+</tr>
+<tr>
+<td><code>PREMISE_SWEEP_INTERVAL_SECS</code></td>
+<td><code>300</code></td>
+<td>Seconds between premise monitor sweeps. Each sweep reads every premise row and settles each one, so this is the only dial on that cost: raise it on a large premise table to spend less, lower it to notice a broken claim sooner. Values below <code>5</code> are raised to <code>5</code> — a zero period is rejected by the timer, and a one-second sweep spends a core re-deriving verdicts that cannot have changed. Fragment-index events still verify a new fragment's premises immediately, independent of this interval. Helm: <code>premises.sweepIntervalSeconds</code>.</td>
 </tr>
 <tr>
 <td><code>RAG_CACHE_TTL_HOURS</code></td>
@@ -4229,7 +4262,7 @@ This captures the architectural "why" that lives in code review threads.</p>
 <tr>
 <td><code>RAG_MAX_PER_SOURCE</code></td>
 <td><code>3</code></td>
-<td>Max chunks per <strong>source group</strong> in the final top-k, where the group is the chunk's <code>space</code>: the space key for Confluence (<code>GOL</code>, <code>ENG</code>, …) and the literal <code>local</code> for local-file ingest — <em>not</em> the <code>source_type</code>. A distribution cap: it stops one group crowding out the others. <strong>Skipped entirely when fewer than two groups are eligible</strong> — with a single group (local-only, one-space Confluence, …) it would otherwise cap total LLM context at 3 chunks regardless of <code>RAG_TOP_K</code>, which starves synthesis and presents as a weak model rather than a truncated context. With two or more groups it binds normally, and it may then leave the result under <code>RAG_TOP_K</code> by design: two groups at the default of 3 yield at most 6 chunks even with <code>RAG_TOP_K=10</code>. Raise this value if you want a small number of groups to fill top-k.</td>
+<td>Max chunks per <strong>source group</strong> in the final top-k, where the group is the chunk's <code>space</code>: the space key for Confluence (<code>ENG</code>, <code>OPS</code>, …) and the literal <code>local</code> for local-file ingest — <em>not</em> the <code>source_type</code>. A distribution cap: it stops one group crowding out the others. <strong>Skipped entirely when fewer than two groups are eligible</strong> — with a single group (local-only, one-space Confluence, …) it would otherwise cap total LLM context at 3 chunks regardless of <code>RAG_TOP_K</code>, which starves synthesis and presents as a weak model rather than a truncated context. With two or more groups it binds normally, and it may then leave the result under <code>RAG_TOP_K</code> by design: two groups at the default of 3 yield at most 6 chunks even with <code>RAG_TOP_K=10</code>. Raise this value if you want a small number of groups to fill top-k.</td>
 </tr>
 <tr>
 <td><code>RAG_MAX_PER_DOCUMENT</code></td>
@@ -4313,6 +4346,11 @@ This captures the architectural "why" that lives in code review threads.</p>
 <td><code>DOCBRAIN_SUFFICIENCY_CRITIC_MIN_RECOVERY_BUDGET_MS</code></td>
 <td><code>20000</code></td>
 <td>Minimum wall-clock headroom (ms) required to <strong>allow</strong> a critic-forced recovery round. A recovery round costs roughly one tool dispatch plus the final synthesis; when fewer than this many ms remain in the surface's wall-clock budget, the critic ships the candidate as an <strong>honest-gap</strong> answer instead of forcing a round the budget cliff would kill (which previously caused a request-level timeout). Set <code>0</code> to disable the guard (always allow recovery within the round cap).</td>
+</tr>
+<tr>
+<td><code>ASK_WALL_CLOCK_SECS</code></td>
+<td><code>600</code></td>
+<td>Hard cap on a whole <code>/ask</code>, in seconds. Every stage inside the request already has a budget — the agentic loop's wall clock, the critic's recovery floor, each tool call's timeout — and none of them bounds their <strong>sum</strong>. A measured question ran <strong>1077 seconds</strong> (eighteen minutes) with every stage inside its own limit; the retrieval pipeline accounted for 25 of those seconds and the rest was the loop and synthesis making model calls. Nobody waits that long, and on a shared instance the request holds a connection and its share of the pools throughout. The default is deliberately generous (the slowest legitimate answer measured in the same run was 248s), so this bounds the pathological case without truncating a slow honest one. A request stopped here returns <strong>504</strong> with a sentence saying what happened and suggesting a narrower question — never a partial answer presented as a complete one. Set <code>0</code> to disable the cap.</td>
 </tr>
 <tr>
 <td><code>DOCBRAIN_FRESHNESS_CRITIC_ENABLED</code></td>
@@ -4810,11 +4848,10 @@ This captures the architectural "why" that lives in code review threads.</p>
 <p>When a draft is reviewed and approved, DocBrain can publish it directly to your documentation system, then automatically re-ingest the new page so it immediately improves Q&amp;A answers.</p>
 <p><strong>How it works:</strong>
 1. Users ask questions → DocBrain detects a gap (unanswered / low confidence)
-2. Autopilot clusters related queries and generates a draft using all 5 memory layers:
+2. Autopilot clusters related queries and generates a draft using its memory layers:
    - <strong>Layer 2 (Episodic):</strong> User feedback notes and failed answers inform what was missing
    - <strong>Layer 3 (Semantic):</strong> Knowledge graph entities provide verified org context
    - <strong>Layer 4 (Procedural):</strong> Retrieval rules steer search toward relevant spaces
-   - <strong>Layer 5 (Freshness):</strong> Stale source docs are flagged so the draft warns readers
 3. Admin reviews draft → clicks <strong>Publish</strong> (or auto-publish fires if <code>AUTOPILOT_AUTO_DRAFT=true</code>)
 4. DocBrain creates the page in Confluence with labels and provenance metadata
 5. The gap cluster is automatically marked <strong>resolved</strong>
@@ -5113,7 +5150,7 @@ Response:
 </span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">  </span><span class="nt">substantive_update_abs_ceiling</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2000</span>
 </span></code></pre></div>
 <h2 id="knowledge-stream">Knowledge Stream<a class="headerlink" href="#knowledge-stream" title="Permanent link">&para;</a></h2>
-<p>The Knowledge Stream proactively detects and pushes intelligence: incident early warnings (multiple users hitting the same issue), knowledge decay risks (popular but stale docs), expertise gaps (domains with single-point-of-failure risk), and context-aware doc updates.</p>
+<p>The Knowledge Stream proactively detects and pushes intelligence: incident early warnings (multiple users hitting the same issue), expertise gaps (domains with single-point-of-failure risk), and context-aware doc updates.</p>
 <table>
 <thead>
 <tr>
@@ -5131,7 +5168,7 @@ Response:
 <tr>
 <td><code>STREAM_INTERVAL_MINUTES</code></td>
 <td><code>30</code></td>
-<td>How often the stream engine scans for incidents, decay, and expertise gaps.</td>
+<td>How often the stream engine scans for incidents and expertise gaps.</td>
 </tr>
 <tr>
 <td><code>STREAM_INCIDENT_WARNING_MIN_USERS</code></td>
@@ -5382,12 +5419,12 @@ architecture decisions, how-to answers, anything marked with a target reaction.<
 <tr>
 <td><code>NOTIFICATION_INTERVAL_HOURS</code></td>
 <td><code>24</code></td>
-<td>How often stale doc notifications are sent (requires Slack)</td>
+<td>How often health alerts are posted to the alert channel (requires Slack)</td>
 </tr>
 <tr>
 <td><code>NOTIFICATION_SPACE_FILTER</code></td>
 <td>—</td>
-<td>Restrict notifications to a specific Confluence space</td>
+<td>No longer read: it scoped the author DMs about documents, which were retired. Setting it logs a warning</td>
 </tr>
 </tbody>
 </table>
@@ -5498,6 +5535,11 @@ architecture decisions, how-to answers, anything marked with a target reaction.<
 <td>Session key lifetime after login (hours). <code>0</code> = no expiry.</td>
 </tr>
 <tr>
+<td><code>SESSION_RATE_LIMIT_RPM</code></td>
+<td><code>240</code></td>
+<td>Requests per minute for a login session key. Named tokens keep the <code>60</code> default; a browser session needs more, because one page load issues several calls and the auth guard retries. Too low shows up as a UI that looks like an outage.</td>
+</tr>
+<tr>
 <td><code>ADMIN_KEY_FILE</code></td>
 <td><code>/app/admin-bootstrap-key.txt</code></td>
 <td>Where to write the admin bootstrap key on first boot</td>
@@ -5505,8 +5547,8 @@ architecture decisions, how-to answers, anything marked with a target reaction.<
 </tbody>
 </table>
 <h2 id="mcp-tool-platform">MCP Tool Platform<a class="headerlink" href="#mcp-tool-platform" title="Permanent link">&para;</a></h2>
-<p>Master switch for the live-tool orchestrator (Plan 4). When disabled (the
-default), the synthesis path is byte-identical to pre-Plan-4: no orchestrator
+<p>Master switch for the live-tool orchestrator. When disabled (the
+default), the synthesis path is byte-identical to a build without the tool platform: no orchestrator
 round-trip, no fast-LLM dispatch, no measurable overhead. Flip to <code>true</code>
 once <code>MCP_OAUTH_ENCRYPTION_KEY</code> and <code>MCP_MANIFEST_DIR</code> are configured to
 enable live tool fan-out at answer time.</p>
@@ -5593,7 +5635,7 @@ manifest. Add a <code>tool_discovery</code> block:</p>
 </span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="w">    </span><span class="nt">output_size_cap_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16384</span><span class="w">    </span><span class="c1"># &lt;= 16384 ceiling</span>
 </span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="w">    </span><span class="nt">latency_budget_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7000</span><span class="w">         </span><span class="c1"># &lt;= 8000 ceiling</span>
 </span></code></pre></div>
-<p><strong>Read-only invariant (D1).</strong> DocBrain only registers tools where the upstream
+<p><strong>Read-only invariant.</strong> DocBrain only registers tools where the upstream
 declares <code>annotations.readOnlyHint == true</code>. Tools without the hint, or marked
 <code>false</code>, are silently dropped at probe time. DocBrain does not dispatch write
 operations via MCP; this is a platform-wide invariant enforced at three gates:
