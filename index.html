@@ -3,326 +3,129 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DocBrain — it warns the next person</title>
-<meta name="description" content="DocBrain remembers what your engineers work out — in incidents, pull requests and threads — and warns whoever touches that code next, human or AI agent, before the change lands. Self-hosted, read-only, zero egress.">
-<meta name="theme-color" content="#090908">
+<title>DocBrain · What one person learns, the whole company keeps</title>
+<meta name="description" content="DocBrain keeps what your engineers learn as they work and brings it to the next person, or AI agent, who needs it. People move on; the knowledge stays.">
+<meta name="theme-color" content="#F4F2EC">
 <meta property="og:type" content="website">
-<meta property="og:title" content="DocBrain — it warns the next person">
-<meta property="og:description" content="Your team already worked this out. The next person has no way to know. Watch one real decision get captured, forgotten, and then stop someone eight months later.">
+<meta property="og:title" content="What one person learns, the whole company keeps.">
+<meta property="og:description" content="Nothing your team learns should be learned twice.">
 <meta property="og:url" content="https://docbrainapi.com/">
 <meta property="og:image" content="https://docbrainapi.com/banner.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://docbrainapi.com/banner.png">
-<meta name="twitter:title" content="DocBrain — it warns the next person">
-<meta name="twitter:description" content="Your team already worked this out. The next person has no way to know.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23090908'/%3E%3Cg fill='%23EDE8DC'%3E%3Cpath d='M12 12.3 3 16.5l9 4.2 9-4.2z' opacity='.45'/%3E%3Cpath d='M12 7.8 3 12l9 4.2L21 12z' opacity='.7'/%3E%3Cpath d='M12 3.3 3 7.5l9 4.2 9-4.2z'/%3E%3C/g%3E%3C/svg%3E">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="brain.css">
+<meta name="twitter:title" content="What one person learns, the whole company keeps.">
+<meta name="twitter:description" content="Nothing your team learns should be learned twice.">
+<link rel="icon" href="/logo.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/site.css?v=6c31c54520">
+<link rel="stylesheet" href="/home.css">
 </head>
 <body>
-<a class="skip" href="#b1">Skip to the story</a>
-<canvas id="graph" aria-hidden="true"></canvas>
-<noscript><div class="wrap" style="padding-block:5rem">
-  <h1>DocBrain</h1>
-  <p class="lede" style="margin-top:1rem">This page tells its story with script, which is turned off.
-  The short version: DocBrain captures what your engineers work out — in incidents, pull requests and
-  threads — and warns whoever touches that code next, human or agent, before the change lands.
-  Self-hosted, read-only, zero egress.</p>
-  <p class="lede" style="margin-top:1rem"><a href="/docs/" style="color:var(--marginL)">Read the docs</a> ·
-  <a href="/pricing/" style="color:var(--marginL)">Pricing</a> ·
-  <a href="https://cal.com/docbrain/30min" style="color:var(--marginL)">Book a call</a></p>
-</div></noscript>
 
-<nav><div class="wrap navin">
-  <a class="brand" href="#top"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12.3 3 16.5l9 4.2 9-4.2z" opacity=".45"/><path d="M12 7.8 3 12l9 4.2L21 12z" opacity=".7"/><path d="M12 3.3 3 7.5l9 4.2 9-4.2z"/></svg>DocBrain</a>
-  <div class="nlinks"><a href="#b1">How it works</a><a href="#b3">For agents</a><a href="#ops">Running it</a><a href="#pricing">Pricing</a><a href="#roi">ROI</a><a href="/docs/">Docs</a></div>
-  <div class="ncta"><span class="net" id="net"><span class="dot"></span><span id="netlbl">online</span></span>
-    <a class="btn btn3" href="https://cal.com/docbrain/30min">Book a call</a></div>
+<nav id="nav"><div class="wrap navin">
+ <a class="brand" href="/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12.3 3 16.5l9 4.2 9-4.2z" opacity=".45"/><path d="M12 7.8 3 12l9 4.2L21 12z" opacity=".7"/><path d="M12 3.3 3 7.5l9 4.2 9-4.2z"/></svg>DocBrain</a>
+ <div class="nlinks"><a href="/how-it-works/">How it works</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a></div>
+ <div class="ncta"><a class="btn" href="https://cal.com/docbrain/30min">Book a call</a></div>
 </div></nav>
 
-<div class="rail" id="rail">
-  <a href="#b1"><span class="bar"></span><span class="lb">the night</span></a>
-  <a href="#b2"><span class="bar"></span><span class="lb">eight months</span></a>
-  <a href="#b3"><span class="bar"></span><span class="lb">the catch</span></a>
-  <a href="#b5"><span class="bar"></span><span class="lb">it expires</span></a>
-  <a href="#b6"><span class="bar"></span><span class="lb">the proof</span></a>
-  <a href="#pricing"><span class="bar"></span><span class="lb">the price</span></a>
+<main>
+<div class="story wrap">
+ <div class="copy">
+  <header class="beat" id="hero" data-stage="0">
+   <h1>What one person learns, the whole company keeps.</h1>
+   <p class="belief">Nothing your team learns should be learned twice.</p>
+   <p class="body">DocBrain keeps what your engineers learn as they work and brings it to the next person, or AI agent, who needs it. People move on; the knowledge stays.</p>
+   <div class="ctas">
+    <a class="btn" href="https://cal.com/docbrain/30min">Book a call</a>
+    <a class="quiet" href="/how-it-works/#start">or run it yourself, free →</a>
+   </div>
+  </header>
+
+  <section class="beat" id="ring1" data-stage="1">
+   <p class="eye">One person</p>
+   <h2>It starts with one person.</h2>
+   <p class="body">An engineer fixes a failing payment flow and learns why it broke. Today that lesson lives in one head and one chat thread.</p>
+  </section>
+
+  <section class="beat" id="ring2" data-stage="2">
+   <p class="eye">Their team</p>
+   <h2>Then it reaches the team.</h2>
+   <p class="body">The next person to touch that code sees what was learned before they repeat the mistake. So does the AI agent working beside them.</p>
+  </section>
+
+  <section class="beat" id="ring3" data-stage="3">
+   <p class="eye">The company</p>
+   <h2>And the company keeps it.</h2>
+   <p class="body">People change teams, and some leave. What they learned stays, and every new hire starts where the last one finished.</p>
+  </section>
+ </div>
+
+ <figure class="stage" data-stage="0" aria-hidden="true">
+  <svg id="scene" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet"></svg>
+  <figcaption class="who"><b>Maya</b> · Payments<span>“Retries double-charge when the gateway timeout is under 30 seconds.”</span></figcaption>
+ </figure>
 </div>
 
-<div class="floor" id="floor" aria-hidden="true"><svg><path/></svg></div>
-<div class="ropehost" id="ropestage" aria-hidden="true"></div>
-<div class="guide" id="guide" aria-hidden="true"></div>
-<div class="trav" id="trav" aria-hidden="true">
-  <div class="tt" id="travT">captured</div>
-  <div class="th">The pool value is ignored unless <code>pgbouncer.customIni</code> is set</div>
-  <div class="ts" id="travS">priya.raman · #inc-payments · 02:47</div>
-</div>
-
-<main id="main">
-<header class="above" id="top"><div class="wrap">
-  <div class="sub">Institutional memory for engineering teams</div>
-  <h1 class="big" id="heroBig">Your team <b class="kg">already</b><br>worked this out.<br><em>Nobody can find it.</em></h1>
-  <p class="lede narrow" style="margin-top:clamp(.9rem,2vh,1.6rem)">DocBrain <b class="kg">remembers</b> what your engineers figure out — in
-  incidents, pull requests and threads — and <b class="kg">warns</b> whoever touches that code next, human or AI agent,
-  <b class="kw">before the change lands</b>.</p>
-  <div class="what">
-    <div><div class="n">01 — capture</div><h4>It records what nobody wrote down</h4>
-      <p>The fix found at 2am. The decision from the review. Read in place, read-only, from the systems your team already uses.</p></div>
-    <div><div class="n">02 — warn</div><h4>It reaches the next person in time</h4>
-      <p>Not a wiki someone has to think to search. It arrives in the editor and in the agent, before the change — or it may as well not exist.</p></div>
-    <div><div class="n">03 — prove</div><h4>And nobody can quietly rewrite it</h4>
-      <p>Every claim cites its source, expires when reality moves, and exports as proof a stranger can check offline.</p></div>
-  </div>
-  <div class="cue"><span class="ar">↓</span> scroll — the story runs on your scroll, not on buttons</div>
-</div></header>
-
-
-<section class="scene above" id="b1" style="height:460vh"><div class="pin"><div class="wrap">
-  <div class="screen"><div class="stage"><div class="pane">
-    <div class="phead"><span class="d" id="tdot"></span><span>#inc-payments</span><span class="r">02:41</span></div>
-    <div class="thread" id="thread"></div>
-  </div></div></div>
-  <div class="beat"><div class="lbl" id="tlbl">what just happened</div>
-    <div class="say" id="tsay">A channel is about to hold the only copy of something important.</div></div>
-</div></div></section>
-
-
-<section class="scene above" id="b2" style="height:340vh"><div class="pin"><div class="wrap">
-  <div class="screen"><div class="age" id="age">
-    <div class="agec" data-gone><div class="k">the person</div><div class="v">priya.raman</div><div class="s">moved to platform, March</div></div>
-    <div class="agec" data-gone><div class="k">the thread</div><div class="v">#inc-payments</div><div class="s">41,208 messages later</div></div>
-    <div class="agec" data-gone><div class="k">the runbook</div><div class="v">payments pool tuning</div><div class="s">last edited 14 months ago</div></div>
-    <div class="agec kept" id="kept" data-slot></div>
-  </div></div>
-  <div class="beat"><div class="lbl">what just happened</div>
-    <div class="say" id="asay">Nobody is at fault. This is simply what happens.</div></div>
-</div></div></section>
-
-
-<section class="scene above" id="b3" style="height:520vh"><div class="pin"><div class="wrap">
-  <div class="screen"><div class="stage two">
-    <div class="pane">
-      <div class="phead"><span class="d"></span>acme-platform<span class="r">deploy/checkout-api/values.yaml</span></div>
-      <div class="code" id="code"></div>
-      <div class="cfoot">
-        <button class="btn btn3" id="commit" disabled>Commit</button>
-        <button class="btn btn2 btn3" id="undo">Let me try</button>
-        <span class="st2" id="cstat">watching</span>
-      </div>
-    </div>
-    <div class="pane">
-      <div class="phead"><span class="d" id="adot"></span>coding agent<span class="r" id="astat">idle</span></div>
-      <div class="agent" id="agent"></div>
-    </div>
-  </div></div>
-  <div class="beat"><div class="lbl" id="blbl">what just happened</div>
-    <div class="say" id="bsay">A new engineer opens the file that broke checkout, knowing none of this.</div></div>
-</div></div></section>
-
-
-<section class="scene above" id="b5" style="height:380vh"><div class="pin"><div class="wrap">
-  <div class="screen"><div class="prem">
-    <div class="premc"><div class="eye">the source it watches</div>
-      <div class="sm" style="margin-top:.3rem;color:var(--dim)" id="pwatch">—</div>
-      <div class="srcline" id="psrc">—</div></div>
-    <div class="premc"><div class="eye">the answer that leaned on it</div>
-      <div class="cslot" id="pslot" data-slot></div>
-      <div class="ansbox" id="pans"><div class="n"></div></div>
-      <ul class="dstream" id="pdown"></ul></div>
-  </div></div>
-  <div class="beat"><div class="lbl">what just happened</div>
-    <div class="say" id="psay">DocBrain is watching the file this answer came from — continuously, not when someone remembers to.</div></div>
-</div></div></section>
-
-
-<section class="scene above" id="b6" style="height:330vh"><div class="pin"><div class="wrap">
-  <div class="screen"><div class="stage"><div class="pane" style="min-height:auto">
-    <div class="phead"><span class="d" id="vdot"></span>offline verifier<span class="r" id="wasmsize">—</span></div>
-    <div style="padding:1rem">
-      <div id="entries" class="sm" style="color:var(--dim)">Opening the bundle…</div>
-      <div class="cslot" id="vslot" data-slot></div>
-      <div class="vout" id="vout"><div class="steps" id="vsteps"></div>
-        <div class="verdictbar" id="vbar"></div><div class="facts" id="facts"></div></div>
-    </div>
-  </div></div></div>
-  <div class="beat"><div class="lbl">what just happened</div>
-    <div class="say" id="vsay">Everything you just watched is sealed into one signed file. Your browser is checking it right now.</div></div>
-</div></div></section>
-
-<section class="doc above" id="forge"><div class="wrap">
-  <div class="sechead narrow"><div class="eye">Your turn</div>
-    <h2>Rewrite history. Type whatever you want her to have said.</h2>
-    <p class="lede">This is the actual sentence sealed inside the evidence bundle at 02:47.
-    Change a word, change all of it, put your own name on it. Then seal it and check.
-    <strong>The verifier runs on the real bytes, in your browser, with no network.</strong></p></div>
-
-  <div class="lie">
-    <div class="lieh"><span class="d"></span>content/2 · signed 14 Jul 2026 · priya.raman<span class="r" id="lieBytes">—</span></div>
-    <label class="lielabel" for="lieText">Priya's sealed sentence — edit it</label>
-    <textarea id="lieText" spellcheck="false" rows="3"></textarea>
-    <div class="liefoot">
-      <button class="btn" id="lieGo">Seal it and check</button>
-      <button class="btn btn2 btn3" id="lieReset">Restore what she wrote</button>
-      <span class="st2" id="lieStat">unchanged</span>
-    </div>
-    <div class="vout" id="lieOut">
-      <div class="steps" id="lieSteps"></div>
-      <div class="verdictbar" id="lieBar"></div>
-    </div>
-  </div>
-  <p class="note narrow" id="negspace"></p>
-
-  <details class="faq" style="margin-top:1.6rem"><summary>Or try the attacks a real forger would</summary>
-    <div class="atk" id="atk">
-      <button class="atkc" data-atk="rewrite"><div class="t2">Rewrite the decision</div><div class="d2">Change the content, leave everything else intact.</div></button>
-      <button class="atkc" data-atk="splice"><div class="t2">Delete a step from history</div><div class="d2">Cut a record out of the chain so it was never recorded.</div></button>
-      <button class="atkc" data-atk="manifest"><div class="t2">Forge the export receipt</div><div class="d2">Change what the bundle claims to contain.</div></button>
-    </div>
-  </details>
+<section id="proof" data-step="0" data-playing="false"><div class="wrap">
+ <div class="head">
+  <h2>See it happen.</h2>
+  <p class="body">One lesson, from one person to a whole company, in twenty seconds.</p>
+ </div>
+ <ol class="steps">
+  <li class="step">
+   <span class="when">Tuesday</span>
+   <span class="person">Maya · Payments</span>
+   <p>Fixes a double charge and writes down why: “Keep the gateway timeout at 30 seconds or retries charge twice.”</p>
+  </li>
+  <li class="step">
+   <span class="when">Three months later</span>
+   <span class="person">Sam · Checkout</span>
+   <p>Opens the timeout setting to lower it. Maya’s lesson is right there, before anything changes.</p>
+  </li>
+  <li class="step">
+   <span class="when">A year later</span>
+   <span class="person">Jonas, first week · with a coding agent</span>
+   <p>Asks why the timeout is 30. Gets the answer in Maya’s own words, a season after Maya moved to another team.</p>
+  </li>
+ </ol>
+ <div class="proofbar">
+  <button type="button" id="proofToggle" class="btn btn2" aria-pressed="false">Pause</button>
+  <a class="quiet" href="/how-it-works/">How it works →</a>
+ </div>
 </div></section>
 
-<section class="doc above" id="recap"><div class="wrap"><div class="narrow">
-  <div class="eye">That was DocBrain</div>
-  <h2 style="margin:.55rem 0 .9rem">One sentence, kept for eight months, and it paid for itself in three seconds.</h2>
-  <p class="lede">Priya never wrote a document. She never filed a ticket. She said one true thing in a
-  channel at 02:41 and went back to bed.</p></div>
-  <div class="grid3" style="margin-top:1.7rem">
-    <div class="cardx"><div class="k">what it did · 1</div><h4>Captured it where it happened</h4>
-      <p>Read the incident thread in place and kept the one sentence that mattered, cited to the message and
-      the minute it was said. Nobody had to remember to write anything down.</p></div>
-    <div class="cardx"><div class="k">what it did · 2</div><h4>Reached the next person in time</h4>
-      <p>Eight months later: a different team, an engineer who had never met her, and an agent that stopped
-      the change and named its source — before it shipped, not after the next incident.</p></div>
-    <div class="cardx"><div class="k">what it did · 3</div><h4>Told the truth about itself</h4>
-      <p>When the chart changed, the answer marked itself stale instead of staying confidently wrong. And the
-      record is signed, so nobody can quietly rewrite what was decided.</p></div>
-  </div>
-  <p class="note narrow">That is the whole product. Everything below is how you run it, what it costs, and
-  where we lose to the alternatives.</p>
+<section id="tags"><div class="wrap">
+ <h2>Wherever knowledge gets lost.</h2>
+ <ul class="tagrow">
+  <li><a href="/how-it-works/#b1">Incidents</a></li>
+  <li><span>Onboarding</span></li>
+  <li><span>Code review</span></li>
+  <li><a href="/how-it-works/#b5">Platform changes</a></li>
+  <li><a href="/how-it-works/#b3">AI coding agents</a></li>
+  <li><a href="/how-it-works/#b2">Team handovers</a></li>
+  <li><a href="/how-it-works/#b6">Audits</a></li>
+ </ul>
 </div></section>
 
-<section class="doc above" id="ops"><div class="wrap">
-  <div class="sechead narrow"><div class="eye">Before you ask your platform team</div>
-    <h2>What it costs to run, and who has to look at it.</h2>
-    <p class="lede">"Self-host in 5 minutes" and "run this for 400 engineers" are not the same sentence. Here is the second one.</p></div>
-  <div class="grid3">
-    <div class="cardx"><div class="k">Topology</div><h4>Four services, one origin</h4><p>PostgreSQL, OpenSearch, Redis and the server behind a single origin. Docker Compose for a trial, a Helm chart for production. No message broker, no separate vector database to operate.</p></div>
-    <div class="cardx"><div class="k">Footprint</div><h4>Modest until you train</h4><p>The chart requests 500m CPU and 2Gi for Postgres, a few hundred megabytes each for server and web. The only heavy component is the optional trainer — 2Gi, capped at 8Gi. Leave learning off and you never deploy it.</p></div>
-    <div class="cardx"><div class="k">Your model bill</div><h4>You choose, so you control it</h4><p>Inference runs on your provider or fully locally through Ollama. We never sit between you and the model — which is why agents are unlimited: the marginal query is your cost, not a seat we resell.</p></div>
-    <div class="cardx"><div class="k">Identity</div><h4>SSO on day one</h4><p>Generic OIDC, GitHub, GitLab, Azure AD and ADFS, with role mapping from your directory groups. Four-tier RBAC and per-space isolation.</p></div>
-    <div class="cardx"><div class="k">Records</div><h4>Audit and retention</h4><p>Admin actions and access decisions are written to audit tables. Retention is set per source with scheduled purges, so Slack can expire in 30 days while Confluence is kept indefinitely.</p></div>
-    <div class="cardx"><div class="k">The queue</div><h4>Somebody does have to review</h4><p>Drafts and repair proposals land in a review queue, and that is real work. It is bounded by your own activity rather than by us, and it batches.</p></div>
-  </div>
-  <div class="cta"><a class="btn" href="/docs/quickstart/">Self-host in 5 minutes</a><a class="btn btn2" href="/docs/architecture/">Read the architecture</a></div>
+<section id="close"><div class="wrap">
+ <h2>Knowledge that compounds.</h2>
+ <p class="body">Book a call and see what your company already knows.</p>
+ <div class="ctas">
+  <a class="btn" href="https://cal.com/docbrain/30min">Book a call</a>
+  <a class="btn btn2" href="/how-it-works/#start">Run it free</a>
+ </div>
 </div></section>
-
-<section class="doc above" id="pricing"><div class="wrap">
-  <div class="sechead narrow"><div class="eye">Pricing</div>
-    <h2>We don't charge for access. We charge for the memory we keep true.</h2>
-    <p class="lede"><strong>Never per person.</strong> Add anyone, add any number of agents, and the price doesn't move. Band pricing sized by the connected user base, not by seats — unlimited people, unlimited AI agents, unlimited questions, captures and generated docs inside the band.</p></div>
-  <div class="tblwrap"><table>
-    <thead><tr><th>Band</th><th>Users in connected scope</th><th>Annual, flat</th></tr></thead>
-    <tbody>
-      <tr class="free"><td>Community</td><td>up to 25</td><td class="num">Free, forever</td></tr>
-      <tr><td>Growth</td><td>26 – 100</td><td class="num">$10,000</td></tr>
-      <tr><td>Scale</td><td>101 – 300</td><td class="num">$25,000</td></tr>
-      <tr><td>Enterprise</td><td>301 – 750</td><td class="num">from $60,000</td></tr>
-      <tr><td>Enterprise+</td><td>751 – 2,000</td><td class="num">Contact us</td></tr>
-      <tr><td>Global</td><td>2,001 and up</td><td class="num">Contact us</td></tr>
-    </tbody></table></div>
-  <p class="note narrow">Annual, paid up front. "Users in connected scope" means the population whose sources are plugged in — one org, a division, or the whole company. You choose. Growing the account is a scope conversation, never a per-head negotiation with your finance team.</p>
-  <div class="grid2" style="margin-top:1.4rem">
-    <div class="cardx"><div class="k">Free forever</div><h4>The entire product</h4><p>Genuinely — not a crippled tier. Every connector, ingestion and search, answers with citations, document generation, IDE and agent integration, CLI, dashboard, Slack, quality scoring, freshness tracking, contradiction detection, review workflows, governance, access controls, SSO, audit logging, Autopilot, Docker and Kubernetes. Unlimited users, unlimited agents.</p></div>
-    <div class="cardx"><div class="k">What paying adds</div><h4>A relationship, not a feature gate</h4><p>We don't hold features back to create a reason to pay. What you get is us, on the hook and reachable: the engineers who wrote the code, for deployment, tuning and upgrades — not a support queue — plus priority input on the roadmap and the connectors you need.</p></div>
-  </div>
-  <div class="cta"><a class="btn" href="https://cal.com/docbrain/30min">Book a call</a><a class="btn btn2" href="/pricing/">Full pricing detail</a></div>
-</div></section>
-
-<section class="doc above" id="roi"><div class="wrap">
-  <div class="sechead narrow"><div class="eye">Return</div><h2>What it's worth, with the arithmetic shown.</h2>
-    <p class="lede">Your numbers, not ours. Where evidence exists we cite it. Where it doesn't, we say so.</p></div>
-  <div class="calc">
-    <div>
-      <div class="fld"><label for="rE">Engineers in scope <b id="lE">250</b></label><input type="range" id="rE" min="10" max="2000" step="10" value="250"></div>
-      <div class="fld"><label for="rC">Fully loaded cost per engineer <b id="lC">$110,000</b></label><input type="range" id="rC" min="40000" max="250000" step="5000" value="110000"></div>
-      <div class="fld"><label for="rM">Minutes a day seeking or re-explaining <b id="lM">50</b></label><input type="range" id="rM" min="10" max="120" step="5" value="50"></div>
-      <div class="fld"><label for="rP">Proportion DocBrain removes <b id="lP">25%</b></label><input type="range" id="rP" min="5" max="60" step="1" value="25"></div>
-      <p class="note">Minutes seeded from Stack Overflow's 2022 developer survey (61% spend 30+ minutes a day searching, 47% the same answering). They sell a competing product, so only raw responses are used. Suggest 20–30% removal for year one — measured in a pilot, not assumed.</p>
-    </div>
-    <div>
-      <div class="cardx"><div class="k">Recovered per year, across the team</div>
-        <div class="big2" id="oTotal">—</div>
-        <div class="facts" style="border-color:var(--rline)">
-          <div class="fact"><div class="k">hours lost / engineer / yr</div><div class="v" id="oHours">—</div></div>
-          <div class="fact"><div class="k">of the working year</div><div class="v" id="oPct">—</div></div>
-          <div class="fact"><div class="k">value / engineer / yr</div><div class="v" id="oPer">—</div></div>
-          <div class="fact"><div class="k">engineer-weeks returned</div><div class="v" id="oWeeks">—</div></div>
-        </div>
-        <p class="note" id="oMath">—</p></div>
-      <p class="note">What this model doesn't know: your actual removal rate. No vendor's does, including those quoting one. Both inputs are hypotheses to test in a pilot.</p>
-    </div>
-  </div>
-</div></section>
-
-<section class="doc above" id="compare"><div class="wrap">
-  <div class="sechead narrow"><div class="eye">Honest comparison</div><h2>Including the rows where we lose.</h2>
-    <p class="lede">If you're evaluating three tools, you deserve this from all of them. Two of these rows go against us and they're still here.</p></div>
-  <div class="tblwrap"><table>
-    <thead><tr><th>Capability</th><th>DocBrain</th><th>Open-source search</th><th>Enterprise AI search</th></tr></thead>
-    <tbody>
-      <tr><td>Captures what was never written down</td><td class="win">Yes, at the source</td><td>No, retrieval only</td><td>No, indexes what exists</td></tr>
-      <tr><td>Citation granularity</td><td class="win">Per claim</td><td>Per document</td><td>Per document</td></tr>
-      <tr><td>Declares what it cannot answer</td><td class="win">Refuses, and logs the gap</td><td>Confidence score</td><td>Confidence score</td></tr>
-      <tr><td>Reads live systems at answer time</td><td class="win">Yes</td><td>Index only</td><td>Index only</td></tr>
-      <tr><td>Retrieval tuned to your corpus</td><td>Optional, on your infra</td><td>Fixed model</td><td>Fixed model</td></tr>
-      <tr><td>Writes documentation unprompted</td><td class="win">Autopilot, human-approved</td><td>No</td><td>No</td></tr>
-      <tr><td>Runs on your own AI provider</td><td>14, local included</td><td>Yes</td><td>Vendor-hosted</td></tr>
-      <tr><td>Licence</td><td>Public source MIT; server closed, images BSL</td><td class="lose">MIT, more permissive than ours</td><td>Proprietary</td></tr>
-      <tr><td>Published accuracy benchmark</td><td class="lose">Not yet</td><td>Yes, with methodology</td><td>Varies</td></tr>
-      <tr><td>Named public customers</td><td class="lose">None yet</td><td>Yes</td><td>Yes</td></tr>
-    </tbody></table></div>
-  <p class="note narrow">If a permissive licence and a published benchmark matter more to you than capturing knowledge nobody recorded, an open-source search tool is the better buy — and we'd rather you learned that here than three months into a pilot.</p>
-</div></section>
-
-<section class="doc above" id="honest"><div class="wrap"><div class="narrow">
-  <div class="eye">A note from the team building this</div>
-  <h2 style="margin:.55rem 0 .9rem">A product built on refusing to overclaim shouldn't overclaim about itself.</h2>
-  <p class="lede">Before you spend a week on a pilot, here is what we'd want to know if we were you.</p></div>
-  <div class="grid2" style="margin-top:1.3rem">
-    <div class="cardx"><h4>The server is closed source.</h4><p>Everything runs inside your network, server included. Everything in our public repository is MIT and auditable — the CLI, the MCP server, the Helm charts, configuration and docs. The server ships as a container you run but cannot read, and it is the component that touches your data. We're not naming a date for opening it until we're certain we'll hit it.</p></div>
-    <div class="cardx"><h4>We have no accuracy benchmark to show you.</h4><p>Grounding is measured internally and every model version is gated on it, but we won't put a percentage on a marketing page until it has been measured across real customer corpora and we can publish how we measured it.</p></div>
-    <div class="cardx"><h4>Learning is optional, and off until you turn it on.</h4><p>It needs real feedback volume and some compute before it earns its keep. Everything else works without it, and most teams should run that way first.</p></div>
-    <div class="cardx"><h4>Self-hosting isn't unique to us.</h4><p>There are open-source alternatives and several are genuinely good at retrieval. One is more permissively licensed than we are. What they don't do is capture what was never written down. Judge us on that, not on deployment.</p></div>
-  </div>
-  <p class="note">Bring us the version of this you disagree with: <a href="mailto:hello@docbrainapi.com" style="color:var(--marginL)">hello@docbrainapi.com</a></p>
-</div></section>
-
-<section class="doc above" id="faq"><div class="wrap"><div class="narrow">
-  <div class="eye">The questions you're about to ask</div>
-  <h2 style="margin:.55rem 0 1.1rem">Answered before you have to send the email.</h2>
-  <details class="faq"><summary>We already have Confluence, Slack, Jira and GitHub. Why this?</summary><p>Those are places to store knowledge somebody remembered to write down. DocBrain captures what never gets stored — the reasoning in a ticket, the fix in an incident thread, the decision made in a meeting — connects it across all of them and keeps it accurate. You're not replacing Confluence. You're capturing what Confluence never sees.</p></details>
-  <details class="faq"><summary>Does anything leave our network? Do you train on our data?</summary><p>No, and no. DocBrain runs entirely in your infrastructure and reads your systems without ever writing to them. Point it at a local model and nothing crosses your boundary at all. If you switch on learning, that happens inside your infrastructure too, on your hardware, on your data. We never see it, because there is no "we" in the path.</p></details>
-  <details class="faq"><summary>What happens if we stop paying?</summary><p>You keep running the version you have, in production, for as long as you like. You stop receiving updates, patches and support. Nothing is switched off, nothing phones home, and no data is held hostage, because it was never ours to hold.</p></details>
-  <details class="faq"><summary>How is this different from enterprise AI search?</summary><p>Search retrieves documents that already exist. If the answer was never written down, better search returns nothing, faster. DocBrain's job starts one step earlier — capturing the answer at the moment someone works it out, so there's something to retrieve at all.</p></details>
-</div></div></section>
-
-<section class="doc above" id="start"><div class="wrap"><div class="narrow">
-  <h2>Knowledge that can be proven wrong.</h2>
-  <p class="lede" style="margin-top:.7rem">Self-host it today, free, at any size. Or spend thirty minutes with the people who built it.</p>
-  <div class="cta"><a class="btn" href="https://cal.com/docbrain/30min">Book a call</a><a class="btn btn2" href="/docs/quickstart/">Self-host in 5 minutes</a><a class="btn btn2" href="/docs/">Read the docs</a></div>
-</div></div></section>
-
 </main>
-<footer class="above"><div class="wrap">
-  <div class="foot">
-    <div><h5>Product</h5><a href="#b1">How it works</a><a href="#b3">For agents</a><a href="#ops">Running it</a><a href="#compare">Comparison</a></div>
-    <div><h5>Docs</h5><a href="/docs/quickstart/">Quickstart</a><a href="/docs/architecture/">Architecture</a><a href="/docs/api-reference/">API reference</a><a href="/docs/mcp-tools/">MCP tools</a><a href="/docs/evidence/">Evidence bundles</a></div>
-    <div><h5>Trust</h5><a href="/docs/trust/">How we earn trust</a><a href="/docs/security/slack-dm-policy/">Security</a><a href="/docs/access-control/">Access control</a><a href="/docs/governance/">Governance</a></div>
-    <div><h5>Company</h5><a href="#pricing">Pricing</a><a href="#roi">ROI</a><a href="https://cal.com/docbrain/30min">Book a call</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a></div>
-  </div>
-  <p class="prov" id="prov"></p>
+
+<footer><div class="wrap foot">
+ <div class="fc fbrand"><a class="brand" href="/">DocBrain</a>
+  <span class="tagline">What one person learns, the whole company keeps.</span>
+  <span class="dim xs">© 2026 DocBrain</span></div>
+ <div class="fc"><span class="fh">Product</span><a href="/how-it-works/">How it works</a><a href="/pricing/">Pricing</a><a href="/how-it-works/#compare">Compare</a></div>
+ <div class="fc"><span class="fh">Running it</span><a href="/how-it-works/#ops">Running it</a><a href="/how-it-works/#faq">FAQ</a><a href="/docs/">Docs</a></div>
+ <div class="fc"><span class="fh">Contact</span><a href="https://cal.com/docbrain/30min">Book a call</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a></div>
 </div></footer>
 
-<script type="module" src="app.js"></script>
+<script type="module" src="/home.js"></script>
 </body>
 </html>
