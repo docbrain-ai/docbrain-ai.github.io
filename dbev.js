@@ -20,7 +20,7 @@ const IMPORTS = {
 
 let ex = null;
 
-export async function load(url = 'assets/dbev_wasm.wasm') {
+export async function load(url = '/assets/dbev_wasm.wasm') {
   const buf = await (await fetch(url)).arrayBuffer();
   const { instance } = await WebAssembly.instantiate(buf, IMPORTS);
   ex = instance.exports;

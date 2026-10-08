@@ -16,7 +16,7 @@ const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let RUNS, NIGHT, PREM, fixturesOK = true;
 try {
   [RUNS, NIGHT, PREM] = await Promise.all(
-    ['fixtures/runs.json','fixtures/night.json','fixtures/premise.json'].map(async u => {
+    ['/fixtures/runs.json','/fixtures/night.json','/fixtures/premise.json'].map(async u => {
       const r = await fetch(u); if (!r.ok) throw new Error(`${u} -> ${r.status}`); return r.json();
     }));
 } catch (e) {
@@ -615,8 +615,8 @@ function renderPremise(p){
 }
 
 /* ================= BEAT 6 — the proof, plays itself ================= */
-const ATTACKS = { rewrite:'assets/story-rewrite.dbev', splice:'assets/story-splice.dbev', manifest:'assets/story-manifest.dbev' };
-const ORIGINAL='assets/story-valid.dbev';
+const ATTACKS = { rewrite:'/assets/story-rewrite.dbev', splice:'/assets/story-splice.dbev', manifest:'/assets/story-manifest.dbev' };
+const ORIGINAL='/assets/story-valid.dbev';
 let bundle=null, verifierReady=false, verifiedOnce=false;
 const VSTEPS=['container opened','signing keys loaded','key chain validated','signatures checked','hash chain walked','manifest verified'];
 const STAGE={2:3,3:2,4:4,5:2,6:2,7:2,9:2,10:5,11:5,12:5,14:5,15:5,16:1,17:0,21:0,22:0};
