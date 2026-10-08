@@ -18,7 +18,7 @@
 <link rel="icon" href="/logo.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/site.css?v=6c31c54520">
-<link rel="stylesheet" href="/home.css">
+<link rel="stylesheet" href="/home.css?v=2">
 </head>
 <body>
 
@@ -29,8 +29,16 @@
 </div></nav>
 
 <main>
-<div class="story wrap">
- <div class="copy">
+<div class="story">
+ <figure class="stage" data-stage="0" aria-hidden="true">
+  <canvas id="scene"></canvas>
+  <div class="maya">
+   <span class="when">Tuesday · fixing checkout</span>
+   <b>Maya</b><span class="team">Payments</span>
+   <p>“Retries double-charge when the gateway timeout is under 30 seconds. Keep it at 30.”</p>
+  </div>
+ </figure>
+ <div class="copy wrap">
   <header class="beat" id="hero" data-stage="0">
    <h1>What one person learns, the whole company keeps.</h1>
    <p class="belief">Nothing your team learns should be learned twice.</p>
@@ -60,10 +68,7 @@
   </section>
  </div>
 
- <figure class="stage" data-stage="0" aria-hidden="true">
-  <svg id="scene" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet"></svg>
-  <figcaption class="who"><b>Maya</b> · Payments<span>“Retries double-charge when the gateway timeout is under 30 seconds.”</span></figcaption>
- </figure>
+
 </div>
 
 <section id="proof" data-step="0" data-playing="false"><div class="wrap">
@@ -89,7 +94,7 @@
   </li>
  </ol>
  <div class="proofbar">
-  <button type="button" id="proofToggle" class="btn btn2" aria-pressed="false">Pause</button>
+  <button type="button" id="proofToggle" class="btn btn2" hidden>Pause</button>
   <a class="quiet" href="/how-it-works/">How it works →</a>
  </div>
 </div></section>
@@ -98,8 +103,8 @@
  <h2>Wherever knowledge gets lost.</h2>
  <ul class="tagrow">
   <li><a href="/how-it-works/#b1">Incidents</a></li>
-  <li><span>Onboarding</span></li>
-  <li><span>Code review</span></li>
+  <li><span class="plain">Onboarding</span></li>
+  <li><span class="plain">Code review</span></li>
   <li><a href="/how-it-works/#b5">Platform changes</a></li>
   <li><a href="/how-it-works/#b3">AI coding agents</a></li>
   <li><a href="/how-it-works/#b2">Team handovers</a></li>
@@ -126,6 +131,6 @@
  <div class="fc"><span class="fh">Contact</span><a href="https://cal.com/docbrain/30min">Book a call</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a></div>
 </div></footer>
 
-<script type="module" src="/home.js"></script>
+<script type="module" src="/home.js?v=3"></script>
 </body>
 </html>
