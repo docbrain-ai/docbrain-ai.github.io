@@ -17,19 +17,25 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 // ---------------------------------------------------------------- media: real clip, or a labelled stand-in
 const STANDIN = ['/assets/reason-expired.mp4', '/assets/agent-in-the-editor.mp4'];
 // media/manifest.json lists the footage that exists, so the page never asks for a file that isn't there
-const manifest = fetch('/media/manifest.json').then((r) => (r.ok ? r.json() : { files: [] })).then((m) => new Set(m.files)).catch(() => new Set());
-const exists = (url) => manifest.then((have) => have.has(url.replace('/media/', '')));
+const manifest = fetch('/media/manifest.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({}))
+  .then((m) => ({ have: new Set(m.files || []), trims: m.trims || {} }));
+const exists = (url) => manifest.then((m) => m.have.has(url.replace('/media/', '')));
 let standinTurn = 0;
 async function loadClip(v) {
   const name = v.dataset.clip, real = `/media/${name}.mp4`;
-  if (await exists(real)) { v.src = real; return 'real'; }
+  if (await exists(real)) {
+    v.src = real;
+    const trim = (await manifest).trims[`${name}.mp4`]; // play only the good part of a clip
+    if (trim) { v._in = trim[0]; v._out = trim[1]; }
+    return 'real';
+  }
   // a keyframe still stands in for its clip until the video exists: shown as the poster, traced from the image
   const still = `/media/${name}.jpg`;
   if (await exists(still)) { v.poster = still; v._still = new Image(); v._still.src = still; return 'still'; }
   if (name === 'belief-newhire') { // no clip yet: no empty frame, the sentence takes the room
     const fig = v.closest('figure'); fig.hidden = true; fig.parentElement.classList.add('solo'); return 'absent';
   }
-  if (name.startsWith('hero-') && (await exists('/media/ch1-maya.mp4'))) { v.src = '/media/ch1-maya.mp4'; return 'borrowed'; }
+  if (name.startsWith('hero-') && (await exists('/media/ch1-maya.mp4'))) { v.src = '/media/ch1-maya.mp4'; v._in = 0; v._out = 6.5; return 'borrowed'; }
   v.src = name === 'ch2-agent' ? STANDIN[1] : STANDIN[standinTurn++ % 2];
   const host = v.parentElement;
   if (host && !host.querySelector('.standin')) {
@@ -72,23 +78,41 @@ async function film() {
   const reel = $$('video', P.footage);
   await Promise.all($$('video[data-clip]').map(async (v) => { v.dataset.state = await loadClip(v); }));
 
-  // the reel: the four moments crossfade until the story narrows to one person
-  let shown = -1;
+  // the reel: each real moment plays its section through, then the next crossfades in;
+  // once the story narrows to one person, Maya's clip loops on its own
+  let shown = -1, K = {};
+  const inPoint = (v) => v._in || 0;
+  const outPoint = (v) => Math.min(v._out ?? Infinity, (v.duration || Infinity) - 0.15);
   const showClip = (i) => {
     if (i === shown) return;
-    reel.forEach((v, j) => { v.classList.toggle('on', j === i); if (j === i) { v.preload = 'auto'; play(v); } else v.pause(); });
+    reel.forEach((v, j) => {
+      v.classList.toggle('on', j === i);
+      if (j === i) { v.preload = 'auto'; try { v.currentTime = inPoint(v); } catch (e) {} play(v); } else v.pause();
+    });
     shown = i;
   };
-  showClip(0);
-  // the hero cycles through the moments that really exist; a borrowed clip plays once, never as filler
   const heroes = reel.slice(0, 4).map((v, i) => [v, i]);
   const real = heroes.filter(([v]) => v.dataset.state === 'real').map(([, i]) => i);
   const borrowed = heroes.find(([v]) => v.dataset.state === 'borrowed');
   const cycle = real.length ? (borrowed ? [...real, borrowed[1]] : real) : [0];
-  let reelTurn = 0, K = {};
+  let reelTurn = 0;
+  const inHero = () => Number(stage.dataset.p || 0) < K.shrink;
+  reel.forEach((v, j) => v.addEventListener('timeupdate', () => {
+    if (j !== shown || v.currentTime < outPoint(v)) return;
+    if (j < 4 && inHero() && cycle.length > 1 && !reduce) showClip(cycle[(reelTurn = (reelTurn + 1) % cycle.length)]);
+    else v.currentTime = inPoint(v);
+  }));
   showClip(cycle[0]);
-  if (!reduce && cycle.length > 1) setInterval(() => { if (Number(stage.dataset.p) < K.shrink) showClip(cycle[(reelTurn = (reelTurn + 1) % cycle.length)]); }, 5000);
-  [P.mate, P.agent].forEach((p) => { const v = p.querySelector('video'); v.classList.add('on'); play(v); });
+  // side panes loop their trimmed section, if they have one
+  [P.mate, P.agent].forEach((p) => {
+    const v = p.querySelector('video'); v.classList.add('on');
+    if (v._in !== undefined) {
+      const start = () => { try { v.currentTime = inPoint(v); } catch (e) {} };
+      v.readyState >= 1 ? start() : v.addEventListener('loadedmetadata', start, { once: true });
+      v.addEventListener('timeupdate', () => { if (v.currentTime < inPoint(v) - 0.3 || v.currentTime >= outPoint(v)) start(); });
+    }
+    play(v);
+  });
 
   let pw, ph, vw, vh;
   const measure = () => { vw = innerWidth; vh = innerHeight; pw = P.footage.offsetWidth; ph = pw * 9 / 16; };
@@ -123,7 +147,7 @@ async function film() {
     const dT = a3 - a2, dE = 1 - a4;
     K = {
       shrink: a1, tilt: [a1, a2], lesson: [a2, a3], team: [a3, a4], pull: [a4, 1],
-      mate: [a3 + dT * 0.35, a3 + dT * 0.7], agent: [a3 + dT * 0.5, a3 + dT * 0.85],
+      mate: [a3 + dT * 0.55, a3 + dT * 0.8], agent: [a3 + dT * 0.65, a3 + dT * 0.92],
       reach: [a4 + dE * 0.2, 0.985],
     };
     const d = (k) => K[k][1] - K[k][0];
@@ -132,8 +156,14 @@ async function film() {
     gsap.set(P.footage, { scale: cover, y: dy, borderRadius: 0, opacity: 1, z: 0 });
     gsap.set([P.trace, P.grid], { opacity: 0, z: 0, x: 0 });
     gsap.set(P.lesson, { opacity: 0, z: 120, y: -ph * 0.06, scale: 0.92 });
-    gsap.set(P.mate, { opacity: 0, x: pw * 0.8, y: -ph * 0.32, z: -40 });
-    gsap.set(P.agent, { opacity: 0, x: pw * 0.8, y: ph * 0.24, z: -40 });
+    // desktop: the team stands to Maya's right; phone: side by side beneath her pane
+    if (phone()) {
+      gsap.set(P.mate, { opacity: 0, x: -pw * 0.26, y: ph * 0.8, z: -20 });
+      gsap.set(P.agent, { opacity: 0, x: pw * 0.26, y: ph * 0.8, z: -20 });
+    } else {
+      gsap.set(P.mate, { opacity: 0, x: pw * 0.66, y: -ph * 0.32, z: -40 });
+      gsap.set(P.agent, { opacity: 0, x: pw * 0.66, y: ph * 0.26, z: -40 });
+    }
     gsap.set(rig, { rotationY: 0, rotationX: 0, x: 0, y: 0, scale: 1 });
     gsap.set(reel, { scale: 1 });
     tiles.forEach((t) => gsap.set(t.el, { opacity: 0 }));
@@ -149,12 +179,12 @@ async function film() {
       // 3. one person: the lesson lifts out of the moment, slowly, the whole chapter long
       .to(P.footage, { opacity: 0.55, duration: d('lesson') * 0.5 }, K.lesson[0])
       .to(P.lesson, { opacity: 1, scale: 1, duration: d('lesson') * 0.35 }, K.lesson[0])
-      .to(P.lesson, { z: 300, duration: d('lesson') }, K.lesson[0])
+      .to(P.lesson, { z: phone() ? 90 : 300, duration: d('lesson') }, K.lesson[0])
       .to(rig, { rotationY: -tilt * 0.75, duration: d('lesson') }, K.lesson[0])
       // 4. the team: the rig turns toward the people the lesson reaches
-      .to(rig, { rotationY: -tilt * 0.3, rotationX: 0, x: phone() ? -pw * 0.2 : -pw * 0.3, y: -vh * 0.04, duration: d('team') }, K.team[0])
-      .to(P.mate, { opacity: 1, duration: d('team') * 0.3 }, K.team[0] + d('team') * 0.1)
-      .to(P.agent, { opacity: 1, duration: d('team') * 0.3 }, K.team[0] + d('team') * 0.25)
+      .to(rig, { rotationY: phone() ? 0 : -tilt * 0.3, rotationX: 0, x: phone() ? 0 : -pw * 0.24, y: phone() ? -vh * 0.06 : -vh * 0.04, duration: d('team') * 0.6 }, K.team[0])
+      .to(P.mate, { opacity: 1, duration: d('team') * 0.2 }, K.team[0] + d('team') * 0.5)
+      .to(P.agent, { opacity: 1, duration: d('team') * 0.2 }, K.team[0] + d('team') * 0.6)
       // 5. the company: pull back until the first team is one of many
       .to(rig, { scale: phone() ? 0.34 : 0.4, rotationY: 0, x: 0, y: -vh * (phone() ? 0.02 : 0.07), duration: d('pull') * 0.75 }, K.pull[0])
       .to([P.trace, P.grid], { opacity: 0, duration: d('pull') * 0.4 }, K.pull[0])

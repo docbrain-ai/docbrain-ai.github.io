@@ -178,6 +178,8 @@ footer .dim{ color:#8F887B; }
   .beat{ min-height:115vh; padding-bottom:9vh; }
   .js .capin{ top:60vh; } .js .cap{ min-height:110vh; }
   .pane.lesson b{ font-size:.95rem; }
+  .pane.mate, .pane.agent{ width:calc(var(--pw) * .48); }
+  .pane .tag{ font-size:.5rem; left:.45rem; bottom:.4rem; padding:.18rem .35rem; }
   .pane.grid i{ display:none; }
 }
 @media (prefers-reduced-motion:reduce){

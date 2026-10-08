@@ -1,10 +1,13 @@
 {
- "about": "Footage the homepage may use. Add a file name here when its file lands in media/.",
+ "about": "Footage the homepage may use. Add a file name when its file lands in media/. trims: [in, out] seconds to play of a clip.",
  "files": [
   "belief-newhire.jpg",
   "ch1-maya.jpg",
   "ch1-maya.mp4",
+  "ch2-agent.mp4",
+  "ch2-teammate.mp4",
   "hero-01-incident.mp4",
+  "hero-02-whiteboard.mp4",
   "tile-agent.jpg",
   "tile-audit.jpg",
   "tile-handover.jpg",
@@ -15,5 +18,19 @@
   "tile-servers.jpg",
   "tile-standup.jpg",
   "tile-whiteboard.jpg"
- ]
+ ],
+ "trims": {
+  "hero-01-incident.mp4": [
+   2.0,
+   9.6
+  ],
+  "ch2-teammate.mp4": [
+   10.1,
+   19.85
+  ],
+  "hero-02-whiteboard.mp4": [
+   0.2,
+   9.7
+  ]
+ }
 }
