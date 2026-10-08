@@ -1,4 +1,7 @@
 {
  "about": "Footage the homepage may use. Add a file name here when its file lands in media/.",
- "files": ["ch1-maya.jpg"]
+ "files": [
+  "ch1-maya.jpg",
+  "ch1-maya.mp4"
+ ]
 }

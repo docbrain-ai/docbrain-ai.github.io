@@ -31,6 +31,7 @@ async function loadClip(v) {
     plate.className = 'plate on'; plate.textContent = `media/${name}.mp4 · awaiting footage`;
     v.replaceWith(plate); return 'plate';
   }
+  if (name.startsWith('hero-') && (await exists('/media/ch1-maya.mp4'))) { v.src = '/media/ch1-maya.mp4'; return 'borrowed'; }
   v.src = name === 'ch2-agent' ? STANDIN[1] : STANDIN[standinTurn++ % 2];
   const host = v.parentElement;
   if (host && !host.querySelector('.standin')) {
@@ -83,7 +84,7 @@ async function film() {
   showClip(0);
   let reelTurn = 0, K = {};
   if (!reduce) setInterval(() => { if (Number(stage.dataset.p) < K.shrink) showClip((reelTurn = (reelTurn + 1) % 4)); }, 3600);
-  [P.mate, P.agent].forEach((p) => play(p.querySelector('video')));
+  [P.mate, P.agent].forEach((p) => { const v = p.querySelector('video'); v.classList.add('on'); play(v); });
 
   let pw, ph, vw, vh;
   const measure = () => { vw = innerWidth; vh = innerHeight; pw = P.footage.offsetWidth; ph = pw * 9 / 16; };
@@ -108,19 +109,18 @@ async function film() {
   // the timeline is keyed to the captions: each movement happens while its sentence is on screen
   const phone = () => innerWidth < 832;
   gsap.set(Object.values(P).filter((e) => e !== P.sky), { xPercent: -50, yPercent: -50 });
-  const tl = gsap.timeline({ paused: true, defaults: { ease: 'power1.inOut' } });
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
   const build = () => {
     tl.clear(); measure(); placeTiles();
     const len = story.offsetHeight - vh;
     const at = (id, f) => clamp((document.getElementById(id).offsetTop + f * vh) / len);
+    // five movements laid end to end across the whole story: every bit of scroll moves something
+    const a1 = at('intro', -0.85), a2 = at('ring1', -0.85), a3 = at('ring2', -0.85), a4 = at('ring3', -0.85);
+    const dT = a3 - a2, dE = 1 - a4;
     K = {
-      shrink: at('hero', 0.6),
-      tilt: [at('intro', -0.95), at('intro', -0.6)],
-      lesson: [at('ring1', -0.9), at('ring1', -0.62)],
-      team: [at('ring2', -0.95), at('ring2', -0.66)],
-      mate: [at('ring2', -0.66), at('ring2', -0.42)], agent: [at('ring2', -0.56), at('ring2', -0.32)],
-      pull: [at('ring3', -0.95), at('ring3', -0.62)],
-      reach: [at('ring3', -0.62), at('ring3', 0.05)],
+      shrink: a1, tilt: [a1, a2], lesson: [a2, a3], team: [a3, a4], pull: [a4, 1],
+      mate: [a3 + dT * 0.35, a3 + dT * 0.7], agent: [a3 + dT * 0.5, a3 + dT * 0.85],
+      reach: [a4 + dE * 0.2, 0.985],
     };
     const d = (k) => K[k][1] - K[k][0];
     const cover = Math.max(vw / pw, vh / ph) * 1.02, dy = (0.5 - (phone() ? 0.34 : 0.42)) * vh;
@@ -128,24 +128,36 @@ async function film() {
     gsap.set(P.footage, { scale: cover, y: dy, borderRadius: 0, opacity: 1, z: 0 });
     gsap.set([P.trace, P.grid], { opacity: 0, z: 0, x: 0 });
     gsap.set(P.lesson, { opacity: 0, z: 120, y: -ph * 0.06, scale: 0.92 });
-    gsap.set(P.mate, { opacity: 0, x: pw * 0.8, y: -ph * 0.38, z: -40 });
+    gsap.set(P.mate, { opacity: 0, x: pw * 0.8, y: -ph * 0.32, z: -40 });
     gsap.set(P.agent, { opacity: 0, x: pw * 0.8, y: ph * 0.24, z: -40 });
     gsap.set(rig, { rotationY: 0, rotationX: 0, x: 0, y: 0, scale: 1 });
+    gsap.set(reel, { scale: 1 });
     tiles.forEach((t) => gsap.set(t.el, { opacity: 0 }));
-    tl.to(P.footage, { scale: 1, y: 0, borderRadius: 16, duration: K.shrink, ease: 'power2.inOut' }, 0)
+    tl
+      // a slow push into the footage the whole way through, so the picture is never still
+      .to(reel, { scale: 1.12, duration: 1 }, 0)
+      // 1. the moment shrinks into a pane
+      .to(P.footage, { scale: 1, y: 0, borderRadius: 16, duration: K.shrink, ease: 'power1.inOut' }, 0)
+      // 2. it turns, and its layers separate
       .to(rig, { rotationY: -tilt, rotationX: tilt * 0.25, duration: d('tilt') }, K.tilt[0])
-      .to(P.trace, { opacity: 1, z: -170, x: pw * 0.06, duration: d('tilt') }, K.tilt[0])
-      .to(P.grid, { opacity: 0.55, z: -340, x: pw * 0.12, duration: d('tilt') }, K.tilt[0] + d('tilt') * 0.2)
-      .to(P.footage, { opacity: 0.55, duration: d('lesson') }, K.lesson[0])
-      .to(P.lesson, { opacity: 1, z: 260, scale: 1, duration: d('lesson') }, K.lesson[0])
-      .to(rig, { rotationY: -tilt * 0.3, rotationX: 0, x: phone() ? -pw * 0.2 : -pw * 0.3, y: -vh * 0.09, duration: d('team') }, K.team[0])
-      .to([P.mate, P.agent], { opacity: 1, duration: d('team') * 0.6, stagger: d('team') * 0.25 }, K.team[0] + d('team') * 0.3)
-      .to(rig, { scale: phone() ? 0.34 : 0.4, rotationY: 0, x: 0, y: 0, duration: d('pull') }, K.pull[0])
-      .to([P.trace, P.grid], { opacity: 0, duration: d('pull') * 0.6 }, K.pull[0])
-      .to(P.footage, { opacity: 1, duration: d('pull') }, K.pull[0]);
+      .to(P.trace, { opacity: 1, z: -170, x: pw * 0.06, duration: d('tilt') * 0.7 }, K.tilt[0])
+      .to(P.grid, { opacity: 0.55, z: -340, x: pw * 0.12, duration: d('tilt') * 0.7 }, K.tilt[0] + d('tilt') * 0.3)
+      // 3. one person: the lesson lifts out of the moment, slowly, the whole chapter long
+      .to(P.footage, { opacity: 0.55, duration: d('lesson') * 0.5 }, K.lesson[0])
+      .to(P.lesson, { opacity: 1, scale: 1, duration: d('lesson') * 0.35 }, K.lesson[0])
+      .to(P.lesson, { z: 300, duration: d('lesson') }, K.lesson[0])
+      .to(rig, { rotationY: -tilt * 0.75, duration: d('lesson') }, K.lesson[0])
+      // 4. the team: the rig turns toward the people the lesson reaches
+      .to(rig, { rotationY: -tilt * 0.3, rotationX: 0, x: phone() ? -pw * 0.2 : -pw * 0.3, y: -vh * 0.04, duration: d('team') }, K.team[0])
+      .to(P.mate, { opacity: 1, duration: d('team') * 0.3 }, K.team[0] + d('team') * 0.1)
+      .to(P.agent, { opacity: 1, duration: d('team') * 0.3 }, K.team[0] + d('team') * 0.25)
+      // 5. the company: pull back until the first team is one of many
+      .to(rig, { scale: phone() ? 0.34 : 0.4, rotationY: 0, x: 0, y: 0, duration: d('pull') * 0.75 }, K.pull[0])
+      .to([P.trace, P.grid], { opacity: 0, duration: d('pull') * 0.4 }, K.pull[0])
+      .to(P.footage, { opacity: 1, duration: d('pull') * 0.5 }, K.pull[0]);
     tiles.forEach((t) => {
-      t.reach = K.reach[0] + (t.ring ? 0.38 + (t.i / t.n) * 0.55 : (t.i / t.n) * 0.3) * d('reach');
-      t.dur = 0.07 * d('reach');
+      t.reach = K.reach[0] + (t.ring ? 0.38 + (t.i / t.n) * 0.6 : (t.i / t.n) * 0.32) * d('reach');
+      t.dur = 0.08 * d('reach');
       tl.to(t.el, { opacity: 1, duration: t.dur * 0.6 }, Math.max(0, t.reach - t.dur));
     });
     tl.to({}, { duration: 0.0001 }, 1);
@@ -234,10 +246,10 @@ async function film() {
       update(p);
       // the headline steps aside as the moment shrinks; captions hold in their band and fade at the edges
       const h = clamp(scrollY / innerHeight);
-      heroin.style.opacity = String(1 - span(h, 0.04, 0.32));
+      heroin.style.opacity = String(1 - span(h, 0.02, 0.2));
       heroin.style.transform = `translateY(${-h * 60}px)`;
       const rs = caps.map((c) => c.parentElement.getBoundingClientRect());
-      caps.forEach((c, i) => { c.style.opacity = String(span(1 - rs[i].top / innerHeight, 0.05, 0.32) * span(rs[i].bottom / innerHeight, 0.72, 0.9)); });
+      caps.forEach((c, i) => { c.style.opacity = String(span(1 - rs[i].top / innerHeight, 0.2, 0.42) * span(rs[i].bottom / innerHeight, 0.98, 1.16)); });
       nav.classList.toggle('dark', story.getBoundingClientRect().bottom > 70);
     }
     if (traceVisible && live) {
@@ -300,9 +312,11 @@ function daylight() {
 }
 
 // ---------------------------------------------------------------- the close: the person who started it, as one line
-function drawing() {
-  const c = $('.drawing'); const v = $('video[data-clip="ch1-maya"]');
+async function drawing() {
+  const c = $('.drawing');
+  let v = $('video[data-clip="ch1-maya"]');
   if (!v || !['real', 'still'].includes(v.dataset.state)) { c.hidden = true; return; } // a stand-in traced is noise, not a portrait
+  if (await exists('/media/ch1-maya.jpg')) { const im = new Image(); im.src = '/media/ch1-maya.jpg'; v = { _still: im, addEventListener: (...a) => im.addEventListener(...a) }; }
   const trace = tracer(480, 270);
   const go = () => { if (!trace(v, c, [27, 25, 21], 60)) setTimeout(go, 400); };
   v.addEventListener('loadeddata', go, { once: true }); if (v._still) v._still.addEventListener('load', go, { once: true }); go();

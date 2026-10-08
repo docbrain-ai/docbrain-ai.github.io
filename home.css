@@ -5,19 +5,20 @@
   --green:#17362A; --greenInk:#E8EFE9; --greenDim:rgba(232,239,233,.28);
   --tan:#B9A48C; --tanInk:#1B1915;
 }
-html{ background:var(--night); }
+html{ background:var(--night); scroll-behavior:auto !important; } /* Lenis smooths the scroll; the browser's own smoothing fights it */
+html.lenis, html.lenis body{ height:auto; }
 body{ overflow-x:hidden; background:var(--paper); }
 main section{ border-top:none; }
 .dim{ color:var(--dim); }
 
 /* nav floats over the film, then settles onto paper */
 nav{ transition:background .4s, border-color .4s, color .4s; }
-nav.dark{ background:linear-gradient(rgba(14,13,11,.75), rgba(14,13,11,0)); border-bottom-color:transparent; }
+nav.dark{ background:linear-gradient(rgba(14,13,11,.7), rgba(14,13,11,0)); border-bottom:none !important; box-shadow:none !important; -webkit-backdrop-filter:none; backdrop-filter:none; }
 nav.dark .brand, nav.dark .nlinks a{ color:var(--moon); }
 nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--moon); box-shadow:none; }
 
 /* ---------- the story: one pinned stage, the beats scroll over it ---------- */
-.story{ position:relative; display:grid; background:var(--night); color:var(--moon); --pw:min(58vw,58rem); }
+.story{ position:relative; display:grid; background:var(--night); color:var(--moon); --pw:min(58vw,58rem); margin-top:-4rem; } /* the film runs under the nav */
 .story > .stage, .story > .beats{ grid-area:1 / 1; }
 .stage{ position:sticky; top:0; height:100vh; overflow:hidden; perspective:1500px; perspective-origin:50% 42%; z-index:0; }
 .rig{ position:absolute; left:50%; top:42%; width:0; height:0; transform-style:preserve-3d; }
@@ -28,6 +29,9 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
 .pane.footage video.on, .pane.footage .plate.on{ opacity:1; }
 .plate{ display:flex; align-items:flex-end; padding:1rem 1.2rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.12em;
         text-transform:uppercase; color:var(--moonDim); background:radial-gradient(120% 90% at 30% 30%, #2A2620, #0E0D0B 70%); }
+/* the stand-in badge shows only while the visible clip is a stand-in */
+.standin{ display:none; }
+.pane:has(video.on[data-state="standin"]) .standin{ display:block; }
 .standin{ position:absolute; right:.8rem; top:.7rem; z-index:2; font-family:var(--mono); font-size:.58rem; letter-spacing:.14em;
           text-transform:uppercase; color:var(--moonDim); background:rgba(14,13,11,.6); padding:.2rem .45rem; border-radius:3px; }
 .pane.glass{ background:rgba(239,234,224,.025); border:1px solid var(--glass); overflow:visible; }
@@ -65,7 +69,7 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
 #hero .ctas{ justify-content:center; }
 .heroin{ display:flex; flex-direction:column; align-items:center; gap:1.2rem; will-change:opacity, transform; }
 /* captions hold in one band under the picture, the way a film subtitles itself */
-.js .cap{ min-height:155vh; justify-content:flex-start; padding-bottom:0; }
+.js .cap{ min-height:110vh; justify-content:flex-start; padding-bottom:0; }
 .js .capin{ position:sticky; top:63vh; display:flex; flex-direction:column; align-items:center; gap:.7rem; will-change:opacity; }
 .beat h2{ max-width:20ch; color:var(--moon); font-size:clamp(1.8rem,3.6vw,3rem); }
 .beat .body{ max-width:38rem; color:var(--moonDim); font-size:clamp(.98rem,1.3vw,1.1rem); line-height:1.6; }
@@ -154,7 +158,7 @@ footer .dim{ color:#8F887B; }
   .story{ --pw:86vw; }
   .stage{ perspective-origin:50% 34%; } .rig{ top:34%; }
   .beat{ min-height:115vh; padding-bottom:9vh; }
-  .js .capin{ top:60vh; } .js .cap{ min-height:150vh; }
+  .js .capin{ top:60vh; } .js .cap{ min-height:110vh; }
   .pane.lesson b{ font-size:.95rem; }
   .pane.grid i{ display:none; }
 }
