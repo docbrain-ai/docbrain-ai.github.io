@@ -165,6 +165,9 @@ html:not(.js) .rot > span:not(:first-child){ display:none; }
 #close .ctas{ margin-top:1.6rem; }
 #close .btn2{ background:transparent; border-color:rgba(27,25,21,.4); }
 .drawing{ width:100%; aspect-ratio:16/9; display:block; }
+.drawing[hidden]{ display:none; }
+/* without script the film can't play: its stage is left out and the words stand alone on the dark */
+html:not(.js) .stage{ display:none; }
 
 footer{ position:relative; z-index:3; background:#000; color:#EFEAE0; padding-block:4rem 0; overflow:hidden; }
 footer .brand{ color:#EFEAE0; }

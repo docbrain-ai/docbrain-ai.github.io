@@ -1,9 +1,9 @@
-import { load, verify, records, sha256 } from './dbev.js';
-import { initGraph } from './graph.js';
-import { initCinema } from './cinema.js';
-import { makeWorld, VIEW } from './world.js';
-import { mountBrain } from './brain.js';
-import { makeRope } from './mind.js';
+import { load, verify, records, sha256 } from './dbev.js?v=2';
+import { initGraph } from './graph.js?v=2';
+import { initCinema } from './cinema.js?v=2';
+import { makeWorld, VIEW } from './world.js?v=2';
+import { mountBrain } from './brain.js?v=2';
+import { makeRope } from './mind.js?v=2';
 
 const $ = (i) => document.getElementById(i);
 const esc = (s) => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));

@@ -7,7 +7,9 @@ const MOVED = { pricing: '/pricing/' };
 for (const id of ['b1', 'b2', 'b3', 'b5', 'b6', 'forge', 'recap', 'ops', 'roi', 'compare', 'honest', 'faq', 'start']) MOVED[id] = `/how-it-works/#${id}`;
 if (MOVED[location.hash.slice(1)]) location.replace(MOVED[location.hash.slice(1)]);
 
-document.documentElement.classList.add('js');
+// no animation library (blocked, offline): leave the plain page — every word and button is already in the HTML
+const ready = !!(window.gsap);
+if (ready) document.documentElement.classList.add('js');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const span = (p, a, b) => clamp((p - a) / (b - a));
@@ -24,7 +26,8 @@ let standinTurn = 0;
 async function loadClip(v) {
   const name = v.dataset.clip, real = `/media/${name}.mp4`;
   if (await exists(real)) {
-    v.src = real;
+    v.preload = 'none'; v.src = real;
+    if (await exists(`/media/${name}.jpg`)) v.poster = `/media/${name}.jpg`; // shown if autoplay is refused or motion is reduced
     const trim = (await manifest).trims[`${name}.mp4`]; // play only the good part of a clip
     if (trim) { v._in = trim[0]; v._out = trim[1]; }
     return 'real';
@@ -40,7 +43,8 @@ async function loadClip(v) {
   if (name === 'belief-newhire') { // no clip yet: no empty frame, the sentence takes the room
     const fig = v.closest('figure'); fig.hidden = true; fig.parentElement.classList.add('solo'); return 'absent';
   }
-  if (name.startsWith('hero-') && (await exists('/media/ch1-maya.mp4'))) { v.src = '/media/ch1-maya.mp4'; v._in = 0; v._out = 6.5; return 'borrowed'; }
+  if (!(await manifest).have.size) return 'absent'; // the footage list is unreachable: plain dark panes, never public stand-ins
+  if (name.startsWith('hero-') && (await exists('/media/ch1-maya.mp4'))) { v.preload = 'none'; v.src = '/media/ch1-maya.mp4'; v.poster = '/media/ch1-maya.jpg'; v._in = 0; v._out = 6.5; return 'borrowed'; }
   v.src = name === 'ch2-agent' ? STANDIN[1] : STANDIN[standinTurn++ % 2];
   const host = v.parentElement;
   if (host && !host.querySelector('.standin')) {
@@ -54,21 +58,29 @@ const play = (v) => { if (!reduce && v && v.src && v.play) v.play().catch(() => 
 function tracer(srcCanvasW, srcCanvasH) {
   const work = document.createElement('canvas'); work.width = srcCanvasW; work.height = srcCanvasH;
   const wctx = work.getContext('2d', { willReadFrequently: true });
-  return function trace(video, out, rgb, threshold = 70) {
+  return function trace(video, out, rgb, keep = 0.12) {
     const src = video && (video._still || video);
     if (!src || !(src instanceof HTMLImageElement ? src.complete && src.naturalWidth : src.readyState >= 2)) return false;
     wctx.drawImage(src, 0, 0, srcCanvasW, srcCanvasH);
     const { data } = wctx.getImageData(0, 0, srcCanvasW, srcCanvasH);
     const W = srcCanvasW, H = srcCanvasH, g = new Float32Array(W * H);
     for (let i = 0; i < W * H; i++) g[i] = data[i * 4] * 0.3 + data[i * 4 + 1] * 0.59 + data[i * 4 + 2] * 0.11;
-    out.width = W; out.height = H;
-    const octx = out.getContext('2d'), img = octx.createImageData(W, H), o = img.data;
+    // edge strength everywhere first, then keep the strongest share of it: dark dusk footage and a bright
+    // daylight office both come out as clear line art, instead of a fixed threshold that empties dark clips
+    const mag = new Float32Array(W * H);
     for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) {
       const i = y * W + x;
       const gx = -g[i - W - 1] - 2 * g[i - 1] - g[i + W - 1] + g[i - W + 1] + 2 * g[i + 1] + g[i + W + 1];
       const gy = -g[i - W - 1] - 2 * g[i - W] - g[i - W + 1] + g[i + W - 1] + 2 * g[i + W] + g[i + W + 1];
-      const m = Math.hypot(gx, gy);
-      if (m > threshold) { const k = i * 4; o[k] = rgb[0]; o[k + 1] = rgb[1]; o[k + 2] = rgb[2]; o[k + 3] = Math.min(255, (m - threshold) * 2.2); }
+      mag[i] = Math.hypot(gx, gy);
+    }
+    const sample = []; for (let i = 0; i < mag.length; i += 7) sample.push(mag[i]);
+    sample.sort((p, q) => p - q);
+    const cut = Math.max(12, sample[Math.floor(sample.length * (1 - keep))]), top = Math.max(cut + 1, sample[Math.floor(sample.length * 0.995)]);
+    out.width = W; out.height = H;
+    const octx = out.getContext('2d'), img = octx.createImageData(W, H), o = img.data;
+    for (let i = 0; i < mag.length; i++) {
+      if (mag[i] > cut) { const k = i * 4; o[k] = rgb[0]; o[k + 1] = rgb[1]; o[k + 2] = rgb[2]; o[k + 3] = Math.min(255, 70 + 185 * (mag[i] - cut) / (top - cut)); }
     }
     octx.putImageData(img, 0, 0);
     return true;
@@ -88,11 +100,12 @@ async function film() {
   let shown = -1, K = {};
   const inPoint = (v) => v._in || 0;
   const outPoint = (v) => Math.min(v._out ?? Infinity, (v.duration || Infinity) - 0.15);
+  const seekIn = (v) => { const go = () => { try { v.currentTime = inPoint(v); } catch (e) {} }; v.readyState >= 1 ? go() : v.addEventListener('loadedmetadata', go, { once: true }); };
   const showClip = (i) => {
     if (i === shown) return;
     reel.forEach((v, j) => {
       v.classList.toggle('on', j === i);
-      if (j === i) { v.preload = 'auto'; try { v.currentTime = inPoint(v); } catch (e) {} play(v); } else v.pause();
+      if (j === i) { if (!reduce) v.preload = 'auto'; seekIn(v); play(v); } else v.pause();
     });
     shown = i;
   };
@@ -114,16 +127,14 @@ async function film() {
     else v.currentTime = inPoint(v);
   }));
   showClip(cycle[0]);
-  // side panes loop their trimmed section, if they have one
-  [P.mate, P.agent].forEach((p) => {
-    const v = p.querySelector('video'); v.classList.add('on');
-    if (v._in !== undefined) {
-      const start = () => { try { v.currentTime = inPoint(v); } catch (e) {} };
-      v.readyState >= 1 ? start() : v.addEventListener('loadedmetadata', start, { once: true });
-      v.addEventListener('timeupdate', () => { if (v.currentTime < inPoint(v) - 0.3 || v.currentTime >= outPoint(v)) start(); });
-    }
-    play(v);
+  // side panes: shown from their poster, and only download and play once the story reaches the team
+  const side = [P.mate, P.agent].map((p) => p.querySelector('video'));
+  side.forEach((v) => {
+    v.classList.add('on');
+    if (v._in !== undefined) v.addEventListener('timeupdate', () => { if (v.currentTime < inPoint(v) - 0.3 || v.currentTime >= outPoint(v)) seekIn(v); });
   });
+  let teamAwake = false;
+  const wakeTeam = () => { if (teamAwake) return; teamAwake = true; side.forEach((v) => { if (!reduce) v.preload = 'auto'; seekIn(v); play(v); }); };
 
   let pw, ph, vw, vh;
   const measure = () => { vw = innerWidth; vh = innerHeight; pw = P.footage.offsetWidth; ph = pw * 9 / 16; };
@@ -135,7 +146,7 @@ async function film() {
     for (let i = 0; i < n; i++) {
       const t = document.createElement('div'); t.className = 'tile';
       const name = TILES[tiles.length % TILES.length];
-      exists(`/media/tile-${name}.jpg`).then((ok) => { if (ok) { const im = new Image(); im.src = `/media/tile-${name}.jpg`; im.alt = ''; t.appendChild(im); } });
+      t.dataset.tile = name;
       P.sky.appendChild(t);
       tiles.push({ el: t, a: turn + (i / n) * Math.PI * 2, r, ring, i, n });
     }
@@ -185,8 +196,9 @@ async function film() {
       .to(P.footage, { scale: 1, y: 0, borderRadius: 16, duration: K.shrink, ease: 'power1.inOut' }, 0)
       // 2. it turns, and its layers separate
       .to(rig, { rotationY: -tilt, rotationX: tilt * 0.25, duration: d('tilt') }, K.tilt[0])
-      .to(P.trace, { opacity: 1, z: -170, x: pw * 0.06, duration: d('tilt') * 0.7 }, K.tilt[0])
-      .to(P.grid, { opacity: 0.55, z: -340, x: pw * 0.12, duration: d('tilt') * 0.7 }, K.tilt[0] + d('tilt') * 0.3)
+      // the layers fan out like an exploded drawing, far enough that the traced moment is seen beside the footage
+      .to(P.trace, { opacity: 0.95, z: 80, x: pw * (phone() ? 0.05 : 0.09), y: -ph * 0.04, duration: d('tilt') * 0.7 }, K.tilt[0])
+      .to(P.grid, { opacity: 0.55, z: -320, x: pw * (phone() ? 0.14 : 0.36), duration: d('tilt') * 0.7 }, K.tilt[0] + d('tilt') * 0.3)
       // 3. one person: the lesson lifts out of the moment, slowly, the whole chapter long
       .to(P.footage, { opacity: 0.55, duration: d('lesson') * 0.5 }, K.lesson[0])
       .to(P.lesson, { opacity: 1, scale: 1, duration: d('lesson') * 0.35 }, K.lesson[0])
@@ -246,8 +258,15 @@ async function film() {
   let lastTrace = 0, tracedStill = null;
   const chapters = $$('.beat'), caps = $$('.capin');
 
+  let tilesLoaded = false;
+  const loadTiles = () => {
+    if (tilesLoaded) return; tilesLoaded = true;
+    tiles.forEach((t) => exists(`/media/tile-${t.el.dataset.tile}.jpg`).then((ok) => { if (ok) { const im = new Image(); im.src = `/media/tile-${t.el.dataset.tile}.jpg`; im.alt = ''; t.el.appendChild(im); } }));
+  };
   const update = (p) => {
     stage.dataset.p = p.toFixed(4);
+    if (p >= K.team[0] - 0.04) wakeTeam();
+    if (p >= K.team[1] - 0.08) loadTiles();
     tl.progress(p);
     showClip(p < K.shrink ? shown : 4);
     const teamOn = p >= K.mate[0], companyOn = p >= K.reach[0] - 0.08;
@@ -352,13 +371,17 @@ function daylight() {
 }
 
 // ---------------------------------------------------------------- the close: the person who started it, as one line
-async function drawing() {
+function drawing() {
+  const close = $('#close');
+  new IntersectionObserver(([e], io) => { if (e.isIntersecting) { io.disconnect(); portrait(); } }, { rootMargin: '900px 0px' }).observe(close);
+}
+async function portrait() {
   const c = $('.drawing');
   let v = $('video[data-clip="ch1-maya"]');
   if (!v || !['real', 'still'].includes(v.dataset.state)) { c.hidden = true; return; } // a stand-in traced is noise, not a portrait
   if (await exists('/media/ch1-maya.jpg')) { const im = new Image(); im.src = '/media/ch1-maya.jpg'; v = { _still: im, addEventListener: (...a) => im.addEventListener(...a) }; }
   const trace = tracer(480, 270);
-  const go = () => { if (!trace(v, c, [27, 25, 21], 60)) setTimeout(go, 400); };
+  const go = () => { if (!trace(v, c, [27, 25, 21], 0.15)) setTimeout(go, 400); };
   v.addEventListener('loadeddata', go, { once: true }); if (v._still) v._still.addEventListener('load', go, { once: true }); go();
 }
 
@@ -380,12 +403,14 @@ function runProof(proof, button) {
 }
 
 // smooth scroll makes the scrub feel like a camera, not a scrollbar
-if (!reduce && window.Lenis) {
+if (ready && !reduce && window.Lenis) {
   const lenis = new Lenis({ lerp: 0.085 });
   gsap.ticker.add((t) => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
 }
-runProof($('#proof'), $('#proofToggle'));
-fills();
-daylight();
-film().then(drawing);
+if (ready) {
+  runProof($('#proof'), $('#proofToggle'));
+  fills();
+  daylight();
+  film().then(drawing);
+}
