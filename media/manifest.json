@@ -1,7 +1,18 @@
 {
  "about": "Footage the homepage may use. Add a file name here when its file lands in media/.",
  "files": [
+  "belief-newhire.jpg",
   "ch1-maya.jpg",
-  "ch1-maya.mp4"
+  "ch1-maya.mp4",
+  "tile-agent.jpg",
+  "tile-audit.jpg",
+  "tile-handover.jpg",
+  "tile-incident.jpg",
+  "tile-late.jpg",
+  "tile-onboarding.jpg",
+  "tile-review.jpg",
+  "tile-servers.jpg",
+  "tile-standup.jpg",
+  "tile-whiteboard.jpg"
  ]
 }

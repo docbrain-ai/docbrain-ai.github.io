@@ -150,7 +150,7 @@ async function film() {
       .to(P.mate, { opacity: 1, duration: d('team') * 0.3 }, K.team[0] + d('team') * 0.1)
       .to(P.agent, { opacity: 1, duration: d('team') * 0.3 }, K.team[0] + d('team') * 0.25)
       // 5. the company: pull back until the first team is one of many
-      .to(rig, { scale: phone() ? 0.34 : 0.4, rotationY: 0, x: 0, y: 0, duration: d('pull') * 0.75 }, K.pull[0])
+      .to(rig, { scale: phone() ? 0.34 : 0.4, rotationY: 0, x: 0, y: -vh * (phone() ? 0.02 : 0.07), duration: d('pull') * 0.75 }, K.pull[0])
       .to([P.trace, P.grid], { opacity: 0, duration: d('pull') * 0.4 }, K.pull[0])
       .to(P.footage, { opacity: 1, duration: d('pull') * 0.5 }, K.pull[0]);
     tiles.forEach((t) => {

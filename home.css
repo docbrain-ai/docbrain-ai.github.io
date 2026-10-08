@@ -18,7 +18,7 @@ nav.dark .brand, nav.dark .nlinks a{ color:var(--moon); }
 nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--moon); box-shadow:none; }
 
 /* ---------- the story: one pinned stage, the beats scroll over it ---------- */
-.story{ position:relative; display:grid; background:var(--night); color:var(--moon); --pw:min(58vw,58rem); margin-top:-4rem; } /* the film runs under the nav */
+.story{ position:relative; display:grid; background:var(--night); color:var(--moon); --pw:min(58vw,58rem); margin-top:-4rem; overflow-x:clip; } /* the film runs under the nav */
 .story > .stage, .story > .beats{ grid-area:1 / 1; }
 .stage{ position:sticky; top:0; height:100vh; overflow:hidden; perspective:1500px; perspective-origin:50% 42%; z-index:0; }
 .rig{ position:absolute; left:50%; top:42%; width:0; height:0; transform-style:preserve-3d; }
@@ -70,10 +70,13 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
 .heroin{ display:flex; flex-direction:column; align-items:center; gap:1.2rem; will-change:opacity, transform; }
 /* captions hold in one band under the picture, the way a film subtitles itself */
 .js .cap{ min-height:110vh; justify-content:flex-start; padding-bottom:0; }
-.js .capin{ position:sticky; top:63vh; display:flex; flex-direction:column; align-items:center; gap:.7rem; will-change:opacity; }
+.js .capin{ isolation:isolate; position:sticky; top:63vh; display:flex; flex-direction:column; align-items:center; gap:.7rem; will-change:opacity; }
 .beat h2{ max-width:20ch; color:var(--moon); font-size:clamp(1.8rem,3.6vw,3rem); }
 .beat .body{ max-width:38rem; color:var(--moonDim); font-size:clamp(.98rem,1.3vw,1.1rem); line-height:1.6; }
 .beat .eye{ color:var(--glow); }
+/* a soft pool of night behind each caption, so it reads over anything the film puts under it */
+.js .capin::before{ content:""; position:absolute; inset:-2.2rem -4rem; z-index:-1; border-radius:50%;
+  background:radial-gradient(closest-side, rgba(14,13,11,.88), rgba(14,13,11,.6) 60%, rgba(14,13,11,0)); }
 .js .fill .w{ opacity:.22; transition:opacity .25s linear; }
 .js .fill .w.on{ opacity:1; }
 .ctas{ display:flex; flex-wrap:wrap; align-items:center; gap:1rem 1.4rem; margin-top:.6rem; }
