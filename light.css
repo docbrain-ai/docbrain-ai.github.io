@@ -1,0 +1,38 @@
+/* How it works, in daylight: the same film, re-lit in the warm paper palette the rest of the site uses.
+   Loaded after style.css and brain.css; it only re-points colour. Remove this file to get the dark room back. */
+:root{
+  --room:#F4F2EC; --room2:#ECE9E1; --rtx:#1B1915; --rdim:#5F5A50; --rfaint:#736E63; --rline:#DED9CC; --rline2:#CFC9BA;
+  --marginL:#B4483F; --humL:#1E6B54;
+}
+body[data-tense="1"]{ background-color:#EFECE4 }
+body[data-tense="2"]{ background-color:#EAE6DD }
+body[data-tense="3"]{ background-color:#E4E0D6 }
+
+/* the screens sit on paper now, so they need an edge instead of a glow */
+.screen{ box-shadow:0 0 0 1px var(--rule), 0 34px 80px -46px rgba(27,25,21,.45) !important; }
+body[data-tense="2"] #b3 .screen, body[data-tense="3"] #b3 .screen{
+  box-shadow:0 0 0 1px var(--rule), 0 50px 110px -50px rgba(27,25,21,.6), 0 0 0 6px rgba(180,72,63,.08) !important; }
+.beat .say code{ background:rgba(27,25,21,.06); }
+.cardx{ background:var(--card); }
+.btn:hover:not(:disabled){ color:var(--card); }
+
+nav{ background:linear-gradient(var(--room), rgba(244,242,236,.88) 62%, transparent); }
+body.boxed nav{ background:linear-gradient(rgba(244,242,236,.8), transparent); }
+
+/* the projection booth, in daylight: the bars and titles take the paper's darker shade */
+.lb{ background:#E2DED4; }
+.lb-t{ box-shadow:0 6px 22px -10px rgba(27,25,21,.25); }
+.lb-b{ box-shadow:0 -6px 22px -10px rgba(27,25,21,.25); }
+.gate{ background:#FFFFFF; mix-blend-mode:normal; }
+.grain{ mix-blend-mode:multiply; opacity:.025 !important; } /* cinema.js sets .10 inline, which greys paper */
+.tc{ text-shadow:none; }
+.opening{ background:var(--room); }
+
+.trav{ background:var(--card); }
+.trav, .trav.cited, .trav.sealed{ box-shadow:0 22px 50px -30px rgba(27,25,21,.35) !important; }
+[class*="cap"], .cut, .cutlede{ text-shadow:none !important; }
+.scene .screen{ box-shadow:none !important; filter:brightness(calc(1 - var(--vel,0) * .06)) drop-shadow(0 26px 50px rgba(27,25,21,.22)); }
+.lie{ box-shadow:0 0 0 1px var(--rule), 0 30px 80px -46px rgba(27,25,21,.35); }
+.floor{ background:linear-gradient(to top, var(--room) 32%, rgba(244,242,236,.72) 62%, transparent); }
+.scene .beat .say{ text-shadow:0 0 18px var(--room), 0 0 6px var(--room); }
+.sndbtn{ background:rgba(253,252,249,.88); }

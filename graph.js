@@ -39,7 +39,7 @@ export function initGraph(canvas, { reduced = false } = {}) {
   }
   addEventListener('resize', size, { passive: true }); size();
 
-  const C = { warm:[236,231,218], green:[95,191,149], amber:[212,164,76], blue:[111,168,220] };
+  const C = { warm:[78,72,62], green:[30,107,84], amber:[160,118,34], blue:[38,88,143] }; // ink on paper (how it works is lit)
   const rgba = (c,a) => `rgba(${c[0]},${c[1]},${c[2]},${a.toFixed(3)})`;
 
   let t = 0, raf = 0, tenS = 0, openS = 0;
@@ -154,7 +154,7 @@ export function initGraph(canvas, { reduced = false } = {}) {
     // the room closes in when it matters
     if (tenS > .01) {
       const v = ctx.createRadialGradient(cx, cy, Math.min(W,H) * (.30 - tenS * .10), cx, cy, Math.max(W,H) * .78);
-      v.addColorStop(0, 'rgba(9,9,8,0)'); v.addColorStop(1, `rgba(9,9,8,${(tenS * .72).toFixed(3)})`);
+      v.addColorStop(0, 'rgba(120,108,90,0)'); v.addColorStop(1, `rgba(120,108,90,${(tenS * .3).toFixed(3)})`);
       ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
     }
     raf = requestAnimationFrame(draw);
