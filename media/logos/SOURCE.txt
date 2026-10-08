@@ -1,0 +1,2 @@
+Brand marks from Simple Icons 13.21.0 (CC0 for the SVG files; the marks remain trademarks of their owners).
+Used only to name the systems DocBrain ships built-in integrations for (see /docs/connectors/).

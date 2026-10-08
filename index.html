@@ -18,7 +18,7 @@
 <link rel="icon" href="/logo.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/site.css?v=6c31c54520">
-<link rel="stylesheet" href="/home.css?v=8">
+<link rel="stylesheet" href="/home.css?v=9">
 </head>
 <body>
 
@@ -103,8 +103,19 @@
 </div></section>
 
 <!-- then the world it serves, in daylight -->
-<section class="sheet light" id="where"><div class="orbit" aria-hidden="true"></div><div class="wrap wherein">
+<section class="sheet light" id="where">
+ <ul class="orbit" aria-label="Built-in integrations">
+  <li class="ot" style="--c:#4A154B;--m:url(/media/logos/slack.svg)"><i></i><span>Slack</span></li>
+  <li class="ot" style="--c:#181717;--m:url(/media/logos/github.svg)"><i></i><span>GitHub</span></li>
+  <li class="ot" style="--c:#172B4D;--m:url(/media/logos/confluence.svg)"><i></i><span>Confluence</span></li>
+  <li class="ot" style="--c:#0052CC;--m:url(/media/logos/jira.svg)"><i></i><span>Jira</span></li>
+  <li class="ot" style="--c:#FC6D26;--m:url(/media/logos/gitlab.svg)"><i></i><span>GitLab</span></li>
+  <li class="ot" style="--c:#06AC38;--m:url(/media/logos/pagerduty.svg)"><i></i><span>PagerDuty</span></li>
+  <li class="ot own"><i></i><span>Your own tools too</span></li>
+ </ul>
+ <div class="wrap wherein">
  <h2>Knowledge, kept for<br><span class="rot" aria-live="off"><span>incidents</span><span>code review</span><span>onboarding</span><span>handovers</span><span>AI agents</span><span>audits</span></span></h2>
+ <p class="body">Captured from the tools your team already works in.</p>
  <ul class="tagrow">
   <li><a href="/how-it-works/#b1">Incidents</a></li>
   <li><a href="/how-it-works/#b3">AI coding agents</a></li>
@@ -112,7 +123,8 @@
   <li><a href="/how-it-works/#b5">Platform changes</a></li>
   <li><a href="/how-it-works/#b6">Audits</a></li>
  </ul>
-</div></section>
+ </div>
+</section>
 
 <section class="sheet light" id="proof" data-step="0" data-playing="false"><div class="wrap">
  <div class="head">
@@ -168,6 +180,6 @@
 <script src="/vendor/gsap.min.js"></script>
 <script src="/vendor/ScrollTrigger.min.js"></script>
 <script src="/vendor/lenis.min.js"></script>
-<script type="module" src="/home.js?v=13"></script>
+<script type="module" src="/home.js?v=14"></script>
 </body>
 </html>

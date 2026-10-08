@@ -26,10 +26,8 @@ async function loadClip(v) {
   // a keyframe still stands in for its clip until the video exists: shown as the poster, traced from the image
   const still = `/media/${name}.jpg`;
   if (await exists(still)) { v.poster = still; v._still = new Image(); v._still.src = still; return 'still'; }
-  if (name === 'belief-newhire') {
-    const plate = document.createElement('div');
-    plate.className = 'plate on'; plate.textContent = `media/${name}.mp4 · awaiting footage`;
-    v.replaceWith(plate); return 'plate';
+  if (name === 'belief-newhire') { // no clip yet: no empty frame, the sentence takes the room
+    const fig = v.closest('figure'); fig.hidden = true; fig.parentElement.classList.add('solo'); return 'absent';
   }
   if (name.startsWith('hero-') && (await exists('/media/ch1-maya.mp4'))) { v.src = '/media/ch1-maya.mp4'; return 'borrowed'; }
   v.src = name === 'ch2-agent' ? STANDIN[1] : STANDIN[standinTurn++ % 2];
@@ -284,28 +282,23 @@ function fills() {
 
 // ---------------------------------------------------------------- daylight: tiles orbit, the word turns
 function daylight() {
-  const where = $('#where'), orbit = $('.orbit', where);
-  const names = ['incident', 'review', 'onboarding', 'handover', 'standup', 'audit', 'servers', 'agent', 'whiteboard', 'late', 'incident', 'review'];
-  const ots = names.map((n, i) => {
-    const d = document.createElement('div'); d.className = 'ot';
-    const s = 58 + ((i * 37) % 90); d.style.width = d.style.height = `${s}px`;
-    exists(`/media/tile-${n}.jpg`).then((ok) => {
-      if (ok) { const im = new Image(); im.src = `/media/tile-${n}.jpg`; im.alt = ''; d.appendChild(im); }
-      else { const l = document.createElement('span'); l.textContent = n; d.appendChild(l); }
-    });
-    orbit.appendChild(d); return { d, a: (i / names.length) * Math.PI * 2, s, rr: 0.36 + ((i * 7) % 5) * 0.035 };
-  });
+  const where = $('#where'), ots = $$('.ot', where);
+  const wide = () => innerWidth >= 1024;
+  // the tools sit on an ellipse just outside the sentence and drift round it as the reader scrolls
   let last = NaN;
   const place = () => {
     if (scrollY === last) return; last = scrollY;
     const r = where.getBoundingClientRect();
+    if (!wide()) { ots.forEach((o) => { o.style.transform = ''; }); return; }
     if (r.bottom < 0 || r.top > innerHeight) return;
-    const spin = reduce ? 0 : span(innerHeight - r.top, 0, innerHeight + r.height) * 1.4;
-    ots.forEach((o) => {
-      const a = o.a + spin, rx = r.width * o.rr, ry = r.height * o.rr * 0.95;
-      o.d.style.transform = `translate(${r.width / 2 + Math.cos(a) * rx - o.s / 2}px, ${r.height / 2 + Math.sin(a) * ry - o.s / 2}px)`;
+    const spin = reduce ? 0 : span(innerHeight - r.top, 0, innerHeight + r.height) * 0.9;
+    const rx = Math.min(r.width * 0.36, 560), ry = r.height * 0.36;
+    ots.forEach((o, i) => {
+      const a = -Math.PI / 2 + (i / ots.length) * Math.PI * 2 + spin;
+      o.style.transform = `translate(${r.width / 2 + Math.cos(a) * rx - o.offsetWidth / 2}px, ${r.height / 2 + Math.sin(a) * ry - o.offsetHeight / 2}px)`;
     });
   };
+  addEventListener('resize', () => { last = NaN; place(); });
   gsap.ticker.add(place);
   const words = $$('.rot > span'); let k = 0; words[0].classList.add('on');
   if (!reduce) setInterval(() => { words[k].classList.remove('on'); k = (k + 1) % words.length; words[k].classList.add('on'); }, 2200);
