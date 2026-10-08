@@ -1,0 +1,1 @@
+gsap 3.12.5, ScrollTrigger 3.12.5 (cdn.jsdelivr.net/npm/gsap@3.12.5), lenis 1.1.13 (cdn.jsdelivr.net/npm/lenis@1.1.13). Vendored so the site has no runtime CDN dependency.

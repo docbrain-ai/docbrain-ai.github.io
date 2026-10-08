@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DocBrain · What one person learns, the whole company keeps</title>
 <meta name="description" content="DocBrain keeps what your engineers learn as they work and brings it to the next person, or AI agent, who needs it. People move on; the knowledge stays.">
-<meta name="theme-color" content="#F4F2EC">
+<meta name="theme-color" content="#0E0D0B">
 <meta property="og:type" content="website">
 <meta property="og:title" content="What one person learns, the whole company keeps.">
 <meta property="og:description" content="Nothing your team learns should be learned twice.">
@@ -18,7 +18,7 @@
 <link rel="icon" href="/logo.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/site.css?v=6c31c54520">
-<link rel="stylesheet" href="/home.css?v=2">
+<link rel="stylesheet" href="/home.css?v=4">
 </head>
 <body>
 
@@ -29,49 +29,92 @@
 </div></nav>
 
 <main>
-<div class="story">
- <figure class="stage" data-stage="0" aria-hidden="true">
-  <canvas id="scene"></canvas>
-  <div class="maya">
-   <span class="when">Tuesday · fixing checkout</span>
-   <b>Maya</b><span class="team">Payments</span>
-   <p>“Retries double-charge when the gateway timeout is under 30 seconds. Keep it at 30.”</p>
-  </div>
- </figure>
- <div class="copy wrap">
-  <header class="beat" id="hero" data-stage="0">
-   <h1>What one person learns, the whole company keeps.</h1>
-   <p class="belief">Nothing your team learns should be learned twice.</p>
-   <p class="body">DocBrain keeps what your engineers learn as they work and brings it to the next person, or AI agent, who needs it. People move on; the knowledge stays.</p>
-   <div class="ctas">
-    <a class="btn" href="https://cal.com/docbrain/30min">Book a call</a>
-    <a class="quiet" href="/how-it-works/#start">or run it yourself, free →</a>
+<!-- the story: one stage, pinned, that the reader's scroll plays like a film -->
+<div class="story" id="story">
+ <div class="stage" aria-hidden="true">
+  <div class="rig">
+   <div class="pane footage" data-role="footage">
+    <video data-clip="hero-01-incident" muted playsinline loop preload="metadata"></video>
+    <video data-clip="hero-02-whiteboard" muted playsinline loop preload="none"></video>
+    <video data-clip="hero-03-thread" muted playsinline loop preload="none"></video>
+    <video data-clip="hero-04-pair" muted playsinline loop preload="none"></video>
+    <video data-clip="ch1-maya" muted playsinline loop preload="none"></video>
    </div>
-  </header>
-
-  <section class="beat" id="ring1" data-stage="1">
-   <p class="eye">One person</p>
-   <h2>It starts with one person.</h2>
-   <p class="body">An engineer fixes a failing payment flow and learns why it broke. Today that lesson lives in one head and one chat thread.</p>
-  </section>
-
-  <section class="beat" id="ring2" data-stage="2">
-   <p class="eye">Their team</p>
-   <h2>Then it reaches the team.</h2>
-   <p class="body">The next person to touch that code sees what was learned before they repeat the mistake. So does the AI agent working beside them.</p>
-  </section>
-
-  <section class="beat" id="ring3" data-stage="3">
-   <p class="eye">The company</p>
-   <h2>And the company keeps it.</h2>
-   <p class="body">People change teams, and some leave. What they learned stays, and every new hire starts where the last one finished.</p>
-  </section>
+   <div class="pane glass trace" data-role="trace"><canvas></canvas></div>
+   <div class="pane glass grid" data-role="grid"><i>0110</i><i>101</i><i>1001</i><i>11</i></div>
+   <div class="pane lesson" data-role="lesson">
+    <span class="tt">Learned · Tuesday · fixing checkout</span>
+    <b>“Keep the gateway timeout at 30 seconds, or retries charge twice.”</b>
+    <span class="ts">Maya · Payments</span>
+   </div>
+   <div class="pane footage mate" data-role="mate"><video data-clip="ch2-teammate" muted playsinline loop preload="none"></video><span class="tag">Sam · Checkout · three months later</span></div>
+   <div class="pane footage agent" data-role="agent"><video data-clip="ch2-agent" muted playsinline loop preload="none"></video><span class="tag">A coding agent, before it commits</span></div>
+   <div class="sky" data-role="sky"></div>
+  </div>
+  <svg class="wires"><defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z"/></marker></defs></svg>
+  <div class="veil"></div>
  </div>
 
-
+ <div class="beats">
+  <header class="beat" id="hero"><div class="heroin">
+   <h1>What one person learns, the whole company keeps.</h1>
+   <div class="ctas">
+    <a class="btn light" href="https://cal.com/docbrain/30min">Book a call</a>
+    <a class="quiet" href="/how-it-works/#start">or run it yourself, free →</a>
+   </div>
+  </div></header>
+  <section class="beat cap" id="intro">
+   <div class="capin">
+   <h2 class="fill">Nothing your team learns should be learned twice.</h2>
+   <p class="body">DocBrain keeps what your engineers learn as they work and brings it to the next person, or AI agent, who needs it. People move on; the knowledge stays.</p>
+   </div>
+  </section>
+  <section class="beat cap" id="ring1">
+   <div class="capin">
+   <p class="eye">One person</p>
+   <h2 class="fill">It starts with one person.</h2>
+   <p class="body">An engineer fixes a failing payment flow and learns why it broke. Today that lesson lives in one head and one chat thread.</p>
+   </div>
+  </section>
+  <section class="beat cap" id="ring2">
+   <div class="capin">
+   <p class="eye">Their team</p>
+   <h2 class="fill">Then it reaches the team.</h2>
+   <p class="body">The next person to touch that code sees what was learned before they repeat the mistake. So does the AI agent working beside them.</p>
+   </div>
+  </section>
+  <section class="beat cap" id="ring3">
+   <div class="capin">
+   <p class="eye">The company</p>
+   <h2 class="fill">And the company keeps it.</h2>
+   <p class="body">People change teams, and some leave. What they learned stays, and every new hire starts where the last one finished.</p>
+   </div>
+  </section>
+ </div>
 </div>
 
-<section id="proof" data-step="0" data-playing="false"><div class="wrap">
+<!-- a green sheet rises over the dark -->
+<section class="sheet green" id="belief"><div class="wrap beliefin">
+ <figure class="peek" aria-hidden="true"><video data-clip="belief-newhire" muted playsinline loop preload="none"></video></figure>
+ <div>
+  <h2 class="fill big">A new hire on day one knows what your best engineer learned last year.</h2>
+  <p class="body">That is what compounding knowledge looks like from the inside.</p>
+ </div>
+</div></section>
+
+<!-- then the world it serves, in daylight -->
+<section class="sheet light" id="where"><div class="orbit" aria-hidden="true"></div><div class="wrap wherein">
+ <h2>Knowledge, kept for<br><span class="rot" aria-live="off"><span>incidents</span><span>code review</span><span>onboarding</span><span>handovers</span><span>AI agents</span><span>audits</span></span></h2>
+ <ul class="tagrow">
+  <li><a href="/how-it-works/#b1">Incidents</a></li>
+  <li><a href="/how-it-works/#b3">AI coding agents</a></li>
+  <li><a href="/how-it-works/#b2">Team handovers</a></li>
+  <li><a href="/how-it-works/#b5">Platform changes</a></li>
+  <li><a href="/how-it-works/#b6">Audits</a></li>
+ </ul>
+</div></section>
+
+<section class="sheet light" id="proof" data-step="0" data-playing="false"><div class="wrap">
  <div class="head">
   <h2>See it happen.</h2>
   <p class="body">One lesson, from one person to a whole company, in twenty seconds.</p>
@@ -99,38 +142,32 @@
  </div>
 </div></section>
 
-<section id="tags"><div class="wrap">
- <h2>Wherever knowledge gets lost.</h2>
- <ul class="tagrow">
-  <li><a href="/how-it-works/#b1">Incidents</a></li>
-  <li><span class="plain">Onboarding</span></li>
-  <li><span class="plain">Code review</span></li>
-  <li><a href="/how-it-works/#b5">Platform changes</a></li>
-  <li><a href="/how-it-works/#b3">AI coding agents</a></li>
-  <li><a href="/how-it-works/#b2">Team handovers</a></li>
-  <li><a href="/how-it-works/#b6">Audits</a></li>
- </ul>
-</div></section>
-
-<section id="close"><div class="wrap">
- <h2>Knowledge that compounds.</h2>
- <p class="body">Book a call and see what your company already knows.</p>
- <div class="ctas">
-  <a class="btn" href="https://cal.com/docbrain/30min">Book a call</a>
-  <a class="btn btn2" href="/how-it-works/#start">Run it free</a>
+<section class="sheet tan" id="close"><div class="wrap closein">
+ <div>
+  <h2>Knowledge that compounds.</h2>
+  <p class="body">Book a call and see what your company already knows.</p>
+  <div class="ctas">
+   <a class="btn" href="https://cal.com/docbrain/30min">Book a call</a>
+   <a class="btn btn2" href="/how-it-works/#start">Run it free</a>
+  </div>
  </div>
+ <canvas class="drawing" aria-hidden="true"></canvas>
 </div></section>
 </main>
 
-<footer><div class="wrap foot">
- <div class="fc fbrand"><a class="brand" href="/">DocBrain</a>
-  <span class="tagline">What one person learns, the whole company keeps.</span>
-  <span class="dim xs">© 2026 DocBrain</span></div>
- <div class="fc"><span class="fh">Product</span><a href="/how-it-works/">How it works</a><a href="/pricing/">Pricing</a><a href="/how-it-works/#compare">Compare</a></div>
- <div class="fc"><span class="fh">Running it</span><a href="/how-it-works/#ops">Running it</a><a href="/how-it-works/#faq">FAQ</a><a href="/docs/">Docs</a></div>
- <div class="fc"><span class="fh">Contact</span><a href="https://cal.com/docbrain/30min">Book a call</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a></div>
+<footer><div class="wrap">
+ <div class="foot">
+  <div class="fc fbrand"><a class="brand" href="/">DocBrain</a><span class="dim xs">© 2026 DocBrain</span></div>
+  <div class="fc"><span class="fh">Product</span><a href="/how-it-works/">How it works</a><a href="/pricing/">Pricing</a><a href="/how-it-works/#compare">Compare</a></div>
+  <div class="fc"><span class="fh">Running it</span><a href="/how-it-works/#ops">Running it</a><a href="/how-it-works/#faq">FAQ</a><a href="/docs/">Docs</a></div>
+  <div class="fc"><span class="fh">Contact</span><a href="https://cal.com/docbrain/30min">Book a call</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a></div>
+ </div>
+ <p class="tagline">What one person learns, the whole company keeps.</p>
 </div></footer>
 
-<script type="module" src="/home.js?v=3"></script>
+<script src="/vendor/gsap.min.js"></script>
+<script src="/vendor/ScrollTrigger.min.js"></script>
+<script src="/vendor/lenis.min.js"></script>
+<script type="module" src="/home.js?v=9"></script>
 </body>
 </html>
