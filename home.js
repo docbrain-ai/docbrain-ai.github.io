@@ -80,8 +80,14 @@ async function film() {
     shown = i;
   };
   showClip(0);
+  // the hero cycles through the moments that really exist; a borrowed clip plays once, never as filler
+  const heroes = reel.slice(0, 4).map((v, i) => [v, i]);
+  const real = heroes.filter(([v]) => v.dataset.state === 'real').map(([, i]) => i);
+  const borrowed = heroes.find(([v]) => v.dataset.state === 'borrowed');
+  const cycle = real.length ? (borrowed ? [...real, borrowed[1]] : real) : [0];
   let reelTurn = 0, K = {};
-  if (!reduce) setInterval(() => { if (Number(stage.dataset.p) < K.shrink) showClip((reelTurn = (reelTurn + 1) % 4)); }, 3600);
+  showClip(cycle[0]);
+  if (!reduce && cycle.length > 1) setInterval(() => { if (Number(stage.dataset.p) < K.shrink) showClip(cycle[(reelTurn = (reelTurn + 1) % cycle.length)]); }, 5000);
   [P.mate, P.agent].forEach((p) => { const v = p.querySelector('video'); v.classList.add('on'); play(v); });
 
   let pw, ph, vw, vh;
