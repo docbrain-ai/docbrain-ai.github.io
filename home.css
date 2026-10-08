@@ -67,7 +67,11 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
 #hero{ min-height:100vh; justify-content:center; padding-bottom:0; }
 #hero h1{ max-width:16ch; color:var(--moon); font-size:clamp(2.6rem,6.4vw,5.6rem); line-height:1; letter-spacing:-.035em; text-shadow:0 2px 30px rgba(0,0,0,.35); }
 #hero .ctas{ justify-content:center; }
-.heroin{ display:flex; flex-direction:column; align-items:center; gap:1.2rem; will-change:opacity, transform; }
+.heroin{ display:flex; flex-direction:column; align-items:center; gap:1.2rem; will-change:opacity, transform; position:relative; isolation:isolate; }
+/* a pool of shade behind the headline: it must read over the brightest footage (a whiteboard in daylight) */
+.heroin::before{ content:""; position:absolute; inset:-14% -18%; z-index:-1; border-radius:50%; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(14,13,11,.62), rgba(14,13,11,.38) 55%, rgba(14,13,11,0)); }
+#hero .quiet{ text-shadow:0 1px 10px rgba(0,0,0,.6); }
 /* captions hold in one band under the picture, the way a film subtitles itself */
 .js .cap{ min-height:110vh; justify-content:flex-start; padding-bottom:0; }
 .js .capin{ isolation:isolate; position:sticky; top:63vh; display:flex; flex-direction:column; align-items:center; gap:.7rem; will-change:opacity; }
@@ -92,9 +96,8 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
 .beliefin{ display:grid; grid-template-columns:1fr; gap:2.5rem; align-items:center; }
 @media (min-width:52rem){ .beliefin{ grid-template-columns:minmax(0,16rem) minmax(0,1fr); gap:4rem; } }
 .peek{ margin:0; aspect-ratio:9/16; max-height:62vh; border-radius:14px; overflow:hidden; position:relative; background:#0d1f17; }
-.peek video, .beliefin.solo{ grid-template-columns:1fr; } .beliefin.solo .big{ max-width:22ch; }
-.peek .plate{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 .beliefin.solo{ grid-template-columns:1fr; } .beliefin.solo .big{ max-width:22ch; }
+.peek video, .peek img, .peek .plate{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 30%; }
 .peek .plate{ background:radial-gradient(120% 90% at 30% 30%, #24473A, #0d1f17 70%); color:var(--greenDim); opacity:1; }
 .big{ font-size:clamp(2.1rem,4.6vw,4rem); line-height:1.05; letter-spacing:-.03em; color:var(--greenInk); max-width:18ch; }
 .green .body{ margin-top:1.4rem; color:rgba(232,239,233,.7); font-size:1.1rem; max-width:32rem; }
@@ -106,8 +109,8 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
 #where h2{ font-size:clamp(2.2rem,5vw,4.2rem); line-height:1.05; letter-spacing:-.03em; }
 .rot{ display:inline-grid; }
 .rot > span{ grid-area:1 / 1; }
-.js .rot > span{ opacity:0; transform:translateY(.35em); transition:opacity .5s, transform .5s; }
-.js .rot > span.on{ opacity:1; transform:none; }
+.js .rot > span{ opacity:0; transform:translateY(.35em); transition:opacity .22s, transform .22s; } /* the old word leaves fast... */
+.js .rot > span.on{ opacity:1; transform:none; transition:opacity .4s .24s, transform .4s .24s; } /* ...and the new one arrives after it */
 html:not(.js) .rot > span:not(:first-child){ display:none; }
 .rot > span:nth-child(1){ color:#9A7B5C; } .rot > span:nth-child(2){ color:#1E6B54; } .rot > span:nth-child(3){ color:#6E5A86; }
 .rot > span:nth-child(4){ color:#9A7B5C; } .rot > span:nth-child(5){ color:#26588F; } .rot > span:nth-child(6){ color:#1E6B54; }

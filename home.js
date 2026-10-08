@@ -31,7 +31,12 @@ async function loadClip(v) {
   }
   // a keyframe still stands in for its clip until the video exists: shown as the poster, traced from the image
   const still = `/media/${name}.jpg`;
-  if (await exists(still)) { v.poster = still; v._still = new Image(); v._still.src = still; return 'still'; }
+  if (await exists(still)) {
+    if (name === 'belief-newhire') { // a frame of its own: show the still as an image, so the crop is the one we chose
+      const img = new Image(); img.src = still; img.alt = ''; img.className = 'still'; v.replaceWith(img); return 'still';
+    }
+    v.poster = still; v._still = new Image(); v._still.src = still; return 'still';
+  }
   if (name === 'belief-newhire') { // no clip yet: no empty frame, the sentence takes the room
     const fig = v.closest('figure'); fig.hidden = true; fig.parentElement.classList.add('solo'); return 'absent';
   }
@@ -94,7 +99,13 @@ async function film() {
   const heroes = reel.slice(0, 4).map((v, i) => [v, i]);
   const real = heroes.filter(([v]) => v.dataset.state === 'real').map(([, i]) => i);
   const borrowed = heroes.find(([v]) => v.dataset.state === 'borrowed');
-  const cycle = real.length ? (borrowed ? [...real, borrowed[1]] : real) : [0];
+  // order: whiteboard opens, the night incident closes; any other real moment and Maya sit between
+  const ORDER = ['hero-02-whiteboard', 'hero-03-standup', 'hero-04-pair', 'hero-01-incident'];
+  const rank = (i) => ORDER.indexOf(reel[i].dataset.clip);
+  const sorted = [...real].sort((a, b) => rank(a) - rank(b));
+  const last = sorted.filter((i) => reel[i].dataset.clip === 'hero-01-incident');
+  const middle = sorted.filter((i) => reel[i].dataset.clip !== 'hero-01-incident');
+  const cycle = real.length ? [...middle, ...(borrowed ? [borrowed[1]] : []), ...last] : [0];
   let reelTurn = 0;
   const inHero = () => Number(stage.dataset.p || 0) < K.shrink;
   reel.forEach((v, j) => v.addEventListener('timeupdate', () => {
