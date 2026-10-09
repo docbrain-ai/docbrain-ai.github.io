@@ -71,9 +71,6 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
 /* a pool of shade behind the headline: it must read over the brightest footage (a whiteboard in daylight) */
 .heroin::before{ content:""; position:absolute; inset:-14% -18%; z-index:-1; border-radius:50%; pointer-events:none;
   background:radial-gradient(closest-side, rgba(0,0,0,.4), rgba(0,0,0,.2) 55%, rgba(0,0,0,0)); }
-.learned{ min-height:1em; margin:.4rem 0 0; font-family:var(--mono); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
-          color:var(--moon); opacity:.9; text-shadow:0 1px 2px rgba(0,0,0,.6), 0 1px 12px rgba(0,0,0,.8); transition:opacity .4s ease; }
-.learned.out{ opacity:0; }
 #hero .quiet{ text-shadow:0 1px 2px rgba(0,0,0,.5), 0 1px 12px rgba(0,0,0,.7); }
 /* captions hold in one band under the picture, the way a film subtitles itself */
 .js .cap{ min-height:110vh; justify-content:flex-start; padding-bottom:0; }

@@ -104,19 +104,8 @@ async function film() {
   const inPoint = (v) => v._in || 0;
   const outPoint = (v) => Math.min(v._out ?? Infinity, (v.duration || Infinity) - 0.15);
   const seekIn = (v) => { const go = () => { try { v.currentTime = inPoint(v); } catch (e) {} }; v.readyState >= 1 ? go() : v.addEventListener('loadedmetadata', go, { once: true }); };
-  // under the headline, a quiet line names where the moment on screen was learned
-  const LEARNED = { 'hero-02-whiteboard': 'at a whiteboard', 'hero-03-standup': 'late, at one desk', 'hero-04-pair': 'over someone\u2019s shoulder', 'hero-01-incident': 'during an outage at night' };
-  const learned = $('#hero .learned');
-  const label = (v) => {
-    const where = v.dataset.state === 'real' && LEARNED[v.dataset.clip];
-    if (!learned || learned.dataset.clip === (where ? v.dataset.clip : '')) return;
-    learned.dataset.clip = where ? v.dataset.clip : '';
-    learned.classList.add('out');
-    setTimeout(() => { learned.textContent = where ? `Learned \u00b7 ${where}` : ''; learned.classList.remove('out'); }, reduce ? 0 : 400);
-  };
   const showClip = (i) => {
     if (i === shown) return;
-    if (i < 4) label(reel[i]);
     reel.forEach((v, j) => {
       v.classList.toggle('on', j === i);
       if (j === i) { if (!reduce) v.preload = 'auto'; seekIn(v); play(v); } else v.pause();
