@@ -19,7 +19,7 @@
 <link rel="icon" href="/logo.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/site.css?v=6c31c54520">
-<link rel="stylesheet" href="/home.css?v=24">
+<link rel="stylesheet" href="/home.css?v=25">
 </head>
 <body>
 
@@ -38,7 +38,6 @@
     <video data-clip="hero-01-incident" muted playsinline loop preload="metadata"></video>
     <video data-clip="hero-02-whiteboard" muted playsinline loop preload="none"></video>
     <video data-clip="hero-03-standup" muted playsinline loop preload="none"></video>
-    <video data-clip="hero-04-pair" muted playsinline loop preload="none"></video>
     <video data-clip="ch1-maya" muted playsinline loop preload="none"></video>
    </div>
    <div class="pane glass trace" data-role="trace"><canvas></canvas></div>
@@ -65,36 +64,36 @@
    </div>
   </div>
   <div class="flash" aria-hidden="true"></div>
-  <div class="scene" role="img" aria-label="One decision, three moments. A photo of the whiteboard goes to a coding agent, which files the decision to DocBrain. Weeks later a teammate’s agent finds it before changing the same code. During an outage at night, on-call asks DocBrain and gets the same decision back.">
+  <div class="scene" role="img" aria-label="One lesson, three moments. Maya’s team photographs the whiteboard and her coding agent files the lesson to DocBrain. Weeks later a teammate’s agent finds it before changing the same setting. During an outage at night, on-call asks DocBrain and gets Maya’s lesson back.">
    <figure class="shot" aria-hidden="true"><canvas></canvas><figcaption>whiteboard.jpg</figcaption></figure>
    <div class="agentp" aria-hidden="true">
     <div class="ah"><i></i><i></i><i></i><span>Your agent</span></div>
-    <p><span class="pr">›</span> <span class="ty">capture this decision</span></p>
+    <p><span class="pr">›</span> <span class="ty">capture what we just agreed</span></p>
     <p class="l2">reading the photo…</p>
-    <p class="l3"><span class="ok">✓</span> filed to DocBrain · tied to checkout/retry</p>
+    <p class="l3"><span class="ok">✓</span> filed to DocBrain · tied to checkout/gateway</p>
    </div>
    <div class="kept" aria-hidden="true">
-    <span class="tt">Decided · at the whiteboard · checkout</span>
-    <b>“Retries go through the queue, never straight to the gateway.”</b>
+    <span class="tt">Maya · Payments · at the whiteboard</span>
+    <b>“Keep the gateway timeout at 30 seconds, or retries charge twice.”</b>
     <span class="ts">Kept for the whole company</span>
    </div>
    <div class="agentp found" aria-hidden="true">
     <div class="ah"><i></i><i></i><i></i><span>A teammate’s agent · weeks later</span></div>
-    <p><span class="pr">›</span> <span class="ty">fix the double retry in checkout</span></p>
-    <p class="l2">checking what the company knows about checkout/retry…</p>
+    <p><span class="pr">›</span> <span class="ty">lower the checkout gateway timeout to 10s</span></p>
+    <p class="l2">checking what the company knows about checkout/gateway…</p>
     <div class="mini">
-     <span class="tt">Decided · at the whiteboard · 3 weeks ago</span>
-     <b>“Retries go through the queue, never straight to the gateway.”</b>
+     <span class="tt">Maya · Payments · 3 weeks ago</span>
+     <b>“Keep the gateway timeout at 30 seconds, or retries charge twice.”</b>
     </div>
    </div>
    <div class="agentp chat" aria-hidden="true">
     <div class="ah"><span># payments-oncall</span></div>
-    <p class="msg"><i class="av">S</i><span><span class="ty">/docbrain incident payments charged twice after deploy</span></span></p>
+    <p class="msg"><i class="av">S</i><span><span class="ty">/docbrain incident customers charged twice after deploy</span></span></p>
     <div class="msg reply"><i class="av db">D</i><div>
      <span class="who">DocBrain <em>· posted to the channel</em></span>
-     <p>The deploy sends retries straight to the gateway. The team decided against that:</p>
-     <b>“Retries go through the queue, never straight to the gateway.”</b>
-     <span class="src">Whiteboard decision · checkout · 3 weeks ago</span>
+     <p>The deploy lowered the gateway timeout. Maya’s team found why that charges twice:</p>
+     <b>“Keep the gateway timeout at 30 seconds, or retries charge twice.”</b>
+     <span class="src">Maya · Payments · 3 weeks ago</span>
     </div></div>
    </div>
   </div>
@@ -116,7 +115,7 @@
    <div class="capin">
    <p class="eye">Their team</p>
    <h2 class="fill">Then it reaches the team.</h2>
-   <p class="body">The next person to touch that code sees what was learned before they repeat the mistake. So does the AI agent working beside them.</p>
+   <p class="body">Every engineer on the team, and every AI agent they work with, now starts from what Maya learned instead of learning it again.</p>
    </div>
   </section>
   <section class="beat cap" id="ring3">
@@ -215,6 +214,6 @@
 
 <script src="/vendor/gsap.min.js"></script>
 <script src="/vendor/lenis.min.js"></script>
-<script type="module" src="/home.js?v=35"></script>
+<script type="module" src="/home.js?v=36"></script>
 </body>
 </html>

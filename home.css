@@ -121,6 +121,8 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
   #hero .ctas{ justify-content:flex-start; }
   #hero h1{ max-width:13ch; font-size:clamp(2.6rem,5.4vw,5.2rem); }
 }
+/* smaller laptops and tablets on their side: a wider, taller scene so the card never covers the agent's last line */
+@media (min-width:52rem) and (max-width:80rem){ .js .scene{ width:40vw; aspect-ratio:1/1.18; top:13vh; } }
 /* phone: the headline sits high, the scene plays below the buttons */
 @media (max-width:51.99rem){
   #hero{ justify-content:flex-start; padding-top:17vh; }

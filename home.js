@@ -114,11 +114,12 @@ async function film() {
     });
     shown = i;
   };
-  const heroes = reel.slice(0, 4).map((v, i) => [v, i]);
+  const isHero = (v) => v.dataset.clip.startsWith('hero-');
+  const heroes = reel.map((v, i) => [v, i]).filter(([v]) => isHero(v));
   const real = heroes.filter(([v]) => v.dataset.state === 'real').map(([, i]) => i);
   const borrowed = heroes.find(([v]) => v.dataset.state === 'borrowed');
   // order: whiteboard opens, the night incident closes; Maya stands in for any missing moment
-  // the pair at one screen sits out: the hero follows one decision through three moments
+  // the hero follows Maya's lesson through three moments
   const ORDER = ['hero-02-whiteboard', 'hero-03-standup', 'hero-01-incident'];
   const rank = (i) => ORDER.indexOf(reel[i].dataset.clip);
   const sorted = real.filter((i) => rank(i) >= 0).sort((a, b) => rank(a) - rank(b));
@@ -132,7 +133,7 @@ async function film() {
     else { sceneReset(v); v.currentTime = inPoint(v); play(v); }
   };
 
-  // three scenes over the hero, one decision through them all: captured at the whiteboard, found by a teammate's
+  // three scenes over the hero, Maya's lesson through them all: captured at the whiteboard, found by a teammate's
   // agent weeks later, used by on-call during an outage. Each plays once per pass of its clip.
   const sc = $('#hero .scene'), flash = $('#hero .flash');
   const pick = (s) => sc && $(s, sc);
@@ -218,7 +219,7 @@ async function film() {
       if (end && scene) return v.pause(); // hold the last frame while the scene finishes; it moves the reel on
     }
     if (!end) return;
-    if (j < 4) next(v); else v.currentTime = inPoint(v);
+    if (isHero(v)) next(v); else v.currentTime = inPoint(v);
   }));
   showClip(cycle[0]);
   // side panes: shown from their poster, and only download and play once the story reaches the team
