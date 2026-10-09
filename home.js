@@ -292,8 +292,8 @@ async function film() {
       .to(P.footage, { scale: 1, y: 0, borderRadius: 16, duration: K.shrink, ease: 'power1.inOut' }, 0)
       // 2. it turns, and its layers separate
       .to(rig, { rotationY: -tilt, rotationX: tilt * 0.25, duration: d('tilt') }, K.tilt[0])
-      // the layers fan out like an exploded drawing, far enough that the traced moment is seen beside the footage
-      .to(P.trace, { opacity: 0.95, z: 80, x: pw * (phone() ? 0.02 : 0.035), y: -ph * 0.015, duration: d('tilt') * 0.7 }, K.tilt[0])
+      // the traced lines lie exactly on the footage, so every line sits on Maya; the grid fans out behind
+      .to(P.trace, { opacity: 0.95, z: 0, x: 0, y: 0, duration: d('tilt') * 0.7 }, K.tilt[0])
       .to(P.grid, { opacity: 0.55, z: -320, x: pw * (phone() ? 0.14 : 0.36), duration: d('tilt') * 0.7 }, K.tilt[0] + d('tilt') * 0.3)
       // 3. one person: the lesson lifts out of the moment, slowly, the whole chapter long
       .to(P.footage, { opacity: 0.55, duration: d('lesson') * 0.5 }, K.lesson[0])
