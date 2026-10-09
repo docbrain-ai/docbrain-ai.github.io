@@ -114,7 +114,8 @@ async function film() {
     });
     shown = i;
   };
-  const isHero = (v) => v.dataset.clip.startsWith('hero-');
+  const isHero = (v) => !!v && v.dataset.clip.startsWith('hero-');
+  const mayaAt = reel.findIndex((v) => v.dataset.clip === 'ch1-maya');
   const heroes = reel.map((v, i) => [v, i]).filter(([v]) => isHero(v));
   const real = heroes.filter(([v]) => v.dataset.state === 'real').map(([, i]) => i);
   const borrowed = heroes.find(([v]) => v.dataset.state === 'borrowed');
@@ -363,7 +364,7 @@ async function film() {
     if (p >= K.team[0] - 0.04) wakeTeam();
     if (p >= K.team[1] - 0.08) loadTiles();
     tl.progress(p);
-    showClip(p < K.shrink ? shown : 4);
+    showClip(p < K.shrink ? (isHero(reel[shown]) ? shown : cycle[reelTurn]) : mayaAt); // found by name: positions shift as clips come and go
     const teamOn = p >= K.mate[0], companyOn = p >= K.reach[0] - 0.08;
     // reads
     const s = sr();
