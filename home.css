@@ -71,6 +71,74 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
 /* a pool of shade behind the headline: it must read over the brightest footage (a whiteboard in daylight) */
 .heroin::before{ content:""; position:absolute; inset:-14% -18%; z-index:-1; border-radius:50%; pointer-events:none;
   background:radial-gradient(closest-side, rgba(0,0,0,.4), rgba(0,0,0,.2) 55%, rgba(0,0,0,0)); }
+/* the opening scene: the whiteboard photo goes to an agent, the agent files it, the company keeps it */
+#hero{ position:relative; }
+.scene{ display:none; }
+.js .scene{ display:block; position:absolute; right:clamp(1.5rem,5vw,5rem); top:15vh; width:min(31rem,34vw); aspect-ratio:1/1; pointer-events:none; z-index:1; }
+.js .scene > *{ opacity:0; }
+.flash{ position:absolute; inset:0; background:#fff; opacity:0; pointer-events:none; z-index:2; }
+.shot{ position:absolute; left:0; top:0; width:72%; margin:0; aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:#111;
+       border:1px solid rgba(255,255,255,.6); box-shadow:0 30px 60px rgba(0,0,0,.45); transform:rotate(-4deg); }
+.shot canvas{ width:100%; height:100%; display:block; filter:brightness(1.3) contrast(1.1); } /* a phone photo is brighter than the room looks */
+.shot figcaption{ position:absolute; left:.6rem; top:.5rem; font-family:var(--mono); font-size:.6rem; letter-spacing:.08em; color:#fff;
+                  background:rgba(0,0,0,.55); padding:.15rem .45rem; border-radius:3px; }
+.agentp{ position:absolute; right:0; top:31%; width:80%; padding:.8rem 1rem 1rem; border-radius:12px; text-align:left; color:#fff;
+         background:rgba(12,12,12,.62); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.22);
+         font-family:var(--mono); font-size:.78rem; line-height:1.5; box-shadow:0 30px 60px rgba(0,0,0,.4); }
+.agentp .ah{ display:flex; gap:.35rem; align-items:center; margin-bottom:.6rem; color:rgba(255,255,255,.55); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; }
+.agentp .ah i{ width:.5rem; height:.5rem; border-radius:50%; background:rgba(255,255,255,.22); }
+.agentp .ah span{ margin-left:.4rem; }
+.agentp p{ margin:.25rem 0; }
+.agentp .pr{ color:var(--glow); }
+.agentp .l2{ color:rgba(255,255,255,.6); }
+.agentp .ok{ color:#86D6A2; }
+.agentp .ty.typing::after{ content:"▍"; opacity:.7; }
+.kept{ position:absolute; left:6%; bottom:0; width:94%; padding:1rem 1.2rem 1.1rem; border-radius:12px; text-align:left; display:flex; flex-direction:column; gap:.45rem;
+       background:rgba(253,252,249,.97); color:var(--ink); box-shadow:0 30px 60px rgba(0,0,0,.45); }
+.kept .tt, .kept .ts{ font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
+.kept .ts{ color:#2E6B4C; }
+.kept b{ font-family:var(--serif); font-weight:500; font-size:clamp(1.05rem,1.5vw,1.3rem); line-height:1.3; }
+/* scene 2: a teammate's agent finds the decision before changing the code */
+.agentp.found, .agentp.chat{ top:18%; width:96%; }
+.mini{ margin-top:.7rem; padding:.75rem .9rem .85rem; border-radius:9px; background:rgba(253,252,249,.97); color:var(--ink); display:flex; flex-direction:column; gap:.35rem; }
+.mini .tt{ font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
+.mini b, .chat b{ font-family:var(--serif); font-weight:500; font-size:clamp(.98rem,1.3vw,1.15rem); line-height:1.3; }
+/* scene 3: on-call asks in the channel during the outage, the answer is posted for everyone */
+.chat .ah span{ margin-left:0; text-transform:none; letter-spacing:.04em; font-size:.7rem; color:rgba(255,255,255,.7); }
+.chat .msg{ display:flex; gap:.6rem; align-items:flex-start; margin:.5rem 0; }
+.chat .av{ flex:none; width:1.5rem; height:1.5rem; border-radius:6px; display:grid; place-items:center; font-style:normal; font-size:.7rem; background:#5B6B8C; color:#fff; }
+.chat .av.db{ background:var(--glow); color:var(--night); }
+.chat .reply > div{ display:flex; flex-direction:column; gap:.35rem; font-family:var(--sans); font-size:.82rem; line-height:1.45; }
+.chat .reply p{ margin:0; color:rgba(255,255,255,.88); }
+.chat .who{ font-weight:600; font-size:.78rem; }
+.chat .who em{ font-style:normal; font-weight:400; color:rgba(255,255,255,.5); }
+.chat .reply b{ padding-left:.7rem; border-left:2px solid var(--glow); color:#fff; }
+.chat .src{ font-family:var(--mono); font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.55); }
+/* desktop: the headline sits bottom left, the scene plays top right */
+@media (min-width:52rem){
+  #hero{ align-items:flex-start; text-align:left; justify-content:flex-end; padding-bottom:14vh; padding-left:clamp(2rem,7vw,7rem); }
+  #hero .heroin{ align-items:flex-start; }
+  #hero .ctas{ justify-content:flex-start; }
+  #hero h1{ max-width:13ch; font-size:clamp(2.6rem,5.4vw,5.2rem); }
+}
+/* phone: the headline sits high, the scene plays below the buttons */
+@media (max-width:51.99rem){
+  #hero{ justify-content:flex-start; padding-top:17vh; }
+  .js .scene{ left:4vw; right:4vw; top:auto; bottom:4vh; width:auto; height:38vh; aspect-ratio:auto; }
+  .shot{ width:54%; }
+  .agentp{ top:15%; width:78%; font-size:.66rem; padding:.6rem .8rem .7rem; }
+  .kept{ left:0; width:100%; padding:.8rem 1rem .9rem; }
+  .kept b{ font-size:1rem; }
+  .agentp.found, .agentp.chat{ top:auto; bottom:0; width:100%; }
+  .chat .reply > div{ font-size:.74rem; }
+  .mini b, .chat b{ font-size:.95rem; }
+}
+/* short phones: a taller scene, so the card never covers the agent's last line */
+@media (max-width:51.99rem) and (max-height:740px){
+  .js .scene{ height:46vh; bottom:3vh; }
+  .agentp{ top:12%; }
+  #hero{ padding-top:15vh; }
+}
 #hero .quiet{ text-shadow:0 1px 2px rgba(0,0,0,.5), 0 1px 12px rgba(0,0,0,.7); }
 /* captions hold in one band under the picture, the way a film subtitles itself */
 .js .cap{ min-height:110vh; justify-content:flex-start; padding-bottom:0; }

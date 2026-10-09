@@ -19,7 +19,7 @@
 <link rel="icon" href="/logo.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/site.css?v=6c31c54520">
-<link rel="stylesheet" href="/home.css?v=20">
+<link rel="stylesheet" href="/home.css?v=24">
 </head>
 <body>
 
@@ -63,7 +63,42 @@
     <a class="btn light" href="https://cal.com/docbrain/30min">Book a call</a>
     <a class="quiet" href="/how-it-works/#start">or run it yourself, free →</a>
    </div>
-  </div></header>
+  </div>
+  <div class="flash" aria-hidden="true"></div>
+  <div class="scene" role="img" aria-label="One decision, three moments. A photo of the whiteboard goes to a coding agent, which files the decision to DocBrain. Weeks later a teammate’s agent finds it before changing the same code. During an outage at night, on-call asks DocBrain and gets the same decision back.">
+   <figure class="shot" aria-hidden="true"><canvas></canvas><figcaption>whiteboard.jpg</figcaption></figure>
+   <div class="agentp" aria-hidden="true">
+    <div class="ah"><i></i><i></i><i></i><span>Your agent</span></div>
+    <p><span class="pr">›</span> <span class="ty">capture this decision</span></p>
+    <p class="l2">reading the photo…</p>
+    <p class="l3"><span class="ok">✓</span> filed to DocBrain · tied to checkout/retry</p>
+   </div>
+   <div class="kept" aria-hidden="true">
+    <span class="tt">Decided · at the whiteboard · checkout</span>
+    <b>“Retries go through the queue, never straight to the gateway.”</b>
+    <span class="ts">Kept for the whole company</span>
+   </div>
+   <div class="agentp found" aria-hidden="true">
+    <div class="ah"><i></i><i></i><i></i><span>A teammate’s agent · weeks later</span></div>
+    <p><span class="pr">›</span> <span class="ty">fix the double retry in checkout</span></p>
+    <p class="l2">checking what the company knows about checkout/retry…</p>
+    <div class="mini">
+     <span class="tt">Decided · at the whiteboard · 3 weeks ago</span>
+     <b>“Retries go through the queue, never straight to the gateway.”</b>
+    </div>
+   </div>
+   <div class="agentp chat" aria-hidden="true">
+    <div class="ah"><span># payments-oncall</span></div>
+    <p class="msg"><i class="av">S</i><span><span class="ty">/docbrain incident payments charged twice after deploy</span></span></p>
+    <div class="msg reply"><i class="av db">D</i><div>
+     <span class="who">DocBrain <em>· posted to the channel</em></span>
+     <p>The deploy sends retries straight to the gateway. The team decided against that:</p>
+     <b>“Retries go through the queue, never straight to the gateway.”</b>
+     <span class="src">Whiteboard decision · checkout · 3 weeks ago</span>
+    </div></div>
+   </div>
+  </div>
+  </header>
   <section class="beat cap" id="intro">
    <div class="capin">
    <h2 class="fill">Nothing your team learns should be learned twice.</h2>
@@ -180,6 +215,6 @@
 
 <script src="/vendor/gsap.min.js"></script>
 <script src="/vendor/lenis.min.js"></script>
-<script type="module" src="/home.js?v=30"></script>
+<script type="module" src="/home.js?v=35"></script>
 </body>
 </html>

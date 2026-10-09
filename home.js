@@ -104,8 +104,10 @@ async function film() {
   const inPoint = (v) => v._in || 0;
   const outPoint = (v) => Math.min(v._out ?? Infinity, (v.duration || Infinity) - 0.15);
   const seekIn = (v) => { const go = () => { try { v.currentTime = inPoint(v); } catch (e) {} }; v.readyState >= 1 ? go() : v.addEventListener('loadedmetadata', go, { once: true }); };
+  let sceneReset = () => {};
   const showClip = (i) => {
     if (i === shown) return;
+    sceneReset(reel[i]);
     reel.forEach((v, j) => {
       v.classList.toggle('on', j === i);
       if (j === i) { if (!reduce) v.preload = 'auto'; seekIn(v); play(v); } else v.pause();
@@ -115,19 +117,108 @@ async function film() {
   const heroes = reel.slice(0, 4).map((v, i) => [v, i]);
   const real = heroes.filter(([v]) => v.dataset.state === 'real').map(([, i]) => i);
   const borrowed = heroes.find(([v]) => v.dataset.state === 'borrowed');
-  // order: whiteboard opens, the night incident closes; any other real moment and Maya sit between
-  const ORDER = ['hero-02-whiteboard', 'hero-03-standup', 'hero-04-pair', 'hero-01-incident'];
+  // order: whiteboard opens, the night incident closes; Maya stands in for any missing moment
+  // the pair at one screen sits out: the hero follows one decision through three moments
+  const ORDER = ['hero-02-whiteboard', 'hero-03-standup', 'hero-01-incident'];
   const rank = (i) => ORDER.indexOf(reel[i].dataset.clip);
-  const sorted = [...real].sort((a, b) => rank(a) - rank(b));
+  const sorted = real.filter((i) => rank(i) >= 0).sort((a, b) => rank(a) - rank(b));
   const last = sorted.filter((i) => reel[i].dataset.clip === 'hero-01-incident');
   const middle = sorted.filter((i) => reel[i].dataset.clip !== 'hero-01-incident');
   const cycle = real.length ? [...middle, ...(borrowed ? [borrowed[1]] : []), ...last] : [0];
   let reelTurn = 0;
   const inHero = () => Number(stage.dataset.p || 0) < K.shrink;
+  const next = (v) => {
+    if (inHero() && cycle.length > 1 && !reduce) showClip(cycle[(reelTurn = (reelTurn + 1) % cycle.length)]);
+    else { sceneReset(v); v.currentTime = inPoint(v); play(v); }
+  };
+
+  // three scenes over the hero, one decision through them all: captured at the whiteboard, found by a teammate's
+  // agent weeks later, used by on-call during an outage. Each plays once per pass of its clip.
+  const sc = $('#hero .scene'), flash = $('#hero .flash');
+  const pick = (s) => sc && $(s, sc);
+  const shot = pick('.shot'), agentp = pick('.agentp:not(.found):not(.chat)'), kept = pick('.kept'), found = pick('.found'), chat = pick('.chat');
+  const typed = new Map(sc ? $$('.ty', sc).map((e) => [e, e.textContent]) : []);
+  let scene = null, snapped = false;
+  const BOARD = [0.53, 0.1, 0.27, 0.27]; // the part of the frame her phone is pointed at: the whiteboard, clear of her hands
+  const grab = (src, crop = BOARD) => {
+    const c = $('canvas', shot), w = src.videoWidth || src.naturalWidth, h = src.videoHeight || src.naturalHeight;
+    c.width = 640; c.height = 360;
+    try { c.getContext('2d').drawImage(src, crop[0] * w, crop[1] * h, crop[2] * w, crop[3] * h, 0, 0, 640, 360); } catch (e) {}
+  };
+  const type = (tl, el, at, duration = 1.0) => {
+    const said = typed.get(el), n = { v: 0 };
+    tl.call(() => { el.textContent = ''; el.classList.add('typing'); }, null, Math.max(0, at - 0.01))
+      .to(n, { v: said.length, duration, ease: 'none', onUpdate: () => { el.textContent = said.slice(0, Math.round(n.v)); } }, at)
+      .call(() => el.classList.remove('typing'), null, at + duration + 0.1);
+  };
+  const rise = { opacity: 0, y: 16 }, risen = { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' };
+  const SCENES = {
+    // she frames the board, takes the photo; her agent files the decision; the card comes back kept
+    'hero-02-whiteboard': { at: 5.4, parts: () => [shot, agentp, kept], run: (tl, v) => {
+      grab(v);
+      const lines = $$('.l2, .l3', agentp);
+      tl.set(lines, { opacity: 0 }, 0)
+        .to(flash, { opacity: 0.75, duration: 0.06 }, 0)
+        .to(flash, { opacity: 0, duration: 0.6 }, 0.06)
+        .fromTo(shot, { opacity: 0, scale: 1.3, rotation: 0, y: 30 }, { opacity: 1, scale: 1, rotation: -4, y: 0, duration: 0.8, ease: 'power3.out' }, 0.05)
+        .fromTo(agentp, rise, risen, 0.7);
+      type(tl, $('.ty', agentp), 1.1);
+      tl.to(lines[0], { opacity: 1, duration: 0.3 }, 2.3)
+        .fromTo(lines[1], { y: 4 }, { opacity: 1, y: 0, duration: 0.3 }, 3.4)
+        .fromTo(kept, { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power3.out' }, 4.0)
+        .to([shot, agentp, kept], { opacity: 0, y: -10, duration: 0.6, stagger: 0.08 }, 7.6);
+      // the footage keeps moving under the scene: slowed while the agent works, and a slow push-in so it never sits still
+      v.playbackRate = 0.7;
+      tl.fromTo(v, { scale: 1 }, { scale: 1.07, duration: tl.duration(), ease: 'sine.inOut' }, 0);
+    } },
+    // weeks later, someone else is about to change the same code; their agent checks first and finds it
+    'hero-03-standup': { at: 0.8, parts: () => [found], run: (tl) => {
+      const l2 = $('.l2', found), mini = $('.mini', found);
+      tl.set([l2, mini], { opacity: 0 }, 0).fromTo(found, rise, risen, 0);
+      type(tl, $('.ty', found), 0.4, 1.1);
+      tl.to(l2, { opacity: 1, duration: 0.3 }, 1.7)
+        .fromTo(mini, { opacity: 0, y: 14, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out' }, 2.6)
+        .to(found, { opacity: 0, y: -10, duration: 0.6 }, 6.3);
+    } },
+    // an outage at night: on-call asks in the channel, and the answer quotes the same decision
+    'hero-01-incident': { at: 2.6, parts: () => [chat], run: (tl) => {
+      const reply = $('.reply', chat);
+      tl.set(reply, { opacity: 0 }, 0).fromTo(chat, rise, risen, 0);
+      type(tl, $('.ty', chat), 0.4, 1.2);
+      tl.fromTo(reply, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 2.2)
+        .to(chat, { opacity: 0, y: -10, duration: 0.6 }, 6.2);
+    } },
+  };
+  const sceneOf = (v) => (sc && v.dataset.state === 'real' && SCENES[v.dataset.clip]) || null;
+  sceneReset = (v) => {
+    if (!sc) return;
+    if (scene) scene.kill();
+    scene = null; snapped = false;
+    typed.forEach((said, el) => { el.textContent = said; el.classList.remove('typing'); });
+    gsap.set([...sc.children, flash], { opacity: 0, clearProps: 'transform' });
+    gsap.set($$('.l2, .l3, .mini, .reply', sc), { clearProps: 'opacity,transform' });
+    reel.forEach((r) => { r.playbackRate = 1; gsap.set(r, { clearProps: 'transform' }); });
+    const S = v && sceneOf(v);
+    if (reduce && S) { // no motion: the finished scene, still
+      if (S.parts().includes(shot)) { const img = new Image(); img.onload = () => grab(img, [0, 0, 1, 1]); img.src = '/media/hero-02-photo.jpg'; }
+      gsap.set(S.parts(), { opacity: 1 });
+    }
+  };
+  const runScene = (v, S) => {
+    snapped = true;
+    scene = gsap.timeline({ onComplete: () => next(v) });
+    S.run(scene, v);
+  };
   reel.forEach((v, j) => v.addEventListener('timeupdate', () => {
-    if (j !== shown || v.currentTime < outPoint(v)) return;
-    if (j < 4 && inHero() && cycle.length > 1 && !reduce) showClip(cycle[(reelTurn = (reelTurn + 1) % cycle.length)]);
-    else v.currentTime = inPoint(v);
+    if (j !== shown) return;
+    const t = v.currentTime, end = t >= outPoint(v);
+    const S = !reduce && sceneOf(v);
+    if (S) {
+      if (!snapped && t >= S.at && !end && inHero()) return runScene(v, S);
+      if (end && scene) return v.pause(); // hold the last frame while the scene finishes; it moves the reel on
+    }
+    if (!end) return;
+    if (j < 4) next(v); else v.currentTime = inPoint(v);
   }));
   showClip(cycle[0]);
   // side panes: shown from their poster, and only download and play once the story reaches the team
@@ -315,6 +406,7 @@ async function film() {
       const h = clamp(scrollY / innerHeight);
       heroin.style.opacity = String(1 - span(h, 0.02, 0.2));
       heroin.style.transform = `translateY(${-h * 60}px)`;
+      if (sc) sc.style.opacity = heroin.style.opacity;
       const rs = caps.map((c) => c.parentElement.getBoundingClientRect());
       caps.forEach((c, i) => { c.style.opacity = String(span(1 - rs[i].top / innerHeight, 0.2, 0.42) * span(rs[i].bottom / innerHeight, 0.98, 1.16)); });
       nav.classList.toggle('dark', story.getBoundingClientRect().bottom > 70);
