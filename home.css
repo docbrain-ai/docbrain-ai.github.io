@@ -35,6 +35,7 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
 .standin{ position:absolute; right:.8rem; top:.7rem; z-index:2; font-family:var(--mono); font-size:.58rem; letter-spacing:.14em;
           text-transform:uppercase; color:var(--moonDim); background:rgba(14,13,11,.6); padding:.2rem .45rem; border-radius:3px; }
 .pane.glass{ background:rgba(255,255,255,.025); border:1px solid var(--glass); overflow:visible; }
+.pane.glass.trace{ background:none; border:none; box-shadow:none; } /* only the lines float over the footage: one frame, not two */
 .pane.trace canvas{ width:100%; height:100%; display:block; border-radius:16px; }
 .pane.grid{ background-image:linear-gradient(var(--glass) 1px, transparent 1px), linear-gradient(90deg, var(--glass) 1px, transparent 1px);
             background-size:calc(var(--pw) / 8) calc(var(--pw) / 8); background-position:-1px -1px; opacity:.5; }
