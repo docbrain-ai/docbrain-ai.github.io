@@ -19,7 +19,7 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 // ---------------------------------------------------------------- media: real clip, or a labelled stand-in
 const STANDIN = ['/assets/reason-expired.mp4', '/assets/agent-in-the-editor.mp4'];
 // media/manifest.json lists the footage that exists, so the page never asks for a file that isn't there
-const manifest = fetch('/media/manifest.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({}))
+const manifest = fetch('/media/manifest.json', { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : {})).catch(() => ({}))
   .then((m) => ({ have: new Set(m.files || []), trims: m.trims || {} }));
 const exists = (url) => manifest.then((m) => m.have.has(url.replace('/media/', '')));
 let standinTurn = 0;
@@ -52,7 +52,10 @@ async function loadClip(v) {
   }
   return 'standin';
 }
-const play = (v) => { if (!reduce && v && v.src && v.play) v.play().catch(() => {}); };
+// Safari refuses autoplay in Low Power Mode or when auto-play is off for the site; those clips start on the first tap or key
+const refused = new Set();
+const play = (v) => { if (reduce || !v || !v.src || !v.play) return; v.muted = true; v.play().then(() => refused.delete(v), () => refused.add(v)); };
+['pointerdown', 'touchend', 'keydown'].forEach((t) => addEventListener(t, () => refused.forEach((v) => { refused.delete(v); if (v.classList.contains('on')) play(v); }), { passive: true }));
 
 // ---------------------------------------------------------------- the trace: any clip, redrawn as line art
 function tracer(srcCanvasW, srcCanvasH) {
@@ -101,8 +104,19 @@ async function film() {
   const inPoint = (v) => v._in || 0;
   const outPoint = (v) => Math.min(v._out ?? Infinity, (v.duration || Infinity) - 0.15);
   const seekIn = (v) => { const go = () => { try { v.currentTime = inPoint(v); } catch (e) {} }; v.readyState >= 1 ? go() : v.addEventListener('loadedmetadata', go, { once: true }); };
+  // under the headline, a quiet line names where the moment on screen was learned
+  const LEARNED = { 'hero-02-whiteboard': 'at a whiteboard', 'hero-03-standup': 'late, at one desk', 'hero-04-pair': 'over someone\u2019s shoulder', 'hero-01-incident': 'during an outage at night' };
+  const learned = $('#hero .learned');
+  const label = (v) => {
+    const where = v.dataset.state === 'real' && LEARNED[v.dataset.clip];
+    if (!learned || learned.dataset.clip === (where ? v.dataset.clip : '')) return;
+    learned.dataset.clip = where ? v.dataset.clip : '';
+    learned.classList.add('out');
+    setTimeout(() => { learned.textContent = where ? `Learned \u00b7 ${where}` : ''; learned.classList.remove('out'); }, reduce ? 0 : 400);
+  };
   const showClip = (i) => {
     if (i === shown) return;
+    if (i < 4) label(reel[i]);
     reel.forEach((v, j) => {
       v.classList.toggle('on', j === i);
       if (j === i) { if (!reduce) v.preload = 'auto'; seekIn(v); play(v); } else v.pause();
@@ -197,11 +211,11 @@ async function film() {
       // 2. it turns, and its layers separate
       .to(rig, { rotationY: -tilt, rotationX: tilt * 0.25, duration: d('tilt') }, K.tilt[0])
       // the layers fan out like an exploded drawing, far enough that the traced moment is seen beside the footage
-      .to(P.trace, { opacity: 0.95, z: 80, x: pw * (phone() ? 0.05 : 0.09), y: -ph * 0.04, duration: d('tilt') * 0.7 }, K.tilt[0])
+      .to(P.trace, { opacity: 0.95, z: 80, x: pw * (phone() ? 0.02 : 0.035), y: -ph * 0.015, duration: d('tilt') * 0.7 }, K.tilt[0])
       .to(P.grid, { opacity: 0.55, z: -320, x: pw * (phone() ? 0.14 : 0.36), duration: d('tilt') * 0.7 }, K.tilt[0] + d('tilt') * 0.3)
       // 3. one person: the lesson lifts out of the moment, slowly, the whole chapter long
       .to(P.footage, { opacity: 0.55, duration: d('lesson') * 0.5 }, K.lesson[0])
-      .to(P.lesson, { opacity: 1, scale: 1, duration: d('lesson') * 0.35 }, K.lesson[0])
+      .to(P.lesson, { opacity: 1, scale: 1, duration: d('lesson') * 0.15 }, K.lesson[0])
       .to(P.lesson, { z: phone() ? 90 : 300, duration: d('lesson') }, K.lesson[0])
       .to(rig, { rotationY: -tilt * 0.75, duration: d('lesson') }, K.lesson[0])
       // 4. the team: the rig turns toward the people the lesson reaches
@@ -253,7 +267,7 @@ async function film() {
     return [c[0] + dx * s, c[1] + dy * s];
   };
 
-  const trace = tracer(320, 180);
+  const trace = tracer(640, 360);
   const traceCanvas = $('canvas', P.trace);
   let lastTrace = 0, tracedStill = null;
   const chapters = $$('.beat'), caps = $$('.capin');
@@ -318,8 +332,8 @@ async function film() {
     }
     if (traceVisible && live) {
       const now = performance.now();
-      if (live._still) { if (tracedStill !== live._still && trace(live, traceCanvas, [239, 234, 224])) tracedStill = live._still; }
-      else if (now - lastTrace > 100) { lastTrace = now; trace(live, traceCanvas, [239, 234, 224]); tracedStill = null; }
+      if (live._still) { if (tracedStill !== live._still && trace(live, traceCanvas, [255, 255, 255], 0.07)) tracedStill = live._still; }
+      else if (now - lastTrace > 100) { lastTrace = now; trace(live, traceCanvas, [255, 255, 255], 0.07); tracedStill = null; }
     }
   };
   addEventListener('resize', () => { build(); lastKey = ''; frame(); });

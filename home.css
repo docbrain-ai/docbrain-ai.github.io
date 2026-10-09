@@ -1,6 +1,6 @@
 /* the mission homepage: a dark film of how one lesson travels, then the daylight world it serves */
 :root{
-  --night:#0E0D0B; --night2:#171512; --moon:#EFEAE0; --moonDim:#A39C8E; --wire:rgba(239,234,224,.55); --glass:rgba(239,234,224,.22);
+  --night:#0E0D0B; --night2:#171512; --moon:#FFFFFF; --moonDim:#A39C8E; --wire:rgba(255,255,255,.55); --glass:rgba(255,255,255,.22);
   --glow:#E39A55; --glowS:rgba(227,154,85,.2);
   --green:#17362A; --greenInk:#E8EFE9; --greenDim:rgba(232,239,233,.28);
   --tan:#B9A48C; --tanInk:#1B1915;
@@ -34,7 +34,7 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
 .pane:has(video.on[data-state="standin"]) .standin{ display:block; }
 .standin{ position:absolute; right:.8rem; top:.7rem; z-index:2; font-family:var(--mono); font-size:.58rem; letter-spacing:.14em;
           text-transform:uppercase; color:var(--moonDim); background:rgba(14,13,11,.6); padding:.2rem .45rem; border-radius:3px; }
-.pane.glass{ background:rgba(239,234,224,.025); border:1px solid var(--glass); overflow:visible; }
+.pane.glass{ background:rgba(255,255,255,.025); border:1px solid var(--glass); overflow:visible; }
 .pane.trace canvas{ width:100%; height:100%; display:block; border-radius:16px; }
 .pane.grid{ background-image:linear-gradient(var(--glass) 1px, transparent 1px), linear-gradient(90deg, var(--glass) 1px, transparent 1px);
             background-size:calc(var(--pw) / 8) calc(var(--pw) / 8); background-position:-1px -1px; opacity:.5; }
@@ -59,19 +59,22 @@ nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--mo
 .wires path.w.hot{ stroke:var(--glow); stroke-width:1.6; }
 .wires marker path{ fill:var(--wire); }
 .wires circle{ fill:var(--glow); }
-.veil{ position:absolute; inset:0; pointer-events:none; background:linear-gradient(rgba(14,13,11,.55), rgba(14,13,11,.15) 30%, rgba(14,13,11,.15) 55%, rgba(14,13,11,.85)); }
+.veil{ position:absolute; inset:0; pointer-events:none; background:linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,0) 26%, rgba(0,0,0,0) 62%, rgba(0,0,0,.7)); }
 
 .beats{ position:relative; z-index:2; }
 .beat{ min-height:130vh; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; text-align:center;
        padding:0 clamp(1.25rem,4vw,3rem) 12vh; gap:.9rem; }
 #hero{ min-height:100vh; justify-content:center; padding-bottom:0; }
-#hero h1{ max-width:16ch; color:var(--moon); font-size:clamp(2.6rem,6.4vw,5.6rem); line-height:1; letter-spacing:-.035em; text-shadow:0 2px 30px rgba(0,0,0,.35); }
+#hero h1{ max-width:16ch; color:var(--moon); font-size:clamp(2.6rem,6.4vw,5.6rem); line-height:1; letter-spacing:-.035em; text-shadow:0 1px 2px rgba(0,0,0,.35), 0 2px 18px rgba(0,0,0,.55), 0 0 60px rgba(0,0,0,.35); }
 #hero .ctas{ justify-content:center; }
 .heroin{ display:flex; flex-direction:column; align-items:center; gap:1.2rem; will-change:opacity, transform; position:relative; isolation:isolate; }
 /* a pool of shade behind the headline: it must read over the brightest footage (a whiteboard in daylight) */
 .heroin::before{ content:""; position:absolute; inset:-14% -18%; z-index:-1; border-radius:50%; pointer-events:none;
-  background:radial-gradient(closest-side, rgba(14,13,11,.62), rgba(14,13,11,.38) 55%, rgba(14,13,11,0)); }
-#hero .quiet{ text-shadow:0 1px 10px rgba(0,0,0,.6); }
+  background:radial-gradient(closest-side, rgba(0,0,0,.4), rgba(0,0,0,.2) 55%, rgba(0,0,0,0)); }
+.learned{ min-height:1em; margin:.4rem 0 0; font-family:var(--mono); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--moon); opacity:.9; text-shadow:0 1px 2px rgba(0,0,0,.6), 0 1px 12px rgba(0,0,0,.8); transition:opacity .4s ease; }
+.learned.out{ opacity:0; }
+#hero .quiet{ text-shadow:0 1px 2px rgba(0,0,0,.5), 0 1px 12px rgba(0,0,0,.7); }
 /* captions hold in one band under the picture, the way a film subtitles itself */
 .js .cap{ min-height:110vh; justify-content:flex-start; padding-bottom:0; }
 .js .capin{ isolation:isolate; position:sticky; top:63vh; display:flex; flex-direction:column; align-items:center; gap:.7rem; will-change:opacity; }
@@ -169,14 +172,14 @@ html:not(.js) .rot > span:not(:first-child){ display:none; }
 /* without script the film can't play: its stage is left out and the words stand alone on the dark */
 html:not(.js) .stage{ display:none; }
 
-footer{ position:relative; z-index:3; background:#000; color:#EFEAE0; padding-block:4rem 0; overflow:hidden; }
-footer .brand{ color:#EFEAE0; }
+footer{ position:relative; z-index:3; background:#000; color:#FFFFFF; padding-block:4rem 0; overflow:hidden; }
+footer .brand{ color:#FFFFFF; }
 .fc{ display:flex; flex-direction:column; gap:.45rem; }
 .fc a{ color:#C9C2B4; text-decoration:none; font-size:.9rem; } .fc a:hover{ color:#fff; }
 .fh{ font-family:var(--mono); font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:#8F887B; }
 footer .dim{ color:#8F887B; }
 @media (min-width:52rem){ .foot{ grid-template-columns:1.6fr 1fr 1fr 1fr; } }
-.tagline{ margin:4rem 0 0; padding-bottom:3.5rem; font-family:var(--serif); font-weight:500; font-size:clamp(2.2rem,6.2vw,6rem); line-height:1; letter-spacing:-.04em; color:#EFEAE0; }
+.tagline{ margin:4rem 0 0; padding-bottom:3.5rem; font-family:var(--serif); font-weight:500; font-size:clamp(2.2rem,6.2vw,6rem); line-height:1; letter-spacing:-.04em; color:#FFFFFF; }
 
 @media (max-width:51.99rem){
   .story{ --pw:86vw; }

@@ -12,6 +12,10 @@
   "hero-01-incident.mp4",
   "hero-02-whiteboard.jpg",
   "hero-02-whiteboard.mp4",
+  "hero-03-standup.jpg",
+  "hero-03-standup.mp4",
+  "hero-04-pair.jpg",
+  "hero-04-pair.mp4",
   "tile-agent.jpg",
   "tile-audit.jpg",
   "tile-handover.jpg",
@@ -35,6 +39,10 @@
   "hero-02-whiteboard.mp4": [
    0.2,
    9.7
+  ],
+  "hero-04-pair.mp4": [
+   0.3,
+   8.3
   ]
  }
 }
