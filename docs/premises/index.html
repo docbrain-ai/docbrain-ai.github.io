@@ -1788,7 +1788,7 @@ check" — never "broken".</p>
    capture is checked against the files it describes and is flagged when one of them moves
    or disappears. Without it a commit capture could never be checked against the code again.
    Repeats collapse to one premise, and the same 100-item cap applies. A commit capture sent
-   with no files declares nothing and waits in the review queue instead.</li>
+   with no files declares nothing; it is served at once, labelled <em>Not checked against code</em>.</li>
 <li><strong>Backfill.</strong> <code>POST /api/v1/premises/backfill</code> (admin) extracts premises for every
    already-indexed fragment that has none. Safe to re-run; it never duplicates.</li>
 </ol>
@@ -1888,7 +1888,10 @@ dated to the commit it was observed at.</p>
 <li><strong>Answers:</strong> the monitor watches <em>stored</em> claims; the answer-time claim verifier
   (<code>RAG_CLAIM_VERIFICATION</code>) independently checks any path an <em>answer</em> cites against the
   same listings. An answer that cites a dead path carries its own correction note, whether
-  or not the underlying fragment's premise has been swept yet.</li>
+  or not the underlying fragment's premise has been swept yet. An answer's path, never seen
+  to exist, is reported only when a connected repository holds its first two folders, so a
+  one-folder path such as <code>scripts/x.sh</code> is not flagged in answers; a premise that has held
+  keeps the first-segment rule below, so it is still caught here.</li>
 </ul>
 <h2 id="the-pull-request-check">The pull-request check<a class="headerlink" href="#the-pull-request-check" title="Permanent link">&para;</a></h2>
 <p><code>docbrain check-claims --diff &lt;file|-&gt;</code> asks which live claims a change would falsify, for
@@ -1980,8 +1983,9 @@ refused with exit 3 for the same reason; an empty file means "nothing removed".)
   restricted key may see.</li>
 </ul>
 <h2 id="behaviors-worth-knowing">Behaviors worth knowing<a class="headerlink" href="#behaviors-worth-knowing" title="Permanent link">&para;</a></h2>
-<p>These follow from the attribution rule — a premise belongs to sources whose listing contains
-its first path segment — and are deliberate trade-offs in favor of precision:</p>
+<p>These follow from the attribution rules — a premise belongs to sources whose listing contains
+its first path segment; a path in an answer, or one a capture declares when it is written, belongs
+to sources that hold its first two folders — and are deliberate trade-offs in favor of precision:</p>
 <ul>
 <li><strong>Deleting a directory's only file reads as <code>uncheckable</code>, not <code>broken</code>.</strong> If
   <code>proof/notes.txt</code> was the only file under <code>proof/</code>, removing it removes the whole
@@ -1989,8 +1993,15 @@ its first path segment — and are deliberate trade-offs in favor of precision:<
   "nothing can speak to this" rather than guessing that a wider deletion was a targeted one.</li>
 <li><strong>A premise can re-attribute across sources.</strong> If two connected repos both have a <code>docs/</code>
   tree, a <code>docs/...</code> premise is checked against both, and is <code>broken</code> only when an owning
-  source decisively lacks it. This is the same any-owning-source semantics the answer-time
-  verifier uses.</li>
+  source decisively lacks it. The answer-time verifier also checks against every owning
+  source, but counts as owners only the sources that hold the path's first two folders.</li>
+<li><strong>Answers and new captures need two folders, premises need one.</strong> A path nobody has seen
+  exist (one an answer cites, or one a capture declares when it is written) is reported missing
+  only when a connected repository holds its first two folders, because top-level names like
+  <code>docs/</code> and <code>scripts/</code> are shared by most repositories and would otherwise flag files of
+  codebases you never connected. A premise that has held was seen to exist, which is better
+  evidence of what it is about, so it keeps the first-segment rule and still breaks when its
+  one-folder file is deleted.</li>
 <li><strong>Precision over coverage, everywhere.</strong> One false "your runbook is wrong" costs more
   than ten missed ones. That asymmetry drives every rule above: deterministic oracles only,
   dated absences, no guessing between candidates, and silence whenever the evidence is

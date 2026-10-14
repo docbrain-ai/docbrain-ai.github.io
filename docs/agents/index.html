@@ -1120,10 +1120,82 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#all-eleven-tools" class="md-nav__link">
+  <a href="#what-a-capture-never-holds" class="md-nav__link">
     <span class="md-ellipsis">
       
-        All eleven tools
+        What a capture never holds
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What a capture never holds">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#refused-or-redacted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refused or redacted
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-model-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The model check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-secret-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom secret rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-docbrain-keeps-of-a-finding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What DocBrain keeps of a finding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#honest-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Honest limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#all-twelve-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All twelve tools
       
     </span>
   </a>
@@ -1719,10 +1791,82 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#all-eleven-tools" class="md-nav__link">
+  <a href="#what-a-capture-never-holds" class="md-nav__link">
     <span class="md-ellipsis">
       
-        All eleven tools
+        What a capture never holds
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What a capture never holds">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#refused-or-redacted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refused or redacted
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-model-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The model check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-secret-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom secret rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-docbrain-keeps-of-a-finding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What DocBrain keeps of a finding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#honest-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Honest limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#all-twelve-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All twelve tools
       
     </span>
   </a>
@@ -1782,7 +1926,7 @@ does not cross people, it does not expire when the system changes, and it carrie
 no source anyone can check. Your coding agent is, however, the best instrument
 for both halves of the actual fix — it is present at the second the knowledge is
 created, and it is the thing asking for it at the moment of the next change.</p>
-<p>Your coding agent already has DocBrain's tools. The <a href="https://github.com/docbrain-ai/docbrain/tree/main/crates/docbrain-mcp"><code>docbrain-mcp</code></a> server (MIT, in <code>crates/</code>) gives Claude Code, Cursor, and any MCP-compatible editor eleven tools. These five are the ones this page's workflow uses; the <a href="#all-eleven-tools">full table</a> is at the end:</p>
+<p>Your coding agent already has DocBrain's tools. The <a href="https://github.com/docbrain-ai/docbrain/tree/main/crates/docbrain-mcp"><code>docbrain-mcp</code></a> server (MIT, in <code>crates/</code>) gives Claude Code, Cursor, and any MCP-compatible editor twelve tools. These five are the ones this page's workflow uses; the <a href="#all-twelve-tools">full table</a> is at the end:</p>
 <table>
 <thead>
 <tr>
@@ -1873,7 +2017,7 @@ procedure (how we deploy, rotate, roll back, get access), how a system is actual
    (paths that must exist), so DocBrain can flag it the day one of them disappears;</li>
 <li>shows the draft exactly as it will be sent and waits for your yes;</li>
 <li>writes it with <code>docbrain_annotate</code> (or <code>docbrain_commit_capture</code> for the <em>why</em> of a commit) and
-   reports where it landed: indexed, or queued for review.</li>
+   reports what DocBrain answered: the capture's id and any warning — it is served at once.</li>
 </ol>
 <p>It offers itself once, at a natural breakpoint, never mid-task, and a "no" ends it. Nothing leaves the
 session unapproved. It never captures secrets, tokens, hostnames from <code>.env</code> files, customer or
@@ -1939,11 +2083,92 @@ root, not at an org that has recorded nothing.</p>
 <li>You and your agent fix something real.</li>
 <li>The agent asks DocBrain whether that knowledge already exists (<code>docbrain_context</code> for the files involved — a lookup in the record, not a guess).</li>
 <li>If the org doesn't have it, the agent drafts a capture and <strong>asks you first</strong>. You see exactly what leaves the machine.</li>
-<li>Approved captures land as fragments, anchored to the file and line range they came from. A capture that declares a premise becomes checkable: DocBrain re-verifies it against your codebase and flags it the moment it stops being true, without anyone reviewing anything. A capture anchored to nothing checkable is queued for a human instead of served.</li>
+<li>A capture you approve is served at once, anchored to the file and line range it came from, and labelled with who wrote it and what checks it. One that declares a premise reads <em>Checked against code</em>: DocBrain re-verifies it against your codebase, flags it the moment it stops being true, and tells you once. One anchored to nothing checkable is served too, labelled <em>Not checked against code</em>, so every reader knows.</li>
 </ol>
-<h2 id="all-eleven-tools">All eleven tools<a class="headerlink" href="#all-eleven-tools" title="Permanent link">&para;</a></h2>
+<h2 id="what-a-capture-never-holds">What a capture never holds<a class="headerlink" href="#what-a-capture-never-holds" title="Permanent link">&para;</a></h2>
+<p>A capture is shared with everyone who can read its space, so DocBrain checks every capture for secrets before it is
+saved. Two checks run. A fixed check recognises the shapes of private keys, access tokens and API keys in published
+formats, connection strings and links with a password, signed links and long random-looking values, also through
+common encodings and tricks such as invisible characters, look-alike letters and spaced-out text, and together with
+your other captures from the last 24 hours. Then the language model your DocBrain is configured with reads the
+capture's text and lists any password, key or token written in it, including one written in plain words and values
+the text calls test, example or sample values. Write where a secret lives (<code>${DB_PASSWORD}</code>, <code>&lt;password&gt;</code>, "in the
+team vault") instead of a value. The capture's text is sent to that model's provider for this check.</p>
+<p>If a capture you write holds a secret, it is not saved, and you are told what kind it looked like. After three of
+these in ten minutes, capturing pauses for ten minutes. When DocBrain writes a summary for you (from a chat thread or a
+CI run), it removes the secret, keeps the rest, and tells you what kind was removed.</p>
+<p>If the model cannot be reached, a capture is saved after the fixed check and checked by the model as soon as it is
+back; if a secret is then found, the capture is withdrawn (a summary has the secret removed), the answers that used it
+are cleaned, and you are told. Until then it may be served. When the detection rules, the model or its instructions
+change, every existing capture is checked again. Every answer and reply is checked again for the fixed shapes just
+before it is sent; plain-word passwords are checked in captures, not in answers.</p>
+<p><strong>What we cannot promise:</strong> a secret described in words, a value deliberately disguised in small pieces, or a value
+deliberately split around a note can pass. Every capture says who wrote it, is visible only to its space, and can be
+withdrawn at once or erased by an admin. Never put a secret in a capture. If one was ever served, treat it as exposed
+and rotate it.</p>
+<h3 id="refused-or-redacted">Refused or redacted<a class="headerlink" href="#refused-or-redacted" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>A capture a person writes</strong> (the console, the CLI, <code>docbrain_annotate</code>, <code>docbrain_commit_capture</code>,
+  <code>docbrain_revise</code>) is <strong>refused</strong> when it holds a secret: nothing is saved, and the reply names the kind of secret
+  and the field it was in, never the value. Remove the value and send again, saying where the secret lives instead.
+  Do not encode, split, space out or reword the value to get past the check. Repeated refusals count toward the pause.</li>
+<li><strong>A summary DocBrain writes</strong> (a chat-thread capture, a CI run analysis) is <strong>redacted</strong>: the secret is replaced by
+  a marker such as <code>[removed: password]</code>, the rest is kept, and the person who asked is told the kind that was
+  removed. These never pause anyone.</li>
+</ul>
+<h3 id="the-model-check">The model check<a class="headerlink" href="#the-model-check" title="Permanent link">&para;</a></h3>
+<p>The second check uses your configured fast model. Each capture's text is sent to that model's provider; choose a
+local provider if capture text must not leave your network. The check's time budget is
+<code>CAPTURE_SECRET_CHECK_TIMEOUT_SECS</code> (default 10 seconds; see the <a href="../configuration/#secret-check-on-captures">configuration reference</a>).
+A weaker model finds less: the fixed check does not depend on the model, the plain-word check does.</p>
+<h3 id="custom-secret-rules">Custom secret rules<a class="headerlink" href="#custom-secret-rules" title="Permanent link">&para;</a></h3>
+<p>An admin can add a rule for a secret shape your organisation uses (Govern → Quality, rule type <strong>Secret Pattern</strong>).</p>
+<ul>
+<li><strong>Dry run before save.</strong> A rule is checked before it can be saved: DocBrain shows how often it matches ordinary
+  notes and existing captures, and refuses a rule that is invalid, too slow, or would refuse too many ordinary notes.
+  The save goes through only after the admin has seen that check. The same applies to enabling or importing a rule.</li>
+<li><strong>Second decision on what it withdrew.</strong> When a saved rule matches existing captures, they are withdrawn and wait
+  for an admin's decision on that rule version ("Waiting for your decision"): <strong>Remove the values</strong> (Confirm) removes
+  them for good — a capture a person wrote stays withdrawn without them, a summary DocBrain made is served again — or
+  <strong>Restore these captures</strong> (Decline) serves them again as written. An admin can also confirm or restore a single
+  capture from the captures list.</li>
+<li><strong>Restored values are shown for that rule version.</strong> After a restore, the values that rule matched in the
+  restored captures when the decision was made are no longer masked by it, in those captures and in the answers and
+  sources served from them, for as long as the rule stays at that version (see the limits below).</li>
+<li><strong>A new rule version checks again.</strong> Editing a rule makes a new version: every capture is checked again under it,
+  and restorations made under the old version do not carry over.</li>
+<li><strong>A person must decide.</strong> An admin key with no user behind it (a keyless key) cannot create, change, enable,
+  delete or import a secret rule, and cannot confirm or restore what one withdrew; use a key created by a signed-in
+  admin. Every decision names the admin who made it.</li>
+</ul>
+<h3 id="what-docbrain-keeps-of-a-finding">What DocBrain keeps of a finding<a class="headerlink" href="#what-docbrain-keeps-of-a-finding" title="Permanent link">&para;</a></h3>
+<p>Never the secret. A finding is stored as a keyed fingerprint (HMAC-SHA256 under the deployment's fingerprint key), so
+someone holding the database or a backup cannot guess a short value from it. The key is generated on first start
+(Docker Compose: the <code>docbrain-keys</code> volume; Helm: its own Secret, kept on uninstall) unless you supply one, and is never stored in
+the database. Back it up, separately from the database backups: a lost or changed key reopens every restored or
+declined finding. See <a href="../configuration/#the-fingerprint-key">the fingerprint key</a>.</p>
+<h3 id="honest-limits">Honest limits<a class="headerlink" href="#honest-limits" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Detection recognises shapes and, through the model, written credentials. A secret described in words, a short
+  value with nothing around it, or one deliberately disguised or split into pieces can pass.</li>
+<li>The model is not deterministic, and a weaker configured model detects less.</li>
+<li>While the model is unreachable or over budget, a capture is saved after the fixed check and may be served until the
+  model checks it. Answers already given are cleaned when a secret is found, but replies already sent to chat, MCP
+  clients and webhooks cannot be recalled.</li>
+<li>Answers are checked for the fixed shapes only; plain-word passwords are checked in captures, not in answers.</li>
+<li>Ingested documents keep their secrets at their source; DocBrain removes recognised secrets from what it serves,
+  and the source system is where they must be removed.</li>
+<li>Links are not followed: a link to a paste or file share that holds a secret is served as a link.</li>
+<li>A restore covers less than everything: it exempts only the values present when the admin decided (a value found
+  later at the same rule version stays masked); the question as stored and shown keeps <code>[removed: …]</code>; copies
+  DocBrain wrote itself (summaries) stay redacted; and passages DocBrain joins from references are checked without
+  the exemption. Each of these masks more, never less.</li>
+<li>What contains these limits: a capture is visible only to its space, says who wrote it, and can be withdrawn at once
+  or erased by an admin. If a secret was ever served, treat it as exposed and rotate it.</li>
+</ul>
+<h2 id="all-twelve-tools">All twelve tools<a class="headerlink" href="#all-twelve-tools" title="Permanent link">&para;</a></h2>
 <p>The five above are the ones this page's workflow uses. The MCP server declares
-eleven; the rest are the same capabilities the API and CLI expose, reachable
+twelve; the rest are the same capabilities the API and CLI expose, reachable
 from the editor. Direction is read unless marked write — write tools require
 <code>editor</code> role or above, and the server refuses them below that.</p>
 <table>
@@ -2006,6 +2231,11 @@ from the editor. Direction is read unless marked write — write tools require
 <td>Capture the <em>why</em> behind a change at commit time, grounded in the diff and the commit message</td>
 </tr>
 <tr>
+<td><code>docbrain_revise</code></td>
+<td><strong>write</strong></td>
+<td>Edit or withdraw a capture you recorded (its id comes from <code>docbrain_context</code>); a summary DocBrain wrote can only be withdrawn</td>
+</tr>
+<tr>
 <td><code>docbrain_autopilot_generate</code></td>
 <td><strong>write</strong></td>
 <td>Generate a documentation draft for a specific gap cluster. Routes to human review; nothing publishes unattended</td>
@@ -2017,10 +2247,10 @@ Confluence page, closes a ticket or posts to a channel — the write tools write
 knowledge fragments into DocBrain's own corpus and nowhere else.</p>
 <h2 id="privacy-properties">Privacy properties<a class="headerlink" href="#privacy-properties" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Nothing is automatic.</strong> The agent proposes; a human approves every capture, visibly, in the session.</li>
+<li><strong>Nothing is automatic.</strong> The agent proposes; the person who did the work approves every capture, visibly, in the session. No admin queue stands between that yes and the answer.</li>
 <li><strong>The session never uploads.</strong> Only the approved capture crosses the wire — not your transcript, not your code, not your prompts.</li>
 <li><strong>The client is auditable.</strong> Every line of code that touches your session is MIT-licensed in <a href="https://github.com/docbrain-ai/docbrain/tree/main/crates/docbrain-mcp"><code>crates/docbrain-mcp</code></a>.</li>
-<li><strong>Captures are attributed and falsifiable.</strong> Every fragment records who filed it, and a capture is only served unreviewed when it is anchored to real code — the trust level is derived by the server from those anchors, never from anything the client claims about itself.</li>
+<li><strong>Captures are attributed and falsifiable.</strong> Every capture says who wrote its words — <em>Recorded by <name></em>, or <em>Summarised by DocBrain from <source></em> for a summary DocBrain wrote — and what checks it, derived by the server, never from anything the client claims. Its author can edit or withdraw it at any time (delete only until it has been used), an admin can erase it, and a key with no user cannot write one.</li>
 </ul>
 <h2 id="honest-limitations">Honest limitations<a class="headerlink" href="#honest-limitations" title="Permanent link">&para;</a></h2>
 <p>Agents follow standing instructions probabilistically — some sessions will forget to check. Treat the snippet as a habit-builder, not a guarantee: teams that also mention it in code review ("did the agent capture this?") see far higher capture rates. If your editor supports session-end hooks, a one-line reminder hook makes the check near-deterministic.</p>

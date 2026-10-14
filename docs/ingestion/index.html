@@ -1668,6 +1668,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#who-stands-behind-a-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who stands behind a capture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#space-assignment" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3049,6 +3060,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#who-stands-behind-a-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who stands behind a capture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#space-assignment" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3861,6 +3883,26 @@ non-empty — an empty list is a startup error.</p>
 </ul>
 <hr />
 <h2 id="capture-lifecycle-and-freshness">Capture Lifecycle and Freshness<a class="headerlink" href="#capture-lifecycle-and-freshness" title="Permanent link">&para;</a></h2>
+<h3 id="who-stands-behind-a-capture">Who stands behind a capture<a class="headerlink" href="#who-stands-behind-a-capture" title="Permanent link">&para;</a></h3>
+<p>A capture is served the moment it is written; nothing waits for an admin. Every capture says who wrote
+its words and what checks it, and the console's <strong>Captures</strong> page shows it:</p>
+<ul>
+<li><strong>Two writers.</strong> A person (from the IDE through the skill, the CLI, the API or a <code>/capture</code> command):
+  <em>Recorded by <name></em>. DocBrain itself, summarising a thread, a pull request or a CI run:
+  <em>Summarised by DocBrain from <source></em>, with the person who asked for it credited as its capturer.</li>
+<li><strong>Three labels</strong>, computed when it is read: <em>Checked against code</em> (a premise it declares holds),
+  <em>Code it rests on changed</em> (a premise is broken: answers that cite it carry a warning and its author
+  is told once), <em>Not checked against code</em> (nothing checks it, and every reader can see that).</li>
+<li><strong>Its author manages it.</strong> Edit (a person-written capture, while it is served), Withdraw (at any
+  time, with a reason shown with it; it leaves answers at once), Delete (only until an answer has used
+  it). An admin can Purge it everywhere, or withdraw every capture of one author with a reason.</li>
+<li><strong>Limits.</strong> One author may write <code>fragments.max_per_author_per_hour</code> captures an hour (default 60).
+  The same text from the same author within 24 hours is refused with the existing capture's id, so the
+  agent revises it (<code>docbrain_revise</code>) instead of writing it twice.</li>
+<li><strong>Where it helped</strong> — the people it helped this month, the open questions it closed, and what the
+  questions were about — is shown to its author only, on the capture's page. Counts are of people,
+  never of answers, and never name who asked.</li>
+</ul>
 <h3 id="space-assignment">Space Assignment<a class="headerlink" href="#space-assignment" title="Permanent link">&para;</a></h3>
 <p>Captured content is stored under a meaningful space name derived from the source:</p>
 <table>

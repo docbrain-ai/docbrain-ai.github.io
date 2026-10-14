@@ -2061,6 +2061,10 @@
 <p>Or configure manually:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
 </span></code></pre></div>
+<p>The fingerprint key that protects stored secret findings is generated on first start into the <code>docbrain-keys</code>
+volume, so there is nothing to set. Back that volume up, separately from your database backups: a lost or changed
+key reopens every restored or declined secret finding. To supply your own instead, set <code>DOCBRAIN_FINGERPRINT_KEY</code> in
+<code>.env</code> (<code>openssl rand -base64 32</code>). See <a href="../configuration/#the-fingerprint-key">the fingerprint key</a>.</p>
 <p>Then edit <code>.env</code> and set:
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>LLM_PROVIDER=ollama
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>OLLAMA_BASE_URL=http://host.docker.internal:11434
@@ -2085,6 +2089,10 @@
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">cd</span><span class="w"> </span>docbrain
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
 </span></code></pre></div>
+<p>The fingerprint key that protects stored secret findings is generated on first start into the <code>docbrain-keys</code>
+volume, so there is nothing to set. Back that volume up, separately from your database backups: a lost or changed
+key reopens every restored or declined secret finding. To supply your own instead, set <code>DOCBRAIN_FINGERPRINT_KEY</code> in
+<code>.env</code> (<code>openssl rand -base64 32</code>). See <a href="../configuration/#the-fingerprint-key">the fingerprint key</a>.</p>
 <p>Edit <code>.env</code> — add your LLM API key (infrastructure secret). Then:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 </span></code></pre></div>
@@ -2194,7 +2202,7 @@ channels, teams) must always be non-empty.</p>
 </blockquote>
 <p>Configure it to point at your DocBrain server:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DOCBRAIN_API_KEY</span><span class="o">=</span><span class="s2">"db_sk_..."</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DOCBRAIN_SERVER_URL</span><span class="o">=</span><span class="s2">"http://localhost:3000"</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DOCBRAIN_SERVER_URL</span><span class="o">=</span><span class="s2">"http://localhost:3001"</span>
 </span></code></pre></div>
 <h2 id="use-the-cli">Use the CLI<a class="headerlink" href="#use-the-cli" title="Permanent link">&para;</a></h2>
 <p>The standalone CLI and the Docker-bundled CLI support the same commands:</p>
@@ -2234,11 +2242,11 @@ channels, teams) must always be non-empty.</p>
 </span></code></pre></div>
 <p><strong>Common causes:</strong>
 - <strong>OpenSearch crashes:</strong> Not enough memory. OpenSearch needs ~1GB. Check <code>docker stats</code>.
-- <strong>Server exits immediately:</strong> Usually a missing or malformed <code>.env</code>. Re-copy from <code>.env.example</code>.</p>
+- <strong>Server exits immediately:</strong> Usually a missing or malformed <code>.env</code>. Re-copy from <code>.env.example</code>. If the log names <code>DOCBRAIN_FINGERPRINT_KEY</code> or <code>DOCBRAIN_FINGERPRINT_KEY_FILE</code>, check <code>docker compose logs keys</code> (it generates the key on first start) or the value you set in <code>.env</code>.</p>
 <h3 id="connection-refused-when-asking-questions">"Connection refused" when asking questions<a class="headerlink" href="#connection-refused-when-asking-questions" title="Permanent link">&para;</a></h3>
 <p>The server takes 10-20 seconds to start. Wait and retry:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Check if the server is ready</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>curl<span class="w"> </span>http://localhost:3000/api/v1/config
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>curl<span class="w"> </span>http://localhost:3001/api/v1/config
 </span></code></pre></div>
 <p>If using Ollama, make sure it's running: <code>ollama list</code> should show your models.</p>
 <h3 id="empty-answers-or-no-relevant-documents-found">Empty answers or "no relevant documents found"<a class="headerlink" href="#empty-answers-or-no-relevant-documents-found" title="Permanent link">&para;</a></h3>
@@ -2294,7 +2302,7 @@ channels, teams) must always be non-empty.</p>
 </tr>
 <tr>
 <td><strong>Captures</strong></td>
-<td>CI captures, conversation distillation, fragment review queue, and clustering</td>
+<td>Your captures and the people they helped (Mine), knowledge at work across the organisation, and each capture's own page</td>
 </tr>
 <tr>
 <td><strong>Governance</strong></td>
