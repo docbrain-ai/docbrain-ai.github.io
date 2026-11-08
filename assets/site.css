@@ -263,7 +263,7 @@
   .beforeafter figcaption{ font-size:.83rem; color:var(--body); margin-top:1rem; padding-top:.8rem; border-top:1px dashed var(--rule); }
 
   /* Jot sits in the brand lockup. The plain avatar is drawn for light grounds;
-     .jot-d is the outlined one, for where the nav turns dark (home.css). */
+     .jot-d sits on a cream disc, for where the nav turns dark (home.css). */
   .brand .jot{ width:1.6em; height:1.6em; flex:none; }
   .brand .jot-d{ display:none; }
 
