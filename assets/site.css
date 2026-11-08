@@ -262,10 +262,10 @@
   .bacol.won .bafoot{ color:var(--hum); }
   .beforeafter figcaption{ font-size:.83rem; color:var(--body); margin-top:1rem; padding-top:.8rem; border-top:1px dashed var(--rule); }
 
-  /* the mark sits in the brand lockup. flat glyph, currentColor, so it inherits
-     the wordmark's ink and stays crisp at nav size — the lit render is a
-     large-format asset and turns to mush below ~32px. */
-  .brand svg{ width:1.6em; height:1.6em; fill:currentColor; flex:none; }
+  /* Jot sits in the brand lockup. The plain avatar is drawn for light grounds;
+     .jot-d is the outlined one, for where the nav turns dark (home.css). */
+  .brand .jot{ width:1.6em; height:1.6em; flex:none; }
+  .brand .jot-d{ display:none; }
 
   /* the lit render, transparent, straight on the paper — no plate. its mean
      luminance is 89/255, so it is a dark object and holds against cream.

@@ -15,6 +15,8 @@ main section{ border-top:none; }
 nav{ transition:background .4s, border-color .4s, color .4s; }
 nav.dark{ background:linear-gradient(rgba(14,13,11,.7), rgba(14,13,11,0)); border-bottom:none !important; box-shadow:none !important; -webkit-backdrop-filter:none; backdrop-filter:none; }
 nav.dark .brand, nav.dark .nlinks a{ color:var(--moon); }
+nav.dark .brand .jot{ display:none; }
+nav.dark .brand .jot-d{ display:block; }
 nav.dark .btn{ background:var(--moon); color:var(--night); border-color:var(--moon); box-shadow:none; }
 
 /* ---------- the story: one pinned stage, the beats scroll over it ---------- */
