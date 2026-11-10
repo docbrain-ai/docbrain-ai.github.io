@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <title>DocBrain pricing: never per person</title>
-<link rel="icon" href="/favicon-32.png?v=2" sizes="32x32">
-<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://docbrainapi.com/pricing/">
 <meta property="og:title" content="DocBrain pricing: never per person">
@@ -18,15 +15,76 @@
 <meta name="twitter:description" content="Priced by the size of the organisation you connect, not by seats. Unlimited people, unlimited agents.">
 <meta name="twitter:image" content="https://docbrainapi.com/banner.png?v=2">
 <meta name="description" content="DocBrain pricing. Band pricing sized by the connected user base, never per seat. Unlimited people and unlimited AI agents at every band. Free forever up to 25 users.">
+<link rel="icon" href="/favicon-32.png?v=2" sizes="32x32">
+<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
 <link rel="stylesheet" href="/assets/site.css?v=551d690175">
+<style>
+/* the sections moved from the old How it works page, in the site's own paper and ink */
+.mv{ --marginL:var(--margin); --rline:var(--rule); }
+.mv .grid2{ display:grid; gap:1.2rem; grid-template-columns:minmax(0,1fr); }
+@media (min-width:56rem){ .mv .grid2{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.6rem; } }
+.mv .grid3 > *, .mv .grid2 > *, .mv .calc > *{ min-width:0; }
+.mv .cardx{ background:var(--card); border:1px solid var(--rule); border-radius:3px; padding:1.05rem 1.15rem; }
+.mv .cardx .k, .mv .fact .k{ font-family:var(--mono); font-size:.62rem; letter-spacing:.13em; text-transform:uppercase; color:var(--margin); }
+.mv .fact .k{ color:var(--dim); letter-spacing:.12em; font-size:.6rem; }
+.mv .cardx h4{ font-family:var(--serif); font-size:1.22rem; font-weight:500; line-height:1.25; margin:.25rem 0 .4rem; color:var(--ink); }
+.mv .cardx p{ font-size:.9rem; color:var(--body); line-height:1.58; }
+.mv .mv-acts{ margin-top:1.5rem; }
+.mv-note{ font-size:.82rem; color:var(--dim); line-height:1.6; margin-top:.9rem; border-left:2px solid var(--rule); padding-left:.85rem; }
+.mv-note:empty{ display:none; }
+.mv-note a{ color:var(--margin); }
+.mv .tblwrap{ overflow-x:auto; border:1px solid var(--rule); border-radius:3px; margin-top:1.1rem; background:var(--card); }
+.mv table{ width:100%; border-collapse:collapse; font-size:.88rem; min-width:42rem; }
+.mv th, .mv td{ text-align:left; padding:.62rem .75rem; border-bottom:1px solid var(--rule2); vertical-align:top; color:var(--body); }
+.mv tr:last-child td{ border-bottom:0; }
+.mv th{ font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); font-weight:400; border-bottom-color:var(--rule); }
+.mv td:first-child{ color:var(--ink); }
+.mv .win{ color:var(--hum); font-weight:600; } .mv .lose{ color:var(--margin); font-weight:600; }
+.mv .calc{ display:grid; gap:1.4rem; grid-template-columns:minmax(0,1fr); }
+@media (min-width:56rem){ .mv .calc{ grid-template-columns:1fr 1fr; gap:2.2rem; } }
+.mv .fld{ margin-bottom:1rem; }
+.mv .fld label{ display:flex; justify-content:space-between; gap:1rem; font-size:.86rem; color:var(--body); margin-bottom:.3rem; }
+.mv .fld label b{ font-family:var(--mono); color:var(--ink); white-space:nowrap; }
+.mv .fld input[type=range]{ width:100%; accent-color:var(--margin); }
+.mv .big2{ font-family:var(--serif); font-size:clamp(2.3rem,4.4vw,3.2rem); letter-spacing:-.03em; line-height:1; color:var(--ink); margin-top:.35rem; }
+.mv .facts{ display:grid; grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr)); gap:.8rem; margin-top:1rem; border-top:1px solid var(--rule2); padding-top:.9rem; }
+.mv .fact .v{ font-family:var(--mono); font-size:.92rem; font-weight:600; margin-top:.1rem; color:var(--ink); }
+.mv details.faq{ border-bottom:1px solid var(--rule); padding:.85rem 0; }
+.mv details.faq:first-of-type{ border-top:1px solid var(--rule); }
+.mv details.faq summary{ cursor:pointer; font-family:var(--serif); font-size:1.2rem; font-weight:500; line-height:1.35; color:var(--ink); list-style:none; }
+.mv details.faq summary::-webkit-details-marker{ display:none; }
+.mv details.faq summary::before{ content:"+ "; color:var(--margin); font-family:var(--mono); }
+.mv details.faq[open] summary::before{ content:"\2013  "; }
+.mv details.faq p{ margin-top:.55rem; font-size:.93rem; color:var(--body); max-width:41rem; }
+.mv summary:focus-visible, .mv input:focus-visible{ outline:2px solid var(--margin); outline-offset:3px; border-radius:2px; }
+@media (max-width:640px){
+  .mv .tblwrap{ overflow:visible; border:0; background:none; }
+  .mv table{ min-width:0; }
+  .mv thead{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+  .mv tr{ display:block; background:var(--card); border:1px solid var(--rule); border-radius:3px; padding:.8rem .95rem .9rem; margin-bottom:.7rem; }
+  .mv td{ display:block; padding:0; border:0; }
+  .mv td:first-child{ font-family:var(--serif); font-size:1.08rem; line-height:1.3; margin-bottom:.15rem; }
+  .mv td[data-l]::before{ content:attr(data-l); display:block; margin-top:.5rem; font-family:var(--mono); font-size:.6rem;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--dim); font-weight:400; }
+}
+@media (max-width:520px){ .mv .facts{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+/* one footer on every page (owner 2026-11-09): the home's dark footer and its line, with two link columns */
+footer{ position:relative; z-index:3; background:#000; color:#FFFFFF; padding-block:4rem 0; overflow:hidden; border-top:0; }
+footer .brand{ color:#FFFFFF; }
+footer .fc{ display:flex; flex-direction:column; gap:.45rem; }
+footer .fc a{ color:#C9C2B4; text-decoration:none; font-size:.9rem; } footer .fc a:hover{ color:#fff; }
+footer .fh{ font-family:var(--mono); font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:#8F887B; }
+footer .dim{ color:#8F887B; }
+@media (min-width:52rem){ footer .foot{ grid-template-columns:1.6fr 1fr 1fr; } }
+footer .tagline{ margin:4rem 0 0; padding-bottom:3.5rem; font-family:var(--serif); font-weight:500; font-size:clamp(2.2rem,6.2vw,6rem); line-height:1; letter-spacing:-.04em; color:#FFFFFF; }
+</style>
 </head>
 <body data-mode="human">
 
 <nav id="nav"><div class="wrap navin">
- <a class="brand" href="/"><img class="jot" src="/assets/brand/jot-avatar.svg" alt="" width="40" height="40">DocBrain</a>
- <div class="nlinks">
- <a href="/how-it-works/">How it works</a><a href="/how-it-works/#b3">For agents</a><a href="/how-it-works/#ops">Running it</a><a href="/pricing/">Pricing</a><a href="/how-it-works/#roi">ROI</a><a href="/docs/">Docs</a>
- </div>
+ <a class="brand" href="/"><img class="jot" src="/assets/brand/jot-avatar.svg" alt="" width="40" height="40"><img class="jot jot-d" src="/assets/brand/jot-avatar-dark.svg?v=2" alt="" width="40" height="40">DocBrain</a>
+ <div class="nlinks"><a href="/#how-it-works">How it works</a><a href="/pricing/" aria-current="page">Pricing</a><a href="/docs/">Docs</a></div>
  <div class="ncta"><a class="btn" href="https://cal.com/docbrain/30min">Book a call</a></div>
 </div></nav>
 
@@ -159,6 +217,65 @@
  </div>
 </section>
 
+<section class="mv" id="roi"><div class="wrap">
+  <div class="sechead narrow"><div class="eye">Return</div><h2>What it's worth, with the arithmetic shown.</h2>
+    <p class="lede">Your numbers, not ours. Where evidence exists we cite it. Where it doesn't, we say so.</p></div>
+  <div class="calc">
+    <div>
+      <div class="fld"><label for="rE">Engineers in scope <b id="lE">250</b></label><input type="range" id="rE" min="10" max="2000" step="10" value="250"></div>
+      <div class="fld"><label for="rC">Fully loaded cost per engineer <b id="lC">$110,000</b></label><input type="range" id="rC" min="40000" max="250000" step="5000" value="110000"></div>
+      <div class="fld"><label for="rM">Minutes a day seeking or re-explaining <b id="lM">50</b></label><input type="range" id="rM" min="10" max="120" step="5" value="50"></div>
+      <div class="fld"><label for="rP">Proportion DocBrain removes <b id="lP">25%</b></label><input type="range" id="rP" min="5" max="60" step="1" value="25"></div>
+      <p class="mv-note">Minutes seeded from Stack Overflow's 2022 developer survey (61% spend 30+ minutes a day searching, 47% the same answering). They sell a competing product, so only raw responses are used. Suggest 20–30% removal for year one — measured in a pilot, not assumed.</p>
+    </div>
+    <div>
+      <div class="cardx"><div class="k">Recovered per year, across the team</div>
+        <div class="big2" id="oTotal">—</div>
+        <div class="facts" style="border-color:var(--rline)">
+          <div class="fact"><div class="k">hours lost / engineer / yr</div><div class="v" id="oHours">—</div></div>
+          <div class="fact"><div class="k">of the working year</div><div class="v" id="oPct">—</div></div>
+          <div class="fact"><div class="k">value / engineer / yr</div><div class="v" id="oPer">—</div></div>
+          <div class="fact"><div class="k">engineer-weeks returned</div><div class="v" id="oWeeks">—</div></div>
+        </div>
+        <p class="mv-note" id="oMath">—</p></div>
+      <p class="mv-note">What this model doesn't know: your actual removal rate. No vendor's does, including those quoting one. Both inputs are hypotheses to test in a pilot.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="mv" id="compare"><div class="wrap">
+  <div class="sechead narrow"><div class="eye">Honest comparison</div><h2>Including the rows where we lose.</h2>
+    <p class="lede">If you're evaluating three tools, you deserve this from all of them. Two of these rows go against us and they're still here.</p></div>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Capability</th><th>DocBrain</th><th>Open-source search</th><th>Enterprise AI search</th></tr></thead>
+    <tbody>
+      <tr><td>Captures what was never written down</td><td data-l="DocBrain" class="win">Yes, at the source</td><td data-l="Open-source search">No, retrieval only</td><td data-l="Enterprise AI search">No, indexes what exists</td></tr>
+      <tr><td>Citation granularity</td><td data-l="DocBrain" class="win">Per claim</td><td data-l="Open-source search">Per document</td><td data-l="Enterprise AI search">Per document</td></tr>
+      <tr><td>Declares what it cannot answer</td><td data-l="DocBrain" class="win">Refuses, and logs the gap</td><td data-l="Open-source search">Confidence score</td><td data-l="Enterprise AI search">Confidence score</td></tr>
+      <tr><td>Reads live systems at answer time</td><td data-l="DocBrain" class="win">Yes</td><td data-l="Open-source search">Index only</td><td data-l="Enterprise AI search">Index only</td></tr>
+      <tr><td>Retrieval tuned to your corpus</td><td data-l="DocBrain">Optional, on your infra</td><td data-l="Open-source search">Fixed model</td><td data-l="Enterprise AI search">Fixed model</td></tr>
+      <tr><td>Writes documentation unprompted</td><td data-l="DocBrain" class="win">Autopilot, human-approved</td><td data-l="Open-source search">No</td><td data-l="Enterprise AI search">No</td></tr>
+      <tr><td>Runs on your own AI provider</td><td data-l="DocBrain">14, local included</td><td data-l="Open-source search">Yes</td><td data-l="Enterprise AI search">Vendor-hosted</td></tr>
+      <tr><td>Licence</td><td data-l="DocBrain">Public source MIT; server closed, images BSL</td><td data-l="Open-source search" class="lose">MIT, more permissive than ours</td><td data-l="Enterprise AI search">Proprietary</td></tr>
+      <tr><td>Published accuracy benchmark</td><td data-l="DocBrain" class="lose">Not yet</td><td data-l="Open-source search">Yes, with methodology</td><td data-l="Enterprise AI search">Varies</td></tr>
+      <tr><td>Named public customers</td><td data-l="DocBrain" class="lose">None yet</td><td data-l="Open-source search">Yes</td><td data-l="Enterprise AI search">Yes</td></tr>
+    </tbody></table></div>
+  <p class="mv-note narrow">If a permissive licence and a published benchmark matter more to you than capturing knowledge nobody recorded, an open-source search tool is the better buy — and we'd rather you learned that here than three months into a pilot.</p>
+</div></section>
+
+<section class="mv" id="honest"><div class="wrap"><div class="narrow">
+  <div class="eye">A note from the team building this</div>
+  <h2 style="margin:.55rem 0 .9rem">A product built on refusing to overclaim shouldn't overclaim about itself.</h2>
+  <p class="lede">Before you spend a week on a pilot, here is what we'd want to know if we were you.</p></div>
+  <div class="grid2" style="margin-top:1.3rem">
+    <div class="cardx"><h4>The server is closed source.</h4><p>Everything runs inside your network, server included. Everything in our public repository is MIT and auditable — the CLI, the MCP server, the Helm charts, configuration and docs. The server ships as a container you run but cannot read, and it is the component that touches your data. We're not naming a date for opening it until we're certain we'll hit it.</p></div>
+    <div class="cardx"><h4>We have no accuracy benchmark to show you.</h4><p>Grounding is measured internally and every model version is gated on it, but we won't put a percentage on a marketing page until it has been measured across real customer corpora and we can publish how we measured it.</p></div>
+    <div class="cardx"><h4>Learning is optional, and off until you turn it on.</h4><p>It needs real feedback volume and some compute before it earns its keep. Everything else works without it, and most teams should run that way first.</p></div>
+    <div class="cardx"><h4>Self-hosting isn't unique to us.</h4><p>There are open-source alternatives and several are genuinely good at retrieval. One is more permissively licensed than we are. What they don't do is capture what was never written down. Judge us on that, not on deployment.</p></div>
+  </div>
+  <p class="mv-note">Bring us the version of this you disagree with: <a href="mailto:hello@docbrainapi.com" style="color:var(--marginL)">hello@docbrainapi.com</a></p>
+</div></section>
+
 <section id="honest-pricing">
  <div class="wrap">
   <div class="note">
@@ -189,16 +306,37 @@
  </div>
 </section>
 
-<footer><div class="wrap foot">
- <div class="fc fbrand"><a class="brand" href="/" style="font-size:1.05rem;"><img class="jot" src="/assets/brand/jot-avatar.svg" alt="" width="40" height="40">DocBrain</a><span class="dim sm">The memory layer for humans and AI agents.</span>
-  <span class="fsoc"><a href="https://github.com/docbrain-ai/docbrain" aria-label="DocBrain on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a></span>
-  <span class="dim xs fcopy">© 2026 Ojas&nbsp;Enterprises,&nbsp;Inc.</span></div>
- <div class="fc"><span class="fh">Product</span><a href="/how-it-works/">How it works</a><a href="/how-it-works/#ops">Running it</a><a href="/how-it-works/#compare">Compare</a><a href="/how-it-works/#faq">FAQ</a></div>
- <div class="fc"><span class="fh">Resources</span><a href="/docs/">All docs</a><a href="/docs/quickstart/">Quickstart</a><a href="/docs/mcp-tools/">MCP tools</a><a href="/docs/api-reference/">API</a></div>
- <div class="fc"><span class="fh">Trust</span><a href="/docs/trust/">Security overview</a><a href="https://github.com/docbrain-ai/docbrain/blob/main/THREAT_MODEL.md">Threat model</a><a href="/how-it-works/#honest">Known limits</a><a href="mailto:licensing@docbrainapi.com">Licensing</a></div>
- <div class="fc"><span class="fh">Company / Contact</span><a href="https://cal.com/docbrain/30min">Book 30 minutes</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a></div>
+<footer><div class="wrap">
+ <div class="foot">
+  <div class="fc fbrand"><a class="brand" href="/">DocBrain</a><span class="dim xs">© 2026 Ojas&nbsp;Enterprises,&nbsp;Inc.</span></div>
+  <div class="fc"><span class="fh">Product</span><a href="/#how-it-works">How it works</a><a href="/pricing/">Pricing</a><a href="/running-it/">Running it</a><a href="/docs/">Docs</a></div>
+  <div class="fc"><span class="fh">Contact</span><a href="https://cal.com/docbrain/30min">Book a call</a><a href="mailto:hello@docbrainapi.com">hello@docbrainapi.com</a></div>
+ </div>
+ <p class="tagline">What one person learns, the whole company keeps.</p>
 </div></footer>
 
+<script>
+(() => {
+const $ = (i) => document.getElementById(i);
+const WORKDAYS=230, WORKHOURS=1840;
+const money = (n) => '$' + Math.round(n).toLocaleString();
+function roi(){
+  const E=+$('rE').value, C=+$('rC').value, M=+$('rM').value, P=+$('rP').value/100;
+  $('lE').textContent=E.toLocaleString(); $('lC').textContent=money(C);
+  $('lM').textContent=M; $('lP').textContent=(P*100).toFixed(0)+'%';
+  const hours=M/60*WORKDAYS, pct=hours/WORKHOURS, per=C*pct*P;
+  $('oHours').textContent=hours.toFixed(0)+' h'; $('oPct').textContent=(pct*100).toFixed(1)+'%';
+  $('oPer').textContent=money(per); $('oWeeks').textContent=Math.round(hours*P*E/40).toLocaleString();
+  $('oTotal').textContent=money(per*E);
+  $('oMath').textContent = `${M} min/day × ${WORKDAYS} working days ÷ 60 = ${hours.toFixed(0)} h lost per engineer. `
+    + `${hours.toFixed(0)} ÷ ${WORKHOURS} h working year = ${(pct*100).toFixed(1)}%. `
+    + `${money(C)} × ${(pct*100).toFixed(1)}% × ${(P*100).toFixed(0)}% = ${money(per)} per engineer × ${E.toLocaleString()} = ${money(per*E)}.`;
+}
+['rE','rC','rM','rP'].forEach(id => $(id).addEventListener('input', roi));
+
+roi();
+})();
+</script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4074f7691a974835ad9016ddad504efe"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

@@ -2,9 +2,10 @@
 // to a teammate and an agent, then out to the whole company. Footage comes from /media/<clip>.mp4; until it
 // exists, a labelled stand-in plays so the motion can be judged.
 
-// links into the old homepage's sections now live on their own pages
-const MOVED = { pricing: '/pricing/' };
-for (const id of ['b1', 'b2', 'b3', 'b5', 'b6', 'forge', 'recap', 'ops', 'roi', 'compare', 'honest', 'faq', 'start']) MOVED[id] = `/how-it-works/#${id}`;
+// links into sections that have moved: the old homepage's, now on their own pages, and the old How it works page's
+// story, now a part of this page
+const MOVED = { pricing: '/pricing/', ops: '/running-it/', faq: '/running-it/#faq', start: '/running-it/#start', roi: '/pricing/#roi', compare: '/pricing/#compare', honest: '/pricing/#honest' };
+for (const id of ['b1', 'b2', 'b3', 'b5', 'b6', 'forge', 'recap']) MOVED[id] = '#how-it-works';
 if (MOVED[location.hash.slice(1)]) location.replace(MOVED[location.hash.slice(1)]);
 
 // no animation library (blocked, offline): leave the plain page — every word and button is already in the HTML
@@ -474,9 +475,9 @@ function drawing() {
 }
 async function portrait() {
   const c = $('.drawing');
-  let v = $('video[data-clip="ch1-maya"]');
-  if (!v || !['real', 'still'].includes(v.dataset.state)) { c.hidden = true; return; } // a stand-in traced is noise, not a portrait
-  if (await exists('/media/ch1-maya.jpg')) { const im = new Image(); im.src = '/media/ch1-maya.jpg'; v = { _still: im, addEventListener: (...a) => im.addEventListener(...a) }; }
+  // preview: the film replaced the story and its clip of Maya, so the close traces her still, as the live page does
+  if (!(await exists('/media/ch1-maya.jpg'))) { c.hidden = true; return; }
+  const im = new Image(); im.src = '/media/ch1-maya.jpg'; const v = { _still: im, addEventListener: (...a) => im.addEventListener(...a) };
   const trace = tracer(480, 270);
   const go = () => { if (!trace(v, c, [27, 25, 21], 0.15)) setTimeout(go, 400); };
   v.addEventListener('loadeddata', go, { once: true }); if (v._still) v._still.addEventListener('load', go, { once: true }); go();
@@ -505,9 +506,18 @@ if (ready && !reduce && window.Lenis) {
   gsap.ticker.add((t) => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
 }
+// preview: the nav turns dark while the film is under it, as it does over the live page's story
+function overFilm() {
+  const nav = $('#nav'), f = $('#film');
+  // dark until the sheet after the film has reached the top: that sheet is paper now (How it works) and starts 6vh
+  // above the film's end, so a fixed 70px left the nav dark over paper on a screen taller than 1167px
+  const t = () => { const d = f.getBoundingClientRect().bottom - innerHeight * .06 > 8; nav.classList.toggle('dark', d); nav.classList.toggle('solid', d && scrollY > 24); };
+  addEventListener('scroll', t, { passive: true }); addEventListener('resize', t); t();
+}
 if (ready) {
-  runProof($('#proof'), $('#proofToggle'));
   fills();
   daylight();
-  film().then(drawing);
+  loadClip($('video[data-clip="belief-newhire"]'));
+  drawing();
+  overFilm();
 }
